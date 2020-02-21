@@ -1,4 +1,4 @@
-# IT For Business And Finance 2019/20
+# IT For Business and Finance 2019/20
 
 - 1/20
 - 2/20
