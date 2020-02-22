@@ -56,11 +56,11 @@ b. If not, no panic _Rome wasn't built in a day_, follow these steps:
   
   2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded), you can repeate steps _0._ and _1._, creating each time a brand new local folder or:
   
-  0. locate the new/updated files in the remote repo;
+  a. locate the new/updated files in the remote repo;
   
-  1. push the _Raw_ button on the top-right corner of the file (see picture)
+  b. push the _Raw_ button on the top-right corner of the file (see picture)
   
   <img src="images/raw_file.PNG" width="350">
   
-  2. Save it from browser into your local machine, respecting the folder/sub-folder structure. 
+  c. Save it from browser into your local machine, respecting the folder/sub-folder structure. 
     
