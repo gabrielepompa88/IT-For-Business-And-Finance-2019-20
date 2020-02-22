@@ -3,13 +3,16 @@
 This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) provides course informations and material supporting the first year master course of _IT For Business and Finance_ held at University of Siena in 2019/20.
 
 ## Course logistics
-Classes start on Monday, February 24 2020 at 14:00 in "Aula informatica 1". The timetable is:
+Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
 Tuesday: 18:00-19:30\
 Wednesday: 14:00-16:00
 
-Any break to these rules will be promptly communicated here:
+Currently known breaks to these rules are the following:
+
+Monday 16/3: _Aula 1_\
+Wednesday 4/3 and 18/3: _Aula 11_
 
 ## Contacts
 
