@@ -55,8 +55,11 @@ b. If not, no panic _Rome wasn't built in a day_, follow these steps:
   1. Un-zip the _IT-For-Business-And-Finance-2019-20_ folder, which includes all the contents of the remote repository (as they will be at that point in time);
   
   2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded), you can repeate steps _0._ and _1._, creating each time a brand new local folder or:
+  
     2.1 locate the new/updated files in the remote repo  
+    
     2.2 push the _Raw_ button on the top-right corner of the file (see picture)
     <img src="images/raw_file.PNG" width="350">
+    
     2.3 Save it from browser into your local machine, respecting the folder/sub-folder structure. 
     
