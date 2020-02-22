@@ -37,7 +37,13 @@ is a free and open-source distribution of the Python and R programming languages
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
 
-## Setup
+## Setup [TO BE COMPLETED]
 ### Course working directory setup
-If you are familiar with [github](https://github.com/), then simply _clone_ this repository and follow Anaconda environment setup at point TBD. If not, 
+a. If you are familiar with [github](https://github.com/):
+  1. create in your local machine an empty folder named _IT_For_Business_And_Finance_2019_20_;
+  2. _clone_ the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) repository into the local folder created at point 1. 
+
+b. If not, simply download 
+<img src="images/download_repo.PNG" width="75"> 
+the whole repo in your local machine and save it somewhere as _IT_For_Business_And_Finance_2019_20_ directory.
 1. ciao
