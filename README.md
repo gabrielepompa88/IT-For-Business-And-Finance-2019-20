@@ -28,14 +28,14 @@ By appointment (gabriele.pompa@gmail.com)
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf)
 
 #### Programming material
-Anaconda platform page: [anaconda.com](https://www.anaconda.com/)\
+Anaconda platform page: [anaconda.com](https://www.anaconda.com/)
 <img src="https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png" width="75">
 
-including (among other things) [Jupyter Notebooks](https://jupyter.org/)\
+including (among other things) [Jupyter Notebooks](https://jupyter.org/)
 <img src="" width="75">
 
-and [Spyder IDE](https://www.spyder-ide.org/) (https://en.wikipedia.org/wiki/Spyder_(software))\
-<img src="" width="75">
+and [Spyder IDE](https://www.spyder-ide.org/) (https://en.wikipedia.org/wiki/Spyder_(software))
+<img src="images/spyder_logo.png" width="75">
 
 ## Lessons diary
 - 1/20
