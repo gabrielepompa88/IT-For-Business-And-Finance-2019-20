@@ -37,5 +37,7 @@ is a free and open-source distribution of the Python and R programming languages
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
 
-
-## Lessons diary
+## Setup
+### Course working directory setup
+If you are familiar with [github](https://github.com/), then simply _clone_ this repository and follow Anaconda environment setup at point TBD. If not, 
+1. ciao
