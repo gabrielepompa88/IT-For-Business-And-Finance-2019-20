@@ -9,7 +9,7 @@ Monday: 14:00-16:00\
 Tuesday: 18:00-19:30\
 Wednesday: 14:00-16:00
 
-Currently known breaks to these rules are the following:
+Currently known emendements to this schedule are the following:
 
 Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 11_
