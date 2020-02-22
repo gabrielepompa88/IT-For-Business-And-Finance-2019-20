@@ -62,5 +62,5 @@ b. If not, no panic _Rome wasn't built in a day_, follow these steps:
      
      <img src="images/raw_file.PNG" width="350">
   
-     2.2. Save it from browser into your local machine, respecting the folder/sub-folder structure. 
+     2.2. Save it from browser into your local machine. **WARNING: respect the original folder/sub-folder structure**. 
     
