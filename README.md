@@ -28,14 +28,15 @@ By appointment (gabriele.pompa@gmail.com)
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf)
 
 #### Programming material
-Anaconda platform page: [anaconda.com](https://www.anaconda.com/)
-<img src="https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png" width="75">
+- Anaconda platform [anaconda.com](https://www.anaconda.com/) <img src="https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png" width="75">
+is a free and open-source distribution of the Python and R programming languages for scientific computing (data science, machine learning applications, large-scale data processing, predictive analytics, etc.), that aims to simplify package management and deployment. Package versions are managed by the package management system `conda` The Anaconda distribution includes data-science packages suitable for Windows, Linux, and MacOS (quoting [wikipedia](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)))
 
-including (among other things) [Jupyter Notebooks](https://jupyter.org/)
-<img src="" width="75">
+- [Jupyter Notebooks](https://jupyter.org/) <img src="images/jupyter_logo.png" width="75"> 
+(included in Anaconda distribution) is a web-based interactive computational environment for creating Jupyter notebook documents (quoting [wikipedia](https://en.wikipedia.org/wiki/Project_Jupyter#Jupyter_Notebook))
 
-and [Spyder IDE](https://www.spyder-ide.org/) (https://en.wikipedia.org/wiki/Spyder_(software))
-<img src="images/spyder_logo.png" width="75">
+- [Spyder IDE](https://www.spyder-ide.org/) <img src="images/spyder_logo.png" width="75"> 
+(also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
+
 
 ## Lessons diary
 - 1/20
