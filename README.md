@@ -49,7 +49,13 @@ a. If you are familiar with [github](https://github.com/), that's great _you are
 
 b. If not, no panic _Rome wasn't built in a day_, follow these steps: 
 
-  0. 
-<img src="images/download_repo.PNG" width="250"> 
-the whole repo in your local machine and save it somewhere as _IT_For_Business_And_Finance_2019_20_ directory.
-1. ciao
+  0. Download the remote repo as a ZIP folder into your local machine (see picture)
+  <img src="images/download_repo.PNG" width="250">
+  
+  1. Un-zip the _IT-For-Business-And-Finance-2019-20_ folder, which includes all the contents of the remote repository (as they will be at that point in time);
+  
+  2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded):
+    2.1 ciao 
+    2.2 ciao ciao
+    2.3 ciao ciao ciao
+    
