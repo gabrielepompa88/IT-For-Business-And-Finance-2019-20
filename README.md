@@ -40,8 +40,12 @@ is a free and open-source distribution of the Python and R programming languages
 ## Setup [TO BE COMPLETED]
 ### Course working directory setup
 a. If you are familiar with [github](https://github.com/):
-  1. create in your local machine an empty folder named _IT_For_Business_And_Finance_2019_20_;
-  2. _clone_ the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) repository into the local folder created at point 1. 
+
+  0. Step into a directory where you want your local copy of the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) remote repo to be created;
+  
+  1. `git clone https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20.git` will clone the course repo into your current directory, creating a local folder named _IT-For-Business-And-Finance-2019-20_, with all the contents of the remote repository, as they will be at that point in time;
+  
+  2. To update your local copy of the remote branch with the updates I will make to the remote repo, simply `git pull` into your local copy folder. *WARNING*: doing this way you may have conflicts, so be prepared to manage them, otherwise go for option b.
 
 b. If not, simply download 
 <img src="images/download_repo.PNG" width="75"> 
