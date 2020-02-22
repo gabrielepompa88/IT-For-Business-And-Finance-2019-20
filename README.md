@@ -39,7 +39,7 @@ is a free and open-source distribution of the Python and R programming languages
 
 ## Setup [TO BE COMPLETED]
 ### Course working directory setup
-a. If you are familiar with [github](https://github.com/):
+a. If you are familiar with [github](https://github.com/), that's great _you are a boss!_, follow these steps:
 
   0. Step into a directory where you want your local copy of the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) remote repo to be created;
   
@@ -47,7 +47,9 @@ a. If you are familiar with [github](https://github.com/):
   
   2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded), simply `git pull` into your local copy folder. **WARNING: doing this way you may have conflicts, so be prepared to manage them, otherwise go for option _b._**
 
-b. If not, simply download 
-<img src="images/download_repo.PNG" width="150"> 
+b. If not, no panic _Rome wasn't built in a day_, follow these steps: 
+
+  0. 
+<img src="images/download_repo.PNG" width="250"> 
 the whole repo in your local machine and save it somewhere as _IT_For_Business_And_Finance_2019_20_ directory.
 1. ciao
