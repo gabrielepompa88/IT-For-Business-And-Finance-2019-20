@@ -15,8 +15,27 @@ Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 11_
 
 ## Contacts
+By appointment (gabriele.pompa@gmail.com)
 
 ## Resources
+
+#### Reading material
+- Textbook: _Python for Finance -- Mastering Data-Driven Finance_ (2nd edition) by Yves Hilpisch (O'Reilly). 
+<img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
+
+- Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide)
+
+- Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf)
+
+#### Programming material
+Anaconda platform page: [anaconda.com](https://www.anaconda.com/)\
+<img src="https://upload.wikimedia.org/wikipedia/en/c/cd/Anaconda_Logo.png" width="75">
+
+including (among other things) [Jupyter Notebooks](https://jupyter.org/)\
+<img src="" width="75">
+
+and [Spyder IDE](https://www.spyder-ide.org/) (https://en.wikipedia.org/wiki/Spyder_(software))\
+<img src="" width="75">
 
 ## Lessons diary
 - 1/20
