@@ -1,4 +1,4 @@
-name: base
+name: ITForBusAndFin2020_env
 channels:
   - defaults
 dependencies:
