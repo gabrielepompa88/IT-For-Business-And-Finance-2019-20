@@ -71,7 +71,7 @@ b. If not, no panic _Rome wasn't built in a day_, follow these steps:
 
 ### Course Conda environment setup
 
-In the course folder, there is an environment setup file _ITForBusAndFin2020_env_setup.yml_ from which you can create the dedicated _ITForBusAndFin2020_env_ Conda environment, which contains all the packages needed for the course. Follow these steps to create and activate it:
+In the course folder _IT-For-Business-And-Finance-2019-20_ there is an environment setup file _ITForBusAndFin2020_env_setup.yml_ from which the dedicated _ITForBusAndFin2020_env_ Conda environment can be created. This new conda environment contains all the packages needed for the course. Follow these steps to create and activate it:
 
 0. Open your conda navigator and locate the _Anaconda Prompt_ (that is, a terminal shell). Press the _console_shortcut_ button to open it (see picture)
 
