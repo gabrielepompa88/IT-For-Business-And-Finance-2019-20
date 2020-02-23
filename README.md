@@ -25,7 +25,7 @@ Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 11_
 
 ## Contacts <a name="contacts"></a>
-By appointment (gabriele.pompa@gmail.com)
+[Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
 
 ## Resources <a name="resources"></a>
 
