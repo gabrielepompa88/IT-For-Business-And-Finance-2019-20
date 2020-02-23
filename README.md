@@ -33,9 +33,11 @@ By appointment (gabriele.pompa@gmail.com)
 - Textbook: _Python for Finance -- Mastering Data-Driven Finance_ (2nd edition) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
-- Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide)
+- Online documentation: [Python 3.7 online documentation](https://docs.python.org/3.7/contents.html).
 
-- Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf)
+- Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
+
+- Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf).
 
 ### Programming <a name="programming_material"></a>
 - [Anaconda](https://www.anaconda.com/) platform <img src="images/Anaconda_Logo.png" width="75">
