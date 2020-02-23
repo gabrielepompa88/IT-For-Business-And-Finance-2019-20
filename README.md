@@ -85,14 +85,26 @@ In the course folder _IT-For-Business-And-Finance-2019-20_ there is an environme
 
 3. If, as in picture above, you see a star  symbol `*` on the right of the `base` environment name, go to point 3. If not, type `conda activate base` to activate the base environment.
 
-4. From your _base_ environment (identifyied by the `(base)` at the beginning of the line, see picture), type `conda env create -f ITForBusAndFin2020_env_setup.yml`, which creates the _ITForBusAndFin2020_env_ from the _ITForBusAndFin2020_env_setup.yml_ file (see picture)
+4. From your _base_ environment (identifyied by the `(base)` at the beginning of the prompt, see picture), type `conda env create -f ITForBusAndFin2020_env_setup.yml`, which creates the _ITForBusAndFin2020_env_ from the _ITForBusAndFin2020_env_setup.yml_ file (see picture)
 
 <img src="images/conda_create_from_yml_file.PNG" width="750">
 
-5. Once the installation is completed, you can verify that the environment has been succesfully create typing `conda info --envs`. At least two environments should be listed: `base` and `ITForBusAndFin2020_env`. Notice the `*`: the active environment is still the `base` one (see picture)
+5. Once the installation is completed, you can verify that the environment has been succesfully created typing `conda info --envs`. At least two environments should be listed: `base` and `ITForBusAndFin2020_env`. Notice the `*`: the active environment is still the `base` one (see picture)
 
 <img src="images/verify_env_is_created.PNG" width="750">
 
 6. Activate our brand new course environment typing `conda activate ITForBusFin2020_env`. Notice how the prompt changes to include `(ITForBusAndFin2020_env)` (see picture)
 
 <img src="images/conda_activate_course_env.PNG" width="750">
+
+7. To see the list of installed packages in the course environment you can type `conda list` (see picture). 
+
+<img src="images/conda_list.PNG" width="750">
+In particular you should see the following packages installed, which we will extensively use:
+
+    Python 3.7.4
+    Numpy 1.16.5
+    Scipy 1.3.1
+    Pandas 0.25.1
+    Matplotlib 3.1.1
+    
