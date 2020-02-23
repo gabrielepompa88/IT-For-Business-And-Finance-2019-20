@@ -2,9 +2,12 @@
 
 This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) provides course informations and material supporting the first year master course of _IT For Business and Finance_ held at University of Siena in 2019/20.
 
+**WARNING**: the course and this repository is under continuous update.
+
 # Table of contents
 - [Course logistics](#logistics)
 - [Contacts](#contacts)
+- [Lessons](#lessons)
 - [Resources](#resources)
   - [Reading](#reading_material)
   - [Programming](#programming_material)
@@ -26,6 +29,12 @@ Wednesday 4/3 and 18/3: _Aula 11_
 
 ## Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
+
+## Lessons <a name="lessons"></a>
+
+- Lesson 1 (24/02): 
+  - [Introduction.ipynb](code/Introduction.ipynb)
+- Lesson 2 (25/02):  
 
 ## Resources <a name="resources"></a>
 
