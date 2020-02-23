@@ -2,7 +2,17 @@
 
 This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) provides course informations and material supporting the first year master course of _IT For Business and Finance_ held at University of Siena in 2019/20.
 
-## Course logistics
+# Table of contents
+1. [Course logistics](#logistics)
+2. [Contacts](#contacts)
+3. [Resources](#resources)
+  3.1 [Reading](#reading_material)
+  3.2 [Programming](#programming_material)
+4. [Setup](#setup)
+  4.1 [Working directory](#working_directory)
+  4.2 [Conda environment](#conda_environment)
+
+## Course logistics <a name="logistics"></a>
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
@@ -14,12 +24,12 @@ Currently known emendements to this schedule are the following:
 Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 11_
 
-## Contacts
+## Contacts <a name="contacts"></a>
 By appointment (gabriele.pompa@gmail.com)
 
-## Resources
+## Resources <a name="resources"></a>
 
-#### Reading material
+### Reading <a name="reading_material"></a>
 - Textbook: _Python for Finance -- Mastering Data-Driven Finance_ (2nd edition) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
@@ -27,7 +37,7 @@ By appointment (gabriele.pompa@gmail.com)
 
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf)
 
-#### Programming material
+### Programming <a name="programming_material"></a>
 - [Anaconda](https://www.anaconda.com/) platform <img src="images/Anaconda_Logo.png" width="75">
 is a free and open-source distribution of the Python and R programming languages for scientific computing (data science, machine learning applications, large-scale data processing, predictive analytics, etc.), that aims to simplify package management and deployment. Package versions are managed by the package management system `conda` The Anaconda distribution includes data-science packages suitable for Windows, Linux, and MacOS (quoting [wikipedia](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)) page)
 
@@ -42,8 +52,11 @@ is a free and open-source distribution of the Python and R programming languages
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
 
-## Setup
-### Course working directory setup
+## Setup <a name="setup"></a>
+
+### Working directory <a name="working_directory"></a>
+Follow these instructions to setup the working directory _IT-For-Business-And-Finance-2019-20_ with all the course material.
+
 a. If you are familiar with [github](https://github.com/), that's great _you are a boss!_, follow these steps:
 
   0. Step into a directory where you want your local copy of the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) remote repo to be created;
@@ -69,8 +82,7 @@ b. If not, no panic _Rome wasn't built in a day_, follow these steps:
   
      2.2. Save it from browser into your local machine. **WARNING: respect the original folder/sub-folder structure**. 
 
-### Course Conda environment setup
-
+### Conda environment <a name="conda_environment"></a>
 In the course folder _IT-For-Business-And-Finance-2019-20_ there is an environment setup file _ITForBusAndFin2020_env_setup.yml_ from which the dedicated _ITForBusAndFin2020_env_ Conda environment can be created. This new conda environment contains all the packages needed for the course. Follow these steps to create and activate it:
 
 0. Open your conda navigator and locate the _Anaconda Prompt_ (that is, a terminal shell). Press the _console_shortcut_ button to open it (see picture)
