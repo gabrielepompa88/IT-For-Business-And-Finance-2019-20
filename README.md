@@ -77,7 +77,7 @@ In the course folder _IT-For-Business-And-Finance-2019-20_ there is an environme
 
 <img src="images/console_shortcut.PNG" width="350">
 
-1. Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\...\IT-For-Business-And-Finance-2019-20_)
+1. Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\\...\\IT-For-Business-And-Finance-2019-20_)
 
 2. Type `conda info --envs` to list the installed environments. There should be at least one environment, named `base`. There could be more, that's not a problem (see picture). 
 
