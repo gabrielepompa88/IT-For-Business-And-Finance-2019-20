@@ -77,22 +77,22 @@ In the course folder, there is an environment setup file _ITForBusAndFin2020_env
 
 <img src="images/console_shortcut.PNG" width="350">
 
-1. Type `conda info --envs` to list the installed environments. There should be at least one environment, named `base`. There could be more, that's not a problem (see picture). 
+1. Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\...\IT-For-Business-And-Finance-2019-20_)
+
+2. Type `conda info --envs` to list the installed environments. There should be at least one environment, named `base`. There could be more, that's not a problem (see picture). 
 
 <img src="images/activate_base_env.PNG" width="750">
 
-2. If, as in picture above, you see a star  symbol `*` on the right of the `base` environment name, go to point 3. If not, type `conda activate base` to activate the base environment.
+3. If, as in picture above, you see a star  symbol `*` on the right of the `base` environment name, go to point 3. If not, type `conda activate base` to activate the base environment.
 
-3. From your _base_ environment (identifyied by the `(base)` at the beginning of the line, see picture), type `conda env create -f ITForBusAndFin2020_env_setup.yml`, which creates the _ITForBusAndFin2020_env_ from the _ITForBusAndFin2020_env_setup.yml_ file (see picture)
+4. From your _base_ environment (identifyied by the `(base)` at the beginning of the line, see picture), type `conda env create -f ITForBusAndFin2020_env_setup.yml`, which creates the _ITForBusAndFin2020_env_ from the _ITForBusAndFin2020_env_setup.yml_ file (see picture)
 
 <img src="images/conda_create_from_yml_file.PNG" width="750">
 
-4. Once the installation is completed, you can verify that the environment has been succesfully create typing `conda info --envs`. At least two environments should be listed: `base` and `ITForBusAndFin2020_env`. Notice the `*`: the active environment is still the `base` one (see picture)
+5. Once the installation is completed, you can verify that the environment has been succesfully create typing `conda info --envs`. At least two environments should be listed: `base` and `ITForBusAndFin2020_env`. Notice the `*`: the active environment is still the `base` one (see picture)
 
 <img src="images/verify_env_is_created.PNG" width="750">
 
-5. Activate our brand new course environment typing `conda activate ITForBusFin2020_env`. Notice how the prompt changes to include `(ITForBusAndFin2020_env)` (see picture)
+6. Activate our brand new course environment typing `conda activate ITForBusFin2020_env`. Notice how the prompt changes to include `(ITForBusAndFin2020_env)` (see picture)
 
 <img src="images/conda_activate_course_env.PNG" width="750">
-
-6. To verify that the active environment is the _ITForBusAndFin2020_env_ one, type again `conda info --envs`
