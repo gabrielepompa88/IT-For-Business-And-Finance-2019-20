@@ -31,6 +31,26 @@ Wednesday 4/3 and 18/3: _Aula 11_
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
 
 ## Class Diary <a name="class_diary"></a>
+This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
+
+**Convention**: The sub-chapters of the textbook are not numbered. In the lessons' diary I will refer to subchapter(s) renumbering them starting from them. 
+
+ <img src="images/book_index.PNG" width="500">
+
+For example, the excerpt of the textbook's table of contents shown in figure will be referred as follows:
+
+  1. Why Python For Finance\
+     1.1 What Is Python?\
+         &nbsp; &nbsp; &nbsp; 1.1.1 Brief History of Python\
+         &nbsp; &nbsp; &nbsp; 1.1.2 The Python Ecosystem\
+         &nbsp; &nbsp; &nbsp; 1.1.3 Python User Spectrum\
+         &nbsp; &nbsp; &nbsp; 1.1.4 The Scientific Stack\
+     1.2 Technology in Finance\
+         &nbsp; &nbsp; &nbsp; 1.2.1 Technology Spending\
+         &nbsp; &nbsp; &nbsp; 1.2.2 Technology as Enabler\
+         &nbsp; &nbsp; &nbsp; 1.2.3 Technology and Talent as Barriers to Entry
+         
+and so forth.
 
 - Lesson 1 (24/02): class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - [Introduction.ipynb](code/Introduction.ipynb)
@@ -39,7 +59,7 @@ Wednesday 4/3 and 18/3: _Aula 11_
 ## Resources <a name="resources"></a>
 
 ### Reading <a name="reading_material"></a>
-- Textbook: _Python for Finance -- Mastering Data-Driven Finance_ (2nd edition) by Yves Hilpisch (O'Reilly). 
+- Textbook: [_Python for Finance -- Mastering Data-Driven Finance_ (2nd edition)](http://shop.oreilly.com/product/0636920117728.do) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
 - Online tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
