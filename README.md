@@ -33,10 +33,10 @@ Wednesday 4/3 and 18/3: _Aula 11_
 ## Class Diary <a name="class_diary"></a>
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
 
-- Lesson 1 (24/02): class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
+- **Lesson 1 (24/02)**: class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - Sections _The Python Programming Language_, _Technology in Finance_
   - [Introduction.ipynb](code/Introduction.ipynb)
-- Lesson 2 (25/02):  motivations for adopting Python in Finance.
+- **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
   - Sec. _Python for Finance_, _Data-Driven Finance_, _Basic operations with conda_, _Conda as a Virtual Environment Manager_
   - ciao
 
