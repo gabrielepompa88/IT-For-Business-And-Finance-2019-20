@@ -5,9 +5,9 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 **WARNING**: the course and this repository is under continuous update.
 
 # Table of contents
-- [Course logistics](#logistics)
+- [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
-- [Lessons](#lessons)
+- [Class Diary](#class_diary)
 - [Resources](#resources)
   - [Reading](#reading_material)
   - [Programming](#programming_material)
@@ -15,7 +15,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
   - [Working directory](#working_directory)
   - [Conda environment](#conda_environment)
 
-## Course logistics <a name="logistics"></a>
+## Class Schedule <a name="class_schedule"></a>
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
@@ -30,9 +30,9 @@ Wednesday 4/3 and 18/3: _Aula 11_
 ## Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
 
-## Lessons <a name="lessons"></a>
+## Class Diary <a name="class_diary"></a>
 
-- Lesson 1 (24/02): 
+- Lesson 1 (24/02): class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - [Introduction.ipynb](code/Introduction.ipynb)
 - Lesson 2 (25/02):  
 
