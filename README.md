@@ -19,7 +19,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
-Tuesday: 18:00-19:30 *this lesson starts sharply at 18:00*\
+Tuesday: 18:00-19:30 **this lesson starts sharply at 18:00**\
 Wednesday: 14:00-16:00
 
 Currently known amendements to this schedule are the following:
