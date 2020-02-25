@@ -37,7 +37,7 @@ This is the diary of the class. Here the topics covered during the lessons are l
   - Sections _The Python Programming Language_, _Technology in Finance_
   - [Introduction.ipynb](code/Introduction.ipynb)
 - Lesson 2 (25/02):  motivations for adopting Python in Finance.
-  - Sec. _Python for Finance_, _Data-Driven Finance_, _Basic operations with conda_
+  - Sec. _Python for Finance_, _Data-Driven Finance_, _Basic operations with conda_, _Conda as a Virtual Environment Manager_
   - ciao
 
 ## Resources <a name="resources"></a>
