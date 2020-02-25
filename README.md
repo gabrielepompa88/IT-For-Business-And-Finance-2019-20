@@ -42,7 +42,7 @@ Wednesday 4/3 and 18/3: _Aula 11_
 - Textbook: _Python for Finance -- Mastering Data-Driven Finance_ (2nd edition) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
-- Online documentation: [Python 3.7 online documentation](https://docs.python.org/3.7/contents.html).
+- Online tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
 
 - Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
 
