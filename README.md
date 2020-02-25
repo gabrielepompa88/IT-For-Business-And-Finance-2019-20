@@ -2,7 +2,7 @@
 
 This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) provides course informations and material supporting the first year master course of _IT For Business and Finance_ held at University of Siena in 2019/20.
 
-**WARNING**: the course and this repository is under continuous update.
+**WARNING**: the course and this repository is under ongoing update.
 
 # Table of contents
 - [Class Schedule](#class_schedule)
