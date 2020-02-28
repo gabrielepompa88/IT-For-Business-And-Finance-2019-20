@@ -21,7 +21,7 @@ These are the X steps you need to be ready to effectively follow any in-class le
     
   | ![](images/add_bookmark.PNG) <a name="fig1"></a>| 
   |:--:| 
-  | * **Figure 1**: add class webpage to Google Chrome's list favorites* |
+  | _**Figure 1**: add class webpage to Google Chrome's list favorites_ |
   
 0. Open Anaconda Navigator
 
