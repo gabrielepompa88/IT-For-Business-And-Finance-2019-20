@@ -56,13 +56,13 @@ Let's suppose that you take notes on a Notebook and, for example, you add extra 
 
 When the lesson ends and you want to keep studying at home, you can: 
 
-- Rename your Notebook: simply clicking on the Notebook's name (in the figure it is "Introduction_II") and give it a new name: (see figure [6](#rename_nb))
+- Rename your Notebook: simply clicking on the Notebook's name (in the figure it is "Introduction_II") and give it a new name: (see figure [7](#rename_nb)).
 
   | ![](images/rename_nb.PNG) <a name="rename_nb"></a>| 
   |:--:| 
   | _**Figure 7**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
 
-- Download the Notebook (see figure [7](#download_as_nb)).
+- Download the Notebook (see figure [8](#download_as_nb)).
 
   | ![](images/download_as_nb.PNG) <a name="download_as_nb"></a>| 
   |:--:| 
