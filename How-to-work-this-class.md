@@ -64,7 +64,7 @@ When the lesson ends and you want to keep studying at home, you can:
 
 - Download the Notebook (see figure [8](#download_as_nb)).
 
-  | ![](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/images/download_as_nb.png) <a name="download_as_nb"></a>| 
+  | ![](images/download_as_nb.png) <a name="download_as_nb"></a>| 
   |:--:| 
   | _**Figure 8**: download your notebook with your in-class notes and e-mail it to yourself_ |
   
