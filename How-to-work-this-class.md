@@ -29,13 +29,21 @@ These are the X steps you need to be done **before** the lesson starts to effect
   |:--:| 
   | _**Figure 2**: open Anaconda Navigator and select the class conda environment_ |
 
-3. Launch the Jupyer Notebook application (see figure [3](#launch_jupyer_nb). A new panel in Chrome opens, listing the directories in your machine (see figure [4]
+3. Launch the Jupyer Notebook App (see figure [3](#launch_jupyer_nb). A new panel in Chrome opens, listing the directories in your machine (see figure [4](#dir_structure_machine))
 
   | ![](images/launch_jupyer_nb.PNG) <a name="launch_jupyer_nb"></a>| 
   |:--:| 
-  | _**Figure 2**: launch the Jupyter Notebook app_ |
-  
-4. Navigate to the 
+  | _**Figure 3**: launch the Jupyter Notebook app_ |
+
+  | ![](images/dir_structure_machine.PNG) <a name="dir_structure_machine"></a>| 
+  |:--:| 
+  | _**Figure 4**: Jupyter Notebook App entry page with list of directories_ |
+
+4. Navigate to folder `/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb)
+
+  | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
+  |:--:| 
+  | _**Figure 5**: how to open a Notebook to follow the in-class lesson_ |
 
 ### How to follow the lesson <a name="during_class"></a>
 
