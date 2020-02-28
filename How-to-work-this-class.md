@@ -13,17 +13,21 @@ In this file you will find practical informations on how to work this class. Dai
 ## How to work IN CLASS <a name="class"></a>
 
 ### Before the lessons starts <a name="before_class"></a>
-These are the X steps you need to be ready to effectively follow any in-class lesson:
+These are the X steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
 
 0. In Google Chrome, go to the class webpage at [github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20). 
 
-  - *TIP*: If not done already, add the class webpage to the list of favorites (see picture [1](#fig1))
+  - *TIP*: If not done already, add the class webpage to the list of favorites (see figure [1](#add_bookmark))
     
-  | ![](images/add_bookmark.PNG) <a name="fig1"></a>| 
+  | ![](images/add_bookmark.PNG) <a name="add_bookmark"></a>| 
   |:--:| 
   | _**Figure 1**: add class webpage to Google Chrome's list favorites_ |
   
-0. Open Anaconda Navigator
+0. Open Anaconda Navigator and select the class conda `ITForBusAndFin2020_env` environment from the menu (see figure [2](#anaconda_nav_and_env)).
+
+  | ![](images/anaconda_nav_and_env.PNG) <a name="anaconda_nav_and_env"></a>| 
+  |:--:| 
+  | _**Figure 2**: open Anaconda Navigatore and select the class conda environment_ |
 
 ### How to follow the lesson <a name="during_class"></a>
 
