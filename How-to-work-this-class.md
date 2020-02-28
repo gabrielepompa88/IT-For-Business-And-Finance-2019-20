@@ -48,29 +48,29 @@ These are the X steps you need to be done **before** the lesson starts to effect
 Now you are all setup and can start following the lesson on the open Notebook, taking notes on the Notebook etc...
 
 ### How to follow the lesson <a name="during_class"></a>
-Let's suppose that you take notes on a Notebook and, for example, you add extra code-cells to the Notebook, or make changes or so (see figure [6](#how_to_take_notes)).
+Let's suppose that you take notes on a Notebook - say _Introduction_II_ - and, let's say you add extra code-cells to the it, or make changes or so (see figure [6](#how_to_take_notes)).
 
   | ![](images/how_to_take_notes.PNG) <a name="how_to_take_notes"></a>| 
   |:--:| 
   | _**Figure 6**: notes taken on a Jupyter Notebook. A new code-cell added_ |
 
-When the lesson ends and you want to keep studying at home, you can: 
+When the lesson ends and you want to keep studying on the modified notebook at home. Then you can: 
 
-- Rename your Notebook: simply clicking on the Notebook's name (in the figure it is "Introduction_II") and give it a new name: (see figure [7](#rename_nb)).
+- Rename your Notebook: simply clicking on the Notebook's name  _Introduction_II_ and give it a new name,  for example _Introduction_II___WITH_MY_NOTES_ (see figure [7](#rename_nb)).
 
   | ![](images/rename_nb.PNG) <a name="rename_nb"></a>| 
   |:--:| 
   | _**Figure 7**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
 
-- Download the Notebook (see figure [8](#download_as_nb)).
+- Download the Notebook file _Introduction_II___WITH_MY_NOTES_ (see figure [8](#download_as_nb)) as a Notebook (.ipynb).
 
   | ![](images/download_as_nb.png) <a name="download_as_nb"></a>| 
   |:--:| 
   | _**Figure 8**: download your notebook with your in-class notes and e-mail it to yourself_ |
   
-- E-mail it to yourself. **WARNING**: remember to log-off from gmail before you leave the IT class.
+- E-mail the Notebook _Introduction_II___WITH_MY_NOTES.ipynb_ to yourself. **WARNING**: remember to log-off from gmail before you leave the IT class.
   
-- Once at home, put the e-mailed Notebook into the `/IT-For-Business-And-Finance-2019-20/My_Class_Notes` folder of your computer (see figure [9](#nb_with_notes_saved)).
+- Once at home, put the e-mailed Notebook _Introduction_II___WITH_MY_NOTES.ipynb_ into the `/IT-For-Business-And-Finance-2019-20/My_Class_Notes` folder of your computer (see figure [9](#nb_with_notes_saved)).
 
   - *TIP*: if you don't have `/My_Class_Notes` folder into the `/IT-For-Business-And-Finance-2019-20` folder on your computer, you have to create it: follow the guide [First-time SETUP (things to do once and for all)](#home_setup).
 
@@ -78,7 +78,7 @@ When the lesson ends and you want to keep studying at home, you can:
   |:--:| 
   | _**Figure 9**: save the notebook with notes in the `/My_Class_Notes` of your computer_ |
 
-- Open the Notebook with your notes using the Jupyter Notebook App in the Anaconda Navigator installed in your computer
+- Open the Notebook _Introduction_II___WITH_MY_NOTES.ipynb_ with your notes using the Jupyter Notebook App in the Anaconda Navigator installed in your computer
 
 - *TIP*: if you don't have Anaconda Navigator, you have to install it: follow the guide [First-time SETUP (things to do once and for all)](#home_setup).
 
