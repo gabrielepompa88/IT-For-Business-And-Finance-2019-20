@@ -21,8 +21,8 @@ These are the X steps you need to be ready to effectively follow any in-class le
     
   | ![](images/add_bookmark.PNG)| 
   |:--:| 
-  | *[Fig 1](#fig1): Add class webpage to Google Chrome's list favorites* |
-
+  | *Fig 1: Add class webpage to Google Chrome's list favorites* | <a name="fig1"></a>
+  
 0. Open Anaconda Navigator
 
 ### How to follow the lesson <a name="during_class"></a>
