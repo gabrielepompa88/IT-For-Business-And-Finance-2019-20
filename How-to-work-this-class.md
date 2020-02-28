@@ -19,9 +19,9 @@ These are the X steps you need to be ready to effectively follow any in-class le
 
   - *TIP*: If not done already, add the class webpage to the list of favorites (see picture [fig_1](#fig1))
     
-  | ![](images/add_bookmark.PNG){#fig1}| 
+  | ![](images/add_bookmark.PNG)| 
   |:--:| 
-  | *Fig 1: Add class webpage to Google Chrome's list favorites* |
+  | *[Fig 1](#fig1): Add class webpage to Google Chrome's list favorites* |
 
 0. Open Anaconda Navigator
 
