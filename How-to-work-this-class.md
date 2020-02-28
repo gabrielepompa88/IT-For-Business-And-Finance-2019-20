@@ -39,7 +39,7 @@ These are the X steps you need to be done **before** the lesson starts to effect
   |:--:| 
   | _**Figure 4**: Jupyter Notebook App entry page with list of directories_ |
 
-4. Navigate to folder `/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb). 
+4. Navigate to folder `/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb)). 
 
   | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
   |:--:| 
@@ -48,6 +48,11 @@ These are the X steps you need to be done **before** the lesson starts to effect
 Now you are all setup and can start following the lesson on the open Notebook, taking notes on the Notebook etc...
 
 ### How to follow the lesson <a name="during_class"></a>
+Let's suppose that you take notes on a Notebook and, for example, you add extra code-cells to the Notebook, or make changes or so (see figure [6](#how_to_take_notes)).
+
+  | ![](images/how_to_take_notes.PNG) <a name="how_to_take_notes"></a>| 
+  |:--:| 
+  | _**Figure 6**: notes taken on a Jupyter Notebook. A new code-cell added_ |
 
 ## How to work AT HOME <a name="home"></a>
 
