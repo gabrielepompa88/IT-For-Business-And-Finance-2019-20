@@ -1,6 +1,6 @@
-# IT For Business and Finance 2019/20 - How To Work This Class 
+# How To Work This Class 
 
-Description here
+In this file you will find practical informations on how to work this class. Daily activities and once-for-all setup(s) are separately described both for in-class lessons and study from-home.
 
 # Table of contents
 - [How to work IN CLASS](#class)
