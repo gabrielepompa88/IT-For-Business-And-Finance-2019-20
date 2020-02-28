@@ -23,11 +23,19 @@ These are the X steps you need to be done **before** the lesson starts to effect
   |:--:| 
   | _**Figure 1**: add class webpage to Google Chrome's list favorites_ |
   
-0. Open Anaconda Navigator and select the class conda `ITForBusAndFin2020_env` environment from the menu (see figure [2](#anaconda_nav_and_env)).
+1. Open Anaconda Navigator and select the class conda `ITForBusAndFin2020_env` environment from the menu (see figure [2](#anaconda_nav_and_env)).
 
   | ![](images/anaconda_nav_and_env.PNG) <a name="anaconda_nav_and_env"></a>| 
   |:--:| 
-  | _**Figure 2**: open Anaconda Navigatore and select the class conda environment_ |
+  | _**Figure 2**: open Anaconda Navigator and select the class conda environment_ |
+
+3. Launch the Jupyer Notebook application (see figure [3](#launch_jupyer_nb). A new panel in Chrome opens, listing the directories in your machine (see figure [4]
+
+  | ![](images/launch_jupyer_nb.PNG) <a name="launch_jupyer_nb"></a>| 
+  |:--:| 
+  | _**Figure 2**: launch the Jupyter Notebook app_ |
+  
+4. Navigate to the 
 
 ### How to follow the lesson <a name="during_class"></a>
 
