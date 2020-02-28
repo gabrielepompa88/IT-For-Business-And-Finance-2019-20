@@ -56,24 +56,31 @@ Let's suppose that you take notes on a Notebook and, for example, you add extra 
 
 When the lesson ends and you want to keep studying at home, you can: 
 
-- rename your Notebook (see figure [6](#rename_nb))
+- Rename your Notebook: simply clicking on the Notebook's name (in the figure it is "Introduction_II") and give it a new name: (see figure [6](#rename_nb))
 
   | ![](images/rename_nb.PNG) <a name="rename_nb"></a>| 
   |:--:| 
   | _**Figure 7**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
 
-- download the Notebook (see figure [7](#download_as_nb)).
+- Download the Notebook (see figure [7](#download_as_nb)).
 
   | ![](images/download_as_nb.PNG) <a name="download_as_nb"></a>| 
   |:--:| 
   | _**Figure 8**: download your notebook with your in-class notes and e-mail it to yourself_ |
   
-- e-mail it to yourself. **WARNING**: remember to log-off from gmail before you leave the IT class.
+- E-mail it to yourself. **WARNING**: remember to log-off from gmail before you leave the IT class.
   
-Once at home, you can put the e-mailed Notebook into the `/IT-For-Business-And-Finance-2019-20/My_Class_Notes` folder of your computer and open it from there from there using the Jupyter Notebook App in the Anaconda Navigator installed in your computer.
+- Once at home, put the e-mailed Notebook into the `/IT-For-Business-And-Finance-2019-20/My_Class_Notes` folder of your computer (see figure [9](#nb_with_notes_saved)).
+
+  - *TIP*: if you don't have `/My_Class_Notes` folder into the `/IT-For-Business-And-Finance-2019-20` folder on your computer, you have to create it: follow the guide [First-time SETUP (things to do once and for all)](#home_setup).
+
+  | ![](images/nb_with_notes_saved.PNG) <a name="nb_with_notes_saved"></a>| 
+  |:--:| 
+  | _**Figure 9**: save the notebook with notes in the `/My_Class_Notes` of your computer_ |
+
+- Open the Notebook with your notes using the Jupyter Notebook App in the Anaconda Navigator installed in your computer
 
 - *TIP*: if you don't have Anaconda Navigator, you have to install it: follow the guide [First-time SETUP (things to do once and for all)](#home_setup).
-- *TIP*: if you don't have `/My_Class_Notes` folder into the `/IT-For-Business-And-Finance-2019-20` folder on your computer, you have to create it: follow the guide [First-time SETUP (things to do once and for all)](#home_setup).
 
 ## How to work AT HOME <a name="home"></a>
 
