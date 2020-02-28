@@ -17,11 +17,11 @@ These are the X steps you need to be ready to effectively follow any in-class le
 
 0. In Google Chrome, go to the class webpage at [github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20). 
 
-  - *TIP*: If not done already, add the class webpage to the list of favorites (see picture [fig_1](#fig1))
+  - *TIP*: If not done already, add the class webpage to the list of favorites (see picture [1](#fig1))
     
   | ![](images/add_bookmark.PNG) <a name="fig1"></a>| 
   |:--:| 
-  | *Fig 1: Add class webpage to Google Chrome's list favorites* |
+  | * **Figure 1**: add class webpage to Google Chrome's list favorites* |
   
 0. Open Anaconda Navigator
 
