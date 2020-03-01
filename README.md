@@ -48,7 +48,9 @@ This is the diary of the class. Here the topics covered during the lessons are l
 
 - Python tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
 
-- Numpy tutorial: [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html) 
+- Numpy tutorial(s): 
+    - [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html)
+    - [Numpy User Guide](https://docs.scipy.org/doc/numpy/user/index.html)
 
 - Scipy tutorial: [Scipy Tutorial](https://docs.scipy.org/doc/scipy-1.3.1/reference/tutorial/index.html)
 
