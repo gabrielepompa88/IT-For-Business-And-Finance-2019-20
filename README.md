@@ -48,6 +48,8 @@ This is the diary of the class. Here the topics covered during the lessons are l
 
 - Online tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
 
+- Numpy: [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html) 
+
 - Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
 
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf).
