@@ -46,9 +46,11 @@ This is the diary of the class. Here the topics covered during the lessons are l
 - Textbook: [_Python for Finance -- Mastering Data-Driven Finance_ (2nd edition)](http://shop.oreilly.com/product/0636920117728.do) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
-- Online tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
+- Python tutorial: [Python 3.7 online tutorial](https://docs.python.org/3.7/tutorial/).
 
-- Numpy: [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html) 
+- Numpy tutorial: [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html) 
+
+- Scipy tutorial: [Scipy Tutorial](https://docs.scipy.org/doc/scipy-1.3.1/reference/tutorial/index.html)
 
 - Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
 
