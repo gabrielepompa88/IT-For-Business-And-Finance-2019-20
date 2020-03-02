@@ -34,11 +34,20 @@ Wednesday 4/3 and 18/3: _Aula 11_
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
 
 - **Lesson 1 (24/02)**: class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
-  - Sections _The Python Programming Language_, _Technology in Finance_
+  - Sections 1._The Python Programming Language_, 1._Technology in Finance_
   - [Introduction I.ipynb](Notebooks/Introduction_I.ipynb)
+  
 - **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
-  - Sec. _Python for Finance_, _Data-Driven Finance_, _Basic operations with conda_, _Conda as a Virtual Environment Manager_
-  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb)
+  - Sec. 1._Python for Finance_, 1._Data-Driven Finance_, 2._Basic operations with conda_, 2._Conda as a Virtual Environment Manager_
+  
+- **Lesson 3 (26/02)**:  random number generation, histogram, empirical distribution (normalized histogram), template for `.py` files (scripts) in Spyder.
+  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 1, 2, 3, 4.
+  
+- **Lesson 4 (2/03)**:  `int` data type, `.bit_length()` method for `int`, binary representation of integers (examples), `float` data type, issues of finite precision of internal binary representation of decimal numbers, arbitrary precision in Python ([`Deciamal` module](https://docs.python.org/2/library/decimal.html)), Normal random variables in Python (Scipy `norm`),`.pdf()` method of `norm` class, Normal fit to empirical distribution, `.fit()` method of `norm` class.
+  - Sec. 3._Integers_, 3._Floats_
+  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 5
+  
+
 
 ## Resources <a name="resources"></a>
 
