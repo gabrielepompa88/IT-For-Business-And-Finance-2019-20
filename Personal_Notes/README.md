@@ -3,4 +3,4 @@ and whatever is yours and and was not originally in the [IT-For-Business-And-Fin
 
 Save here the Notebooks, Spyder code, notes that you create/modify in class.
 
-**WARNING** whatever you create in the _IT-For-Business-And-Finance-2019-20_ and is NOT put here will be lost any time you sync your local repository.
+**WARNING**: whatever you create in the `IT-For-Business-And-Finance-2019-20` directory and forget to put here will be lost any time you sync your local repository.
