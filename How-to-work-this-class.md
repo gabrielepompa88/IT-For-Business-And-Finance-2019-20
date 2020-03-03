@@ -28,30 +28,14 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   | ![](images/anaconda_nav_and_env.PNG) <a name="anaconda_nav_and_env"></a>| 
   |:--:| 
   | _**Figure 2**: open Anaconda Navigator and select the class conda environment_ |
-
-3. Launch the Jupyer Notebook App (see figure [3](#launch_jupyer_nb)). A new panel in Chrome opens, listing the directories in your machine (see figure [4](#dir_structure_machine))
-
-  | ![](images/launch_jupyer_nb.PNG) <a name="launch_jupyer_nb"></a>| 
-  |:--:| 
-  | _**Figure 3**: launch the Jupyter Notebook app_ |
-
-  | ![](images/dir_structure_machine.PNG) <a name="dir_structure_machine"></a>| 
-  |:--:| 
-  | _**Figure 4**: Jupyter Notebook App entry page with list of directories_ |
-
-4. Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb)). 
-
-  | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
-  |:--:| 
-  | _**Figure 5**: how to open a Notebook to follow the in-class lesson_ |
   
-5. Sync your local copy of the class repository to have the latest updated material of the class. To do this do the following:
+2. Sync your local copy of the class repository to have the latest updated material of the class. To do this, do the following:
 
-  - In the Anaconda Navigator, open the _console_shortcut_ app. A terminal window open (see figure [6](#(see figure [5](#how_to_open_nb))
+  - In the Anaconda Navigator, open the _console_shortcut_ app. A terminal window opens (see figure [6](#console_shortcut))
 
   | ![](images/console_shortcut.PNG) <a name="console_shortcut"></a>| 
   |:--:| 
-  | _**Figure 6**: Open a Terminal window using the console_shorcut app in Anaconda Navigator_ |
+  | _**Figure 3**: Open a Terminal window using the console_shorcut app in Anaconda Navigator_ |
 
   - Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20`, typing:
   
@@ -59,9 +43,29 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   cd C:\Users\it-bf\Desktop\IT-For-Business-And-Finance-2019-20
   ```
   
-  - ciao
+  - Type the following two commands (for an explanation of this commands see [this answer](https://stackoverflow.com/a/8888015/2533366) in [Stack Overflow](https://stackoverflow.com/)):
+  
+  ```
+  git fetch --all
+  git reset --hard origin/master
+  ```
 
+3. Launch the Jupyer Notebook App (see figure [4](#launch_jupyer_nb)). A new panel in Chrome opens, listing the directories in your machine (see figure [5](#dir_structure_machine))
 
+  | ![](images/launch_jupyer_nb.PNG) <a name="launch_jupyer_nb"></a>| 
+  |:--:| 
+  | _**Figure 4**: launch the Jupyter Notebook app_ |
+
+  | ![](images/dir_structure_machine.PNG) <a name="dir_structure_machine"></a>| 
+  |:--:| 
+  | _**Figure 5**: Jupyter Notebook App entry page with list of directories_ |
+
+4. Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which one) clicking on the blue link to the `.ipynb` file (see figure [6](#how_to_open_nb)). 
+
+  | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
+  |:--:| 
+  | _**Figure 6**: how to open a Notebook to follow the in-class lesson_ |
+  
 Now you are all setup and can start following the lesson on the open Notebook, taking notes on the Notebook etc...
 
 ### How to follow the lesson <a name="during_class"></a>
