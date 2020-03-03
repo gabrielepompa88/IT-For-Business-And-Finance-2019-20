@@ -43,51 +43,56 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   cd C:\Users\it-bf\Desktop\IT-For-Business-And-Finance-2019-20
   ```
   
-  - Do the syncing typing the following two commands (for an explanation of this commands see [this answer](https://stackoverflow.com/a/8888015/2533366) in [Stack Overflow](https://stackoverflow.com/)):
+  - Do the syncing typing the following two commands (for an explanation of this commands see [this answer](https://stackoverflow.com/a/8888015/2533366) in [Stack Overflow](https://stackoverflow.com/), see also figure [4](#git_fetch_reset)):
   
   ```
   git fetch --all
   git reset --hard origin/master
   ```
   
+  | ![](images/git_fetch_reset.PNG) <a name="git_fetch_reset"></a>| 
+  |:--:| 
+  | _**Figure 4**: Syncing local copy of class repository with latest version_ |
+  
+  
   **WARNING**: `git reset` command will overwrite all changes to files in the class repository that are not in the dedicated `IT-For-Business-And-Finance-2019-20/Personal_Notes` folder. That is, for example, if these changes were notes that you took while on a Jupyter Notebook while reading it, these notes will be lost!!! See section [How to follow the lesson](#during_class) to effectively take notes during the lesson and section [How to work at home](#wfh) to know how to retrieve those notes at home and how to take new ones at home while studying on Notebooks. 
 
-3. Launch the Jupyer Notebook App (see figure [4](#launch_jupyer_nb)). A new panel in Chrome opens, which lists the tree of all the directories in your machine (see figure [5](#dir_structure_machine))
+3. Launch the Jupyer Notebook App (see figure [5](#launch_jupyer_nb)). A new panel in Chrome opens, which lists the tree of all the directories in your machine (see figure [6](#dir_structure_machine))
 
   | ![](images/launch_jupyer_nb.PNG) <a name="launch_jupyer_nb"></a>| 
   |:--:| 
-  | _**Figure 4**: launch the Jupyter Notebook app_ |
+  | _**Figure 5**: launch the Jupyter Notebook app_ |
 
   | ![](images/dir_structure_machine.PNG) <a name="dir_structure_machine"></a>| 
   |:--:| 
-  | _**Figure 5**: Jupyter Notebook App entry page with list of directories_ |
+  | _**Figure 6**: Jupyter Notebook App entry page with list of directories_ |
 
-4. In the newly opened Google Chrome's panel, navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into a folder) and open the Notebook that you want clicking on the blue link to the `.ipynb` file (see figure [6](#how_to_open_nb)). 
+4. In the newly opened Google Chrome's panel, navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into a folder) and open the Notebook that you want clicking on the blue link to the `.ipynb` file (see figure [7](#how_to_open_nb)). 
 
   | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
   |:--:| 
-  | _**Figure 6**: how to open a Notebook to follow the in-class lesson_ |
+  | _**Figure 7**: how to open a Notebook to follow the in-class lesson_ |
   
 ### How to follow the lesson <a name="during_class"></a>
-Let's suppose that you want to take notes on a Notebook - say `Introduction_II.ipynb` - and, let's say you add extra code-cells to it, or make changes to text cells or so (see figure [7](#how_to_take_notes)).
+Let's suppose that you want to take notes on a Notebook - say `Introduction_II.ipynb` - and, let's say you add extra code-cells to it, or make changes to text cells or so (see figure [8](#how_to_take_notes)).
 
   | ![](images/how_to_take_notes.PNG) <a name="how_to_take_notes"></a>| 
   |:--:| 
-  | _**Figure 7**: notes taken on a Jupyter Notebook. A new code-cell added_ |
+  | _**Figure 8**: notes taken on a Jupyter Notebook. A new code-cell added_ |
 
 When the lesson ends you want to keep studying on the modified notebook at home. Then you can: 
 
-0. Rename your Notebook: simply clicking on the Notebook's name  _Introduction_II_ and give it a new name,  for example _Introduction_II___WITH_MY_NOTES_ (see figure [8](#rename_nb)).
+0. Rename your Notebook: simply clicking on the Notebook's name  _Introduction_II_ and give it a new name,  for example _Introduction_II___WITH_MY_NOTES_ (see figure [9](#rename_nb)).
 
   | ![](images/rename_nb.PNG) <a name="rename_nb"></a>| 
   |:--:| 
-  | _**Figure 8**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
+  | _**Figure 9**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
 
-1. Download the Notebook (see figure [9](#download_as_nb)) _as a Notebook (.ipynb)_.
+1. Download the Notebook (see figure [10](#download_as_nb)) _as a Notebook (.ipynb)_.
 
   | ![](images/download_as_nb.png) <a name="download_as_nb"></a>| 
   |:--:| 
-  | _**Figure 9**: download your notebook with your in-class notes and e-mail it to yourself_ |
+  | _**Figure 10**: download your notebook with your in-class notes and e-mail it to yourself_ |
   
 2. E-mail the renamed Notebook `Introduction_II___WITH_MY_NOTES.ipynb` to yourself. 
 
@@ -109,11 +114,11 @@ When you are at home and want to study for this class, you can do the following:
   ```
 where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name in your computer. 
 
-1. Go to your email application and put the e-mailed Notebook(s) (in the example from section [How to follow the lesson](#during_class), we emailed to ourselves the renamed `Introduction_II___WITH_MY_NOTES.ipynb` Notebook with notes taken during a lesson) into the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` folder of your computer (see figure [10](#nb_with_notes_saved)).
+1. Go to your email application and put the e-mailed Notebook(s) (in the example from section [How to follow the lesson](#during_class), we emailed to ourselves the renamed `Introduction_II___WITH_MY_NOTES.ipynb` Notebook with notes taken during a lesson) into the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` folder of your computer (see figure [11](#nb_with_notes_saved)).
 
   | ![](images/nb_with_notes_saved.PNG) <a name="nb_with_notes_saved"></a>| 
   |:--:| 
-  | _**Figure 10**: save the notebook with notes in the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` of your computer_ |
+  | _**Figure 11**: save the notebook with notes in the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` of your computer_ |
 
 2. Work on the Notebook `Introduction_II___WITH_MY_NOTES.ipynb` or any other Notebook or file in `/IT-For-Business-And-Finance-2019-20` folder using the Jupyter Notebook App or the Spyder App of the Anaconda Navigator, but
 
