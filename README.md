@@ -12,8 +12,11 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
   - [Reading](#reading_material)
   - [Programming](#programming_material)
 - [Setup](#setup)
-  - [Working directory](#working_directory)
-  - [Conda environment](#conda_environment)
+  - [Before the lessons starts](#before_class)
+  - [How to follow the lesson](#during_class)
+- [How to work AT HOME](#home)
+  - [First-time SETUP](#home_setup)
+  - [How to work at home](#wfh)
 
 ## Class Schedule <a name="class_schedule"></a>
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
