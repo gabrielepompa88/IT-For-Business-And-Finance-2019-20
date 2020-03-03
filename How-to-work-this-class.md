@@ -13,7 +13,7 @@ In this file you will find practical informations on how to work this class. Dai
 ## How to work IN CLASS <a name="class"></a>
 
 ### Before the lessons starts <a name="before_class"></a>
-These are the X steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
+These are the steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
 
 0. In Google Chrome, go to the class webpage at [github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20). 
 
@@ -39,11 +39,20 @@ These are the X steps you need to be done **before** the lesson starts to effect
   |:--:| 
   | _**Figure 4**: Jupyter Notebook App entry page with list of directories_ |
 
-4. Navigate to folder `/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb)). 
+4. Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which) clicking on the blue link to the `.ipynb` file (see figure [5](#how_to_open_nb)). 
 
   | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
   |:--:| 
   | _**Figure 5**: how to open a Notebook to follow the in-class lesson_ |
+  
+5. Sync your local copy of the class repository to have the latest updated material of the class. To do this do the following:
+
+  - In the Anaconda Navigator, open the _console_shortcut_ app. A terminal window open (see picture)
+
+<img src="images/console_shortcut.PNG" width="350">
+
+  - Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\\...\\IT-For-Business-And-Finance-2019-20_)
+
 
 Now you are all setup and can start following the lesson on the open Notebook, taking notes on the Notebook etc...
 
