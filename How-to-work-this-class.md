@@ -101,6 +101,23 @@ When the lesson ends you want to keep studying on the modified notebook at home.
 ## How to work AT HOME <a name="home"></a>
 
 ### First-time SETUP (things to do once and for all) <a name="home_setup"></a>
+These are preliminary tasks to be done the first time that you work on this class from your personal computer.
+
+0. Download Anaconda (see figure [11](#anaconda_download)
+
+  - go to [https://www.anaconda.com/distribution/#download-section](https://www.anaconda.com/distribution/#download-section)
+  - on the top of the page select the icon corresponding to your operating system (Windows, Max OS or Linux)
+  - click the green button **Download** under the _Python 3.7 version_ section
+
+  | ![](images/anaconda_download.png) <a name="anaconda_download"></a>| 
+  |:--:| 
+  | _**Figure 11**: download your notebook with your in-class notes and e-mail it to yourself_ |
+
+1. Download Git:
+
+2. clone the class repository
+  - move to the Desktop
+  - type clone ...
 
 ### How to work at home (things to do everytime) <a name="wfh"></a>
 When you are at home and want to study for this class, you can do the following:
@@ -122,5 +139,5 @@ where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name 
 
 2. Work on the Notebook `Introduction_II___WITH_MY_NOTES.ipynb` or any other Notebook or file in `/IT-For-Business-And-Finance-2019-20` folder using the Jupyter Notebook App or the Spyder App of the Anaconda Navigator, but
 
-- **REMEMBER**: any file that you modify in the folder `/IT-For-Business-And-Finance-2019-20` that is not in `/IT-For-Business-And-Finance-2019-20/Personal_Notes` sub-folder will be over-written by the `git-reset` command. Therefore, if you want to study on a Notebook/file and make changes/notes/experiments to it, just **copy-n-paste the file into /Personal_Notes folder**. Also, if you want to create new files (Notebooks, script, data, whatever) and want to be sure it won't be touched.. then **create any new personal file into /Personal_Notes folder**.
+- **WARNING**: any file that you modify in the folder `/IT-For-Business-And-Finance-2019-20` that is not in `/IT-For-Business-And-Finance-2019-20/Personal_Notes` sub-folder will be over-written by the `git-reset` command. Therefore, if you want to study on a Notebook/file and make changes/notes/experiments to it, just **copy-n-paste the file into /Personal_Notes folder**. Also, if you want to create new files (Notebooks, script, data, whatever) and want to be sure it won't be touched.. then **create any new personal file into /Personal_Notes folder**.
 
