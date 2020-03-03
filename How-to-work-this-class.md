@@ -113,7 +113,7 @@ These are preliminary tasks to be done the first time that you work on this clas
   | ![](images/anaconda_download.PNG) <a name="anaconda_download"></a>| 
   |:--:| 
   | _**Figure 11**: download Anaconda_ |
-
+  
 1. Download Git (see figure [12](#git_download)):
 
   - go to [https://git-scm.com/downloads](https://git-scm.com/downloads)
@@ -144,6 +144,28 @@ These are preliminary tasks to be done the first time that you work on this clas
   | _**Figure 13**: `git clone` the class repository into your `/Desktop` folder_ |
 
   You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
+
+3. In the newly created class local folder `/Desktop/IT-For-Business-And-Finance-2019-20` there is an environment setup file `ITForBusAndFin2020_env_setup.yml` from which the dedicated _ITForBusAndFin2020_env_ Conda environment can be created. This new conda environment contains all the packages needed for the course. Follow these steps to create and activate it (see figure [14](#import_env)):
+
+  - In the Anaconda Navigator, click on _Environments_
+  - at the bottom, click on _Import_
+  - next to _Specification File_ browse for file `ITForBusAndFin2020_env_setup.yml` in your newly created `/Desktop/IT-For-Business-And-Finance-2019-20` folder
+  - click open: a new environment _ITForBusAndFin2020_env_ gets created.
+  - switch to the newly created _ITForBusAndFin2020_env_ environment.
+  
+  - *TIP*: under _Environment_ section, on the right, there is the list of packages installed under the newly created _ITForBusAndFin2020_env_ environment. Among many, you should find the following packages and version installed:
+  
+  ```
+  Python 3.7.4
+  Numpy 1.16.5
+  Scipy 1.3.1
+  Pandas 0.25.1
+  Matplotlib 3.1.1
+  ```
+
+  | ![](images/import_env.PNG) <a name="import_env"></a>| 
+  |:--:| 
+  | _**Figure 14**: importing class conda environment  _ITForBusAndFin2020_env_ Conda environment_ |
 
 ## How to work at home (things to do everytime) <a name="wfh"></a>
 When you are at home and want to study for this class, you can do the following:
