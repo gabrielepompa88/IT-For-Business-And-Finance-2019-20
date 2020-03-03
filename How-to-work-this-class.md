@@ -10,9 +10,9 @@ In this file you will find practical informations on how to work this class. Dai
   - [First-time SETUP](#home_setup)
   - [How to work at home](#wfh)
 
-## How to work IN CLASS <a name="class"></a>
+# How to work IN CLASS <a name="class"></a>
 
-### Before the lessons starts <a name="before_class"></a>
+## Before the lessons starts <a name="before_class"></a>
 These are the steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
 
 0. In Google Chrome, go to the class webpage at [github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20). 
@@ -73,7 +73,7 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   |:--:| 
   | _**Figure 7**: how to open a Notebook to follow the in-class lesson_ |
   
-### How to follow the lesson <a name="during_class"></a>
+## How to follow the lesson <a name="during_class"></a>
 Let's suppose that you want to take notes on a Notebook - say `Introduction_II.ipynb` - and, let's say you add extra code-cells to it, or make changes to text cells or so (see figure [8](#how_to_take_notes)).
 
   | ![](images/how_to_take_notes.PNG) <a name="how_to_take_notes"></a>| 
@@ -98,9 +98,9 @@ When the lesson ends you want to keep studying on the modified notebook at home.
 
 **WARNING**: remember to log-off from gmail before you leave the IT class.
   
-## How to work AT HOME <a name="home"></a>
+# How to work AT HOME <a name="home"></a>
 
-### First-time SETUP (things to do once and for all) <a name="home_setup"></a>
+## First-time SETUP (things to do once and for all) <a name="home_setup"></a>
 These are preliminary tasks to be done the first time that you work on this class from your personal computer.
 
 0. Download Anaconda (see figure [11](#anaconda_download)):
@@ -145,7 +145,7 @@ These are preliminary tasks to be done the first time that you work on this clas
 
   You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
 
-### How to work at home (things to do everytime) <a name="wfh"></a>
+## How to work at home (things to do everytime) <a name="wfh"></a>
 When you are at home and want to study for this class, you can do the following:
 
 0. Follow all the steps (0., 1., 2., 3. and 4.) explained in section [Before the lessons starts](#before_class) on your computer. 
