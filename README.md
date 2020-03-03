@@ -87,70 +87,76 @@ is a free and open-source distribution of the Python and R programming languages
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
 
 ## Setup <a name="setup"></a>
+This section describes practical informations on how to work this class. Daily activities and once-for-all setup(s) are separately described both for in-class lessons and study from-home.
 
-### Working directory <a name="working_directory"></a>
-Follow these instructions to setup the working directory _IT-For-Business-And-Finance-2019-20_ with all the course material.
+**NOTICE**: the same contents of this section have been replicate - adding step-by-step details and pictures - in [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) file. Take a look at it if you are new to the class or if something in this section is not clear to you (if [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) is not enough, feel free to ask!)
 
-a. If you are familiar with [github](https://github.com/), that's great _you are a boss!_, follow these steps:
+### Before the lessons starts <a name="before_class"></a>
+These are the steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
 
-  0. Step into a directory where you want your local copy of the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) remote repo to be created;
+0. go to the class webpage at [github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20). 
+
+1. Open Anaconda Navigator and switch to the class conda environment `ITForBusAndFin2020_env`
+
+2. Sync your local copy of the class repository to have the latest updated material of the class. To do this:
+
+  - In the Anaconda Navigator, open the _console_shortcut_ app. 
+  - In the terminal window open, type (for an explanation of this commands see [this answer](https://stackoverflow.com/a/8888015/2533366) in [Stack Overflow](https://stackoverflow.com/):
   
-  1. clone the course repo into your current directory typing: `git clone https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20.git`. A local folder named _IT-For-Business-And-Finance-2019-20_ will be created, which includes all the contents of the remote repository (as they will be at that point in time);
+  ```
+  cd C:\Users\it-bf\Desktop\IT-For-Business-And-Finance-2019-20
+  git fetch --all
+  git reset --hard origin/master
+  ```
   
-  2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded), simply `git pull` into your local copy folder. **WARNING: doing this way you may have conflicts, so be prepared to manage them, otherwise go for option _b._**
-
-b. If not, no panic _Rome wasn't built in a day_, follow these steps: 
-
-  0. Download the remote repo as a ZIP folder into your local machine (see picture)
-  <img src="images/download_repo.PNG" width="350">
-  
-  1. Un-zip the _IT-For-Business-And-Finance-2019-20_ folder, which includes all the contents of the remote repository (as they will be at that point in time);
-  
-  2. To update your local copy of the remote branch with the updates I will make to the remote repo (e.g. new material uploaded), you can repeate steps _0._ and _1._, creating each time a brand new local folder or:
-  
-     2.0. locate the new/updated files in the remote repo;
-  
-     2.1. push the _Raw_ button on the top-right corner of the file (see picture)
-     
-     <img src="images/raw_file.PNG" width="350">
-  
-     2.2. Save it from browser into your local machine. **WARNING: respect the original folder/sub-folder structure**. 
-
-### Conda environment <a name="conda_environment"></a>
-In the course folder _IT-For-Business-And-Finance-2019-20_ there is an environment setup file _ITForBusAndFin2020_env_setup.yml_ from which the dedicated _ITForBusAndFin2020_env_ Conda environment can be created. This new conda environment contains all the packages needed for the course. Follow these steps to create and activate it:
-
-0. Open your conda navigator and locate the _Anaconda Prompt_ (that is, a terminal shell). Press the _console_shortcut_ button to open it (see picture)
-
-<img src="images/console_shortcut.PNG" width="350">
-
-1. Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\\...\\IT-For-Business-And-Finance-2019-20_)
-
-2. Type `conda info --envs` to list the installed environments. There should be at least one environment, named `base`. There could be more, that's not a problem (see picture). 
-
-<img src="images/activate_base_env.PNG" width="750">
-
-3. If, as in picture above, you see a star  symbol `*` on the right of the `base` environment name, go to point 3. If not, type `conda activate base` to activate the base environment.
-
-4. From your _base_ environment (identifyied by the `(base)` at the beginning of the prompt, see picture), type `conda env create -f ITForBusAndFin2020_env_setup.yml`, which creates the _ITForBusAndFin2020_env_ from the _ITForBusAndFin2020_env_setup.yml_ file (see picture)
-
-<img src="images/conda_create_from_yml_file.PNG" width="750">
-
-5. Once the installation is completed, you can verify that the environment has been succesfully created typing `conda info --envs`. At least two environments should be listed: `base` and `ITForBusAndFin2020_env`. Notice the `*`: the active environment is still the `base` one (see picture)
-
-<img src="images/verify_env_is_created.PNG" width="750">
-
-6. Activate our brand new course environment typing `conda activate ITForBusFin2020_env`. Notice how the prompt changes to include `(ITForBusAndFin2020_env)` (see picture)
-
-<img src="images/conda_activate_course_env.PNG" width="750">
-
-7. To see the list of installed packages in the course environment you can type `conda list` (see picture). 
-
-<img src="images/conda_list.PNG" width="750">
-In particular you should see the following packages installed, which we will extensively use:
-
-    Python 3.7.4
-    Numpy 1.16.5
-    Scipy 1.3.1
-    Pandas 0.25.1
-    Matplotlib 3.1.1
+  **WARNING**: `git reset` command will overwrite all changes to files in the class repository that are not in the dedicated `IT-For-Business-And-Finance-2019-20/Personal_Notes` folder. That is, for example, if these changes were notes that you took while on a Jupyter Notebook while reading it, these notes will be lost!!! See section [How to follow the lesson](#during_class) to effectively take notes during the lesson and section [How to work at home](#wfh) to know how to retrieve those notes at home and how to take new ones at home while studying on Notebooks. 
     
+3. Launch the Jupyer Notebook App
+
+4. In the newly opened Google Chrome's panel, navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` and open the Notebook that you want.
+  
+### How to follow the lesson <a name="during_class"></a>
+Let's suppose that you modify `Introduction_II.ipynb` (these instructions apply to any Notebook and any file in `/IT-For-Business-And-Finance-2019-20` folder
+
+When the lesson ends you want to keep studying on the modified notebook at home. Then you can: 
+
+0. Rename your Notebook as _Introduction_II___WITH_MY_NOTES_ 
+
+1. Download the Notebook _as a Notebook (.ipynb)_.
+
+2. E-mail the renamed Notebook `Introduction_II___WITH_MY_NOTES.ipynb` to yourself. 
+
+**WARNING**: remember to log-off from gmail before you leave the IT class.
+  
+## How to work AT HOME <a name="home"></a>
+
+### First-time SETUP (things to do once and for all) <a name="home_setup"></a>
+These are preliminary tasks to be done the first time that you work on this class from your personal computer. There are many more details in the corresponding section [First-time SETUP](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md#first-time-setup-things-to-do-once-and-for-all-) of the [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) file. 
+
+0. Download Anaconda 
+ 
+1. Download Git 
+
+2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder. Type:
+
+  ```
+  cd C:\Users\[$YOUR_USER_NAME]\Desktop
+  git clone https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20.git
+  ```
+  
+  where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name in your computer. You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
+  
+3. Create the _ITForBusAndFin2020_env_ Conda environment importing the `ITForBusAndFin2020_env_setup.yml` file. Switch to this environment.
+
+## How to work at home (things to do everytime) <a name="wfh"></a>
+When you are at home and want to study for this class, you can do the following:
+
+0. Follow all the steps (0., 1., 2., 3. and 4.) explained in section [Before the lessons starts](#before_class) on your computer. 
+
+1. Put `/IT-For-Business-And-Finance-2019-20/Personal_Notes` the files with notes taken in class that you sent to yourself via e-mail.
+
+2. Work on any file of the class folder `/IT-For-Business-And-Finance-2019-20` using the Jupyter Notebook App or the Spyder App of the Anaconda Navigator, and:
+
+- **any file that you change must be copied-n-pasted into /Personal_Notes folder**
+- **any file that you newly create must be saved into /Personal_Notes folder**.
+
