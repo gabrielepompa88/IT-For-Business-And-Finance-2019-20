@@ -139,9 +139,10 @@ When the lesson ends you want to keep studying on the modified notebook at home.
 ### First-time SETUP (things to do once and for all) <a name="home_setup"></a>
 These are preliminary tasks to be done the first time that you work on this class from your personal computer. There are many more details in the corresponding section [First-time SETUP](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md#first-time-setup-things-to-do-once-and-for-all-) of the [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) file. 
 
-0. Download Anaconda 
+0. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
  
-1. Download Git 
+1. Download Git: [Windows](https://git-scm.com/download/win) | [Max OS](https://git-scm.com/download/mac) 
+| [Linux/Unix](https://git-scm.com/download/linux) 
 
 2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder. Type:
 
