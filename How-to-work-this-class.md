@@ -47,11 +47,19 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   
 5. Sync your local copy of the class repository to have the latest updated material of the class. To do this do the following:
 
-  - In the Anaconda Navigator, open the _console_shortcut_ app. A terminal window open (see picture)
+  - In the Anaconda Navigator, open the _console_shortcut_ app. A terminal window open (see figure [6](#(see figure [5](#how_to_open_nb))
 
-<img src="images/console_shortcut.PNG" width="350">
+  | ![](images/console_shortcut.PNG) <a name="console_shortcut"></a>| 
+  |:--:| 
+  | _**Figure 6**: Open a Terminal window using the console_shorcut app in Anaconda Navigator_ |
 
-  - Move to the course directory typing `cd $DIRECTORY_PATH` where `$DIRECTORY_PATH` has to be substituted with the path to the course directory _IT-For-Business-And-Finance-2019-20_ folder (something like _C:\\...\\IT-For-Business-And-Finance-2019-20_)
+  - Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20`, typing:
+  
+  ```
+  cd C:\Users\it-bf\Desktop\IT-For-Business-And-Finance-2019-20
+  ```
+  
+  - ciao
 
 
 Now you are all setup and can start following the lesson on the open Notebook, taking notes on the Notebook etc...
