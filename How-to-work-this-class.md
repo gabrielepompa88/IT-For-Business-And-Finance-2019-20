@@ -60,7 +60,7 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   |:--:| 
   | _**Figure 5**: Jupyter Notebook App entry page with list of directories_ |
 
-4. Navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which one) clicking on the blue link to the `.ipynb` file (see figure [6](#how_to_open_nb)). 
+4. In the newly opened Google Chrome's panel, navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into the folders) and open the Notebook of the lesson (I will tell you which one) clicking on the blue link to the `.ipynb` file (see figure [6](#how_to_open_nb)). 
 
   | ![](images/how_to_open_nb.PNG) <a name="how_to_open_nb"></a>| 
   |:--:| 
