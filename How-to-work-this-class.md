@@ -103,7 +103,7 @@ When the lesson ends you want to keep studying on the modified notebook at home.
 ### First-time SETUP (things to do once and for all) <a name="home_setup"></a>
 These are preliminary tasks to be done the first time that you work on this class from your personal computer.
 
-0. Download Anaconda (see figure [11](#anaconda_download)
+0. Download Anaconda (see figure [11](#anaconda_download)):
 
   - go to [https://www.anaconda.com/distribution/#download-section](https://www.anaconda.com/distribution/#download-section)
   - on the top of the page select the icon corresponding to your operating system (Windows, Max OS or Linux)
@@ -111,9 +111,9 @@ These are preliminary tasks to be done the first time that you work on this clas
 
   | ![](images/anaconda_download.png) <a name="anaconda_download"></a>| 
   |:--:| 
-  | _**Figure 11**: download your notebook with your in-class notes and e-mail it to yourself_ |
+  | _**Figure 11**: download Anaconda_ |
 
-1. Download Git:
+1. Download Git (see figure [12](#git_download)):
 
 2. clone the class repository
   - move to the Desktop
