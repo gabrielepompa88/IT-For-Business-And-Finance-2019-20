@@ -19,7 +19,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [First-time SETUP](#home_setup)
     - [How to work at home](#wfh)
 
-## Class Schedule <a name="class_schedule"></a>
+# Class Schedule <a name="class_schedule"></a>
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
@@ -31,10 +31,10 @@ Currently known amendements to this schedule are the following:
 Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 11_
 
-## Contacts <a name="contacts"></a>
+# Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
 
-## Class Diary <a name="class_diary"></a>
+# Class Diary <a name="class_diary"></a>
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
 
 - **Lesson 1 (24/02)**: class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
@@ -53,9 +53,9 @@ This is the diary of the class. Here the topics covered during the lessons are l
   
 
 
-## Resources <a name="resources"></a>
+# Resources <a name="resources"></a>
 
-### Reading <a name="reading_material"></a>
+## Reading <a name="reading_material"></a>
 - Textbook: [_Python for Finance -- Mastering Data-Driven Finance_ (2nd edition)](http://shop.oreilly.com/product/0636920117728.do) by Yves Hilpisch (O'Reilly). 
 <img src="http://hilpisch.com/images/py4fi_2nd_shadow.png" width="75">
 
@@ -71,7 +71,7 @@ This is the diary of the class. Here the topics covered during the lessons are l
 
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf).
 
-### Programming <a name="programming_material"></a>
+## Programming <a name="programming_material"></a>
 - [Anaconda](https://www.anaconda.com/) platform <img src="images/Anaconda_Logo.png" width="75">
 is a free and open-source distribution of the Python and R programming languages for scientific computing (data science, machine learning applications, large-scale data processing, predictive analytics, etc.), that aims to simplify package management and deployment. Package versions are managed by the package management system `conda` The Anaconda distribution includes data-science packages suitable for Windows, Linux, and MacOS (quoting [wikipedia](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)) page)
 
@@ -90,10 +90,12 @@ is a free and open-source distribution of the Python and R programming languages
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
 
-## Setup <a name="setup"></a>
+# Setup <a name="setup"></a>
 This section describes practical informations on how to work this class. Daily activities and once-for-all setup(s) are separately described both for in-class lessons and study from-home.
 
 **NOTICE**: the same contents of this section have been replicate - adding step-by-step details and pictures - in [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) file. Take a look at it if you are new to the class or if something in this section is not clear to you (if [How-to-work-this-class.md](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) is not enough, feel free to ask!)
+
+## How to work IN CLASS <a name="class"></a>
 
 ### Before the lessons starts <a name="before_class"></a>
 These are the steps you need to be done **before** the lesson starts to effectively follow any in-class lesson:
