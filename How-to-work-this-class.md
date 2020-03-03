@@ -49,6 +49,8 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   git fetch --all
   git reset --hard origin/master
   ```
+  
+  **WARNING**: `git reset` command will overwrite all changes to files in the class repository. That is, for example, if these changes were notes that you took during the class on a Jupyter Notebook before typing those two commands, these notes will be lost!!! See section [How to follow the lesson](#during_class) to effectively take notes during the lesson.
 
 3. Launch the Jupyer Notebook App (see figure [4](#launch_jupyer_nb)). A new panel in Chrome opens, listing the directories in your machine (see figure [5](#dir_structure_machine))
 
