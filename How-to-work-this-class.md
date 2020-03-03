@@ -106,18 +106,44 @@ These are preliminary tasks to be done the first time that you work on this clas
 0. Download Anaconda (see figure [11](#anaconda_download)):
 
   - go to [https://www.anaconda.com/distribution/#download-section](https://www.anaconda.com/distribution/#download-section)
-  - on the top of the page select the icon corresponding to your operating system (Windows, Max OS or Linux)
+  - on the top of the page, select the icon corresponding to your operating system (Windows, Max OS or Linux)
   - click the green button **Download** under the _Python 3.7 version_ section
+  - follow installation instructions (keep default configurations unless you have a sound reason)
 
-  | ![](images/anaconda_download.png) <a name="anaconda_download"></a>| 
+  | ![](images/anaconda_download.PNG) <a name="anaconda_download"></a>| 
   |:--:| 
   | _**Figure 11**: download Anaconda_ |
 
 1. Download Git (see figure [12](#git_download)):
 
-2. clone the class repository
-  - move to the Desktop
-  - type clone ...
+  - go to [https://git-scm.com/downloads](https://git-scm.com/downloads)
+  - in the **Download** section, click on the banner corresponding to your operating system ([Windows](https://git-scm.com/download/win), [Max OS](https://git-scm.com/download/mac) or [Linux/Unix](https://git-scm.com/download/linux))
+  - follow installation instructions (keep default configurations unless you have a sound reason)
+
+  | ![](images/git_download.PNG) <a name="git_download"></a>| 
+  |:--:| 
+  | _**Figure 12**: download Git_ |
+
+2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder (see figure [13](#git_clone)):
+
+  - move to your Desktop folder. Type:
+  ```
+  cd C:\Users\[$YOUR_USER_NAME]\Desktop
+  ```
+  
+  where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name in your computer. 
+  
+  - Make the clone. Type:
+  
+  ```
+  git clone https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20.git
+  ```
+
+  | ![](images/git_clone.PNG) <a name="git_clone"></a>| 
+  |:--:| 
+  | _**Figure 13**: `git clone` the class repository into your `/Desktop` folder_ |
+
+  You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
 
 ### How to work at home (things to do everytime) <a name="wfh"></a>
 When you are at home and want to study for this class, you can do the following:
