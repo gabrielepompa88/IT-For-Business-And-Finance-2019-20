@@ -23,11 +23,15 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   |:--:| 
   | _**Figure 1**: add class webpage to Google Chrome's list favorites_ |
   
+---
+
 1. Open Anaconda Navigator and select the class conda environment `ITForBusAndFin2020_env` from the menu (see figure [2](#anaconda_nav_and_env)).
 
   | ![](images/anaconda_nav_and_env.PNG) <a name="anaconda_nav_and_env"></a>| 
   |:--:| 
   | _**Figure 2**: open Anaconda Navigator and select the class conda environment_ |
+  
+---
   
 2. Sync your local copy of the class repository to have the latest updated material of the class. To do this, do the following:
 
@@ -56,6 +60,8 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   
   
   **WARNING**: `git reset` command will overwrite all changes to files in the class repository that are not in the dedicated `IT-For-Business-And-Finance-2019-20/Personal_Notes` folder. That is, for example, if these changes were notes that you took while on a Jupyter Notebook while reading it, these notes will be lost!!! See section [How to follow the lesson](#during_class) to effectively take notes during the lesson and section [How to work at home](#wfh) to know how to retrieve those notes at home and how to take new ones at home while studying on Notebooks. 
+    
+---
 
 3. Launch the Jupyer Notebook App (see figure [5](#launch_jupyer_nb)). A new panel in Chrome opens, which lists the tree of all the directories in your machine (see figure [6](#dir_structure_machine))
 
@@ -66,6 +72,8 @@ These are the steps you need to be done **before** the lesson starts to effectiv
   | ![](images/dir_structure_machine.PNG) <a name="dir_structure_machine"></a>| 
   |:--:| 
   | _**Figure 6**: Jupyter Notebook App entry page with list of directories_ |
+  
+---
 
 4. In the newly opened Google Chrome's panel, navigate to folder `/Desktop/IT-For-Business-And-Finance-2019-20/Notebooks` (left-click on the blue links to step into a folder) and open the Notebook that you want clicking on the blue link to the `.ipynb` file (see figure [7](#how_to_open_nb)). 
 
@@ -87,13 +95,17 @@ When the lesson ends you want to keep studying on the modified notebook at home.
   | ![](images/rename_nb.PNG) <a name="rename_nb"></a>| 
   |:--:| 
   | _**Figure 9**: rename the Notebook where you have taken notes to make it clear it's not the original one_ |
+  
+---
 
 1. Download the Notebook (see figure [10](#download_as_nb)) _as a Notebook (.ipynb)_.
 
   | ![](images/download_as_nb.png) <a name="download_as_nb"></a>| 
   |:--:| 
   | _**Figure 10**: download your notebook with your in-class notes and e-mail it to yourself_ |
-  
+    
+---
+
 2. E-mail the renamed Notebook `Introduction_II___WITH_MY_NOTES.ipynb` to yourself. 
 
 **WARNING**: remember to log-off from gmail before you leave the IT class.
@@ -113,7 +125,9 @@ These are preliminary tasks to be done the first time that you work on this clas
   | ![](images/anaconda_download.PNG) <a name="anaconda_download"></a>| 
   |:--:| 
   | _**Figure 11**: download Anaconda_ |
-  
+   
+---
+ 
 1. Download Git (see figure [12](#git_download)):
 
   - go to [https://git-scm.com/downloads](https://git-scm.com/downloads)
@@ -123,6 +137,8 @@ These are preliminary tasks to be done the first time that you work on this clas
   | ![](images/git_download.PNG) <a name="git_download"></a>| 
   |:--:| 
   | _**Figure 12**: download Git_ |
+  
+---
 
 2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder (see figure [13](#git_clone)):
 
@@ -144,6 +160,8 @@ These are preliminary tasks to be done the first time that you work on this clas
   | _**Figure 13**: `git clone` the class repository into your `/Desktop` folder_ |
 
   You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
+  
+---
 
 3. In the newly created class local folder `/Desktop/IT-For-Business-And-Finance-2019-20` there is an environment setup file `ITForBusAndFin2020_env_setup.yml` from which the dedicated _ITForBusAndFin2020_env_ Conda environment can be created. This new conda environment contains all the packages needed for the course. Follow these steps to create and activate it (see figure [14](#import_env)):
 
@@ -178,12 +196,16 @@ When you are at home and want to study for this class, you can do the following:
   cd C:\Users\[$YOUR_USER_NAME]\Desktop\IT-For-Business-And-Finance-2019-20
   ```
 where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name in your computer. 
+  
+---
 
 1. Go to your email application and put the e-mailed Notebook(s) (in the example from section [How to follow the lesson](#during_class), we emailed to ourselves the renamed `Introduction_II___WITH_MY_NOTES.ipynb` Notebook with notes taken during a lesson) into the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` folder of your computer (see figure [11](#nb_with_notes_saved)).
 
   | ![](images/nb_with_notes_saved.PNG) <a name="nb_with_notes_saved"></a>| 
   |:--:| 
   | _**Figure 11**: save the notebook with notes in the `/IT-For-Business-And-Finance-2019-20/Personal_Notes` of your computer_ |
+  
+---
 
 2. Work on the Notebook `Introduction_II___WITH_MY_NOTES.ipynb` or any other Notebook or file in `/IT-For-Business-And-Finance-2019-20` folder using the Jupyter Notebook App or the Spyder App of the Anaconda Navigator, but
 
