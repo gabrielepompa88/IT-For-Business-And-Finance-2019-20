@@ -19,8 +19,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [First-time SETUP](#home_setup)
     - [How to work at home](#wfh)
 
-# Class Schedule <a name="class_schedule"></a> <span style="color:red">some **UPDATED** text</span>
-Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is: #hexhex &#x1F53A;
+# Class Schedule <a name="class_schedule"></a> &#x1F534; **UPDATED** &#x1F534;
+Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
 Tuesday: 18:00-19:30 **this lesson starts sharply at 18:00**\
@@ -29,7 +29,7 @@ Wednesday: 14:00-16:00
 Currently known amendements to this schedule are the following:
 
 Monday 16/3: _Aula 1_\
-Wednesday 4/3 and 18/3: ```diff - Aula 12```
+&#x1F534; Wednesday 4/3 and 18/3: _Aula 12_ 
 
 # Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
