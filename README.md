@@ -147,9 +147,7 @@ These are preliminary tasks to be done the first time that you work on this clas
 1. Download Git: [Windows](https://git-scm.com/download/win) | [Max OS](https://git-scm.com/download/mac) 
 | [Linux/Unix](https://git-scm.com/download/linux) 
 
-2. Create the _ITForBusAndFin2020_env_ Conda environment importing the `ITForBusAndFin2020_env_setup.yml` file. Switch to this environment.
-
-3. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder. Type:
+2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder. Type:
 
   ```
   cd C:\Users\[$YOUR_USER_NAME]\Desktop
@@ -158,6 +156,8 @@ These are preliminary tasks to be done the first time that you work on this clas
   
   where `[$YOUR_USER_NAME]` has to be substituted with your appropriate user name in your computer. You will see that a newly created `/IT-For-Business-And-Finance-2019-20` is created in your `/Desktop` folder.
   
+3. Create the _ITForBusAndFin2020_env_ Conda environment importing the `ITForBusAndFin2020_env_setup.yml` file that you find in the newly created `/IT-For-Business-And-Finance-2019-20` folder. Switch to this environment.
+
 ## How to work at home (things to do everytime) <a name="wfh"></a>
 When you are at home and want to study for this class, you can do the following:
 
