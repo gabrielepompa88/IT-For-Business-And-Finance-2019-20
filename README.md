@@ -4,6 +4,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 **WARNING**: the course and this repository is under ongoing update.
 
+**Symbols conventions**: updated sections/material in this README.md file will be highlited with &#x1F534; (a big red circle) displayed next to it.
+
 # Table of contents
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
@@ -19,7 +21,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [First-time SETUP](#home_setup)
     - [How to work at home](#wfh)
 
-# Class Schedule <a name="class_schedule"></a> &#x1F534; **UPDATED** &#x1F534;
+# &#x1F534; Class Schedule <a name="class_schedule"></a> 
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
@@ -37,21 +39,22 @@ Monday 16/3: _Aula 1_\
 # Class Diary <a name="class_diary"></a>
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
 
-- **Lesson 1 (24/02)**: class presentation, introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
+- **Lesson 1 (24/02)**: class presentation. introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - Sections 1._The Python Programming Language_, 1._Technology in Finance_
   - [Introduction I.ipynb](Notebooks/Introduction_I.ipynb)
   
 - **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
   - Sec. 1._Python for Finance_, 1._Data-Driven Finance_, 2._Basic operations with conda_, 2._Conda as a Virtual Environment Manager_
   
-- **Lesson 3 (26/02)**:  random number generation, histogram, empirical distribution (normalized histogram), template for `.py` files (scripts) in Spyder.
+- **Lesson 3 (26/02)**:  random number generation. Histogram. Empirical distribution (normalized histogram). Template for `.py` files (scripts) in Spyder.
+  - &#x1F534; [Spyder Template file](): use this file as a template example. Any script (`.py` file) that you write in Spyder IDE has to follow the structure of this template.
   - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 1, 2, 3, 4.
   
-- **Lesson 4 (2/03)**:  `int` data type, `.bit_length()` method for `int`, binary representation of integers (examples), `float` data type, issues of finite precision of internal binary representation of decimal numbers, arbitrary precision in Python ([`Decimal` module](https://docs.python.org/2/library/decimal.html)), Normal random variables in Python (Scipy [`norm` class](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html)),`.pdf()` method of `norm` class, Normal fit to empirical distribution, `.fit()` method of `norm` class.
+- **Lesson 4 (2/03)**:  `int` data type, `.bit_length()` method for `int`, binary representation of integers (examples). `float` data type, issues of finite precision of internal binary representation of decimal numbers, arbitrary precision in Python ([`Decimal` module](https://docs.python.org/2/library/decimal.html)). Normal random variables in Python (Scipy [`norm` class](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html)),`.pdf()` method of `norm` class, Normal fit to empirical distribution, `.fit()` method of `norm` class.
   - Sec. 3._Integers_, 3._Floats_
   - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 5
   
-
+- **&mu;&epsilon;&tau;&alpha;-Lesson 5 (3/03)**: gentle introduction to [github](https://github.com/). Teacher-Student(s) workflow (push-pull flow). Edit - Stage (`git add`) - Commit (`git commit`) pattern. Setup of a local development clone of a repository already established (hands-on example: `git clone` of the class repository into computers of _Aula Informatica 1_). Syncing local clone with updated class repository (the _hard_ way) with `git fetch` and `git reset`.   
 
 # Resources <a name="resources"></a>
 
