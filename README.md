@@ -29,7 +29,7 @@ Wednesday: 14:00-16:00
 Currently known amendements to this schedule are the following:
 
 Monday 16/3: _Aula 1_\
-Wednesday 4/3 and 18/3: ```- Aula 12```
+Wednesday 4/3 and 18/3: ```diff - Aula 12```
 
 # Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
