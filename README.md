@@ -7,6 +7,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 **Symbols conventions**: updated sections/material in this README.md file will be highlited with &#x1F534; (a big red circle) displayed next to it.
 
 # Table of contents
+- [IMPORTANT COMMUNICATIONS](#bakeka)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
 - [Class Diary](#class_diary)
@@ -21,6 +22,9 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [First-time SETUP](#home_setup)
     - [How to work at home](#wfh)
 
+# &#x1F534; IMPORTANT COMMUNICATIONS &#x1F534; <a name="bakeka"></a> 
+- Soon will be active the e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come). You will be able to access with your unisiPass credentials and the key-world: **ITForBusAndFin2020_elearning**. Stay tuned.
+
 # &#x1F534; Class Schedule <a name="class_schedule"></a> 
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
@@ -34,7 +38,7 @@ Monday 16/3: _Aula 1_\
 &#x1F534; Wednesday 4/3 and 18/3: _Aula 12_ 
 
 # Contacts <a name="contacts"></a>
-[Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@gmail.com)
+&#x1F534 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@unisi.it)
 
 # Class Diary <a name="class_diary"></a>
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
