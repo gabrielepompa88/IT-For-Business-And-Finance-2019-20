@@ -23,7 +23,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [How to work at home](#wfh)
 
 # &#x1F534; IMPORTANT COMMUNICATIONS &#x1F534; <a name="bakeka"></a> 
-- Soon will be active the e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come). You will be able to access with your unisiPass credentials and the key-world: **ITForBusAndFin2020_elearning**. Stay tuned.
+- Soon will be active the e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come). You will be able to access with your unisiPass credentials. Stay tuned.
 
 # &#x1F534; Class Schedule <a name="class_schedule"></a> 
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
