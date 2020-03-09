@@ -6,6 +6,12 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 **Symbols conventions**: updated sections/material in this README.md file will be highlited with &#x1F534; (a big red circle) displayed next to it.
 
+- **Objectives**: To acquire practice in the use of financial models through Python programming language
+- **Contents**: IT tools for modeling in Finance; Python
+- **Teaching Methods**: Lessons in IT lab
+- **Verification of learning**: written exam
+- **Learning Material**:
+
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [Class Schedule](#class_schedule)
