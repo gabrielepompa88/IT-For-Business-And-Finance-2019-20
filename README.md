@@ -11,6 +11,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 - **Teaching Methods**: Lessons in IT lab
 - **Verification of learning**: written exam
 - **Learning Material**:
+  - Textbook: [Python for Finance, 2nd Edition](http://shop.oreilly.com/product/0636920117728.do), by Yves Hilpisch (O’Reilly). Copyright 2019 Yves Hilpisch, 978-1-492-02433-0.
+  - All the reading and programming resources are listed in the class github repository: [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20#resources)
 
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
