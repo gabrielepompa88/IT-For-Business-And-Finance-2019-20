@@ -131,7 +131,7 @@ These are preliminary tasks to be done the first time that you work on this clas
 1. Download Git (see figure [12](#git_download)):
 
   - go to [https://git-scm.com/downloads](https://git-scm.com/downloads)
-  - in the **Download** section, click on the banner corresponding to your operating system ([Windows](https://git-scm.com/download/win), [Max OS](https://git-scm.com/download/mac) or [Linux/Unix](https://git-scm.com/download/linux))
+  - in the **Download** section, click on the banner corresponding to your operating system ([Windows](https://git-scm.com/download/win), [Max OS](https://git-scm.com/download/mac) or [Linux/Unix](https://git-scm.com/download/linux)) and download the program
   - follow installation instructions (keep default configurations unless you have a sound reason)
 
   | ![](images/git_download.PNG) <a name="git_download"></a>| 
