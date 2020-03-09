@@ -46,7 +46,7 @@ Monday 16/3: _Aula 1_\
 &#x1F534; Wednesday 4/3 and 18/3: _Aula 12_ 
 
 # Contacts <a name="contacts"></a>
-&#x1F534 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@unisi.it)
+&#x1F534; [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@unisi.it)
 
 # Class Diary <a name="class_diary"></a>
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
