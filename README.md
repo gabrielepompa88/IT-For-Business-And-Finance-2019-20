@@ -161,7 +161,7 @@ These are preliminary tasks to be done the first time that you work on this clas
 0. [Download Anaconda](https://www.anaconda.com/distribution/#download-section)
  
 1. Download Git: [Windows](https://git-scm.com/download/win) | [Max OS](https://git-scm.com/download/mac) 
-| [Linux/Unix](https://git-scm.com/download/linux) 
+| [Linux/Unix](https://git-scm.com/download/linux)
 
 2. clone the [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20) class repository into your `/Desktop` folder. Type:
 
