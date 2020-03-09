@@ -187,5 +187,5 @@ When you are at home and want to study for this class, you can do the following:
 2. Work on any file of the class folder `/IT-For-Business-And-Finance-2019-20` using the Jupyter Notebook App or the Spyder App of the Anaconda Navigator, and:
 
 - **any file that you change must be copied-n-pasted into /Personal_Notes folder**
-- **any file that you newly create must be saved into /Personal_Notes folder**.
+- **any file that you create _ex-novo_ must be saved into /Personal_Notes folder**.
 
