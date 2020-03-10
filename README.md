@@ -33,7 +33,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # IMPORTANT COMMUNICATIONS <a name="bakeka"></a> 
 &#x1F534; The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
 
-# &#x1F534; Class Schedule <a name="class_schedule"></a> 
+# Class Schedule <a name="class_schedule"></a> 
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
 
 Monday: 14:00-16:00\
