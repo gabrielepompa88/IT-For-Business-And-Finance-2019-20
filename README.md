@@ -66,7 +66,7 @@ This is the diary of the class. Here the topics covered during the lessons are l
 **Conventions for reading material**: sections from 
 - the TextBook [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) are labelled as _TB.ChapterNumber.SectionName_ to refer to a whole Section  (e.g. _TB.1.The Python Programming Language_) or as _TB.ChapterNumber.SubSectionName_ to refer to a particular sub-Section (e.g. _TB.1.Data-Driven Finance_ ).
 
-- the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2_ ).
+- the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (SubSubSectionName)_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2 (Strings)_ ).
 
 Below the list of lessons with relevant related material:
 
@@ -94,7 +94,7 @@ Below the list of lessons with relevant related material:
   
 - **Lesson 7 (9/03)**:  introduction to the e-learning platform [moodle](http://elearning.unisi.it/moodle/enrol/index.php?id=3326). `bool` data type, `while` loop, `if` statement. `str` data type (definition, indexing, slicing).
   - _TB.3.Basic Data Types_ (_TB.3.Excursion: Regular Expression_ is optional reading).
-  - _PyT.3.1.1,_ _PyT.3.1.2,_ _PyT.3.2,_ _PyT.4.1._
+  - _PyT.3.1.1 (Numbers),_ _PyT.3.1.2 (Strings),_ _PyT.3.2 (First Steps Toward Programming),_ _PyT.4.1 (if Statements)._
   - &#x1F534; [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 3 and 4.
   - Videos: 
     - [e-learning general notes](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=de00b000-b76f-4800-8924-ab7900d00dbb), 
