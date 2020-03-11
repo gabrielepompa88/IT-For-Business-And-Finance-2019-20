@@ -102,6 +102,8 @@ Below the list of lessons with relevant related material:
     - [7.2 - How to work at home](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1939668b-6a18-4598-8bf8-ab7901123a1b),
     - [7.3 - How to use the Personal_Notes folder](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=5912c8d1-3de6-4e90-bd99-ab7901251684) 
 
+---
+
 # Resources <a name="resources"></a>
 
 ## Reading <a name="reading_material"></a>
@@ -119,6 +121,7 @@ Below the list of lessons with relevant related material:
 - Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
 
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf).
+
 
 ## Programming <a name="programming_material"></a>
 - [Anaconda](https://www.anaconda.com/) platform <img src="images/Anaconda_Logo.png" width="75">
@@ -138,6 +141,8 @@ is a free and open-source distribution of the Python and R programming languages
 
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
+
+---
 
 # Setup <a name="setup"></a>
 This section describes practical informations on how to work this class. Daily activities and once-for-all setup(s) are separately described both for in-class lessons and study from-home.
