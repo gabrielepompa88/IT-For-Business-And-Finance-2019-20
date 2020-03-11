@@ -84,6 +84,7 @@ This is the diary of the class. Here the topics covered during the lessons are l
   
 - **Lesson 7 (9/03)**:  introduction to the e-learning platform [moodle](http://elearning.unisi.it/moodle/enrol/index.php?id=3326). `bool` data type, `while` loop, `if` statement. `str` data type (definition, indexing, slicing).
   - _TB.3.Basic Data Types_ (_TB.3.Excursion: Regular Expression_ is optional reading).
+  - _PyT.3.1.1_, _PyT.3.1.2, _PyT.3.2_, _PyT.4.1._
   - &#x1F534; [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 3 and 4.
   - Videos: 
     - [e-learning general notes](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=de00b000-b76f-4800-8924-ab7900d00dbb), 
