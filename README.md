@@ -101,6 +101,11 @@ Below the list of lessons with relevant related material:
     - [7.1 - First-time setup of your personal computer](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1d42d2b3-487f-4a33-9ca8-ab79010e7811), 
     - [7.2 - How to work at home](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1939668b-6a18-4598-8bf8-ab7901123a1b),
     - [7.3 - How to use the Personal_Notes folder](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=5912c8d1-3de6-4e90-bd99-ab7901251684) 
+    - [7.4 - Data Types - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=b256346b-3c9a-4a51-b817-ab7b00f65a3b)
+    - [7.5 - Data Types - Integers](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=d18902c4-4c3f-4c81-9ab5-ab7b00f797cb)
+    - [7.6 - Data Types - Floats](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=2cd94b38-5f2b-4606-9266-ab7b00f87c6b)
+    - [7.7 - Data Types - Booleans](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=ba3900d3-038a-45fb-b824-ab7b00fb073c)
+    - [7.8 - Data Types - Strings](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=0cecc809-a544-441e-9ed0-ab7b00fea710)
 
 ---
 
