@@ -4,6 +4,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 **WARNING**: the course and this repository is under ongoing update.
 
+---
+
 **Symbols conventions**: updated sections/material in this README.md file will be highlited with &#x1F534; (a big red circle) displayed next to it.
 
 - **Objectives**: To acquire practice in the use of financial models through Python programming language
@@ -13,6 +15,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 - **Learning Material**:
   - Textbook: [Python for Finance, 2nd Edition](http://shop.oreilly.com/product/0636920117728.do), by Yves Hilpisch (O’Reilly). Copyright 2019 Yves Hilpisch, 978-1-492-02433-0.
   - All the reading and programming resources are listed in the class github repository: [IT-For-Business-And-Finance-2019-20](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20#resources)
+
+---
 
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
@@ -30,8 +34,12 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
     - [First-time SETUP](#home_setup)
     - [How to work at home](#wfh)
 
+---
+
 # IMPORTANT COMMUNICATIONS <a name="bakeka"></a> 
 &#x1F534; The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
+
+---
 
 # Class Schedule <a name="class_schedule"></a> 
 Classes start on Monday, February 24 2020 at 14:00 in _Aula informatica 1_. The timetable is:
@@ -45,26 +53,37 @@ Currently known amendements to this schedule are the following:
 Monday 16/3: _Aula 1_\
 Wednesday 4/3 and 18/3: _Aula 12_ 
 
+---
+
 # Contacts <a name="contacts"></a>
 [Gabriele Pompa](https://www.linkedin.com/in/gabrielepompa/) (gabriele.pompa@unisi.it)
 
+---
+
 # Class Diary <a name="class_diary"></a>
-This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) textbook chapters and other learning material (e.g. Jupyter Notebooks).
+This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding reading material.
+
+**Conventions for reading material**: sections from 
+- the TextBook [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) are labelled as _TB.ChapterNumber.SectionName_ to refer to a whole Section  (e.g. _TB.1.The Python Programming Language_) or as _TB.ChapterNumber.SubSectionName_ to refer to a particular sub-Section (e.g. _TB.1.Data-Driven Finance_ ).
+
+- the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2_ ).
+
+Below the list of lessons with relevant related material:
 
 - **Lesson 1 (24/02)**: class presentation. introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
-  - Sections 1._The Python Programming Language_, 1._Technology in Finance_
-  - [Introduction I.ipynb](Notebooks/Introduction_I.ipynb)
+  - _TB.1.The Python Programming Language_, _TB.1.Technology in Finance._
+  - [Introduction I.ipynb](Notebooks/Introduction_I.ipynb).
   
 - **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
-  - Sec. 1._Python for Finance_, 1._Data-Driven Finance_, 2._Basic operations with conda_, 2._Conda as a Virtual Environment Manager_
+  - _TB.1.Python for Finance_, _TB.1.Data-Driven Finance_, _TB.2.Basic Operations with conda_, _TB.2.conda as a Virtual Environment Manager._ 
   
 - **Lesson 3 (26/02)**:  random number generation. Histogram. Empirical distribution (normalized histogram). Template for `.py` files (scripts) in Spyder.
   - Spyder Template file [template_example.py](Scripts/template_example.py): use this file as a template example. Any script (`.py` file) that you write in Spyder IDE has to follow the structure of this template.
   - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 1, 2, 3.
   
 - **Lesson 4 (2/03)**:  `int` data type, `.bit_length()` method for `int`, binary representation of integers (examples). `float` data type, issues of finite precision of internal binary representation of decimal numbers, arbitrary precision in Python ([`Decimal` module](https://docs.python.org/2/library/decimal.html)). Normal random variables in Python (Scipy [`norm` class](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html)),`.pdf()` method of `norm` class, Normal fit to empirical distribution, `.fit()` method of `norm` class.
-  - Sec. 3._Integers_, 3._Floats_
-  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 4
+  - _TB.3.Integers_, _TB.3.Floats._
+  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 4.
   - &#x1F534; [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 1 and 2.
   
 - **&mu;&epsilon;&tau;&alpha;-Lesson 5 (3/03)**: gentle introduction to [github](https://github.com/). Teacher-Student(s) workflow (push-pull flow). Edit - Stage (`git add`) - Commit (`git commit`) pattern. Setup of a local development clone of a repository already established (hands-on example: `git clone` of the class repository into computers of _Aula Informatica 1_). Syncing local clone with updated class repository (the _hard_ way) with `git fetch` and `git reset`.   
@@ -74,12 +93,16 @@ This is the diary of the class. Here the topics covered during the lessons are l
   - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 5 and 6.
   
 - **Lesson 7 (9/03)**:  introduction to the e-learning platform [moodle](http://elearning.unisi.it/moodle/enrol/index.php?id=3326). `bool` data type, `while` loop, `if` statement. `str` data type (definition, indexing, slicing).
+  - _TB.3.Basic Data Types_ (_TB.3.Excursion: Regular Expression_ is optional reading).
+  - _PyT.3.1.1,_ _PyT.3.1.2,_ _PyT.3.2,_ _PyT.4.1._
+  - &#x1F534; [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 3 and 4.
   - Videos: 
     - [e-learning general notes](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=de00b000-b76f-4800-8924-ab7900d00dbb), 
     - [7.1 - First-time setup of your personal computer](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1d42d2b3-487f-4a33-9ca8-ab79010e7811), 
     - [7.2 - How to work at home](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1939668b-6a18-4598-8bf8-ab7901123a1b),
     - [7.3 - How to use the Personal_Notes folder](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=5912c8d1-3de6-4e90-bd99-ab7901251684) 
-  - &#x1F534; [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 3 and 4.
+
+---
 
 # Resources <a name="resources"></a>
 
@@ -99,6 +122,7 @@ This is the diary of the class. Here the topics covered during the lessons are l
 
 - Tutorial from [Guido van Rossum](https://it.wikipedia.org/wiki/Guido_van_Rossum) (Python's first developer): [Python Tutorial Release 3.7.0 (September 02, 2018)](https://bugs.python.org/file47781/Tutorial_EDIT.pdf).
 
+
 ## Programming <a name="programming_material"></a>
 - [Anaconda](https://www.anaconda.com/) platform <img src="images/Anaconda_Logo.png" width="75">
 is a free and open-source distribution of the Python and R programming languages for scientific computing (data science, machine learning applications, large-scale data processing, predictive analytics, etc.), that aims to simplify package management and deployment. Package versions are managed by the package management system `conda` The Anaconda distribution includes data-science packages suitable for Windows, Linux, and MacOS (quoting [wikipedia](https://en.wikipedia.org/wiki/Anaconda_(Python_distribution)) page)
@@ -117,6 +141,8 @@ is a free and open-source distribution of the Python and R programming languages
 
 - [Spyder](https://www.spyder-ide.org/) IDE <img src="images/spyder_logo.png" width="75"> 
 (also shipped with Anaconda distribution) is an open source integrated development environment (IDE) for scientific programming in the Python language (quoting [wikipedia](https://en.wikipedia.org/wiki/Spyder_(software)) page)
+
+---
 
 # Setup <a name="setup"></a>
 This section describes practical informations on how to work this class. Daily activities and once-for-all setup(s) are separately described both for in-class lessons and study from-home.
