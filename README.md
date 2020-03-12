@@ -110,7 +110,7 @@ Below the list of lessons with relevant related material:
 - **Lesson 8 (10/03)**:  introduction to data-structures in Python, `tuple` data structure, `list` data structure, `for` loop, `dict` data structure, `set` data structure.
   - _TB.3.Basic Data Structures_ (_TB.3.Excursus: Functional Programming_ is optional reading).
   - _PyT.3.1.3 (Lists),_ _PyT.4.2 (for Statements),_ _PyT.4.3 (The range() Function),_ _PyT.4.4 (break and continue Statemenents, and else Clauses on Loops),_ _PyT.5.1 (More on Lists),_ _PyT.5.3 (Tuples and Sequences),_ _PyT.5.4 (Sets),_ _PyT.5.5 (Dictionaries)._
-  - &#x1F534; [Basics_II___Data_Structures.ipynb]()
+  - &#x1F534; [Basics_II___Data_Structures.ipynb](Notebooks/Basics_II___Data_Structures.ipynb)
   - Videos: 
 
 ---
