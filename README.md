@@ -112,6 +112,12 @@ Below the list of lessons with relevant related material:
   - _[PyT.3.1.3](https://docs.python.org/3.7/tutorial/introduction.html#lists) (Lists),_ _[PyT.4.2](https://docs.python.org/3.7/tutorial/controlflow.html#for-statements) (for Statements),_ _[PyT.4.3](https://docs.python.org/3.7/tutorial/controlflow.html#the-range-function) (The range() Function),_ _[PyT.4.4](https://docs.python.org/3.7/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops) (break and continue Statemenents, and else Clauses on Loops),_ _[PyT.5.1](https://docs.python.org/3.7/tutorial/datastructures.html#more-on-lists) (More on Lists),_ _[PyT.5.3](https://docs.python.org/3.7/tutorial/datastructures.html#tuples-and-sequences) (Tuples and Sequences),_ _[PyT.5.4](https://docs.python.org/3.7/tutorial/datastructures.html#sets) (Sets),_ _[PyT.5.5](https://docs.python.org/3.7/tutorial/datastructures.html#dictionaries) (Dictionaries)._
   - &#x1F534; [Basics_II___Data_Structures.ipynb](Notebooks/Basics_II___Data_Structures.ipynb)
   - Videos: 
+    - [8.1 - Data Structures - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=76dcef60-d997-4212-a2f5-ab7d011cb8c1)
+    - [8.2 - Data Structures - Tuples](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=fa8a9803-4cab-418e-becd-ab7d011f4e80)
+    - [8.3 - Data Structures - Lists](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=80278d24-dde8-47e5-9c30-ab7d0121775b)
+    - [8.4 - Data Structures - Nested Tuples](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=e4c5d6cd-b91b-4ae7-9271-ab7d012aa332)
+    - [8.5 - Data Structures - Dicts](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=44f26b4b-fb5b-446c-85d6-ab7d012c1347)
+    - [8.6 - Data Structures - Sets](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=e91f92c5-930b-4efc-9c4a-ab7d012e7c82)
 
 ---
 
