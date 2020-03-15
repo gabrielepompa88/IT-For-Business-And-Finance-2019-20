@@ -119,6 +119,10 @@ Below the list of lessons with relevant related material:
     - [8.5 - Data Structures - Dicts](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=44f26b4b-fb5b-446c-85d6-ab7d012c1347)
     - [8.6 - Data Structures - Sets](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=e91f92c5-930b-4efc-9c4a-ab7d012e7c82)
 
+- **Lesson 9 (11/03)**:  NumPy `ndarray` data-structure: arrays creation, indexing, slicing, iterating over arrays, basic operations, built-in methods, universal functions, shape manipulation, stacking of arrays
+  - _TB.4.Regular Numpy Arrays,_ _TB.4.Basic Vectorization_.
+  - _[Numpy Quickstart Tutorial - The Basics](https://docs.scipy.org/doc/numpy/user/quickstart.html#the-basics)_ (An Example; Array Creation; Printing Arrays; Basic Operations; Universal Functions; Indexing, Slicing and Iterating), [Numpy Quickstart Tutorial - Shape Manipulation](https://docs.scipy.org/doc/numpy/user/quickstart.html#shape-manipulation)_ (Changing the shape of an array; Stacking together different arrays; Splitting one array into several smaller).
+  
 ---
 
 # Resources <a name="resources"></a>
