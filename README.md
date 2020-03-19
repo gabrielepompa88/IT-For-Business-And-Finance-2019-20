@@ -127,6 +127,13 @@ Below the list of lessons with relevant related material:
   - &#x1F534; [Numerical_Computing___Numpy_Arrays.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb)
   - &#x1F534; Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
   - &#x1F534; Exercises: [Exercise Sheet 2 - **new**](Exercises/Exercise_2.ipynb)  
+  - Videos:
+    - [9.1 - NumPy Arrays - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1e8f98b4-a986-4874-9f56-ab810157ee8a)
+    - [9.2 - NumPy Arrays - From Lists to Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=2ee3c5ba-8c82-4dd9-a5b3-ab810158df8c)
+    - [9.3 - NumPy Arrays - 1-dimensional arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=f2fb2ac4-cf4f-40e1-a944-ab81015ae647)
+    - [9.4 - NumPy Arrays - Multi-dimensional arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=7ab1beab-e7f8-429e-bb69-ab8101611d14)
+    - [9.5 - NumPy Arrays - Conditional Selection](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=67f1ae49-0e71-4a6e-9d83-ab8201338f1f)
+    - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
 ---
 
 # Resources <a name="resources"></a>
