@@ -125,8 +125,8 @@ Below the list of lessons with relevant related material:
   - _TB.4.Regular Numpy Arrays,_ _TB.4.Basic Vectorization_.
   - _[Numpy Quickstart Tutorial - The Basics](https://docs.scipy.org/doc/numpy/user/quickstart.html#the-basics)_ (An Example; Array Creation; Printing Arrays; Basic Operations; Universal Functions; Indexing, Slicing and Iterating), _[Numpy Quickstart Tutorial - Shape Manipulation](https://docs.scipy.org/doc/numpy/user/quickstart.html#shape-manipulation)_ (Changing the shape of an array; Stacking together different arrays), _[Numpy Quickstart Tutorial - Indexing with Boolean Arrays](https://docs.scipy.org/doc/numpy/user/quickstart.html#indexing-with-boolean-arrays)_ (boolean arrays and how to use to do conditional selection).
   - &#x1F534; [Numerical_Computing___Numpy_Arrays.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb)
-  - &#x1F534; Exercises: [Exercise Sheet 1 - **UPDATED**](Exercises/Exercise_1.ipynb)
-  
+  - &#x1F534; Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
+  - &#x1F534; Exercises: [Exercise Sheet 2 - **new**](Exercises/Exercise_2.ipynb)  
 ---
 
 # Resources <a name="resources"></a>
