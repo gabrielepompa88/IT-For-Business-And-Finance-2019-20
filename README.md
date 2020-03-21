@@ -68,7 +68,9 @@ This is the diary of the class. Here the topics covered during the lessons are l
 
 - the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (SubSubSectionName)_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2 (Strings)_ ).
 
-- the [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html#quickstart-tutorial) are labelled as _Numpy Quickstart Tutorial - SectionName (list of SubSections).
+- the [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html#quickstart-tutorial) are labelled as _Numpy Quickstart Tutorial - SectionName_ (list of SubSections).
+
+- the [Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html) are mentioned by section name (e.g.: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html)).
 
 Below the list of lessons with relevant related material:
 
@@ -124,9 +126,9 @@ Below the list of lessons with relevant related material:
 - **Lesson 9 (11/03)**:  NumPy `ndarray` data-structure: arrays creation, indexing, slicing, iterating over arrays, basic operations, built-in methods, universal functions, shape manipulation, stacking of arrays
   - _TB.4.Regular Numpy Arrays,_ _TB.4.Basic Vectorization_.
   - _[Numpy Quickstart Tutorial - The Basics](https://docs.scipy.org/doc/numpy/user/quickstart.html#the-basics)_ (An Example; Array Creation; Printing Arrays; Basic Operations; Universal Functions; Indexing, Slicing and Iterating), _[Numpy Quickstart Tutorial - Shape Manipulation](https://docs.scipy.org/doc/numpy/user/quickstart.html#shape-manipulation)_ (Changing the shape of an array; Stacking together different arrays), _[Numpy Quickstart Tutorial - Indexing with Boolean Arrays](https://docs.scipy.org/doc/numpy/user/quickstart.html#indexing-with-boolean-arrays)_ (boolean arrays and how to use to do conditional selection).
-  - &#x1F534; [Numerical_Computing___Numpy_Arrays.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb)
-  - &#x1F534; Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
-  - &#x1F534; Exercises: [Exercise Sheet 2 - **new**](Exercises/Exercise_2.ipynb)  
+  - [Numerical_Computing___Numpy_Arrays.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb)
+  - Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
+  - &#x1F534; Exercises: [Exercise Sheet 2 - **new**](Exercises/Exercise_2.ipynb) - Solutions: _forthcoming_
   - Videos:
     - [9.1 - NumPy Arrays - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1e8f98b4-a986-4874-9f56-ab810157ee8a)
     - [9.2 - NumPy Arrays - From Lists to Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=2ee3c5ba-8c82-4dd9-a5b3-ab810158df8c)
@@ -136,6 +138,14 @@ Below the list of lessons with relevant related material:
     - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
 ---
 
+- **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions.
+  - _TB.5.The DataFrame Class,_ _TB.5.Basic Analytics,_ _TB.5.Basic Visualization,_ _TB.5.The Series Class,_ _TB.5.Complex Selection_.
+  - _[Pandas - Intro to data structures](https://pandas.pydata.org/docs/getting_started/dsintro.html#intro-to-data-structures)_ (Series; DataFrame). From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html), _[How do I select a subset of a `DataFrame`?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html)_, _[How to create plots in pandas?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html)_, _[How to create new columns derived from existing columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html)_, _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
+
+  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_]()
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+  
 # Resources <a name="resources"></a>
 
 ## Reading <a name="reading_material"></a>
@@ -149,6 +159,10 @@ Below the list of lessons with relevant related material:
     - [Numpy User Guide](https://docs.scipy.org/doc/numpy/user/index.html)
 
 - Scipy tutorial: [Scipy Tutorial](https://docs.scipy.org/doc/scipy-1.3.1/reference/tutorial/index.html)
+
+- Pandas tutorial(s):
+  - [Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
+  - [Intro to data structures](https://pandas.pydata.org/docs/getting_started/dsintro.html)
 
 - Other useful resources online: [Beginner's Guide To Python](https://wiki.python.org/moin/BeginnersGuide).
 
