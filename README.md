@@ -76,30 +76,30 @@ Below the list of lessons with relevant related material:
 
 - **Lesson 1 (24/02)**: class presentation. introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - _TB.1.The Python Programming Language_, _TB.1.Technology in Finance._
-  - _Introduction I_ [[.ipynb](Notebooks/Introduction_I.ipynb) | [.pdf](Notebooks/Printable/Introduction_I.pdf)].
+  - Lecture Notes **Introduction I** [.ipynb](Notebooks/Introduction_I.ipynb) | [.pdf](Notebooks/Printable/Introduction_I.pdf).
   
 - **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
   - _TB.1.Python for Finance_, _TB.1.Data-Driven Finance_, _TB.2.Basic Operations with conda_, _TB.2.conda as a Virtual Environment Manager._ 
   
 - **Lesson 3 (26/02)**:  random number generation. Histogram. Empirical distribution (normalized histogram). Template for `.py` files (scripts) in Spyder.
   - Spyder Template file [template_example.py](Scripts/template_example.py): use this file as a template example. Any script (`.py` file) that you write in Spyder IDE has to follow the structure of this template.
-  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 1, 2, 3.
+  - Lecture Notes **Introduction II** [.ipynb](Notebooks/Introduction_II.ipynb) | [.pdf](Notebooks/Printable/Introduction_II.pdf): Sec. 1, 2, 3.
   
 - **Lesson 4 (2/03)**:  `int` data type, `.bit_length()` method for `int`, binary representation of integers (examples). `float` data type, issues of finite precision of internal binary representation of decimal numbers, arbitrary precision in Python ([`Decimal` module](https://docs.python.org/2/library/decimal.html)). Normal random variables in Python (Scipy [`norm` class](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.norm.html)),`.pdf()` method of `norm` class, Normal fit to empirical distribution, `.fit()` method of `norm` class.
   - _TB.3.Integers_, _TB.3.Floats._
-  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 4.
-  - [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 1 and 2.
+  - Lecture Notes **Introduction II** [.ipynb](Notebooks/Introduction_II.ipynb) | [.pdf](Notebooks/Printable/Introduction_II.pdf):: Sec. 4.
+  - Lecture Notes **Basics_I___Data_Types** [.ipynb](Notebooks/Basics_I___Data_Types.ipynb) | [.pdf](Notebooks/Printable/Basics_I___Data_Types.pdf): Sec. 1 and 2.
   
 - **&mu;&epsilon;&tau;&alpha;-Lesson 5 (3/03)**: gentle introduction to [github](https://github.com/). Teacher-Student(s) workflow (push-pull flow). Edit - Stage (`git add`) - Commit (`git commit`) pattern. Setup of a local development clone of a repository already established (hands-on example: `git clone` of the class repository into computers of _Aula Informatica 1_). Syncing local clone with updated class repository (the _hard_ way) with `git fetch` and `git reset`.   
   
 - **Lesson 6 (4/03)**:  how to work this class, class/home study work-flow, how to take notes in class and at home (the `Personal_Notes` personal folder). Random number generation: Normal fit of a distribution, higher moments of a distribution (Skewness and Kurtosis), sample skewness and kurtosis, Jarque-Bera test of Normality, null-hypothesis and use of p-value of a test for decision-making.
   - [How To Work This Class](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md) tutorial.
-  - [Introduction II.ipynb](Notebooks/Introduction_II.ipynb): Sec. 5 and 6.
+  - Lecture Notes **Introduction II** [.ipynb](Notebooks/Introduction_II.ipynb) | [.pdf](Notebooks/Printable/Introduction_II.pdf):: Sec. 5 and 6.
   
 - **Lesson 7 (9/03)**:  introduction to the e-learning platform [moodle](http://elearning.unisi.it/moodle/enrol/index.php?id=3326). `bool` data type, `while` loop, `if` statement. `str` data type (definition, indexing, slicing).
   - _TB.3.Basic Data Types_ (_TB.3.Excursion: Regular Expression_ is optional reading).
   - _[PyT.3.1.1](https://docs.python.org/3.7/tutorial/introduction.html#numbers) (Numbers),_ _[PyT.3.1.2](https://docs.python.org/3.7/tutorial/introduction.html#strings) (Strings),_ _[PyT.3.2](https://docs.python.org/3.7/tutorial/introduction.html#first-steps-towards-programming) (First Steps Toward Programming),_ _[PyT.4.1](https://docs.python.org/3.7/tutorial/controlflow.html#if-statements) (if Statements)._
-  - [Basics_I___Data_Types.ipynb](Notebooks/Basics_I___Data_Types.ipynb): Sec. 3 and 4.
+  - Lecture Notes **Basics_I___Data_Types** [.ipynb](Notebooks/Basics_I___Data_Types.ipynb) | [.pdf](Notebooks/Printable/Basics_I___Data_Types.pdf): Sec. 3 and 4.
   - Videos: 
     - [e-learning general notes](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=de00b000-b76f-4800-8924-ab7900d00dbb), 
     - [7.1 - First-time setup of your personal computer](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1d42d2b3-487f-4a33-9ca8-ab79010e7811), 
@@ -114,7 +114,7 @@ Below the list of lessons with relevant related material:
 - **Lesson 8 (10/03)**:  introduction to data-structures in Python, `tuple` data structure, `list` data structure, `for` loop, `dict` data structure, `set` data structure.
   - _TB.3.Basic Data Structures_ (_TB.3.Excursus: Functional Programming_ is optional reading).
   - _[PyT.3.1.3](https://docs.python.org/3.7/tutorial/introduction.html#lists) (Lists),_ _[PyT.4.2](https://docs.python.org/3.7/tutorial/controlflow.html#for-statements) (for Statements),_ _[PyT.4.3](https://docs.python.org/3.7/tutorial/controlflow.html#the-range-function) (The range() Function),_ _[PyT.4.4](https://docs.python.org/3.7/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops) (break and continue Statemenents, and else Clauses on Loops),_ _[PyT.5.1](https://docs.python.org/3.7/tutorial/datastructures.html#more-on-lists) (More on Lists),_ _[PyT.5.3](https://docs.python.org/3.7/tutorial/datastructures.html#tuples-and-sequences) (Tuples and Sequences),_ _[PyT.5.4](https://docs.python.org/3.7/tutorial/datastructures.html#sets) (Sets),_ _[PyT.5.5](https://docs.python.org/3.7/tutorial/datastructures.html#dictionaries) (Dictionaries)._
-  - [Basics_II___Data_Structures.ipynb](Notebooks/Basics_II___Data_Structures.ipynb)
+  - Lecture Notes **Basics_II___Data_Structures** [.ipynb](Notebooks/Basics_II___Data_Structures.ipynb) | [.pdf](Notebooks/Printable/Basics_II___Data_Structures.pdf)
   - Videos: 
     - [8.1 - Data Structures - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=76dcef60-d997-4212-a2f5-ab7d011cb8c1)
     - [8.2 - Data Structures - Tuples](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=fa8a9803-4cab-418e-becd-ab7d011f4e80)
@@ -126,7 +126,7 @@ Below the list of lessons with relevant related material:
 - **Lesson 9 (11/03)**:  NumPy `ndarray` data-structure: arrays creation, indexing, slicing, iterating over arrays, basic operations, built-in methods, universal functions, shape manipulation, stacking of arrays
   - _TB.4.Regular Numpy Arrays,_ _TB.4.Basic Vectorization_.
   - _[Numpy Quickstart Tutorial - The Basics](https://docs.scipy.org/doc/numpy/user/quickstart.html#the-basics)_ (An Example; Array Creation; Printing Arrays; Basic Operations; Universal Functions; Indexing, Slicing and Iterating), _[Numpy Quickstart Tutorial - Shape Manipulation](https://docs.scipy.org/doc/numpy/user/quickstart.html#shape-manipulation)_ (Changing the shape of an array; Stacking together different arrays), _[Numpy Quickstart Tutorial - Indexing with Boolean Arrays](https://docs.scipy.org/doc/numpy/user/quickstart.html#indexing-with-boolean-arrays)_ (boolean arrays and how to use to do conditional selection).
-  - [Numerical_Computing___Numpy_Arrays.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb)
+  - Lecture Notes **Numerical_Computing___Numpy_Arrays** [.ipynb](Notebooks/Numerical_Computing___Numpy_Arrays.ipynb) | [.pdf](Notebooks/Printable/Numerical_Computing___Numpy_Arrays.pdf)
   - Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
   - Exercises: [Exercise Sheet 2](Exercises/Exercise_2.ipynb) - &#x1F534; Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_2_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_2_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_2_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_2_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_2_Num_5.py), [Ex_6](Exercises/Solutions/Ex_Sheet_2_Num_6.py), [Ex_7](Exercises/Solutions/Ex_Sheet_2_Num_7.py)
   - Videos:
@@ -141,7 +141,7 @@ Below the list of lessons with relevant related material:
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
 
-  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_](): Sec. 1. Series.
+  - Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb]() | [.pdf](): Sec. 1. Series.
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
@@ -155,61 +155,61 @@ Below the list of lessons with relevant related material:
     - _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, 
     - _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
 
-  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_](): Sec. 2. DataFrame.
+  - Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb]() | [.pdf](): Sec. 2. DataFrame.
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 12 (23/03)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 13 (25/03)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 14 (30/03)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 15 (01/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 16 (06/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 17 (08/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 18 (15/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 19 (17/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 - **Lesson 20 (20/04)**:  TBD.
   - TBD.
-  - [notebook -  _forthcoming_]().
+  - Lecture Notes _forthcoming_ [.ipynb]() | [.pdf]().
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
