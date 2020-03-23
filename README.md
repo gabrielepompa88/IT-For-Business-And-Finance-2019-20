@@ -138,14 +138,78 @@ Below the list of lessons with relevant related material:
     - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
 ---
 
-- &#x1F534; **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions.
-  - _TB.5.The DataFrame Class,_ _TB.5.Basic Analytics,_ _TB.5.Basic Visualization,_ _TB.5.The Series Class,_ _TB.5.Complex Selection_.
-  - _[Pandas - Intro to data structures](https://pandas.pydata.org/docs/getting_started/dsintro.html#intro-to-data-structures)_ (Series; DataFrame). From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html), _[How do I select a subset of a `DataFrame`?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html)_, _[How to create plots in pandas?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html)_, _[How to create new columns derived from existing columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html)_, _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
+- &#x1F534; **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal pice time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
+  - _TB.5.The Series Class._
+  - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
 
-  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_]()
+  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_](): Sec. 1. Series.
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
+
+- &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames.
+  - _TB.5.The DataFrame Class,_ _TB.5.Basic Analytics,_ _TB.5.Basic Visualization,_ _TB.5.Complex Selection,_ _TB.5.Concatenation, Joining, and Merging,_ _TB.5.Performance Aspects_.
+  - _[Pandas - Intro to data structures - DataFrame](https://pandas.pydata.org/docs/getting_started/dsintro.html#dataframe)_ (Series; DataFrame). From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html), _[How do I select a subset of a `DataFrame`?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html)_, _[How to create plots in pandas?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/04_plotting.html)_, _[How to create new columns derived from existing columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html)_, _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
+
+  - [Data_Analysis___Introduction_to_Pandas.ipynb -  _forthcoming_](): Sec. 2. DataFrame.
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 12 (23/03)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 13 (25/03)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 14 (30/03)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 15 (01/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 16 (06/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 17 (08/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 18 (15/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 19 (17/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
+- **Lesson 20 (20/04)**:  TBD.
+  - TBD.
+  - [notebook -  _forthcoming_]().
+  - Exercises: _forthcoming_
+  - Videos: _forthcoming_
+
   
+
 # Resources <a name="resources"></a>
 
 ## Reading <a name="reading_material"></a>
