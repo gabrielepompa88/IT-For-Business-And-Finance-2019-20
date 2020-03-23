@@ -136,7 +136,6 @@ Below the list of lessons with relevant related material:
     - [9.4 - NumPy Arrays - Multi-dimensional arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=7ab1beab-e7f8-429e-bb69-ab8101611d14)
     - [9.5 - NumPy Arrays - Conditional Selection](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=67f1ae49-0e71-4a6e-9d83-ab8201338f1f)
     - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
----
 
 - &#x1F534; **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal pice time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
