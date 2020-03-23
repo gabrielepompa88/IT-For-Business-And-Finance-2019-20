@@ -3,7 +3,7 @@ Author: Gabriele Pompa
 Identification Number: ABCXYZ [substitute with your Unisi Identification Number]
 
 Date: 23-Mar-2020
-File name: Ex_Sheet_2_Num_3.py
+File name: Ex_Sheet_2_Num_6.py
 
 Description: This script generate an array and change sign to some values.
 """
