@@ -76,7 +76,7 @@ Below the list of lessons with relevant related material:
 
 - **Lesson 1 (24/02)**: class presentation. introduction to: programming in Python, Anaconda platform, Jupyter Notebooks and interactive programming, Spyder IDE and programmatic programming, Python modules and `import` expressions.
   - _TB.1.The Python Programming Language_, _TB.1.Technology in Finance._
-  - [Introduction I.ipynb](Notebooks/Introduction_I.ipynb).
+  - _Introduction I_ [[.ipynb](Notebooks/Introduction_I.ipynb) | [.pdf](Notebooks/Printable/Introduction_I.pdf)].
   
 - **Lesson 2 (25/02)**:  motivations for adopting Python in Finance.
   - _TB.1.Python for Finance_, _TB.1.Data-Driven Finance_, _TB.2.Basic Operations with conda_, _TB.2.conda as a Virtual Environment Manager._ 
