@@ -3,7 +3,7 @@ Author: Gabriele Pompa
 Identification Number: ABCXYZ [substitute with your Unisi Identification Number]
 
 Date: 23-Mar-2020
-File name: Ex_Sheet_2_Num_4.py
+File name: Ex_Sheet_2_Num_5.py
 
 Description: This script creates matrices with diagonal and off-diagonal values set
 """
