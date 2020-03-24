@@ -141,7 +141,7 @@ Below the list of lessons with relevant related material:
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
   - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas%20-%20PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
-  - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_3_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_3_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_3_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_3_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_3_Num_5.py)
+  - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_3_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_3_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_3_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_3_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_3_Num_5.py)
   - Videos: _forthcoming_
 
 - &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames.
