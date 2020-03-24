@@ -137,11 +137,11 @@ Below the list of lessons with relevant related material:
     - [9.5 - NumPy Arrays - Conditional Selection](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=67f1ae49-0e71-4a6e-9d83-ab8201338f1f)
     - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
 
-- &#x1F534; **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal pice time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
+- **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal pice time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
-  - Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb]() | [.pdf](): Sec. 1. Series.
-  - Exercises: _forthcoming_
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb](Notebooks/Data_Analysis___Introduction_to_Pandas - PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
+  - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: _forthcoming_
   - Videos: _forthcoming_
 
 - &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames.
