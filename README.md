@@ -140,7 +140,7 @@ Below the list of lessons with relevant related material:
 - **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal pice time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
-  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb](Notebooks/Data_Analysis___Introduction_to_Pandas - PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas%20-%20PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
   - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: _forthcoming_
   - Videos: _forthcoming_
 
