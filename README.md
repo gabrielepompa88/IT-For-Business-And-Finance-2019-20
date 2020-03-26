@@ -101,27 +101,15 @@ Below the list of lessons with relevant related material:
   - _[PyT.3.1.1](https://docs.python.org/3.7/tutorial/introduction.html#numbers) (Numbers),_ _[PyT.3.1.2](https://docs.python.org/3.7/tutorial/introduction.html#strings) (Strings),_ _[PyT.3.2](https://docs.python.org/3.7/tutorial/introduction.html#first-steps-towards-programming) (First Steps Toward Programming),_ _[PyT.4.1](https://docs.python.org/3.7/tutorial/controlflow.html#if-statements) (if Statements)._
   - Lecture Notes **Basics_I___Data_Types** [.ipynb](Notebooks/Basics_I___Data_Types.ipynb) | [.pdf](Notebooks/Printable/Basics_I___Data_Types.pdf): Sec. 3 and 4.
   - Videos: 
-    - [e-learning general notes](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=de00b000-b76f-4800-8924-ab7900d00dbb), 
-    - [7.1 - First-time setup of your personal computer](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1d42d2b3-487f-4a33-9ca8-ab79010e7811), 
-    - [7.2 - How to work at home](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1939668b-6a18-4598-8bf8-ab7901123a1b),
-    - [7.3 - How to use the Personal_Notes folder](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=5912c8d1-3de6-4e90-bd99-ab7901251684) 
-    - [7.4 - Data Types - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=b256346b-3c9a-4a51-b817-ab7b00f65a3b)
-    - [7.5 - Data Types - Integers](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=d18902c4-4c3f-4c81-9ab5-ab7b00f797cb)
-    - [7.6 - Data Types - Floats](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=2cd94b38-5f2b-4606-9266-ab7b00f87c6b)
-    - [7.7 - Data Types - Booleans](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=ba3900d3-038a-45fb-b824-ab7b00fb073c)
-    - [7.8 - Data Types - Strings](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=0cecc809-a544-441e-9ed0-ab7b00fea710)
+    - [Playlist: **e-learning general notes**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=2709cc15-21f0-4e84-96a0-ab8a00ca5a82)
+    - [Playlist: **Lesson 7 - Data-Types**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=808049a7-dd1c-465d-bee5-ab8a00c96770)
 
 - **Lesson 8 (10/03)**:  introduction to data-structures in Python, `tuple` data structure, `list` data structure, `for` loop, `dict` data structure, `set` data structure.
   - _TB.3.Basic Data Structures_ (_TB.3.Excursus: Functional Programming_ is optional reading).
   - _[PyT.3.1.3](https://docs.python.org/3.7/tutorial/introduction.html#lists) (Lists),_ _[PyT.4.2](https://docs.python.org/3.7/tutorial/controlflow.html#for-statements) (for Statements),_ _[PyT.4.3](https://docs.python.org/3.7/tutorial/controlflow.html#the-range-function) (The range() Function),_ _[PyT.4.4](https://docs.python.org/3.7/tutorial/controlflow.html#break-and-continue-statements-and-else-clauses-on-loops) (break and continue Statemenents, and else Clauses on Loops),_ _[PyT.5.1](https://docs.python.org/3.7/tutorial/datastructures.html#more-on-lists) (More on Lists),_ _[PyT.5.3](https://docs.python.org/3.7/tutorial/datastructures.html#tuples-and-sequences) (Tuples and Sequences),_ _[PyT.5.4](https://docs.python.org/3.7/tutorial/datastructures.html#sets) (Sets),_ _[PyT.5.5](https://docs.python.org/3.7/tutorial/datastructures.html#dictionaries) (Dictionaries)._
   - Lecture Notes **Basics_II___Data_Structures** [.ipynb](Notebooks/Basics_II___Data_Structures.ipynb) | [.pdf](Notebooks/Printable/Basics_II___Data_Structures.pdf)
   - Videos: 
-    - [8.1 - Data Structures - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=76dcef60-d997-4212-a2f5-ab7d011cb8c1)
-    - [8.2 - Data Structures - Tuples](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=fa8a9803-4cab-418e-becd-ab7d011f4e80)
-    - [8.3 - Data Structures - Lists](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=80278d24-dde8-47e5-9c30-ab7d0121775b)
-    - [8.4 - Data Structures - Nested Tuples](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=e4c5d6cd-b91b-4ae7-9271-ab7d012aa332)
-    - [8.5 - Data Structures - Dicts](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=44f26b4b-fb5b-446c-85d6-ab7d012c1347)
-    - [8.6 - Data Structures - Sets](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=e91f92c5-930b-4efc-9c4a-ab7d012e7c82)
+    - [Playlist: **Lesson 8 - Data-Structures**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=45af903f-8dcd-4c21-b636-ab8a00ccfc3f)
 
 - **Lesson 9 (11/03)**:  NumPy `ndarray` data-structure: arrays creation, indexing, slicing, iterating over arrays, basic operations, built-in methods, universal functions, shape manipulation, stacking of arrays
   - _TB.4.Regular Numpy Arrays,_ _TB.4.Basic Vectorization_.
@@ -130,19 +118,16 @@ Below the list of lessons with relevant related material:
   - Exercises: [Exercise Sheet 1 - **ERRATA CORRIGE (Exercise 5)**](Exercises/Exercise_1.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_1_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_1_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_1_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_1_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_1_Num_5.py)
   - Exercises: [Exercise Sheet 2](Exercises/Exercise_2.ipynb) - &#x1F534; Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_2_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_2_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_2_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_2_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_2_Num_5.py), [Ex_6](Exercises/Solutions/Ex_Sheet_2_Num_6.py), [Ex_7](Exercises/Solutions/Ex_Sheet_2_Num_7.py)
   - Videos:
-    - [9.1 - NumPy Arrays - Introduction](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=1e8f98b4-a986-4874-9f56-ab810157ee8a)
-    - [9.2 - NumPy Arrays - From Lists to Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=2ee3c5ba-8c82-4dd9-a5b3-ab810158df8c)
-    - [9.3 - NumPy Arrays - 1-dimensional arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=f2fb2ac4-cf4f-40e1-a944-ab81015ae647)
-    - [9.4 - NumPy Arrays - Multi-dimensional arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=7ab1beab-e7f8-429e-bb69-ab8101611d14)
-    - [9.5 - NumPy Arrays - Conditional Selection](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=67f1ae49-0e71-4a6e-9d83-ab8201338f1f)
-    - [9.6 - NumPy Arrays - Lists Vs Arrays](https://usienalecture.unisi.it/Panopto/Pages/Viewer.aspx?id=831498cc-89f3-4e13-8277-ab8101684481)
+    - [Playlist: **Lesson 9 - NumPy Arrays**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=ea9d3e5f-4943-4784-ad4b-ab8a00cdcb97)
 
 - **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal i.i.d. time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
   - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas%20-%20PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
   - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_3_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_3_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_3_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_3_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_3_Num_5.py)
-  - Videos: _forthcoming_
+  - Videos:
+    - [Playlist: **Lesson 10 - Pandas Series**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=c2d9dfd9-77da-4305-b1da-ab8a00ce1dde)
+ 
 
 - &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames.
   - _TB.5.The DataFrame Class,_ _TB.5.Basic Analytics,_ _TB.5.Basic Visualization,_ _TB.5.Complex Selection,_ _TB.5.Concatenation, Joining, and Merging,_ _TB.5.Performance Aspects_.
