@@ -123,7 +123,7 @@ Below the list of lessons with relevant related material:
 - **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array using `pd.Series()` constructor, indexing and slicing using `[]` access operator, basic plotting, basic analytics, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal i.i.d. time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
-  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf](): Sec. 1. Series.
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___Introduction_to_Pandas.pdf): Sec. 1. Series.
   - Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_3_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_3_Num_2.py), &#x1F534; [Ex_3 **UPDATED**](Exercises/Solutions/Ex_Sheet_3_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_3_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_3_Num_5.py)
   - Videos:
     - [Playlist: **Lesson 10 - Pandas Series**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=c2d9dfd9-77da-4305-b1da-ab8a00ce1dde)
@@ -138,7 +138,7 @@ Below the list of lessons with relevant related material:
     - _[How to create new columns derived from existing columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html)_, 
     - _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, 
     - _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
-  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf]: Sec. 2. DataFrames.
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___Introduction_to_Pandas.pdf): Sec. 2. DataFrames.
   - &#x1F534; Exercises: [Exercise Sheet 4](Exercises/Exercise_4.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_4_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_4_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_4_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_4_Num_4.py)
   - Videos:
     - [Playlist: **Lesson 11 - Pandas DataFrames**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=636951a2-4eba-4862-a705-ab8e00e4ad48)
