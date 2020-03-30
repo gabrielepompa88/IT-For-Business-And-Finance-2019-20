@@ -120,16 +120,16 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 9 - NumPy Arrays**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=ea9d3e5f-4943-4784-ad4b-ab8a00cdcb97)
 
-- **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array, indexing, slicing, basic plotting, basic operations, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal i.i.d. time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
+- **Lesson 10 (16/03)**:  Pandas `Series` data-structure: creation from 1-dim NumPy array using `pd.Series()` constructor, indexing and slicing using `[]` access operator, basic plotting, basic analytics, built-in methods, interface with NumPy's universal functions. Returns time-series: log-normal i.i.d. time-series (using NumPy's `random.lognormal` function), step-by-step computation, direct computation using `.shift()`, linear and log-returns.
   - _TB.5.The Series Class._
   - _[Pandas - Intro to data structures - Series](https://pandas.pydata.org/docs/getting_started/dsintro.html#series)._ 
-  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas%20-%20PARTIAL.ipynb) | [.pdf](): Sec. 1. Series.
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf](): Sec. 1. Series.
   - &#x1F534; Exercises: [Exercise Sheet 3](Exercises/Exercise_3.ipynb) - Solutions: [Ex_1](Exercises/Solutions/Ex_Sheet_3_Num_1.py), [Ex_2](Exercises/Solutions/Ex_Sheet_3_Num_2.py), [Ex_3](Exercises/Solutions/Ex_Sheet_3_Num_3.py), [Ex_4](Exercises/Solutions/Ex_Sheet_3_Num_4.py), [Ex_5](Exercises/Solutions/Ex_Sheet_3_Num_5.py)
   - Videos:
     - [Playlist: **Lesson 10 - Pandas Series**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=c2d9dfd9-77da-4305-b1da-ab8a00ce1dde)
  
 
-- &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array, indexing, slicing, basic plotting, conditional selection, creation of new columns, basic operations, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames.
+- &#x1F534; **Lesson 11 (18/03)**:  Pandas `DataFrame` data-structure: creation from multi-dim NumPy array using `pd.DataFrame()` constructor, columns selection using `[]` access operator, indexing and slicing of rows and columns using `.loc[]` and `.iloc[]` access operators, basic plotting, creation and deletion of columns, basic analytics on row- and column-wise base and `.groupby()` method, built-in methods, interface with NumPy's universal functions. Concatenation, Joining and Merging of two DataFrames using `.join()` method and `pd.merge()` function.
   - _TB.5.The DataFrame Class,_ _TB.5.Basic Analytics,_ _TB.5.Basic Visualization,_ _TB.5.Complex Selection,_ _TB.5.Concatenation, Joining, and Merging,_ _TB.5.Performance Aspects_.
   - _[Pandas - Intro to data structures - DataFrame](https://pandas.pydata.org/docs/getting_started/dsintro.html#dataframe)._ From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: 
     - [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html),
@@ -138,9 +138,10 @@ Below the list of lessons with relevant related material:
     - _[How to create new columns derived from existing columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html)_, 
     - _[How to calculate summary statistics?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html)_, 
     - _[How to combine data from multiple tables?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/08_combine_dataframes.html)_.
-  - Lecture Notes **Data_Analysis___Introduction_to_Pandas** ( _forthcoming_ ) [.ipynb]() | [.pdf](): Sec. 2. DataFrame.
+  - &#x1F534; Lecture Notes **Data_Analysis___Introduction_to_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Introduction_to_Pandas.ipynb) | [.pdf](): Sec. 2. DataFrames.
   - Exercises: _forthcoming_
-  - Videos: _forthcoming_
+  - Videos:
+    - [Playlist: **Lesson 11 - Pandas DataFrames**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=636951a2-4eba-4862-a705-ab8e00e4ad48)
 
 - **Lesson 12 (23/03)**:  TBD.
   - TBD.
