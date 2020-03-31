@@ -58,6 +58,7 @@ Wednesday 4/3 and 18/3: _Aula 12_
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding reading material.
 
 **Conventions for reading material**: sections from 
+
 A. the TextBook [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) are labelled as _TB.ChapterNumber.SectionName_ to refer to a whole Section  (e.g. _TB.1.The Python Programming Language_) or as _TB.ChapterNumber.SubSectionName_ to refer to a particular sub-Section (e.g. _TB.1.Data-Driven Finance_ ).
 
 B. the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (SubSubSectionName)_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2 (Strings)_ ).
