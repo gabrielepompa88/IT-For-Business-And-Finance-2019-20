@@ -58,13 +58,13 @@ Wednesday 4/3 and 18/3: _Aula 12_
 This is the diary of the class. Here the topics covered during the lessons are listed, as well as the corresponding reading material.
 
 **Conventions for reading material**: sections from 
-- the TextBook [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) are labelled as _TB.ChapterNumber.SectionName_ to refer to a whole Section  (e.g. _TB.1.The Python Programming Language_) or as _TB.ChapterNumber.SubSectionName_ to refer to a particular sub-Section (e.g. _TB.1.Data-Driven Finance_ ).
+A. the TextBook [Python for Finance (2nd ed.)](http://shop.oreilly.com/product/0636920117728.do) are labelled as _TB.ChapterNumber.SectionName_ to refer to a whole Section  (e.g. _TB.1.The Python Programming Language_) or as _TB.ChapterNumber.SubSectionName_ to refer to a particular sub-Section (e.g. _TB.1.Data-Driven Finance_ ).
 
-- the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (SubSubSectionName)_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2 (Strings)_ ).
+B. the [Python Tutorial](https://docs.python.org/3.7/tutorial/) are labelled as _PyT.SectionNumber.SubSectionNumber.SubSubSectionNumber_ (SubSubSectionName)_ (e.g.: section 3.1.2 on [Strings](https://docs.python.org/3.7/tutorial/introduction.html#strings) is labelled _PyT.3.1.2 (Strings)_ ).
 
-- the [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html#quickstart-tutorial) are labelled as _Numpy Quickstart Tutorial - SectionName_ (list of SubSections).
+C. the [Numpy Quickstart Tutorial](https://docs.scipy.org/doc/numpy/user/quickstart.html#quickstart-tutorial) are labelled as _Numpy Quickstart Tutorial - SectionName_ (list of SubSections).
 
-- the [Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html) are mentioned by section name (e.g.: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html)).
+D. the [Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html) are mentioned by section name (e.g.: [What kind of data does pandas handle?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html)).
 
 Below the list of lessons with relevant related material:
 
