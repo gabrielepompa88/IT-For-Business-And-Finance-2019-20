@@ -1,3 +1,11 @@
+# Table of contents
+- [How to work IN CLASS](#class)
+  - [Before the lessons starts](#before_class)
+  - [How to follow the lesson](#during_class)
+- [How to work AT HOME](#home)
+  - [First-time SETUP](#home_setup)
+  - [How to work at home](#wfh)
+
 ## How to work IN CLASS <a name="class"></a>
 
 ### Before the lessons starts <a name="before_class"></a>
