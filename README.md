@@ -138,9 +138,9 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 11 - Pandas DataFrames**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=636951a2-4eba-4862-a705-ab8e00e4ad48)
 
-- **Lesson 12 (30/03)**:  Python Serializations protocols (JSON and Pickle). IO operations between Pandas and output formats (SQL and `sqlite3` module, CSV and Excel)
+- &#x1F534; **Lesson 12 (30/03)**:  Python Serializations protocols: JSON (`json` module) and Pickle (`pickle` module). IO operations in Pandas with output formats (`.to_*()` DataFrame methods and `pd.read_*()` function): SQL (SQLite engine and `sqlite3` module), CSV and Excel.
   - TBD.
-  - &#x1F534; **Data_Analysis___IO_with_Pandas - PARTIAL** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas%20-%20PARTIAL.ipynb) | [.pdf].
+  - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf].
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
