@@ -140,8 +140,8 @@ Below the list of lessons with relevant related material:
 
 - &#x1F534; **Lesson 12 (30/03)**:  Python serializations protocols: JSON (`json` module) and Pickle (`pickle` module). IO operations in Pandas with output formats (`.to_*()` DataFrame methods and `pd.read_*()` function): SQL (SQLite engine and `sqlite3` module), CSV and Excel.
   - TBD.
-  - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf].
-  - Exercises: _forthcoming_
+  - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___IO_with_Pandas.pdf).
+  - Exercises: practice with I/O operations using the lesson Notebook. Focus on doing I/O of Pandas DataFrames in CSV format.
   - Videos: _forthcoming_
 
 - **Lesson 13 (01/04)**:  TBD.
