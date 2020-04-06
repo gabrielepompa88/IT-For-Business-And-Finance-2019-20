@@ -140,7 +140,7 @@ Below the list of lessons with relevant related material:
 
 - **Lesson 12 (30/03)**:  Python Serializations protocols (JSON and Pickle). IO operations between Pandas and output formats (SQL and `sqlite3` module, CSV and Excel)
   - TBD.
-  - &#x1F534; **Data_Analysis___IO_with_Pandas - PARTIAL.ipynb** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas%20-%20PARTIAL.ipynb) | [.pdf].
+  - &#x1F534; **Data_Analysis___IO_with_Pandas - PARTIAL** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas%20-%20PARTIAL.ipynb) | [.pdf].
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
