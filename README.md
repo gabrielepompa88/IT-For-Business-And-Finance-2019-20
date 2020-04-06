@@ -139,7 +139,10 @@ Below the list of lessons with relevant related material:
     - [Playlist: **Lesson 11 - Pandas DataFrames**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=636951a2-4eba-4862-a705-ab8e00e4ad48)
 
 - &#x1F534; **Lesson 12 (30/03)**:  Python serializations protocols: JSON (`json` module) and Pickle (`pickle` module). IO operations in Pandas with output formats (`.to_*()` DataFrame methods and `pd.read_*()` function): SQL (SQLite engine and `sqlite3` module), CSV and Excel.
-  - TBD.
+  - _TB.9.Basic I/O with Python,_ _TB.9.I/O with Pandas._
+  - _[PyT.7.1.2](https://docs.python.org/3.7/tutorial/inputoutput.html#the-string-format-method) (the String `.format()` method),_ _[PyT.7.2](https://docs.python.org/3.7/tutorial/inputoutput.html#reading-and-writing-files) (reading and writing files)._ 
+  - From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: 
+    - [How do I read and write tabular data?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).
   - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___IO_with_Pandas.pdf).
   - Exercises: practice with I/O operations using the lesson Notebook. Focus on doing I/O of Pandas DataFrames in CSV format.
   - Videos: _forthcoming_
