@@ -145,7 +145,8 @@ Below the list of lessons with relevant related material:
     - [How do I read and write tabular data?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).
   - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___IO_with_Pandas.pdf).
   - Exercises: practice with I/O operations using the lesson Notebook. Focus on doing I/O of Pandas DataFrames in CSV format.
-  - Videos: _forthcoming_
+  - Videos:
+    - [Playlist: **Lesson 12 - Input/Output with Pandas**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=51802565-5d7a-4f30-9b15-ab9600913b19)
 
 - **Lesson 13 (01/04)**:  TBD.
   - TBD.
