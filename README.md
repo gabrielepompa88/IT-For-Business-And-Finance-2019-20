@@ -138,27 +138,38 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 11 - Pandas DataFrames**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=636951a2-4eba-4862-a705-ab8e00e4ad48)
 
-- &#x1F534; **Lesson 12 (30/03)**:  Python serializations protocols: JSON (`json` module) and Pickle (`pickle` module). IO operations in Pandas with output formats (`.to_*()` DataFrame methods and `pd.read_*()` function): SQL (SQLite engine and `sqlite3` module), CSV and Excel.
+- **Lesson 12 (30/03)**:  Python serializations protocols: JSON (`json` module) and Pickle (`pickle` module). IO operations in Pandas with output formats (`.to_*()` DataFrame methods and `pd.read_*()` function): SQL (SQLite engine and `sqlite3` module), CSV and Excel.
   - _TB.9.Basic I/O with Python,_ _TB.9.I/O with Pandas._
   - _[PyT.7.1.2](https://docs.python.org/3.7/tutorial/inputoutput.html#the-string-format-method) (the String `.format()` method),_ _[PyT.7.2](https://docs.python.org/3.7/tutorial/inputoutput.html#reading-and-writing-files) (reading and writing files)._ 
   - From _[Pandas - Getting started tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)_: 
     - [How do I read and write tabular data?](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html).
-  - **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___IO_with_Pandas.pdf).
+  - Lecture Notes **Data_Analysis___IO_with_Pandas** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___IO_with_Pandas.ipynb) | [.pdf](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Printable/Data_Analysis___IO_with_Pandas.pdf).
   - Exercises: practice with I/O operations using the lesson Notebook. Focus on doing I/O of Pandas DataFrames in CSV format.
   - Videos:
     - [Playlist: **Lesson 12 - Input/Output with Pandas**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=51802565-5d7a-4f30-9b15-ab9600913b19)
 
-- **Lesson 13 (01/04)**:  TBD.
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
-  - Videos: _forthcoming_
+- &#x1F534; **Lesson 13 (01/04)**:  `yfinance` API: installation, Yahoo! Finance tickers [lookup page](https://finance.yahoo.com/lookup/). Basic usage: get market and meta data for one (`yf.Ticker()`) and multiple (`yf.Tickers()`) security/s, mass download of market data (`yf.download()`).
+  - [yfinance](https://github.com/ranaroussi/yfinance) library:
+    - Github page for yfinance library: [https://github.com/ranaroussi/yfinance](https://github.com/ranaroussi/yfinance);
+    - Blog post form the author ([Ran Aroussi](https://aroussi.com/)) with a yfinance tutorial: [https://aroussi.com/post/python-yahoo-finance](https://aroussi.com/post/python-yahoo-finance). 
+  - Lecture Notes **Data Analysis - Financial Time Series** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Financial_Time_Series.ipynb) | [.pdf]: Section 1.Introduction to yfinance library
+  - Exercises: practice with `yfinance` API: 
+    - download ticker data for "General Electric Company" stock from Jan 1st, 1985;
+    - save its "Close" price Pandas Series as a 'GE_Close_Price.csv' file in `/Data` folder;
+    - open both the 'Securities_Close_Price_Dataset.csv' and the, just saved 'GE_Close_Price.csv';
+    - integrate GE Close price data with other data as an additional column 'GE' of the `closePrice` DataFrame in 'Securities_Close_Price_Dataset.csv' file;
+    - save the extended `closePrice` DataFrame as 'Extended_Securities_Close_Price_Dataset.csv' file.
+  - Videos:
+    - [Playlist: **Lesson 13 - yfinance API**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=6991f1b5-79b8-43d0-8dc6-ab9b00fafa01)
 
-- **Lesson 14 (06/04)**:  TBD.
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
-  - Videos: _forthcoming_
+- &#x1F534; **Lesson 14 (06/04)**: Data Analysis: first look at DataFrame (`.head()`, `.tail()` and `.plot()` methods), buy-and-hold portfolio, summary statistics, returns: simple (`.pct_change()` method) and log-returns (`.shift()` method), resampling (`.resample()` method), graphical test of normality (Normal fit, Q-Q plot), rolling statistics (`.rolling()` method), rolling correlation matrix (not for exam), SPX/VIX inverse relationship analysis: OLS regression (`np.polyfit()` function), correlation analysis.
+  - _TB.8.Financial Data,_ _TB.8Rolling Statistics,_ _TB.8.Correlation Analysis,_ _TB.13.Real-World Data._
+  - Lecture Notes **Data Analysis - Financial Time Series** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Financial_Time_Series.ipynb) | [.pdf]: Section 2.Data Analysis
+  - Exercises: 
+    - practice on the Data Analysis (summary statistics, returns, resampling, rolling statistics etc.) topics covered using the 'Extended_Securities_Close_Price_Dataset.csv' file, which includes closing prices for the 'GE' Stock;
+    - In particular: do the graphical tests of normality (histogram, normal fit and Q-Q plot) on the 'GE' stock. Do this in a script file named 'GE_Returns_Graphical_Normality_Tests.py' and save it in the 'Scripts' folder (_Hint:_ you can modify [SPX_Returns_Graphical_Normality_Tests.py](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Scripts/SPX_Returns_Graphical_Normality_Tests.py) which you can find in the 'Scripts' folder already)
+  - Videos:
+    - [Playlist: **Lesson 14 - Data Analysis**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=07d2ecce-8f57-416c-a45b-ab9b00fb56f9)
 
 - **Lesson 15 (08/04)**:  TBD.
   - TBD.
