@@ -31,7 +31,34 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 ---
 
 # IMPORTANT COMMUNICATIONS <a name="bakeka"></a> 
-&#x1F534; The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
+
+- &#x1F534; **Exam dates**: these below are the exam dates of the IT for Business and Finance course for summer/fall terms:
+  - Summer term – 1st session: Thursday **June 4th, 2020** h 10:30 – 12:30
+  - Summer term – 2nd session: Monday **June 29th, 2020** h 10:30 – 12:30
+  - Fall term – 1st session: Tuesday **September 1st, 2020** h 10:30 – 12:30
+  - Fall term – 2nd session: Friday **September 18th**, 2020 h 10:30 -12:30
+ 
+- &#x1F534; **Exam info**:
+  - Exams will be entirely online;
+  - Exam sheet will be a Notebook (that is, a .ipynb file, like the one you have been studying on so far) with questions/exercises and empty Code cells for your answers;
+  - You will find the exam Notebook in the “Exams” folder of the class folder at 10:30 am (Rome time) on the exam date; (*)
+  - Once you have completed the exam, save the filled Notebook and send it back to me via email;
+  - You can use whatever you want to do  the exam (textbook, books, internet, your python pet 🐍);
+  - The exam sheet will be unique for everyboy BUT in the exam sheet you will have to input your Unisi identification number (for example, you might be asked to input your Unisi_id_number as seed of a random number generator like seed = np.random.seed(Unisi_id_number) or something like this). This will make your personal exam different from the one of any of your colleague;
+ 
+In the following weeks more detailed instructions and exam simulations will be provided.
+
+- &#x1F534; Extra: upon suggestions, you may do some extra work and prepare a financial project . The following rules apply:
+  - The project is not compulsory and, in particulary, does not substitute the Exam;
+  - The project might be helpful for exam preparation and, in particular, for your future to show off your ability (to recruiters and/or hiring managers);
+  - The project shall take the form of the development of a personal GitHub repository, on the footprints of the class one;
+  - I will be happy (write me to take an appointment) to discuss with you project topics of mutual interest and to help you with the project;
+ 
+For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
+
+(*) of course, you have to sync your local copy folder to the remote class folder in order to see the exam sheet appear, exactly in the same way in which you do every time to get updated lesson notebooks and other material.
+
+The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
 
 ---
 
