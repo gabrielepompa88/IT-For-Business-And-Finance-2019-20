@@ -175,7 +175,7 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 12 - Input/Output with Pandas**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=51802565-5d7a-4f30-9b15-ab9600913b19)
 
-- &#x1F534; **Lesson 13 (01/04)**:  `yfinance` API: installation, Yahoo! Finance tickers [lookup page](https://finance.yahoo.com/lookup/). Basic usage: get market and meta data for one (`yf.Ticker()`) and multiple (`yf.Tickers()`) security/s, mass download of market data (`yf.download()`).
+- **Lesson 13 (01/04)**:  `yfinance` API: installation, Yahoo! Finance tickers [lookup page](https://finance.yahoo.com/lookup/). Basic usage: get market and meta data for one (`yf.Ticker()`) and multiple (`yf.Tickers()`) security/s, mass download of market data (`yf.download()`).
   - [yfinance](https://github.com/ranaroussi/yfinance) library:
     - Github page for yfinance library: [https://github.com/ranaroussi/yfinance](https://github.com/ranaroussi/yfinance);
     - Blog post form the author ([Ran Aroussi](https://aroussi.com/)) with a yfinance tutorial: [https://aroussi.com/post/python-yahoo-finance](https://aroussi.com/post/python-yahoo-finance). 
@@ -189,7 +189,7 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 13 - yfinance API**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=6991f1b5-79b8-43d0-8dc6-ab9b00fafa01)
 
-- &#x1F534; **Lesson 14 (06/04)**: Data Analysis: first look at DataFrame (`.head()`, `.tail()` and `.plot()` methods), buy-and-hold portfolio, summary statistics, returns: simple (`.pct_change()` method) and log-returns (`.shift()` method), resampling (`.resample()` method), graphical test of normality (Normal fit, Q-Q plot), rolling statistics (`.rolling()` method), rolling correlation matrix (not for exam), SPX/VIX inverse relationship analysis: OLS regression (`np.polyfit()` function), correlation analysis.
+- **Lesson 14 (06/04)**: Data Analysis: first look at DataFrame (`.head()`, `.tail()` and `.plot()` methods), buy-and-hold portfolio, summary statistics, returns: simple (`.pct_change()` method) and log-returns (`.shift()` method), resampling (`.resample()` method), graphical test of normality (Normal fit, Q-Q plot), rolling statistics (`.rolling()` method), rolling correlation matrix (not for exam), SPX/VIX inverse relationship analysis: OLS regression (`np.polyfit()` function), correlation analysis.
   - _TB.8.Financial Data,_ _TB.8Rolling Statistics,_ _TB.8.Correlation Analysis,_ _TB.13.Real-World Data._
   - Lecture Notes **Data Analysis - Financial Time Series** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Data_Analysis___Financial_Time_Series.ipynb) | [.pdf]: Section 2.Data Analysis
   - Exercises: 
@@ -198,7 +198,7 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 14 - Data Analysis**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=07d2ecce-8f57-416c-a45b-ab9b00fb56f9)
 
-- **Lesson 15 (08/04)**:  introduction to Object-Oriented Programming (OOP) paradygm. Non-financial example (`Person` class). Call-option Black-Scholes pricer (`CallOption` class). Encapsulation: name hiding, getters and setters methods. General `PlainVanillaOption` class to price put options too.
+- &#x1F534; **Lesson 15 (08/04)**:  introduction to Object-Oriented Programming (OOP) paradygm. Non-financial example (`Person` class). Call-option Black-Scholes pricer (`CallOption` class). Encapsulation: name hiding, getters and setters methods. General `PlainVanillaOption` class to price put options too.
   - _TB.6.Object-Oriented Programming,_ _TB.Appendinx A. Dates and Times._ (_Python_ section)
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Classes](https://python-textbok.readthedocs.io/en/1.0/Classes.html)
   - Lecture Notes **Derivatives Analytics - Introduction to Object Oriented Programming** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Introduction_to_OOP.ipynb) | [.pdf].
