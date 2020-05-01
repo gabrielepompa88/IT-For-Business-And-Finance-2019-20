@@ -202,7 +202,8 @@ Below the list of lessons with relevant related material:
   - _TB.6.Object-Oriented Programming,_ _TB.Appendinx A. Dates and Times._ (_Python_ section)
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Classes](https://python-textbok.readthedocs.io/en/1.0/Classes.html)
   - Lecture Notes **Derivatives Analytics - Introduction to Object Oriented Programming** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Introduction_to_OOP.ipynb) | [.pdf].
-  - Videos: _uploading_
+  - Videos:
+    - [Playlist: **Lesson 15 - OOP**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=7513c03b-8040-4e8f-be52-abae01051292)
 
 - **Lesson 16 (15/04)**:  TBD.
   - TBD.
