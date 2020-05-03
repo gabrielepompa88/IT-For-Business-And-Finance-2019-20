@@ -198,41 +198,38 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 14 - Data Analysis**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=07d2ecce-8f57-416c-a45b-ab9b00fb56f9)
 
-- &#x1F534; **Lesson 15 (08/04)**:  introduction to Object-Oriented Programming (OOP) paradygm. Non-financial example (`Person` class). Call-option Black-Scholes pricer (`CallOption` class). Encapsulation: name hiding, getters and setters methods. General `PlainVanillaOption` class to price put options too.
+- **Lesson 15 (08/04)**:  introduction to Object-Oriented Programming (OOP) paradygm. Non-financial example (`Person` class). Call-option Black-Scholes pricer (`CallOption` class). Encapsulation: name hiding, getters and setters methods. General `PlainVanillaOption` class to price put options too.
   - _TB.6.Object-Oriented Programming,_ _TB.Appendinx A. Dates and Times._ (_Python_ section)
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Classes](https://python-textbok.readthedocs.io/en/1.0/Classes.html)
   - Lecture Notes **Derivatives Analytics - Introduction to Object Oriented Programming** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Introduction_to_OOP.ipynb) | [.pdf].
   - Videos:
     - [Playlist: **Lesson 15 - OOP**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=7513c03b-8040-4e8f-be52-abae01051292)
 
-- **Lesson 16 (15/04)**:  TBD.
+- &#x1F534; **Lesson 16 (15/04)**:  digital Cash-Or-Nothing options. Inheritance. Polymorphism: in functions, in classes methods. Polymorphism in _overridden_ methods. Abstract classes.
+  - _TB.6.Object-Oriented Programming
+  - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
+  - Lecture Notes **Derivatives Analytics - Inheritance and Polymorphism** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Inheritance_and_Polymorphism.ipynb) | [.pdf].
+  - Videos: _forthcoming_
+
+- **Lesson 17 (17/04)**:  _forthcoming_ (objects composition)
+  - TBD.
+  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
+  - Videos: _forthcoming_
+
+- **Lesson 18 (22/04)**:  _forthcoming_ (option greeks)
   - TBD.
   - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
   - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
-- **Lesson 17 (17/04)**:  TBD.
+- **Lesson 19 (24/04)**:  _forthcoming_ (exam simulation)
   - TBD.
   - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
-- **Lesson 18 (22/04)**:  TBD.
+- **Lesson 20 (29/04)**:  _forthcoming_ (exam simulation)
   - TBD.
   - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
-  - Videos: _forthcoming_
-
-- **Lesson 19 (24/04)**:  TBD.
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
-  - Videos: _forthcoming_
-
-- **Lesson 20 (29/04)**:  TBD.
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
   - Videos: _forthcoming_
 
 
