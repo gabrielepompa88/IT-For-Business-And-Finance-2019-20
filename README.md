@@ -209,7 +209,8 @@ Below the list of lessons with relevant related material:
   - _TB.6.Object-Oriented Programming
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
   - Lecture Notes **Derivatives Analytics - Inheritance and Polymorphism** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Inheritance_and_Polymorphism.ipynb) | [.pdf].
-  - Videos: _forthcoming_
+  - Videos:
+    	- [Playlist: **Lesson 16 - Inheritance and Polymorphism**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=084b7615-f603-4668-b6fd-abb100905aa9)
 
 - **Lesson 17 (17/04)**:  _forthcoming_ (objects composition)
   - TBD.
