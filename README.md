@@ -205,16 +205,17 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 15 - OOP**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=7513c03b-8040-4e8f-be52-abae01051292)
 
-- &#x1F534; **Lesson 16 (15/04)**:  digital Cash-Or-Nothing options. Inheritance. Polymorphism: in functions, in classes methods. Polymorphism in _overridden_ methods. Abstract classes.
+- **Lesson 16 (15/04)**:  digital Cash-Or-Nothing options. Inheritance. Polymorphism: in functions, in classes methods. Polymorphism in _overridden_ methods. Abstract classes.
   - _TB.6.Object-Oriented Programming
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
   - Lecture Notes **Derivatives Analytics - Inheritance and Polymorphism** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Inheritance_and_Polymorphism.ipynb) | [.pdf].
   - Videos:
     	- [Playlist: **Lesson 16 - Inheritance and Polymorphism**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=084b7615-f603-4668-b6fd-abb100905aa9)
 
-- **Lesson 17 (17/04)**:  _forthcoming_ (objects composition)
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
+- &#x1F534; **Lesson 17 (17/04)**:  default parameters in puntions; optional parameters: `*args`, `**kwargs`, input flexibility and _agnostic_ flow in functions and classes. Objects Composition and Aggregation. P&L computation (`.PnL()` method). Portfolio of options (`Portfolio`). Plotting functionalities (`Plotter` class and sub-classes for single options and portfolios of options). Option Strategies: short positions, Bull Spread (synthtetic cash-or-nothing digital replication), Straddle, Calendar Spread
+  - _TB.6.Object-Oriented Programming
+  - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): From [Errors and exceptions](https://python-textbok.readthedocs.io/en/1.0/Errors_and_Exceptions.html): Errors and Handling exceptions sections. From [Functions](https://python-textbok.readthedocs.io/en/1.0/Functions.html): up to `*args` and `**kwargs` section. Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
+  - Lecture Notes Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Objects_Composition.ipynb) | [.pdf].
   - Videos: _forthcoming_
 
 - **Lesson 18 (22/04)**:  _forthcoming_ (option greeks)
