@@ -216,8 +216,9 @@ Below the list of lessons with relevant related material:
   - _TB.6.Object-Oriented Programming_
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): From [Errors and exceptions](https://python-textbok.readthedocs.io/en/1.0/Errors_and_Exceptions.html): Errors and Handling exceptions sections. From [Functions](https://python-textbok.readthedocs.io/en/1.0/Functions.html): up to `*args` and `**kwargs` section. Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
   - Lecture Notes Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Objects_Composition.ipynb) | [.pdf].
-  - Videos: _forthcoming_
-
+  - Videos:
+    - [Playlist: **Lesson 17 - Objects Composition**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=0f2b07e0-f82a-4503-b18c-abbc00a49c04)
+    
 - **Lesson 18 (22/04)**:  _forthcoming_ (option greeks)
   - TBD.
   - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
