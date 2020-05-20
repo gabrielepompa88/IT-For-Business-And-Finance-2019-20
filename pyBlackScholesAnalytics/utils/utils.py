@@ -1,5 +1,5 @@
 """
-Author: Gabriele Pompa
+Author: Gabriele Pompa (gabriele.pompa@gmail.com)
 
 Date: 20-May-2020
 File name: utils.py
