@@ -17,9 +17,6 @@ import math
 # for date management
 import datetime as dt
 
-# for warning messages
-import warnings
-
 # ----------------------- sub-modules imports ------------------------------- #
 
 from utils.utils import *
@@ -50,9 +47,8 @@ class EuropeanOption:
         time_to_maturity: float
             Computes the time-to-maturity of the option.
         
-        parse_S_tau_sigma_r_parameters: float
-            Parses underlying, time, volatility and short-rate parameters, 
-            discriminating between time-to-maturity and valuation date
+        parse_S_tau_parameters: float
+            Parses underlying and time parameters, discribinating between time-to-maturity and valuation date
             time parameter.
     
         d1_and_d2: flaot, float
@@ -192,9 +188,9 @@ class EuropeanOption:
         # compute and return time to maturity (in years)
         return (T-t).days / 365.0
     
-    def parse_S_tau_sigma_r_parameters(self, *args, **kwargs):
+    def parse_S_tau_parameters(self, *args, **kwargs):
         """
-        Utility method to parse underlying, time, volatility and short-rate parameters
+        Utility method to parse underlying and time-parameters
         """
 
         # underlying value 
@@ -223,14 +219,8 @@ class EuropeanOption:
         # error case: the time parameter in input has a data-type that is not recognized
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-            
-        # underlying volatility 
-        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
 
-        # short rate
-        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-
-        return S, tau, sigma, r
+        return S, tau
     
     # d1 and d2 terms
     def d1_and_d2(self,  *args, **kwargs):
@@ -292,7 +282,7 @@ class EuropeanOption:
         """
         
         # underlying value and time-to-maturity
-        S, tau, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
         
         # if tau==0, this is the P&L at option's expiration, that is the PnL if the option is kept until maturity
         if tau == 0.0:
@@ -408,7 +398,7 @@ class PlainVanillaOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _ = self.parse_S_tau_parameters(*args, **kwargs)
                 
         # call case
         if self.get_type() == 'call':
@@ -432,7 +422,7 @@ class PlainVanillaOption(EuropeanOption):
     # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -447,34 +437,28 @@ class PlainVanillaOption(EuropeanOption):
             - Empty: .get_tau() is used,
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
         """
 
-        # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        # underlying value and time-to-maturity
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
                         
         # call case
         if self.get_type() == 'call':
             return S
         # put case
         else:
-            return self.__put_price_upper_limit(S, tau, r)
+            return self.__put_price_upper_limit(S, tau)
     
-    def __put_price_upper_limit(self, S, tau, r):
+    def __put_price_upper_limit(self, S, tau):
         if is_iterable(S):
-            return np.repeat(self.get_K()*np.exp(-r * tau), repeats=len(S)) 
+            return np.repeat(self.get_K()*np.exp(-self.get_r() * tau), repeats=len(S)) 
         else:
-            return self.get_K()*np.exp(-r * tau)
+            return self.get_K()*np.exp(-self.get_r() * tau)
 
     # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -489,40 +473,34 @@ class PlainVanillaOption(EuropeanOption):
             - Empty: .get_tau() is used,
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
         """
 
-        # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        # underlying value and time-to-maturity
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
                                        
         # call case
         if self.get_type() == 'call':
-            return self.__call_price_lower_limit(S, tau, r)
+            return self.__call_price_lower_limit(S, tau)
         # put case
         else:
-            return self.__put_price_lower_limit(S, tau, r)
+            return self.__put_price_lower_limit(S, tau)
 
-    def __call_price_lower_limit(self, S, tau, r):
+    def __call_price_lower_limit(self, S, tau):
         if is_iterable(S):
-            return np.array([max(s - self.get_K()*np.exp(-r * tau), 0.0) for s in S])
+            return np.array([max(s - self.get_K()*np.exp(-self.get_r() * tau), 0.0) for s in S])
         else:
-            return max(S - self.get_K()*np.exp(-r * tau), 0.0)
+            return max(S - self.get_K()*np.exp(-self.get_r() * tau), 0.0)
                                        
-    def __put_price_lower_limit(self, S, tau, r):
+    def __put_price_lower_limit(self, S, tau):
         if is_iterable(S):
-            return np.array([max(self.get_K()*np.exp(-r * tau) - s, 0.0) for s in S])
+            return np.array([max(self.get_K()*np.exp(-self.get_r() * tau) - s, 0.0) for s in S])
         else:
-            return max(self.get_K()*np.exp(-r * tau) - S, 0.0)
+            return max(self.get_K()*np.exp(-self.get_r() * tau) - S, 0.0)
                                        
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter, sigma, short-rate), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -537,51 +515,38 @@ class PlainVanillaOption(EuropeanOption):
             - Empty: .get_tau() is used,
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
-
-        - sigma can be specified as keyboard argument 'sigma'. 
-          It's value can be:
-        
-            - Empty: .get_sigma() is used,
-            - A volatility value (e.g. 0.2 for 20% per year)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
         """
                        
-        # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        # underlying value and time-to-maturity
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
                
         # call case
         if self.get_type() == 'call':
-            return np.array([self.__call_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__call_price(S, tau, sigma, r)
+            return np.array([self.__call_price(s, tau) for s in S]) if is_iterable(S) else self.__call_price(S, tau)
         # put case
         else:
-            return np.array([self.__put_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__put_price(S, tau, sigma, r)
+            return np.array([self.__put_price(s, tau) for s in S]) if is_iterable(S) else self.__put_price(S, tau)
           
-    def __call_price(self, S, tau, sigma, r):
+    def __call_price(self, S, tau):
         
-        if S <= 0: # this is to avoid log(0) or complex log issues
-            if S < 0:
-                warnings.warn("Warning: S = {} < 0 value encountered".format(S))                
+        if S == 0: # this is to avoid log(0) issues
             return 0.0
         elif tau == 0.0: # this is to avoid 0/0 issues
             return self.__call_payoff(S)
         else:
-            K = self.get_K()
+            K     = self.get_K()
+            r     = self.get_r()
             
             # get d1 and d2 terms
-            d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+            d1, d2 = self.d1_and_d2(S, tau)
 
             price = S * stats.norm.cdf(d1, 0.0, 1.0) - K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
             return price
     
-    def __put_price(self, S, tau, sigma, r):
+    def __put_price(self, S, tau):
         """ Put price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
-        return self.__call_price(S, tau, sigma, r) + self.get_K() * np.exp(-r * tau) - S     
+        return self.__call_price(S, tau) + self.get_K() * np.exp(- self.get_r() * tau) - S     
     
 #-----------------------------------------------------------------------------#
 
@@ -700,7 +665,7 @@ class DigitalOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _ = self.parse_S_tau_parameters(*args, **kwargs)
         
         # call case
         if self.get_type() == 'call':
@@ -724,7 +689,7 @@ class DigitalOption(EuropeanOption):
     # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -739,30 +704,24 @@ class DigitalOption(EuropeanOption):
             - Empty: .get_tau() is used,
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
         """
 
-        # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        # underlying value and time-to-maturity
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
             
         # the same for call and put
-        return self.__price_upper_limit(S, tau, r)
+        return self.__price_upper_limit(S, tau)
  
-    def __price_upper_limit(self, S, tau, r):
+    def __price_upper_limit(self, S, tau):
         if is_iterable(S):
-            return np.repeat(self.get_Q()*np.exp(-r * tau), repeats=len(S))
+            return np.repeat(self.get_Q()*np.exp(-self.get_r() * tau), repeats=len(S))
         else:
-            return self.get_Q()*np.exp(-r * tau)
+            return self.get_Q()*np.exp(-self.get_r() * tau)
                                        
     # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
         """
-        Can be called using (underlying), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -770,10 +729,17 @@ class DigitalOption(EuropeanOption):
             - Empty: .get_S() is used,
             - A number (e.g. S=100),
             - A List of numbers
-       """
+            
+        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
+          It's value can be:
+        
+            - Empty: .get_tau() is used,
+            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
+            - A time-to-maturity value (e.g. tau=0.5)
+        """
 
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _ = self.parse_S_tau_parameters(*args, **kwargs)
             
         # call case
         if self.get_type() == 'call':
@@ -785,7 +751,7 @@ class DigitalOption(EuropeanOption):
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter, sigma, short-rate), where:
+        Can be called using (underlying, time-parameter), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -800,48 +766,35 @@ class DigitalOption(EuropeanOption):
             - Empty: .get_tau() is used,
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
-
-        - sigma can be specified as keyboard argument 'sigma'. 
-          It's value can be:
-        
-            - Empty: .get_sigma() is used,
-            - A volatility value (e.g. 0.2 for 20% per year)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
         """
                        
-        # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        # underlying value and time-to-maturity
+        S, tau = self.parse_S_tau_parameters(*args, **kwargs)
             
         # call case
         if self.get_type() == 'call':
-            return np.array([self.__call_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__call_price(S, tau, sigma, r)
+            return np.array([self.__call_price(s, tau) for s in S]) if is_iterable(S) else self.__call_price(S, tau)
         # put case
         else:
-            return np.array([self.__put_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__put_price(S, tau, sigma, r)
+            return np.array([self.__put_price(s, tau) for s in S]) if is_iterable(S) else self.__put_price(S, tau)
           
-    def __call_price(self, S, tau, sigma, r):
+    def __call_price(self, S, tau):
                 
-        if S <= 0: # this is to avoid log(0) or complex log issues
-            if S < 0:
-                warnings.warn("Warning: S = {} < 0 value encountered".format(S))                
+        if S == 0: # this is to avoid log(0) issues
             return 0.0
         elif tau == 0.0: # this is to avoid 0/0 issues
             return self.__call_payoff(S)
         else:
             Q = self.get_Q()
+            r = self.get_r()
             
             # get d2 term
-            _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+            _, d2 = self.d1_and_d2(S, tau)
 
             price = Q * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
             return price
     
-    def __put_price(self, S, tau, sigma, r):
+    def __put_price(self, S, tau):
         """ Put price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""
-        return self.get_Q() * np.exp(- r * tau) - self.__call_price(S, tau, sigma, r)        
+        return self.get_Q() * np.exp(- self.get_r() * tau) - self.__call_price(S, tau)        
