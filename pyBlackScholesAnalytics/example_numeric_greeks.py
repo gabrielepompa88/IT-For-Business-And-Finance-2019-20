@@ -21,7 +21,7 @@ def main():
     NumGreeks = NumericalGreeks(Vanilla_Call)
     
     # underlying range at which compute greeks
-    S_range = np.linspace(50, 150, 1000)
+    S_range = np.linspace(50, 150, 2000)
     
     # numeric delta
     delta_numerical = NumGreeks.delta(S0=S_range)
@@ -37,48 +37,9 @@ def main():
     
     # gamma plot
     plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma_{call}(S)$", 
-         title=r"Numerical Gamma of a plain-vanilla Call ($\epsilon={}$ default)".format(NumGreeks.get_epsilon()))  
+         title=r"Numerical Gamma of a plain-vanilla Call")  
     
-    # epsilon reduction: 1e-4 --> 1e-5
-    NumGreeks.set_epsilon(1e-5)
-    
-    # numeric gamma
-    gamma_numerical = NumGreeks.gamma(S0=S_range)
-    
-    # gamma plot
-    plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma_{call}(S)$", 
-    title=r"Numerical Gamma of a plain-vanilla Call ($\epsilon={}$)".format(NumGreeks.get_epsilon()))
-    
-    # epsilon further reduction: 1e-5 --> 5e-6
-    NumGreeks.set_epsilon(5e-6)
-    
-    # numeric gamma
-    gamma_numerical = NumGreeks.gamma(S0=S_range)
-    
-    # gamma plot
-    plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma_{call}(S)$", 
-    title=r"Numerical Gamma of a plain-vanilla Call ($\epsilon={}$)".format(NumGreeks.get_epsilon()))
-    
-    # epsilon even further reduction: 1e-5 --> 1e-6
-    NumGreeks.set_epsilon(1e-6)
-    
-    # numeric gamma
-    gamma_numerical = NumGreeks.gamma(S0=S_range)
-    
-    # gamma plot
-    plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma_{call}(S)$", 
-    title=r"Numerical Gamma of a plain-vanilla Call ($\epsilon={}$)".format(NumGreeks.get_epsilon()))
-    
-    # restoring default value of epsilon
-    NumGreeks.set_epsilon()
-    
-    # numeric gamma
-    gamma_numerical = NumGreeks.gamma(S0=S_range)
-    
-    # gamma plot
-    plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma_{call}(S)$", 
-    title=r"Numerical Gamma of a plain-vanilla Call ($\epsilon={}$ default)".format(NumGreeks.get_epsilon()))    
-    
+  
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     
