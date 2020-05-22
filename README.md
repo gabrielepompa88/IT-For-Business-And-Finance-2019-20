@@ -20,6 +20,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
+  - [I exam - Summer Term](#class_schedule)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
 - [Class Diary](#class_diary)
@@ -32,6 +33,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 # IMPORTANT COMMUNICATIONS <a name="bakeka"></a> 
 
+The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
+
 - &#x1F534; **Exam dates**: these below are the exam dates of the IT for Business and Finance course for summer/fall terms:
   - Summer term – 1st session: Thursday **June 4th, 2020** h 10:30 – 12:30
   - Summer term – 2nd session: Monday **June 29th, 2020** h 10:30 – 12:30
@@ -39,14 +42,28 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
   - Fall term – 2nd session: Friday **September 18th**, 2020 h 10:30 -12:30
  
 - &#x1F534; **Exam info**:
-  - Exams will be entirely online;
-  - Exam sheet will be a Notebook (that is, a .ipynb file, like the one you have been studying on so far) with questions/exercises and empty Code cells for your answers;
-  - You will find the exam Notebook in the “Exams” folder of the class folder at 10:30 am (Rome time) on the exam date; (*)
-  - Once you have completed the exam, save the filled Notebook and send it back to me via email;
-  - You can use whatever you want to do  the exam (textbook, books, internet, your python pet 🐍);
-  - The exam sheet will be unique for everyboy BUT in the exam sheet you will have to input your Unisi identification number (for example, you might be asked to input your Unisi_id_number as seed of a random number generator like seed = np.random.seed(Unisi_id_number) or something like this). This will make your personal exam different from the one of any of your colleague;
- 
-In the following weeks more detailed instructions and exam simulations will be provided.
+
+## I exam - Summer Term <a name="class_schedule"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
+- Exam Info:
+  - Exam timing: Thursday June 4th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+  - Registrations are now open and will close on Monday June 1st, 2020.
+
+- Exam Instructions:
+  - On the exam date (Thursday June 4th, 2020), at exam time (h 10:30, Rome time), you will find attached here below the exam sheet: I_Exam_Summer_Term.ipynb;
+  - I_Exam_Summer_Term.ipynb exam sheet is a Jupyter Notebook (that is, a .ipynb file, like the one you have been studying on so far) with questions/exercises and empty Code cells for your answers;
+  - Complete the exam sheet I_Exam_Summer_Term.ipynb offline on your personal computer:
+    1. open the exam sheet using the Anaconda Navigator (as you would do with a lesson Notebook);
+    2. answer to the exam questions directly on the exam sheet;
+    3. once done: upload the exam sheet as an attachement of this assignment section. 
+  - Please note: only exam sheets received as attachement of this assignment section will be accepted and graded.
+
+- Other instructions:
+  - Exam questions can ask you to write code or answer theoretical questions.
+  - Comment extensively your code. A well written and commented code which does not run is more valuable (and will be graded accordingly by me) than a poorly written and not-commented code that does run. 
+  - You can use whatever you want to do  the exam (textbook, books, internet, etc.)
+  - In the exam sheet you will find further instructions to be followed. In particular: even if the exam sheet will be unique for everybody, you will be asked to use your unisi identification number unisi_id (e.g. 112358) in several ways to make it unique (for example: you might be asked to set the lenght of a NumPy array to the last digit (e.g. 8) of your unisi_id, or to input the full unisi_id as a seed for a random number generation, like: np.random.seed(112358) )
 
 - &#x1F534; Extra: upon suggestions, you may do some extra work and prepare a financial project . The following rules apply:
   - The project is not compulsory and, in particulary, does not substitute the Exam;
@@ -55,10 +72,6 @@ In the following weeks more detailed instructions and exam simulations will be p
   - I will be happy (write me to take an appointment) to discuss with you project topics of mutual interest and to help you with the project;
  
 For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
-
-(*) of course, you have to sync your local copy folder to the remote class folder in order to see the exam sheet appear, exactly in the same way in which you do every time to get updated lesson notebooks and other material.
-
-The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
 
 ---
 
