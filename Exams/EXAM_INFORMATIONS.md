@@ -1,0 +1,2 @@
+In this "Exams" folder you have to put the exam sheet notebook that you attached to the specific exam activity section of the Moodle platform.
+Follow instructions in the "Exams" section of the Moodle page of the course: https://elearning.unisi.it/course/view.php?id=3326

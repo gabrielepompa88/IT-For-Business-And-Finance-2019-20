@@ -1,1 +1,0 @@
-In this "Exams" folder you will find exam sheets and instructions.
