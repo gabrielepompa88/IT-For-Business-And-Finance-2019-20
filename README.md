@@ -20,6 +20,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
+- [EXAMS](#exam_info)
   - [I exam - Summer Term](#class_schedule)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
@@ -41,36 +42,66 @@ The e-learning for IT for Business and Finance course at [http://elearning.unisi
   - Fall term – 1st session: Tuesday **September 1st, 2020** h 10:30 – 12:30
   - Fall term – 2nd session: Friday **September 18th**, 2020 h 10:30 -12:30
  
-- &#x1F534; **Exam info**:
+# &#x1F534; EXAMS <a name="exam_info"></a>
 
-## I exam - Summer Term <a name="class_schedule"></a> 
+For additional informations see _Exams_ section of [Moodle page for IT for Business and Finance class](https://elearning.unisi.it/course/view.php?id=3326)
 
-Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
-- Exam Info:
-  - Exam timing: Thursday June 4th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
-  - Registrations are now open and will close on Monday June 1st, 2020.
+_General Informations_
 
-- Exam Instructions:
-  - On the exam date (Thursday June 4th, 2020), at exam time (h 10:30, Rome time), you will find attached here below the exam sheet: I_Exam_Summer_Term.ipynb;
-  - I_Exam_Summer_Term.ipynb exam sheet is a Jupyter Notebook (that is, a .ipynb file, like the one you have been studying on so far) with questions/exercises and empty Code cells for your answers;
-  - Complete the exam sheet I_Exam_Summer_Term.ipynb offline on your personal computer:
-    1. open the exam sheet using the Anaconda Navigator (as you would do with a lesson Notebook);
-    2. answer to the exam questions directly on the exam sheet;
-    3. once done: upload the exam sheet as an attachement of this assignment section. 
-  - Please note: only exam sheets received as attachement of this assignment section will be accepted and graded.
+On the exam date, at the beginning of the exam time window (next exam: Thursday June 4th, 2020 at 10:30, Rome time), you will find attached an exam sheet to the specific exam activity section (next: I Exam - Summer Term);
+The exam sheet is a Jupyter Notebook with questions/exercises and empty Code cells for your answers. A Jupyter Notebook is a file with .ipynb extension. It is the kind of file on which lecture notes have been delivered so far, so you should be already familiar with this (see Prerequisites);
 
-- Other instructions:
-  - Exam questions can ask you to write code or answer theoretical questions.
-  - Comment extensively your code. A well written and commented code which does not run is more valuable (and will be graded accordingly by me) than a poorly written and not-commented code that does run. 
-  - You can use whatever you want to do  the exam (textbook, books, internet, etc.)
-  - In the exam sheet you will find further instructions to be followed. In particular: even if the exam sheet will be unique for everybody, you will be asked to use your unisi identification number unisi_id (e.g. 112358) in several ways to make it unique (for example: you might be asked to set the lenght of a NumPy array to the last digit (e.g. 8) of your unisi_id, or to input the full unisi_id as a seed for a random number generation, like: np.random.seed(112358) )
+_Operational Instructions_
 
-- &#x1F534; Extra: upon suggestions, you may do some extra work and prepare a financial project . The following rules apply:
+Answer to the questions on the exam sheet offline, on your personal computer, following these operational instructions:
+download the exam sheet on your personal computer;
+move the exam sheet downloaded to the Exams sub-folder of your class folder (IT_For_Business_And_Finance_2019_20\Exams); (see Prerequisites)
+open the exam sheet using the Jupyter Notebook app of the Anaconda Navigator (see Prerequisites);
+answer to the exam questions directly on the exam sheet;
+save the exam sheet completed;
+once done (and before the end of the exam time window): upload the exam sheet as an attachement of this assignment section. 
+Please note: only exam sheets received as attachement of this assignment section will be accepted and graded.
+
+_Prerequisites_
+
+These are the prerequisites you must fulfill before taking the exam:
+You should have already the latest updated version of the class folder IT_For_Business_And_Finance_2019_20 on your personal computer.
+You should have the Anaconda Navigator installed on your personal computer.
+Using the Jupyter Notebook application of the Anaconda Navigator, you should be able to (these are all step you should have already be well familiar with, if you have followed the class):
+- navigate to the directory containing the notebook you want to open,
+- open the notebook, 
+- making changes to it, 
+- run it,
+- save it.
+
+As per exam, it will be assumed that all of you satisfy these prerequisites. Should you still be missing some of those, please follow these instructions on how to work this class: https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md and please do let me know if you need assistance.
+
+_About the exam_
+
+- Exam questions can ask you to write code or answer theoretical questions.
+- Comment extensively your code. A well written and commented code which does not run is more valuable (and will be graded accordingly) than a poorly written and not-commented code that does run. 
+- You can use whatever you want to do the exam (textbook, books, internet, etc.)
+- In the exam sheet you will find further instructions to be followed. In particular: even if the exam sheet will be unique for everybody, you will be asked to use your unisi identification number unisi_id (e.g. 589160) in several ways to make it unique (for example: you might be asked to set the lenght of a NumPy array to the second digit (e.g. 8) of your unisi_id, or to input the full unisi_id as a seed for a random number generation, like: np.random.seed(589160) ) 
+
+_Extra_
+
+Upon suggestions, you may do some extra work and prepare a financial project . The following rules apply:
   - The project is not compulsory and, in particulary, does not substitute the Exam;
   - The project might be helpful for exam preparation and, in particular, for your future to show off your ability (to recruiters and/or hiring managers);
   - The project shall take the form of the development of a personal GitHub repository, on the footprints of the class one;
   - I will be happy (write me to take an appointment) to discuss with you project topics of mutual interest and to help you with the project;
- 
+  
+## I exam - Summer Term <a name="class_schedule"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
+
+_Exam Schedule_
+
+Exam timing: Thursday June 4th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+Exam sheet: I_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
+Registrations are now open and will close on Monday June 1st, 2020.
+
 For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
 
 ---
