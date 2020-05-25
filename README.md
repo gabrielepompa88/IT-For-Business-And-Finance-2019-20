@@ -54,13 +54,12 @@ The exam sheet is a Jupyter Notebook with questions/exercises and empty Code cel
 _Operational Instructions_
 
 Answer to the questions on the exam sheet offline, on your personal computer, following these operational instructions:
-download the exam sheet on your personal computer;
-move the exam sheet downloaded to the Exams sub-folder of your class folder (IT_For_Business_And_Finance_2019_20\Exams); (see Prerequisites)
-open the exam sheet using the Jupyter Notebook app of the Anaconda Navigator (see Prerequisites);
-answer to the exam questions directly on the exam sheet;
-save the exam sheet completed;
-once done (and before the end of the exam time window): upload the exam sheet as an attachement of this assignment section. 
-Please note: only exam sheets received as attachement of this assignment section will be accepted and graded.
+- download the exam sheet on your personal computer;
+- move the exam sheet downloaded to the Exams sub-folder of your class folder (IT_For_Business_And_Finance_2019_20\Exams); (see Prerequisites)
+- open the exam sheet using the Jupyter Notebook app of the Anaconda Navigator (see Prerequisites);
+- answer to the exam questions directly on the exam sheet;
+- once done, save and download (as Notebook) the exam sheet completed;
+- before the end of the exam time window: upload the exam sheet as an attachement, using the dedicated upload form. 
 
 _Prerequisites_
 
@@ -72,7 +71,8 @@ Using the Jupyter Notebook application of the Anaconda Navigator, you should be 
 - open the notebook, 
 - making changes to it, 
 - run it,
-- save it.
+- save it,
+- download it (as Notebook .ipynb file).
 
 As per exam, it will be assumed that all of you satisfy these prerequisites. Should you still be missing some of those, please follow these instructions on how to work this class: https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/How-to-work-this-class.md and please do let me know if you need assistance.
 
