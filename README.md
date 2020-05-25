@@ -21,7 +21,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [EXAMS](#exam_info)
-  - [I exam - Summer Term](#class_schedule)
+  - [I Exam - Summer Term](#class_schedule)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
 - [Class Diary](#class_diary)
@@ -91,7 +91,7 @@ Upon suggestions, you may do some extra work and prepare a financial project . T
   - The project shall take the form of the development of a personal GitHub repository, on the footprints of the class one;
   - I will be happy (write me to take an appointment) to discuss with you project topics of mutual interest and to help you with the project;
   
-## I exam - Summer Term <a name="class_schedule"></a> 
+## I Exam - Summer Term <a name="class_schedule"></a> 
 
 Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
 
