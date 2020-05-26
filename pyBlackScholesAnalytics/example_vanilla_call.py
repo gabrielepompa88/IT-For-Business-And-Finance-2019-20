@@ -26,6 +26,9 @@ def main():
     # Vanilla Call price plot at t
     plotter.plot(t=emission_date, plot_metrics="price", plot_details=True)
 
+    # Vanilla Call price plot at another date-string date
+    plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
+
     # emission/expiration date of the option
     expiration_date = Vanilla_Call.get_T()
     print(expiration_date)

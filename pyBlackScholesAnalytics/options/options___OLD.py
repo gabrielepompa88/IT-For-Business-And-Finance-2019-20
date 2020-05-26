@@ -206,8 +206,8 @@ class EuropeanOption:
                         else (kwargs['t'] if 't' in kwargs else None)
         
         # check that no multiple time parameters in input
-        #if is_iterable_not_string(time_param):
-        #    raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
+        if is_iterable_not_string(time_param):
+            raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
 
         # time parameter interpretation according to its type        
         # case 1: no time-parameter in input
@@ -218,14 +218,11 @@ class EuropeanOption:
             tau = time_param
         # case 3: valuation date in input, to be converted into time-to-maturity
         elif is_date(time_param):
-            tau = self.time_to_maturity(t=time_param)
+            valuation_date = date_string_to_datetime_obj(time_param)
+            tau = self.time_to_maturity(t=valuation_date)
         # error case: the time parameter in input has a data-type that is not recognized
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-            
-        # creating a mesh-grid if both S and tau are Iterable objects
-        if is_iterable(S) and is_iterable(tau):
-            S, tau = np.meshgrid(S, tau)
             
         # underlying volatility 
         sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
