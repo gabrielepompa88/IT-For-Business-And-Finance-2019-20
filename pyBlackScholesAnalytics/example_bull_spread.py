@@ -3,7 +3,9 @@ from portfolio.portfolio import Portfolio
 from options.options import PlainVanillaOption
 from plotter.plotter import PortfolioPlotter
 
+
 def main():
+    
     # Bull-Spread implementation example
             
     # default market environment
