@@ -193,7 +193,7 @@ class EuropeanOption:
 
         # underlying value 
         S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-
+                    
         # time parameter:
         time_param = args[1] if len(args) > 1 \
                      else kwargs['tau'] if 'tau' in kwargs \
@@ -215,6 +215,14 @@ class EuropeanOption:
             
         # make S and tau homogenous variables, if necessary creating a (S, tau) grid
         S, tau = homogenize(S, tau)
+
+        # checking whether any value in S is smaller than zero. Works if S is scalar too.
+        if np.any(S < 0):
+            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
+
+        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
+        if np.any(tau < 0):
+            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
             
         # underlying volatility 
         sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
@@ -280,18 +288,19 @@ class EuropeanOption:
         """
         
         # underlying value and time-to-maturity
-        S, tau, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+#        S, tau, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
         
         # if tau==0, this is the P&L at option's expiration, that is the PnL if the option is kept until maturity
-        if tau == 0.0:
-            # P&L = payoff - initial price
-            return self.payoff(S) - self.get_initial_price()
-        
+        # it is computed as:
+        # P&L = payoff - initial price
+        #
         # if tau > 0, this is the P&L as if the option position is closed before maturity, when the time-to-maturity is tau
-        else:
-            # P&L = current price - initial price
-            return self.price(S, tau) - self.get_initial_price()
-        
+        # it is computed as:
+        # P&L = current price - initial price
+        #
+        # the choice between payoff and current price is delefated to .price() method
+        return self.price(*args, **kwargs) - self.get_initial_price()
+            
 #-----------------------------------------------------------------------------#
         
 class PlainVanillaOption(EuropeanOption):
@@ -534,30 +543,28 @@ class PlainVanillaOption(EuropeanOption):
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
                
-        # call case
+        # for tau==0 output the payoff, otherwise price
+        # np.where(condition, x, y) when the array_like condition is True, returns x, otherwise y
         if self.get_type() == 'call':
-            return np.array([self.__call_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__call_price(S, tau, sigma, r)
-        # put case
+            # call case
+            value = np.where(tau > 0, self.__call_price(S, tau, sigma, r), self.__call_payoff(S))        
         else:
-            return np.array([self.__put_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__put_price(S, tau, sigma, r)
+            # put case
+            value = np.where(tau > 0, self.__put_price(S, tau, sigma, r), self.__put_payoff(S))
+
+        # if possible reduce the output to a scalar
+        return scalarize(value)        
           
     def __call_price(self, S, tau, sigma, r):
+
+        K = self.get_K()
         
-        if S <= 0: # this is to avoid log(0) or complex log issues
-            if S < 0:
-                warnings.warn("Warning: S = {} < 0 value encountered".format(S))                
-            return 0.0
-        elif tau == 0.0: # this is to avoid 0/0 issues
-            return self.__call_payoff(S)
-        else:
-            K = self.get_K()
-            
-            # get d1 and d2 terms
-            d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
-            price = S * stats.norm.cdf(d1, 0.0, 1.0) - K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
+        price = S * stats.norm.cdf(d1, 0.0, 1.0) - K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
-            return price
+        return price
     
     def __put_price(self, S, tau, sigma, r):
         """ Put price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
@@ -698,7 +705,7 @@ class DigitalOption(EuropeanOption):
         return np.heaviside(S - self.get_K(), 0.0)
 
     def __put_payoff(self, S):
-        return np.heaviside(self.get_K() - S, 0.0)
+        return np.heaviside(self.get_K() - S, 1.0)
         
     # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
@@ -749,9 +756,7 @@ class DigitalOption(EuropeanOption):
         S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
         
         # the same for call and put
-        # np.zeros_like(arr) returns an array of zeros of same shape of arr
-        # scalarized() is used to reduce to scalar an array of length 1, if is the case
-        return scalarized(np.zeros_like(S))
+        return 0.0*S
                     
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
@@ -788,30 +793,28 @@ class DigitalOption(EuropeanOption):
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
             
-        # call case
+        # for tau==0 output the payoff, otherwise price
+        # np.where(condition, x, y) when the array_like condition is True, returns x, otherwise y
         if self.get_type() == 'call':
-            return np.array([self.__call_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__call_price(S, tau, sigma, r)
-        # put case
+            # call case
+            value = np.where(tau > 0, self.__call_price(S, tau, sigma, r), self.__call_payoff(S))        
         else:
-            return np.array([self.__put_price(s, tau, sigma, r) for s in S]) if is_iterable(S) else self.__put_price(S, tau, sigma, r)
+            # put case
+            value = np.where(tau > 0, self.__put_price(S, tau, sigma, r), self.__put_payoff(S))
+
+        # if possible reduce the output to a scalar
+        return scalarize(value)        
           
     def __call_price(self, S, tau, sigma, r):
                 
-        if S <= 0: # this is to avoid log(0) or complex log issues
-            if S < 0:
-                warnings.warn("Warning: S = {} < 0 value encountered".format(S))                
-            return 0.0
-        elif tau == 0.0: # this is to avoid 0/0 issues
-            return self.__call_payoff(S)
-        else:
-            Q = self.get_Q()
-            
-            # get d2 term
-            _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+        Q = self.get_Q()
+        
+        # get d2 term
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
-            price = Q * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
+        price = Q * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
-            return price
+        return price
     
     def __put_price(self, S, tau, sigma, r):
         """ Put price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""

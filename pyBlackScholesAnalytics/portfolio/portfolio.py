@@ -141,9 +141,9 @@ class Portfolio:
                         else kwargs['tau'] if 'tau' in kwargs \
                             else (kwargs['t'] if 't' in kwargs else None)
         
-        # check that no multiple time parameters in input
-        if is_iterable_not_string(time_param):
-            raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
+#        # check that no multiple time parameters in input
+#        if is_iterable_not_string(time_param):
+#            raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
             
         # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
         if self.is_multi_horizon and is_numeric(time_param):

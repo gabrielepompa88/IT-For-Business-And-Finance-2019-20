@@ -133,9 +133,8 @@ class Plotter:
                              (only 'dd-mm-YYYY' Strings or dt.datetime objects allowed)".format(type(time_parameter)))
             
         # case of one-element Iterable: reduced to scalar variables
-        if is_iterable(time_parameter) and len(time_parameter) == 1:
-            time_parameter = time_parameter[0]
-            time_parameter_label = time_parameter_label[0]
+        time_parameter = scalarize(time_parameter)
+        time_parameter_label = scalarize(time_parameter_label)
                 
         return time_parameter, time_parameter_label
     

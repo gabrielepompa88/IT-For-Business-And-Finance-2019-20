@@ -23,15 +23,28 @@ from collections.abc import Iterable
 
 #-----------------------------------------------------------------------------#
 
-def scalarized(x):
+def scalarize(x):
     """
-    Reduce array to x to scalar, if possible.
+    Reduce array x to scalar, if possible.
     """
     
-    if is_iterable(x) and len(x.flatten()) == 1:
-        return float(x)
+    if is_iterable_not_string(x) and len(x.flatten()) == 1:
+        return x.item()
     else:
         return x
+    
+#-----------------------------------------------------------------------------#
+
+def iterable_to_numpy_array(iterable):
+    """
+    Create a NumPy Array from an Iterable with elements of the same type.
+    If the iterable has elements of different data-type, it raises an error.
+    """
+    
+    if is_iterable_not_string(iterable) and test_same_type(iterable):
+        return np.array([x for x in iterable])
+    else:
+        return iterable
     
 #-----------------------------------------------------------------------------#
 
@@ -49,10 +62,14 @@ def homogenize(x, y):
         3) if y is array of length m; x is scalar, then:
             x ---> array of length m, repeating its value m-times
     """
+        
+    # convert x and y to NumPy arrays if they are Iterables of same data-type
+    x = iterable_to_numpy_array(x)
+    y = iterable_to_numpy_array(y)
     
-    # first, reduce x and y to sclar, if possible
-    x = scalarized(x)
-    y = scalarized(y)
+    # reduce x and y to scalar, if possible
+    x = scalarize(x)
+    y = scalarize(y)
     
     if is_iterable(x) and is_iterable(y):
         # case 1

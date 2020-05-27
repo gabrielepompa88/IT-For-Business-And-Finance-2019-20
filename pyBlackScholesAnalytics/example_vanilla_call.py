@@ -24,7 +24,7 @@ def main():
     print(emission_date)
     
     # Vanilla Call price plot at t
-    plotter.plot(t=emission_date, plot_metrics="price", plot_details=True)
+    plotter.plot(t=[emission_date], plot_metrics="price", plot_details=True)
 
     # Vanilla Call price plot at another date-string date
     plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
@@ -37,6 +37,9 @@ def main():
     multiple_valuation_dates = pd.date_range(start=emission_date, 
                                              end=expiration_date - pd.Timedelta(days=10), 
                                              periods=5)
+    
+    Vanilla_Call.price(S=[90, 100], t=multiple_valuation_dates[0])
+    Vanilla_Call.PnL(S=[90, 100], t=0)
     
     # Vanilla Call price plot at multiple dates
     plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
