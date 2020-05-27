@@ -223,9 +223,8 @@ class EuropeanOption:
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
             
-        # creating a mesh-grid if both S and tau are Iterable objects
-        if is_iterable(S) and is_iterable(tau):
-            S, tau = np.meshgrid(S, tau)
+        # make S and tau homogenous variables
+        S, tau = homogenize(x=S, y=tau)
             
         # underlying volatility 
         sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()

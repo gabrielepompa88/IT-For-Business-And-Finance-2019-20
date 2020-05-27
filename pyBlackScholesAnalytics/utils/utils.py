@@ -21,6 +21,37 @@ import matplotlib.pyplot as plt
 # to identify iterable data-structures
 from collections.abc import Iterable
 
+
+def homogenize(x, y):
+    """
+    Utility function to homogenize the shape of variable. The following cases are considered:
+        
+        1) if x is array of lenght n; y is array of length m, then:
+            x, y ---> (m, n) shaped arrays creating a mesh-grid
+            (see np.meshgrid documentation)
+            
+        2) if x is array of length n; y is scalar, then:
+            y ---> array of length n, repeating its value n-times
+
+        3) if y is array of length m; x is scalar, then:
+            x ---> array of length m, repeating its value m-times
+    """
+    
+    if is_iterable(x) and is_iterable(y):
+        # case 1
+        x, y = np.meshgrid(x, y)
+    elif is_iterable(x):
+        # case 2
+        y = np.repeat(y, repeats=len(x))
+    elif is_iterable(y):
+        # case 3
+        x = np.repeat(x, repeats=len(y))
+    else:
+        pass
+    
+    return x, y
+
+
 #-----------------------------------------------------------------------------#
 
 def test_same_type(iterable_obj):
@@ -33,11 +64,48 @@ def test_same_type(iterable_obj):
     # If its length is 1, then all the elements of iterable_obj are of the 
     # same data-type
     if len(set([type(x) for x in iterable_obj])) == 1:
+        # all element are of the same type: test successfull!
         return True
     else:
         raise TypeError("Iterable '{}' in input has elements of heterogenous types: {}"\
                         .format(iterable_obj, [type(x) for x in iterable_obj]))
 
+#-----------------------------------------------------------------------------#
+
+def test_valid_format(date_string, date_format="%d-%m-%Y"):
+    """
+    Utility function to test whether:
+        
+        1-dim case:
+            a date_string String is  
+            
+        Multi-dim case:
+            a (non-String) Iterable has elements
+        
+    conform to the date_format (default: 'dd-mm-YYYY') date format. 
+    If not, it raises a ValueError.
+    
+    If date_string in input is neither an Iterable, nor a String, it raises a TypeError.
+    """
+    
+    try:    
+        if isinstance(date_string, str):
+            # 1-dim case
+            dt.datetime.strptime(date_string, date_format)
+        elif is_iterable_not_string(date_string):
+            # Multi-dim case
+            pd.to_datetime(date_string, format=date_format, errors='raise')
+        else:
+            # neither an Iterable, nor a String: raise TypeError
+            raise TypeError("Type {} of date_string {} not recognized".format(type(date_string), date_string))    
+            
+    except ValueError:
+        # not conform to date_format: raise ValueError
+        raise ValueError("date_string {} in input is not conform to 'dd-mm-YYYY' date format".format(date_string))
+    else:
+        # conform to date_format: test successfull!
+        return True
+    
 #-----------------------------------------------------------------------------#
 
 def datetime_obj_to_date_string(date):
@@ -55,8 +123,8 @@ def datetime_obj_to_date_string(date):
     
     if isinstance(date, dt.datetime) or isinstance(date, pd.DatetimeIndex):
         # .strftime() is a polymorphic method, implemented by both 
-        # datetime objects of datetime and DatetimeIndex objects of Pandas 
-        # so there is no need to differentiate between the two when calling it
+        # datetime objects of datetime (1-dim) and DatetimeIndex (Multi-dim) objects of Pandas 
+        # so there is no need to differentiate between the two case when calling it
         return date.strftime("%d-%m-%Y")
     elif is_iterable_not_string(date):
         # all other kind of iterables (Lists, np.ndarray, etc..) are mapped to Lists
@@ -66,39 +134,27 @@ def datetime_obj_to_date_string(date):
 
 #-----------------------------------------------------------------------------#
 
-def test_valid_format(date_string, date_format="%d-%m-%Y"):
-    """
-    Utility function to test whether a date_string String in input is conform to date_format (default: 'dd-mm-YYYY') date format.
-    If not raises an error.
-    """
-    try:
-        dt.datetime.strptime(date_string, date_format)
-    except ValueError:
-        print("String '{}' in input is not conform to 'dd-mm-YYYY' date format".format(date_string))
-        raise
-    else:
-        return True
-    
-#-----------------------------------------------------------------------------#
-
 def date_string_to_datetime_obj(date_string):
     """
     Utility function to convert: 
         
         1-dim case:
-            from 'dd-mm-YYYY' String object --> to dt.datetime.
-            ValueError, due to wrong date format of the input String, is controlled.
+            from String object conform to 'dd-mm-YYYY' date foramt --> to dt.datetime.
         
         Multi-dim case:
-        
-            from (non-String) Iterable --> to pd.DatetimeIndex
+            from (non-String) Iterable objects of elements conform to 'dd-mm-YYYY' date format --> to pd.DatetimeIndex
+            
+    The 'dd-mm-YYYY' date format is controlled throught test_valid_format() utility function.
     """
     
-    if is_iterable_not_string(date_string):
-        return pd.DatetimeIndex(date_string)
-    else:
-        return dt.datetime.strptime(date_string, "%d-%m-%Y") if (isinstance(date_string, str) and test_valid_format(date_string)) \
-                                                             else date_string
+    if isinstance(date_string, str) and test_valid_format(date_string):
+        # 1-dim case
+        return dt.datetime.strptime(date_string, "%d-%m-%Y")
+    elif is_iterable_not_string(date_string) and test_valid_format(date_string):
+        # Multi-dim case
+        return pd.DatetimeIndex(date_string)     
+    else: 
+        return date_string
                                                          
 #-----------------------------------------------------------------------------#
 
@@ -125,6 +181,8 @@ def is_numeric(x):
     """
     
     if is_iterable_not_string(x) and test_same_type(x):
+        # since all elements are of the same type, 
+        # it's enought to check the first element
         return isinstance(x[0], float) or isinstance(x[0], int)
     else:
         return isinstance(x, float) or isinstance(x, int)
@@ -138,6 +196,8 @@ def is_date(x):
     """
     
     if is_iterable_not_string(x) and test_same_type(x):
+        # since all elements are of the same type, 
+        # it's enought to check the first element
         return isinstance(x[0], dt.datetime) or (isinstance(x[0], str) and test_valid_format(x[0]))
     else:
         return isinstance(x, dt.datetime) or (isinstance(x, str) and test_valid_format(x))
