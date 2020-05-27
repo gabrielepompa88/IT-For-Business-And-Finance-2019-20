@@ -21,6 +21,19 @@ import matplotlib.pyplot as plt
 # to identify iterable data-structures
 from collections.abc import Iterable
 
+#-----------------------------------------------------------------------------#
+
+def scalarized(x):
+    """
+    Reduce array to x to scalar, if possible.
+    """
+    
+    if is_iterable(x) and len(x.flatten()) == 1:
+        return float(x)
+    else:
+        return x
+    
+#-----------------------------------------------------------------------------#
 
 def homogenize(x, y):
     """
@@ -37,6 +50,10 @@ def homogenize(x, y):
             x ---> array of length m, repeating its value m-times
     """
     
+    # first, reduce x and y to sclar, if possible
+    x = scalarized(x)
+    y = scalarized(y)
+    
     if is_iterable(x) and is_iterable(y):
         # case 1
         x, y = np.meshgrid(x, y)
@@ -50,7 +67,6 @@ def homogenize(x, y):
         pass
     
     return x, y
-
 
 #-----------------------------------------------------------------------------#
 

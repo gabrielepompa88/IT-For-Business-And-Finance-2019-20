@@ -99,9 +99,6 @@ class EuropeanOption:
         self.__r     = mkt_env.get_r()
         self.__sigma = mkt_env.get_sigma()
         
-        # default d1 and d2 terms
-        self.__d1, self.__d2 = self.d1_and_d2(S=self.get_S(), tau=self.get_tau())
-        
         # empty initial price of the option
         self.__initial_price = None
                
@@ -136,10 +133,7 @@ class EuropeanOption:
     
     def get_sigma(self):
         return self.__sigma
-    
-    def get_d1_and_d2(self):
-        return self.__d1, self.__d2
-    
+        
     def get_initial_price(self):
         return NotImplementedError()
     
@@ -205,10 +199,6 @@ class EuropeanOption:
                      else kwargs['tau'] if 'tau' in kwargs \
                         else (kwargs['t'] if 't' in kwargs else None)
         
-        # check that no multiple time parameters in input
-        #if is_iterable_not_string(time_param):
-        #    raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
-
         # time parameter interpretation according to its type        
         # case 1: no time-parameter in input
         if time_param is None:
@@ -223,8 +213,8 @@ class EuropeanOption:
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
             
-        # make S and tau homogenous variables
-        S, tau = homogenize(x=S, y=tau)
+        # make S and tau homogenous variables, if necessary creating a (S, tau) grid
+        S, tau = homogenize(S, tau)
             
         # underlying volatility 
         sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
@@ -235,27 +225,23 @@ class EuropeanOption:
         return S, tau, sigma, r
     
     # d1 and d2 terms
-    def d1_and_d2(self,  *args, **kwargs):
+    def d1_and_d2(self, *args, **kwargs):
         """
         Utility method to compute d1 and d2 terms of Black-Scholes pricing formula
         """
         
         # parsing optional parameters
-        S     = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else None
-        tau   = args[1] if len(args) > 1 else kwargs['tau'] if 'tau' in kwargs else None
-        
-        if (S is None) and (tau is None):
-            return self.get_d1_and_d2()
-        else:
-            K     = args[2] if len(args) > 2 else kwargs['K'] if 'K' in kwargs else self.get_K()
-            r     = args[3] if len(args) > 3 else kwargs['r'] if 'r' in kwargs else self.get_r()
-            sigma = args[4] if len(args) > 4 else kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-    
-            # compute d1 and d2
-            d1 = (np.log(S/K) + (r + 0.5 * sigma ** 2) * tau) / (sigma * np.sqrt(tau))
-            d2 = d1 - sigma * np.sqrt(tau)
+        S     = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
+        tau   = args[1] if len(args) > 1 else kwargs['tau'] if 'tau' in kwargs else self.get_tau()
+        K     = args[2] if len(args) > 2 else kwargs['K'] if 'K' in kwargs else self.get_K()
+        r     = args[3] if len(args) > 3 else kwargs['r'] if 'r' in kwargs else self.get_r()
+        sigma = args[4] if len(args) > 4 else kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
+            
+        # compute d1 and d2
+        d1 = (np.log(S/K) + (r + 0.5 * sigma ** 2) * tau) / (sigma * np.sqrt(tau))
+        d2 = d1 - sigma * np.sqrt(tau)
 
-            return d1, d2
+        return d1, d2
     
     # payoff template
     def payoff(self):
@@ -420,16 +406,12 @@ class PlainVanillaOption(EuropeanOption):
             return self.__put_payoff(S)
     
     def __call_payoff(self, S):
-        if is_iterable(S):
-            return np.array([max(0.0, s - self.get_K()) for s in S])
-        else:
-            return max(0.0, S - self.get_K())
+        # np.maximum(arr, x) returns the array of the maximum between each
+        # element of arr and x
+        return np.maximum(S - self.get_K(), 0.0)
 
     def __put_payoff(self, S):
-        if is_iterable(S):
-            return np.array([max(0.0, self.get_K() - s) for s in S])
-        else:
-            return max(0.0, self.get_K() - S)
+        return np.maximum(self.get_K() - S, 0.0)
         
     # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
@@ -460,18 +442,18 @@ class PlainVanillaOption(EuropeanOption):
         # underlying value, time-to-maturity and short-rate
         S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
                         
-        # call case
         if self.get_type() == 'call':
-            return S
-        # put case
+            # call case
+            return self.__call_price_upper_limit(S)
         else:
+            # put case
             return self.__put_price_upper_limit(S, tau, r)
     
+    def __call_price_upper_limit(self, S):
+        return S
+    
     def __put_price_upper_limit(self, S, tau, r):
-        if is_iterable(S):
-            return np.repeat(self.get_K()*np.exp(-r * tau), repeats=len(S)) 
-        else:
-            return self.get_K()*np.exp(-r * tau)
+        return self.get_K()*np.exp(-r * tau)
 
     # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
@@ -510,16 +492,12 @@ class PlainVanillaOption(EuropeanOption):
             return self.__put_price_lower_limit(S, tau, r)
 
     def __call_price_lower_limit(self, S, tau, r):
-        if is_iterable(S):
-            return np.array([max(s - self.get_K()*np.exp(-r * tau), 0.0) for s in S])
-        else:
-            return max(S - self.get_K()*np.exp(-r * tau), 0.0)
-                                       
+        # np.maximum(arr, x) returns the array of the maximum between each
+        # element of arr and x
+        return np.maximum(S - self.get_K()*np.exp(-r * tau), 0.0)
+        
     def __put_price_lower_limit(self, S, tau, r):
-        if is_iterable(S):
-            return np.array([max(self.get_K()*np.exp(-r * tau) - s, 0.0) for s in S])
-        else:
-            return max(self.get_K()*np.exp(-r * tau) - S, 0.0)
+        return np.maximum(self.get_K()*np.exp(-r * tau) - S, 0.0)
                                        
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
@@ -710,18 +688,17 @@ class DigitalOption(EuropeanOption):
         # put case
         else:
             return self.__put_payoff(S)
-
+        
     def __call_payoff(self, S):
-        if is_iterable(S):
-            return np.array([self.get_Q() * int(s > self.get_K()) for s in S])
-        else:
-            return self.get_Q() * int(S > self.get_K())
+        # np.heaviside(arr, x) returns
+        #
+        # 0 if arr < 0
+        # x if arr == 0
+        # 1 if arr > 0
+        return np.heaviside(S - self.get_K(), 0.0)
 
     def __put_payoff(self, S):
-        if is_iterable(S):
-            return np.array([self.get_Q() * int(s <= self.get_K()) for s in S])
-        else:
-            return self.get_Q() * int(S <= self.get_K())
+        return np.heaviside(self.get_K() - S, 0.0)
         
     # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
@@ -753,14 +730,8 @@ class DigitalOption(EuropeanOption):
         S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
             
         # the same for call and put
-        return self.__price_upper_limit(S, tau, r)
- 
-    def __price_upper_limit(self, S, tau, r):
-        if is_iterable(S):
-            return np.repeat(self.get_Q()*np.exp(-r * tau), repeats=len(S))
-        else:
-            return self.get_Q()*np.exp(-r * tau)
-                                       
+        return self.get_Q()*np.exp(-r * tau)
+                                        
     # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
         """
@@ -776,14 +747,12 @@ class DigitalOption(EuropeanOption):
 
         # underlying value
         S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
-            
-        # call case
-        if self.get_type() == 'call':
-            return np.repeat(0.0, repeats=len(S)) if is_iterable(S) else 0.0
-        # put case
-        else:
-            return np.repeat(0.0, repeats=len(S)) if is_iterable(S) else 0.0
         
+        # the same for call and put
+        # np.zeros_like(arr) returns an array of zeros of same shape of arr
+        # scalarized() is used to reduce to scalar an array of length 1, if is the case
+        return scalarized(np.zeros_like(S))
+                    
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
         """
