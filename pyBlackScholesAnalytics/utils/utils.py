@@ -28,23 +28,23 @@ def scalarize(x):
     Reduce array x to scalar, if possible.
     """
     
-    if is_iterable_not_string(x) and len(x.flatten()) == 1:
+    if is_iterable_not_string(x) and x.size == 1: #len(x.flatten()) == 1:
         return x.item()
     else:
         return x
     
 #-----------------------------------------------------------------------------#
 
-def iterable_to_numpy_array(iterable):
+def iterable_to_numpy_array(x):
     """
     Create a NumPy Array from an Iterable with elements of the same type.
     If the iterable has elements of different data-type, it raises an error.
     """
     
-    if is_iterable_not_string(iterable) and test_same_type(iterable):
-        return np.array([x for x in iterable])
+    if (not isinstance(x, np.ndarray)) and is_iterable_not_string(x) and test_same_type(x):
+        return np.array([xi for xi in x])
     else:
-        return iterable
+        return x
     
 #-----------------------------------------------------------------------------#
 
@@ -81,6 +81,7 @@ def homogenize(x, y):
         # case 3
         x = np.repeat(x, repeats=len(y))
     else:
+        # if both x and y are scalar variables (non Iterable), are left untouched
         pass
     
     return x, y

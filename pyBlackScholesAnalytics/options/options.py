@@ -286,10 +286,7 @@ class EuropeanOption:
             - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
             - A time-to-maturity value (e.g. tau=0.5)
         """
-        
-        # underlying value and time-to-maturity
-#        S, tau, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
-        
+                
         # if tau==0, this is the P&L at option's expiration, that is the PnL if the option is kept until maturity
         # it is computed as:
         # P&L = payoff - initial price
@@ -542,28 +539,51 @@ class PlainVanillaOption(EuropeanOption):
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
-               
+        
+        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
+        # We use the scalar_output to keep track of this before output
+        scalar_output = False
+        if not (is_iterable(S) or is_iterable(tau)):
+            scalar_output = True
+            S   = np.array([S])
+            tau = np.array([tau])
+            
+        # initialize an empty structure to hold prices
+        price = np.empty_like(S)
+            
+        # boolean array of times-to-maturity > 0
+        tau_pos = tau > 0
+            
+        #
         # for tau==0 output the payoff, otherwise price
-        # np.where(condition, x, y) when the array_like condition is True, returns x, otherwise y
+        #
+        
+        # call case
         if self.get_type() == 'call':
-            # call case
-            value = np.where(tau > 0, self.__call_price(S, tau, sigma, r), self.__call_payoff(S))        
+            # tau > 0 case
+            price[tau_pos] = self.__call_price(S[tau_pos], tau[tau_pos], sigma, r)
+            # tau == 0 case
+            price[~tau_pos] = self.__call_payoff(S[~tau_pos])  
+        # put case
         else:
-            # put case
-            value = np.where(tau > 0, self.__put_price(S, tau, sigma, r), self.__put_payoff(S))
-
-        # if possible reduce the output to a scalar
-        return scalarize(value)        
+            # tau > 0 case
+            price[tau_pos] = self.__put_price(S[tau_pos], tau[tau_pos], sigma, r)
+            # tau == 0 case
+            price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
+            
+        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
-
-        K = self.get_K()
         
         # get d1 and d2 terms
         d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # get strike price    
+        K = self.get_K()
+        
+        # compute price
         price = S * stats.norm.cdf(d1, 0.0, 1.0) - K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
-
+                           
         return price
     
     def __put_price(self, S, tau, sigma, r):
@@ -792,18 +812,39 @@ class DigitalOption(EuropeanOption):
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        
+        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
+        # We use the scalar_output to keep track of this before output
+        scalar_output = False
+        if not (is_iterable(S) or is_iterable(tau)):
+            scalar_output = True
+            S   = np.array([S])
+            tau = np.array([tau])
             
+        # initialize an empty structure to hold prices
+        price = np.empty_like(S)
+            
+        # boolean array of times-to-maturity > 0
+        tau_pos = tau > 0
+            
+        #
         # for tau==0 output the payoff, otherwise price
-        # np.where(condition, x, y) when the array_like condition is True, returns x, otherwise y
+        #
+        
+        # call case
         if self.get_type() == 'call':
-            # call case
-            value = np.where(tau > 0, self.__call_price(S, tau, sigma, r), self.__call_payoff(S))        
+            # tau > 0 case
+            price[tau_pos] = self.__call_price(S[tau_pos], tau[tau_pos], sigma, r)
+            # tau == 0 case
+            price[~tau_pos] = self.__call_payoff(S[~tau_pos])  
+        # put case
         else:
-            # put case
-            value = np.where(tau > 0, self.__put_price(S, tau, sigma, r), self.__put_payoff(S))
-
-        # if possible reduce the output to a scalar
-        return scalarize(value)        
+            # tau > 0 case
+            price[tau_pos] = self.__put_price(S[tau_pos], tau[tau_pos], sigma, r)
+            # tau == 0 case
+            price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
+            
+        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
                 
