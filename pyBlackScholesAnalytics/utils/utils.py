@@ -35,18 +35,61 @@ def scalarize(x):
     
 #-----------------------------------------------------------------------------#
 
-def iterable_to_numpy_array(x):
+def iterable_to_numpy_array(x, sort=True):
     """
-    Create a NumPy Array from an Iterable with elements of the same type.
+    Create a (sorted) NumPy Array from an Iterable with elements of the same type.
     If the iterable has elements of different data-type, it raises an error.
     """
     
     if (not isinstance(x, np.ndarray)) and is_iterable_not_string(x) and test_same_type(x):
-        return np.array([xi for xi in x])
+        numpy_array = np.array([xi for xi in x])
+        return np.sort(numpy_array) if sort else numpy_array
     else:
         return x
     
 #-----------------------------------------------------------------------------#
+
+#def homogenize(x, y):
+#    """
+#    Utility function to homogenize the shape of variable. The following cases are considered:
+#        
+#        1) if x is array of lenght n; y is array of length m, then:
+#            x, y ---> (m, n) shaped arrays creating a mesh-grid
+#            (see np.meshgrid documentation)
+#            
+#        2) if x is array of length n; y is scalar, then:
+#            y ---> array of length n, repeating its value n-times
+#
+#        3) if y is array of length m; x is scalar, then:
+#            x ---> array of length m, repeating its value m-times
+#        
+#        4) if both x and y are scalar, then:
+#            y, x ---> array of length 1 made of their own values
+#    """
+#        
+#    # convert x and y to NumPy arrays if they are Iterables of same data-type
+#    x = iterable_to_numpy_array(x)
+#    y = iterable_to_numpy_array(y)
+#        
+#    # reduce x and y to scalar, if possible
+#    x = scalarize(x)
+#    y = scalarize(y)
+#    
+#    if is_iterable(x) and is_iterable(y):
+#        # case 1
+#        x, y = np.meshgrid(x, y)
+#    elif is_iterable(x):
+#        # case 2
+#        y = np.repeat(y, repeats=len(x))
+#    elif is_iterable(y):
+#        # case 3
+#        x = np.repeat(x, repeats=len(y))
+#    else:
+#        # case 4 
+#        x = np.array([x])
+#        y = np.array([y])
+#    
+#    return x, y
 
 def homogenize(x, y):
     """
@@ -61,18 +104,24 @@ def homogenize(x, y):
 
         3) if y is array of length m; x is scalar, then:
             x ---> array of length m, repeating its value m-times
+        
+        4) if both x and y are scalar, then:
+            y, x ---> array of length 1 made of their own values
     """
         
     # convert x and y to NumPy arrays if they are Iterables of same data-type
     x = iterable_to_numpy_array(x)
     y = iterable_to_numpy_array(y)
-    
+        
     # reduce x and y to scalar, if possible
     x = scalarize(x)
     y = scalarize(y)
     
+    cols = x
+    indexes = y
+    
     if is_iterable(x) and is_iterable(y):
-        # case 1
+        # case 1        
         x, y = np.meshgrid(x, y)
     elif is_iterable(x):
         # case 2
@@ -81,8 +130,19 @@ def homogenize(x, y):
         # case 3
         x = np.repeat(x, repeats=len(y))
     else:
-        # if both x and y are scalar variables (non Iterable), are left untouched
-        pass
+        # case 4 
+        x = np.array([x])
+        y = np.array([y])
+        cols = x
+        indexes = y
+    
+#    x = pd.DataFrame(data=x, 
+#                     index=indexes,
+#                     columns=cols)
+#    
+#    y = pd.DataFrame(data=y, 
+#                     index=indexes,
+#                     columns=cols)
     
     return x, y
 

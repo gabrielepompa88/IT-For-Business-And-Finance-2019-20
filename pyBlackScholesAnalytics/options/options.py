@@ -50,7 +50,7 @@ class EuropeanOption:
         time_to_maturity: float
             Computes the time-to-maturity of the option.
         
-        parse_S_tau_sigma_r_parameters: float
+        process_input_parameters: float
             Parses underlying, time, volatility and short-rate parameters, 
             discriminating between time-to-maturity and valuation date
             time parameter.
@@ -186,7 +186,7 @@ class EuropeanOption:
         # compute and return time to maturity (in years)
         return (T-t).days / 365.0
     
-    def parse_S_tau_sigma_r_parameters(self, *args, **kwargs):
+    def process_input_parameters(self, *args, **kwargs):
         """
         Utility method to parse underlying, time, volatility and short-rate parameters
         """
@@ -402,7 +402,7 @@ class PlainVanillaOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
                 
         # call case
         if self.get_type() == 'call':
@@ -446,7 +446,7 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
                         
         if self.get_type() == 'call':
             # call case
@@ -488,7 +488,7 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
                                        
         # call case
         if self.get_type() == 'call':
@@ -538,19 +538,20 @@ class PlainVanillaOption(EuropeanOption):
         """
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
         
         # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
         # We use the scalar_output to keep track of this before output
-        scalar_output = False
-        if not (is_iterable(S) or is_iterable(tau)):
-            scalar_output = True
-            S   = np.array([S])
-            tau = np.array([tau])
+#        scalar_output = False
+#        if not (is_iterable(S) or is_iterable(tau)):
+#            scalar_output = True
+#            S   = np.array([S])
+#            tau = np.array([tau])
             
         # initialize an empty structure to hold prices
-        price = np.empty_like(S)
-            
+        price = np.empty_like(S, dtype=float)
+#        price = pd.DataFrame(index=S.index, columns=S.columns)
+        
         # boolean array of times-to-maturity > 0
         tau_pos = tau > 0
             
@@ -570,8 +571,9 @@ class PlainVanillaOption(EuropeanOption):
             price[tau_pos] = self.__put_price(S[tau_pos], tau[tau_pos], sigma, r)
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
-            
-        return price[0] if scalar_output else price
+        
+        return price
+#        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
         
@@ -707,7 +709,7 @@ class DigitalOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
         
         # call case
         if self.get_type() == 'call':
@@ -754,7 +756,7 @@ class DigitalOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
             
         # the same for call and put
         return self.get_Q()*np.exp(-r * tau)
@@ -773,7 +775,7 @@ class DigitalOption(EuropeanOption):
        """
 
         # underlying value
-        S, _, _, _ = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
         
         # the same for call and put
         return 0.0*S
@@ -811,18 +813,19 @@ class DigitalOption(EuropeanOption):
         """
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.parse_S_tau_sigma_r_parameters(*args, **kwargs)
+        S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
         
-        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
-        # We use the scalar_output to keep track of this before output
-        scalar_output = False
-        if not (is_iterable(S) or is_iterable(tau)):
-            scalar_output = True
-            S   = np.array([S])
-            tau = np.array([tau])
+#        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
+#        # We use the scalar_output to keep track of this before output
+#        scalar_output = False
+#        if not (is_iterable(S) or is_iterable(tau)):
+#            scalar_output = True
+#            S   = np.array([S])
+#            tau = np.array([tau])
             
         # initialize an empty structure to hold prices
-        price = np.empty_like(S)
+        price = np.empty_like(S, dtype=float)
+#        price = pd.DataFrame(index=S.index, columns=S.columns)
             
         # boolean array of times-to-maturity > 0
         tau_pos = tau > 0
@@ -843,8 +846,9 @@ class DigitalOption(EuropeanOption):
             price[tau_pos] = self.__put_price(S[tau_pos], tau[tau_pos], sigma, r)
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
-            
-        return price[0] if scalar_output else price
+        
+        return price
+#        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
                 
