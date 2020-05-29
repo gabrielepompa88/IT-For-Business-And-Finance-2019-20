@@ -37,7 +37,7 @@ def scalarize(x):
 
 def iterable_to_numpy_array(x, sort=True, sort_func=None):
     """
-    Create a NumPy Array from an Iterable with elements of the same type.
+    Create a 1-dim NumPy Array from a 1-dim Iterable with elements of the same type.
     If the iterable has elements of different data-type, it raises an error.
     
     If sort is True (default), returns a sorted array. Optionally uses a custom 
@@ -155,6 +155,20 @@ def coordinate(x, y, col_labels, ind_labels):
     
     return x_df, y_df
 
+#-----------------------------------------------------------------------------#
+
+def simple_output(x, do_simplify=True):
+    """
+    Utility function to simplify to NumPy array or scalar a variable x
+    that is a Pandas DataFrame or Series.
+    """
+    
+    if do_simplify:
+        x = x.squeeze()
+        return x.values if is_iterable(x) else x
+    else:
+        return x
+       
 #-----------------------------------------------------------------------------#
 
 def test_same_type(iterable_obj):

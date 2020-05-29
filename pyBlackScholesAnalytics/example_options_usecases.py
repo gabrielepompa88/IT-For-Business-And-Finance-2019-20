@@ -17,8 +17,13 @@ def option_factory(mkt_env, plain_or_digital, option_type):
     return option_dispatcher[plain_or_digital][option_type]
 
 def main():
-    
+
+    #
     # option instantiation example
+    #
+    
+    # output as pd.DataFrame    
+    df_output = True
     
     # default market environment
     market_env = MarketEnvironment()
@@ -38,8 +43,8 @@ def main():
     print("S (default): {}\n".format(option.get_S()))
     print("tau (default): {}\n".format(option.get_tau()))
     
-    print("Price:\n", option.price())
-    print("P&L:\n", option.PnL())
+    print("Price:\n", option.price(squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(squeeze_output=not df_output))
       
     #     
     # Case 2: (S scalar, tau scalar) other values
@@ -54,24 +59,24 @@ def main():
     t_scalar = option.get_t()
     print("t_scalar (dt obj): ", t_scalar)
     
-    print("Price:\n", option.price(S=S_scalar, t=t_scalar))
-    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar))
+    print("Price:\n", option.price(S=S_scalar, t=t_scalar, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar, squeeze_output=not df_output))
 
     # valuation date time-parameter as date String
     print("\n--- Case 2.2 ---\n")    
     t_scalar = "01-06-2020"
     print("t_scalar (str): ", t_scalar)
 
-    print("Price:\n", option.price(S=S_scalar, t=t_scalar))
-    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar))
+    print("Price:\n", option.price(S=S_scalar, t=t_scalar, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar, squeeze_output=not df_output))
 
     # time-to-maturity time-parameter 
     print("\n--- Case 2.3 ---\n")    
     tau_scalar = 0.5
     print("tau_scalar (Float): ", tau_scalar)
 
-    print("Price:\n", option.price(S=S_scalar, tau=tau_scalar))
-    print("P&L:\n", option.PnL(S=S_scalar, tau=tau_scalar))
+    print("Price:\n", option.price(S=S_scalar, tau=tau_scalar, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_scalar, tau=tau_scalar, squeeze_output=not df_output))
 
     #     
     # Case 3: (S vector, tau scalar) tau is left default (0.7014...)
@@ -83,8 +88,8 @@ def main():
     print("S_vector: {}\n".format(S_vector))
     print("tau (default): {}\n".format(option.get_tau()))
 
-    print("Price:\n", option.price(S=S_vector))
-    print("P&L:\n", option.PnL(S=S_vector))
+    print("Price:\n", option.price(S=S_vector, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_vector, squeeze_output=not df_output))
     
     #     
     # Case 4: (S scalar, tau vector) S is left default (90)
@@ -103,8 +108,8 @@ def main():
 
     print("t ([t...T] pd.date_range): {}\n".format(t_range))
     
-    print("Price:\n", option.price(t=t_range))
-    print("P&L:\n", option.PnL(t=t_range))
+    print("Price:\n", option.price(t=t_range, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(t=t_range, squeeze_output=not df_output))
 
     #     
     # Case 5: (S vector, tau vector) 
@@ -117,8 +122,8 @@ def main():
     print("\n--- Case 5.1 ---\n")    
     print("t ([t...T] pd.date_range): {}\n".format(t_range))
     
-    print("Price:\n", option.price(S=S_vector, t=t_range))
-    print("P&L:\n", option.PnL(S=S_vector, t=t_range))
+    print("Price:\n", option.price(S=S_vector, t=t_range, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_vector, t=t_range, squeeze_output=not df_output))
     
     # time-parameter as List of date Strings
     print("\n--- Case 5.2 ---\n")    
@@ -126,16 +131,16 @@ def main():
     t_list = ["10-07-2020", "11-09-2020", "06-08-2020", "15-10-2020", "01-06-2020"] # order doesn't matter
     print("t ([date_str_1, ..., date_str_N] List of str): {}\n".format(t_list))
     
-    print("Price:\n", option.price(S=S_vector, t=t_list))
-    print("P&L:\n", option.PnL(S=S_vector, t=t_list))
+    print("Price:\n", option.price(S=S_vector, t=t_list, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_vector, t=t_list, squeeze_output=not df_output))
 
     # time-parameter as List of times-to-maturity
     print("\n--- Case 5.3 ---\n")    
     tau_list = [0.3, 0.4, 0.5, 0.6, 0.7]
     print("tau_vector (List of Float): {}\n".format(tau_list))
 
-    print("Price:\n", option.price(S=S_vector, tau=tau_list))
-    print("P&L:\n", option.PnL(S=S_vector, tau=tau_list))
+    print("Price:\n", option.price(S=S_vector, tau=tau_list, squeeze_output=not df_output))
+    print("P&L:\n", option.PnL(S=S_vector, tau=tau_list, squeeze_output=not df_output))
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

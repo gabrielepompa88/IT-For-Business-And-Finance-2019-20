@@ -208,7 +208,7 @@ class EuropeanOption:
         # time parameter interpretation (and homogenization) according to its type        
         # case 1: no time-parameter in input
         if time_param is None:
-            tau = self.get_tau()
+            tau = time_param = self.get_tau()
         # case 2: valid time-to-maturity in input
         elif is_numeric(time_param):
             time_param = homogenize(time_param)
@@ -366,7 +366,7 @@ class PlainVanillaOption(EuropeanOption):
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
         # initial price of the option (as scalar value)
-        self.__initial_price = self.price()#.iloc[0,0]
+        self.__initial_price = self.price(squeeze_output=True)
         
         # informations dictionary
         self.__docstring_dict = {
@@ -413,14 +413,17 @@ class PlainVanillaOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, squeeze_output = self.process_input_parameters(*args, **kwargs)
                 
         # call case
         if self.get_type() == 'call':
-            return self.__call_payoff(S)
+            payoff = self.__call_payoff(S)
         # put case
         else:
-            return self.__put_payoff(S)
+            payoff = self.__put_payoff(S)
+            
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(payoff, squeeze_output)
     
     def __call_payoff(self, S):
         # np.maximum(arr, x) returns the array of the maximum between each
@@ -457,14 +460,17 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, squeeze_output = self.process_input_parameters(*args, **kwargs)
                         
         if self.get_type() == 'call':
             # call case
-            return self.__call_price_upper_limit(S)
+            upper_limit = self.__call_price_upper_limit(S)
         else:
             # put case
-            return self.__put_price_upper_limit(S, tau, r)
+            upper_limit = self.__put_price_upper_limit(S, tau, r)
+            
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(upper_limit, squeeze_output)
     
     def __call_price_upper_limit(self, S):
         return S
@@ -499,14 +505,17 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, squeeze_output = self.process_input_parameters(*args, **kwargs)
                                        
         # call case
         if self.get_type() == 'call':
-            return self.__call_price_lower_limit(S, tau, r)
+            lower_limit = self.__call_price_lower_limit(S, tau, r)
         # put case
         else:
-            return self.__put_price_lower_limit(S, tau, r)
+            lower_limit = self.__put_price_lower_limit(S, tau, r)
+            
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(lower_limit, squeeze_output)
 
     def __call_price_lower_limit(self, S, tau, r):
         # np.maximum(arr, x) returns the array of the maximum between each
@@ -574,11 +583,8 @@ class PlainVanillaOption(EuropeanOption):
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
             
-        # ouptut is squeezed to scalar or Pandas Series if possible
-        if squeeze_output:
-            price = price.squeeze()
-        
-        return price
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(price, squeeze_output)
           
     def __call_price(self, S, tau, sigma, r):
         
@@ -659,7 +665,7 @@ class DigitalOption(EuropeanOption):
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
         # initial price of the option
-        self.__initial_price = self.price()#.iloc[0,0]
+        self.__initial_price = self.price(squeeze_output=True)
 
         # informations dictionary
         self.__docstring_dict = {
@@ -714,14 +720,17 @@ class DigitalOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, squeeze_output = self.process_input_parameters(*args, **kwargs)
         
         # call case
         if self.get_type() == 'call':
-            return self.__call_payoff(S)
+            payoff = self.__call_payoff(S)
         # put case
         else:
-            return self.__put_payoff(S)
+            payoff = self.__put_payoff(S)
+            
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(payoff, squeeze_output)
         
     def __call_payoff(self, S):
         # np.heaviside(arr, x) returns
@@ -761,10 +770,13 @@ class DigitalOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, squeeze_output = self.process_input_parameters(*args, **kwargs)
             
         # the same for call and put
-        return self.get_Q()*np.exp(-r * tau)
+        upper_limit = self.get_Q()*np.exp(-r * tau)
+        
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(upper_limit, squeeze_output)
                                         
     # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
@@ -780,10 +792,13 @@ class DigitalOption(EuropeanOption):
        """
 
         # underlying value
-        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, squeeze_output = self.process_input_parameters(*args, **kwargs)
         
         # the same for call and put
-        return 0.0*S
+        lower_limit = 0.0*S
+
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(lower_limit, squeeze_output)
                     
     # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
@@ -843,11 +858,8 @@ class DigitalOption(EuropeanOption):
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
         
-        # ouptut is squeezed to scalar or Pandas Series if possible
-        if squeeze_output:
-            price = price.squeeze()
-            
-        return price
+        # if squeeze_ouptut: simplify output to NumPy array or scalar, if possible
+        return simple_output(price, squeeze_output)
           
     def __call_price(self, S, tau, sigma, r):
                 

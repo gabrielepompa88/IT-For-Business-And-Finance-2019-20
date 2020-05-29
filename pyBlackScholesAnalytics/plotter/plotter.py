@@ -257,7 +257,7 @@ class OptionPlotter(Plotter):
             
         # plot the price for different underlying values, one line for each different date
         for i in range(tau_num):
-            ax.plot(S, surface_metrics.iloc[i,:], '-', lw=1.5, label=plot_metrics + r" at " + time_labels[i])
+            ax.plot(S, surface_metrics[i,:], '-', lw=1.5, label=plot_metrics + r" at " + time_labels[i])
             
         # precompute S_t level metrics (exploiting vectorization)
         S_t = self.fin_inst.get_S()
@@ -265,13 +265,13 @@ class OptionPlotter(Plotter):
 
         # blue dot at original underlying level for reference
         for i in range(tau_num):
-            ax.plot(S_t, S_t_level_metrics.iloc[i,0], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
+            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
             
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, self.fin_inst.PnL(S, tau=0.0).iloc[0,:], 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
+            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
         else:
-            ax.plot(S, self.fin_inst.payoff(S).iloc[0,:], 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
+            ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
         # plot a dot to highlight the strike position and a reference zero line
         ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K$")
@@ -305,24 +305,24 @@ class OptionPlotter(Plotter):
         fig, ax = plt.subplots(figsize=(10,6))
         
         # plot the price for different underlying values
-        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time).iloc[0,:], 'b-', lw=1.5, 
+        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time), 'b-', lw=1.5, 
                 label=plot_metrics + r" at " + time_label)
         
         # blue dot at original underlying level for reference
         S_t = self.fin_inst.get_S()
-        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time).iloc[0,0], 'b.', ms=15, 
+        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time), 'b.', ms=15, 
                 label=r"Emission level $S={:.1f}$".format(S_t))
         
         if plot_limits==True:
             # plot the upper limit, the price and the lower limit for different underlying values
-            ax.plot(S, self.fin_inst.price_upper_limit(S, time).iloc[0,:], 'k-.', lw=1.5, label=self.fin_inst.get_docstring('price_upper_limit'))
-            ax.plot(S, self.fin_inst.price_lower_limit(S, time).iloc[0,:], 'k--', lw=1.5, label=self.fin_inst.get_docstring('price_lower_limit'))
+            ax.plot(S, self.fin_inst.price_upper_limit(S, time), 'k-.', lw=1.5, label=self.fin_inst.get_docstring('price_upper_limit'))
+            ax.plot(S, self.fin_inst.price_lower_limit(S, time), 'k--', lw=1.5, label=self.fin_inst.get_docstring('price_lower_limit'))
 
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, self.fin_inst.PnL(S, tau=0.0).iloc[0,:], 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
+            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
         else:
-            ax.plot(S, self.fin_inst.payoff(S).iloc[0,:], 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
+            ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
         # plot a dot to highlight the strike position and a reference zero line
         ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K$")
@@ -434,7 +434,7 @@ class PortfolioPlotter(Plotter):
 
         # plot the price for different underlying values, one line for each different date
         for i in range(tau_num):
-            ax.plot(S, surface_metrics.iloc[i,:], '-', lw=1.5, label=plot_metrics + r" at " + time_labels[i])
+            ax.plot(S, surface_metrics[i,:], '-', lw=1.5, label=plot_metrics + r" at " + time_labels[i])
             
         # precompute S_t level metrics (exploiting vectorization)
         S_t = self.fin_inst.get_S()
@@ -442,14 +442,14 @@ class PortfolioPlotter(Plotter):
 
         # blue dot at original underlying level for reference
         for i in range(tau_num):
-            ax.plot(S_t, S_t_level_metrics.iloc[i,0], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
+            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
 
         # plot the red payoff line for different underlying values
         if not self.fin_inst.is_multi_horizon:
             if plot_metrics == 'PnL':
-                ax.plot(S, self.fin_inst.PnL(S, tau=0.0).iloc[0,:], 'r-',  lw=1.5, label=r"PnL at maturity")
+                ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=r"PnL at maturity")
             else:
-                ax.plot(S, self.fin_inst.payoff(S).iloc[0,:], 'r-',  lw=1.5, label=r"Payoff at maturity")
+                ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=r"Payoff at maturity")
             
         # plot a dot to highlight the strike position and a reference zero line
         strikes = self.fin_inst.get_K()
@@ -484,20 +484,20 @@ class PortfolioPlotter(Plotter):
         fig, ax = plt.subplots(figsize=(10,6))
         
         # plot the price for different underlying values
-        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time).iloc[0,:], 'b-', lw=1.5, 
+        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time), 'b-', lw=1.5, 
                 label=plot_metrics + r" at " + time_label)
         
         # blue dot at original underlying level for reference
         S_t = self.fin_inst.get_S()
-        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time).iloc[0,0], 'b.', ms=15, 
+        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time), 'b.', ms=15, 
                 label=r"Emission level $S={:.1f}$".format(S_t))
         
         # plot the red payoff line for different underlying values
         if not self.fin_inst.is_multi_horizon:
             if plot_metrics == 'PnL':
-                ax.plot(S, self.fin_inst.PnL(S, tau=0.0).iloc[0,:], 'r-',  lw=1.5, label=r"PnL at maturity")
+                ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=r"PnL at maturity")
             else:
-                ax.plot(S, self.fin_inst.payoff(S).iloc[0,:], 'r-',  lw=1.5, label=r"Payoff at maturity")
+                ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=r"Payoff at maturity")
 
         # optionally, plot the instruments details
         if plot_instrument_payoffs:
@@ -512,17 +512,17 @@ class PortfolioPlotter(Plotter):
                 # price or P&L at current time
                 if self.fin_inst.is_multi_horizon:
                     
-                    ax.plot(S, position * getattr(inst["instrument"], plot_metrics)(S, time).iloc[0,:], '--', lw=1.5, 
+                    ax.plot(S, position * getattr(inst["instrument"], plot_metrics)(S, time), '--', lw=1.5, 
                         label=plot_metrics + r" " + inst["info"] + r" at " + time_label)
                     
                 # payoffs or at-maturity P&L
                 else:
 
                     if plot_metrics == 'PnL':
-                        ax.plot(S, position * inst["instrument"].PnL(S, tau=0.0).iloc[0,:], '--',  lw=1.5, 
+                        ax.plot(S, position * inst["instrument"].PnL(S, tau=0.0), '--',  lw=1.5, 
                                 label=inst["info"] + r" PnL at maturity")
                     else:
-                        ax.plot(S, position * inst["instrument"].payoff(S).iloc[0,:], '--',  lw=1.5, 
+                        ax.plot(S, position * inst["instrument"].payoff(S), '--',  lw=1.5, 
                                 label=inst["info"] + r" payoff at maturity")
                 
         # plot a dot to highlight the strike position and a reference zero line
