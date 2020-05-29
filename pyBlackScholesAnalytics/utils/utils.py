@@ -116,33 +116,72 @@ def homogenize(x, y):
     # reduce x and y to scalar, if possible
     x = scalarize(x)
     y = scalarize(y)
-    
-    cols = x
-    indexes = y
+        
+#    cols = x
+#    indexes = y
     
     if is_iterable(x) and is_iterable(y):
-        # case 1        
+        # case 1    
+        
+        # defining common indexes and columns of the dataframe to create
+        cols = x
+        indexes = y
+        
+        # creating a mesh-grid combining x and y
         x, y = np.meshgrid(x, y)
+                
     elif is_iterable(x):
         # case 2
-        y = np.repeat(y, repeats=len(x))
+        
+        # length of x
+        n = len(x)
+
+        # defining common indexes and columns of the dataframe to create
+        cols = x
+        indexes = np.array([y])
+        
+        # make y look like x
+        y = np.repeat(y, repeats=n)
+
+        # reshape x and y to shape (1,n)
+        x = x.reshape((1,n))
+        y = y.reshape((1,n))
+        
     elif is_iterable(y):
         # case 3
-        x = np.repeat(x, repeats=len(y))
+        
+        # length of y
+        m = len(y)
+
+        # defining common indexes and columns of the dataframe to create
+        cols = np.array([x])
+        indexes = y
+        
+        # make x look like y
+        x = np.repeat(x, repeats=m)
+        
     else:
         # case 4 
+        
+        # make x and y length-1 arrays
         x = np.array([x])
         y = np.array([y])
+        
+        # defining common indexes and columns of the dataframe to create
         cols = x
         indexes = y
     
-#    x = pd.DataFrame(data=x, 
-#                     index=indexes,
-#                     columns=cols)
-#    
-#    y = pd.DataFrame(data=y, 
-#                     index=indexes,
-#                     columns=cols)
+    # create two dataframes out of x and y using:
+    # x values to define columns
+    # y values to indexing rows
+    
+    x = pd.DataFrame(data=x, 
+                     index=indexes,
+                     columns=cols)
+    
+    y = pd.DataFrame(data=y, 
+                     index=indexes,
+                     columns=cols)
     
     return x, y
 

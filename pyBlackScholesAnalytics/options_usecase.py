@@ -2,7 +2,6 @@ import pandas as pd
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
-from plotter.plotter import OptionPlotter
 
 def option_factory(mkt_env, plain_or_digital, option_type):
 
@@ -35,75 +34,106 @@ def main():
     # Case 1: (S scalar, tau scalar) default values
     #    
     print("Case 1: (S scalar, tau scalar) default values \n")
-
-    print(option.price())
-    print(option.PnL())
+    
+    print("S (default): {}\n".format(option.get_S()))
+    print("tau (default): {}\n".format(option.get_tau()))
+    
+    print("Price:\n", option.price())
+    print("P&L:\n", option.PnL())
       
     #     
     # Case 2: (S scalar, tau scalar) other values
     #
-    print("\nCase 2: (S scalar, tau scalar) other values \n")
+    print("\nCase 2: (S scalar, tau scalar) input values \n")
     
+    S_scalar = 100
+    print("S_scalar: {}\n".format(S_scalar))
+
     # valuation date time-parameter as datetime object
-    valuation_date = option.get_t()
-    print(valuation_date)
+    print("\n--- Case 2.1 ---\n")    
+    t_scalar = option.get_t()
+    print("t_scalar (dt obj): ", t_scalar)
     
-    print(option.price(S=100, t=valuation_date))
-    print(option.PnL(S=100, t=valuation_date))
+    print("Price:\n", option.price(S=S_scalar, t=t_scalar))
+    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar))
 
     # valuation date time-parameter as date String
-    valuation_date = "01-06-1988"
-    print(valuation_date)
+    print("\n--- Case 2.2 ---\n")    
+    t_scalar = "01-06-2020"
+    print("t_scalar (str): ", t_scalar)
 
-    print(option.price(S=100, t=valuation_date))
-    print(option.PnL(S=100, t=valuation_date))
+    print("Price:\n", option.price(S=S_scalar, t=t_scalar))
+    print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar))
 
     # time-to-maturity time-parameter 
-    ttm = option.get_tau()
-    print(ttm)
+    print("\n--- Case 2.3 ---\n")    
+    tau_scalar = 0.5
+    print("tau_scalar (str): ", tau_scalar)
 
-    print(option.price(S=100, tau=ttm))
-    print(option.PnL(S=100, tau=ttm))
+    print("Price:\n", option.price(S=S_scalar, tau=tau_scalar))
+    print("P&L:\n", option.PnL(S=S_scalar, tau=tau_scalar))
 
     #     
     # Case 3: (S vector, tau scalar) tau is left default (0.7014...)
     #
     print("\nCase 3: (S vector, tau scalar) tau is left default (0.7014...) \n")
 
-    print(option.price(S=[90, 100]))
-    print(option.PnL(S=[90, 100]))
+    S_vector = [90, 100, 110]
+    
+    print("S_vector: {}\n".format(S_vector))
+    print("tau (default): {}\n".format(option.get_tau()))
+
+    print("Price:\n", option.price(S=S_vector))
+    print("P&L:\n", option.PnL(S=S_vector))
     
     #     
     # Case 4: (S scalar, tau vector) S is left default (90)
     #    
     print("\nCase 4: (S scalar, tau vector) S is left default (90) \n")
 
-    expiration_date = option.get_T()
-    print(expiration_date)
+    print("S (default): {}\n".format(option.get_S()))
+
     
     # a date-range of 5 valuation dates between t and T-10d
-    multiple_valuation_dates = pd.date_range(start=valuation_date, 
-                                             end=expiration_date, 
-                                             periods=4)
+    valuation_date = option.get_t()
+    expiration_date = option.get_T()
+    t_range = pd.date_range(start=valuation_date, 
+                            end=expiration_date, 
+                            periods=5)
 
-    print(multiple_valuation_dates)
+    print("t ([t...T] pd.date_range): {}\n".format(t_range))
     
-    print(option.price(t=multiple_valuation_dates))
-    print(option.PnL(t=multiple_valuation_dates))
+    print("Price:\n", option.price(t=t_range))
+    print("P&L:\n", option.PnL(t=t_range))
 
     #     
     # Case 5: (S vector, tau vector) 
     #
     print("\nCase 5: (S vector, tau vector) \n")
+ 
+    print("S_vector: {}\n".format(S_vector))
+ 
+    # time-parameter as pd.date_range
+    print("\n--- Case 5.1 ---\n")    
+    print("t ([t...T] pd.date_range): {}\n".format(t_range))
     
-    print(option.price(S=[90, 100], t=multiple_valuation_dates))
-    print(option.PnL(S=[90, 100], t=multiple_valuation_dates))
+    print("Price:\n", option.price(S=S_vector, t=t_range))
+    print("P&L:\n", option.PnL(S=S_vector, t=t_range))
     
-    print(option.price(S=[90, 100], t=["01-06-2020", "01-08-2020", "01-10-2020"]))
-    print(option.PnL(S=[90, 100], t=["01-06-2020", "01-08-2020", "01-10-2020"]))
+    # time-parameter as List of date Strings
+    print("\n--- Case 5.2 ---\n")    
+    t_list = ["01-06-2020", "01-07-2020", "01-08-2020", "01-09-2020", "01-10-2020"]
+    print("t ([date_str_1, ..., date_str_N] List of str): {}\n".format(t_list))
+    
+    print("Price:\n", option.price(S=S_vector, t=t_list))
+    print("P&L:\n", option.PnL(S=S_vector, t=t_list))
 
-    print(option.price(S=[90, 100], t=[0.5, 0.6, 0.7]))
-    print(option.PnL(S=[90, 100], t=[0.5, 0.6, 0.7]))
+    # time-parameter as List of times-to-maturity
+    print("\n--- Case 5.3 ---\n")    
+    tau_list = [0.3, 0.4, 0.5, 0.6, 0.7]
+
+    print("Price:\n", option.price(S=S_vector, tau=tau_list))
+    print("P&L:\n", option.PnL(S=S_vector, tau=tau_list))
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

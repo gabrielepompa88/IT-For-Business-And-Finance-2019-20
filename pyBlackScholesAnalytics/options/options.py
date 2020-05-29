@@ -8,6 +8,9 @@ File name: options.py
 # for NumPy arrays
 import numpy as np
 
+# for Pandas Series and DataFrame
+import pandas as pd
+
 # for statistical functions
 from scipy import stats
 
@@ -295,8 +298,8 @@ class EuropeanOption:
         # it is computed as:
         # P&L = current price - initial price
         #
-        # the choice between payoff and current price is delefated to .price() method
-        return self.price(*args, **kwargs) - self.get_initial_price()
+        # the choice between payoff and current price is delegated to .price() method
+        return self.price(*args, **kwargs) - self.get_initial_price().squeeze()
             
 #-----------------------------------------------------------------------------#
         
@@ -549,12 +552,12 @@ class PlainVanillaOption(EuropeanOption):
 #            tau = np.array([tau])
             
         # initialize an empty structure to hold prices
-        price = np.empty_like(S, dtype=float)
-#        price = pd.DataFrame(index=S.index, columns=S.columns)
+#        price = np.empty_like(S, dtype=float)
+        price = pd.DataFrame(index=S.index, columns=S.columns)
         
         # boolean array of times-to-maturity > 0
-        tau_pos = tau > 0
-            
+#        tau_pos = tau > 0
+        tau_pos = tau.iloc[:,0] > 0    
         #
         # for tau==0 output the payoff, otherwise price
         #
@@ -824,12 +827,12 @@ class DigitalOption(EuropeanOption):
 #            tau = np.array([tau])
             
         # initialize an empty structure to hold prices
-        price = np.empty_like(S, dtype=float)
-#        price = pd.DataFrame(index=S.index, columns=S.columns)
+#        price = np.empty_like(S, dtype=float)
+        price = pd.DataFrame(index=S.index, columns=S.columns)
             
         # boolean array of times-to-maturity > 0
-        tau_pos = tau > 0
-            
+#        tau_pos = tau > 0
+        tau_pos = tau.iloc[:,0] > 0    
         #
         # for tau==0 output the payoff, otherwise price
         #
