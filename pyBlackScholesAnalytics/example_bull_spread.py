@@ -1,3 +1,5 @@
+import pandas as pd
+
 from market.market import MarketEnvironment
 from portfolio.portfolio import Portfolio
 from options.options import PlainVanillaOption
@@ -36,8 +38,32 @@ def main():
     # portfolio plotter instance
     bull_spread_ptf_plotter = PortfolioPlotter(bull_spread_ptf)
     
+    # Bull-Spread price plot
+    bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics="price", plot_details=True)
+
     # Bull-Spread P&L plot
     bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics="PnL", plot_details=True)
+    
+    # valuation date of the option
+    emission_date = '01-06-2020'
+    print(emission_date)
+    
+    # expiration date of the option
+    expiration_date = Vanilla_Call_long.get_T()
+    print(expiration_date)
+    
+    # a date-range of 5 valuation dates between t and T-10d
+    multiple_valuation_dates = pd.date_range(start=emission_date, 
+                                             end=expiration_date - pd.Timedelta(days=10), 
+                                             periods=5)
+    
+    print(multiple_valuation_dates)
+    
+    # Bull-Spread price plot (multiple dates)
+    bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+
+    # Bull-Spread P&L plot (multiple dates)
+    bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

@@ -196,28 +196,33 @@ class EuropeanOption:
 
         # underlying value 
         S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
+        
+        # homogenize underlying in input
+        S = homogenize(S)
                     
         # time parameter:
         time_param = args[1] if len(args) > 1 \
                      else kwargs['tau'] if 'tau' in kwargs \
                         else (kwargs['t'] if 't' in kwargs else None)
-        
-        # time parameter interpretation according to its type        
+                                
+        # time parameter interpretation (and homogenization) according to its type        
         # case 1: no time-parameter in input
         if time_param is None:
             tau = self.get_tau()
         # case 2: valid time-to-maturity in input
         elif is_numeric(time_param):
+            time_param = homogenize(time_param)
             tau = time_param
         # case 3: valuation date in input, to be converted into time-to-maturity
         elif is_date(time_param):
+            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
             tau = self.time_to_maturity(t=time_param)
         # error case: the time parameter in input has a data-type that is not recognized
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-            
-        # make S and tau homogenous variables, if necessary creating a (S, tau) grid
-        S, tau = homogenize(S, tau)
+                    
+        # make S and tau coordinated pd.DataFrames, if necessary creating a (S, tau) grid
+        S, tau = coordinate(x=S, y=tau, col_labels=S, ind_labels=time_param)
 
         # checking whether any value in S is smaller than zero. Works if S is scalar too.
         if np.any(S < 0):
@@ -299,7 +304,7 @@ class EuropeanOption:
         # P&L = current price - initial price
         #
         # the choice between payoff and current price is delegated to .price() method
-        return self.price(*args, **kwargs) - self.get_initial_price().squeeze()
+        return self.price(*args, **kwargs) - self.get_initial_price()
             
 #-----------------------------------------------------------------------------#
         
@@ -357,8 +362,8 @@ class PlainVanillaOption(EuropeanOption):
         self.__info = r"Plain Vanilla {} [K={:.1f}, T={} (tau={:.2f}y)]".format(self.get_type(), self.get_K(), datetime_obj_to_date_string(self.get_T()), self.get_tau())
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
-        # initial price of the option
-        self.__initial_price = self.price()
+        # initial price of the option (as scalar value)
+        self.__initial_price = self.price().iloc[0,0]
         
         # informations dictionary
         self.__docstring_dict = {
@@ -543,25 +548,16 @@ class PlainVanillaOption(EuropeanOption):
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
         
-        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
-        # We use the scalar_output to keep track of this before output
-#        scalar_output = False
-#        if not (is_iterable(S) or is_iterable(tau)):
-#            scalar_output = True
-#            S   = np.array([S])
-#            tau = np.array([tau])
-            
         # initialize an empty structure to hold prices
-#        price = np.empty_like(S, dtype=float)
         price = pd.DataFrame(index=S.index, columns=S.columns)
         
-        # boolean array of times-to-maturity > 0
-#        tau_pos = tau > 0
-        tau_pos = tau.iloc[:,0] > 0    
         #
         # for tau==0 output the payoff, otherwise price
         #
         
+        # boolean array of times-to-maturity > 0
+        tau_pos = tau.iloc[:,0] > 0    
+
         # call case
         if self.get_type() == 'call':
             # tau > 0 case
@@ -576,7 +572,6 @@ class PlainVanillaOption(EuropeanOption):
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
         
         return price
-#        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
         
@@ -657,7 +652,7 @@ class DigitalOption(EuropeanOption):
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
         # initial price of the option
-        self.__initial_price = self.price()
+        self.__initial_price = self.price().iloc[0,0]
 
         # informations dictionary
         self.__docstring_dict = {
@@ -817,26 +812,17 @@ class DigitalOption(EuropeanOption):
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
         S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
-        
-#        # If both (S, tau) are scalar, we temporarily transform them in length-1 arrays.
-#        # We use the scalar_output to keep track of this before output
-#        scalar_output = False
-#        if not (is_iterable(S) or is_iterable(tau)):
-#            scalar_output = True
-#            S   = np.array([S])
-#            tau = np.array([tau])
             
         # initialize an empty structure to hold prices
-#        price = np.empty_like(S, dtype=float)
         price = pd.DataFrame(index=S.index, columns=S.columns)
             
-        # boolean array of times-to-maturity > 0
-#        tau_pos = tau > 0
-        tau_pos = tau.iloc[:,0] > 0    
         #
         # for tau==0 output the payoff, otherwise price
         #
         
+        # boolean array of times-to-maturity > 0
+        tau_pos = tau.iloc[:,0] > 0    
+
         # call case
         if self.get_type() == 'call':
             # tau > 0 case
@@ -851,7 +837,6 @@ class DigitalOption(EuropeanOption):
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
         
         return price
-#        return price[0] if scalar_output else price
           
     def __call_price(self, S, tau, sigma, r):
                 

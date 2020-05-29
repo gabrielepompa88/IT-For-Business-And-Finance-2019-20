@@ -141,10 +141,6 @@ class Portfolio:
                         else kwargs['tau'] if 'tau' in kwargs \
                             else (kwargs['t'] if 't' in kwargs else None)
         
-#        # check that no multiple time parameters in input
-#        if is_iterable_not_string(time_param):
-#            raise NotImplementedError("No multiple time parameters allowed: {} given in input.".format(time_param))
-            
         # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
         if self.is_multi_horizon and is_numeric(time_param):
             raise NotImplementedError("No time-to-maturity time parameter allowed for multi-horizon \n{} \ntau={} given in input"\
@@ -161,19 +157,10 @@ class Portfolio:
            
         # check time parameter
         self.__check_time_parameter(*args, **kwargs)
-              
-        if self.get_composition(): 
 
-            # single instrument payoffs and positions
-            payoffs = np.array([inst["instrument"].payoff(*args, **kwargs) for inst in self.get_composition()])
-            positions = np.array([inst["position"] for inst in self.get_composition()])
-            
-            return positions.dot(payoffs)
-            
-        else: # if portfolio is empty returns 0
-            
-            return 0.0  
-        
+        # portfolio payoff is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].payoff(*args, **kwargs) for inst in self.get_composition()])
+              
     # portfolio value (called 'price' as for single options, to implement polymorphism)
     def price(self, *args, **kwargs):
         """
@@ -185,19 +172,10 @@ class Portfolio:
         
         # check time parameter
         self.__check_time_parameter(*args, **kwargs)
-                                      
-        if self.get_composition(): 
-
-            # single instrument prices and positions
-            prices = np.array([inst["instrument"].price(*args, **kwargs) for inst in self.get_composition()])
-            positions = np.array([inst["position"] for inst in self.get_composition()])
-            
-            return positions.dot(prices)
-            
-        else: # if portfolio is empty returns 0
-            
-            return 0.0  
         
+        # portfolio price is the sum position * instrument_price
+        return sum([inst["position"]*inst["instrument"].price(*args, **kwargs) for inst in self.get_composition()])
+                                      
     # portfolio P&L
     def PnL(self, *args, **kwargs):
         """
@@ -209,15 +187,6 @@ class Portfolio:
                 
         # check time parameter
         self.__check_time_parameter(*args, **kwargs)
-                                      
-        if self.get_composition(): 
 
-            # single instrument P&Ls and positions
-            pnls = np.array([inst["instrument"].PnL(*args, **kwargs) for inst in self.get_composition()])
-            positions = np.array([inst["position"] for inst in self.get_composition()])
-            
-            return positions.dot(pnls)
-            
-        else: # if portfolio is empty returns 0
-            
-            return 0.0  
+        # portfolio payoff is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].PnL(*args, **kwargs) for inst in self.get_composition()])

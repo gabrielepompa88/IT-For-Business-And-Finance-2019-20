@@ -68,7 +68,7 @@ def main():
     # time-to-maturity time-parameter 
     print("\n--- Case 2.3 ---\n")    
     tau_scalar = 0.5
-    print("tau_scalar (str): ", tau_scalar)
+    print("tau_scalar (Float): ", tau_scalar)
 
     print("Price:\n", option.price(S=S_scalar, tau=tau_scalar))
     print("P&L:\n", option.PnL(S=S_scalar, tau=tau_scalar))
@@ -122,7 +122,8 @@ def main():
     
     # time-parameter as List of date Strings
     print("\n--- Case 5.2 ---\n")    
-    t_list = ["01-06-2020", "01-07-2020", "01-08-2020", "01-09-2020", "01-10-2020"]
+#    t_list = ["01-06-2020", "01-07-2020", "01-08-2020", "01-09-2020", "01-10-2020"]
+    t_list = ["10-07-2020", "11-09-2020", "06-08-2020", "15-10-2020", "01-06-2020"] # order doesn't matter
     print("t ([date_str_1, ..., date_str_N] List of str): {}\n".format(t_list))
     
     print("Price:\n", option.price(S=S_vector, t=t_list))
@@ -131,6 +132,7 @@ def main():
     # time-parameter as List of times-to-maturity
     print("\n--- Case 5.3 ---\n")    
     tau_list = [0.3, 0.4, 0.5, 0.6, 0.7]
+    print("tau_vector (List of Float): {}\n".format(tau_list))
 
     print("Price:\n", option.price(S=S_vector, tau=tau_list))
     print("P&L:\n", option.PnL(S=S_vector, tau=tau_list))
