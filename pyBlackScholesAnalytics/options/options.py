@@ -238,7 +238,10 @@ class EuropeanOption:
         # short rate
         r = kwargs['r'] if 'r' in kwargs else self.get_r()
 
-        return S, tau, sigma, r
+        # squeeze output flag
+        squeeze_output = kwargs['squeeze_output'] if 'squeeze_output' in kwargs else True
+        
+        return S, tau, sigma, r, squeeze_output
     
     # d1 and d2 terms
     def d1_and_d2(self, *args, **kwargs):
@@ -363,7 +366,7 @@ class PlainVanillaOption(EuropeanOption):
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
         # initial price of the option (as scalar value)
-        self.__initial_price = self.price().iloc[0,0]
+        self.__initial_price = self.price()#.iloc[0,0]
         
         # informations dictionary
         self.__docstring_dict = {
@@ -410,7 +413,7 @@ class PlainVanillaOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
                 
         # call case
         if self.get_type() == 'call':
@@ -454,7 +457,7 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
                         
         if self.get_type() == 'call':
             # call case
@@ -496,7 +499,7 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
                                        
         # call case
         if self.get_type() == 'call':
@@ -546,7 +549,7 @@ class PlainVanillaOption(EuropeanOption):
         """
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
+        S, tau, sigma, r, squeeze_output = self.process_input_parameters(*args, **kwargs)
         
         # initialize an empty structure to hold prices
         price = pd.DataFrame(index=S.index, columns=S.columns)
@@ -570,6 +573,10 @@ class PlainVanillaOption(EuropeanOption):
             price[tau_pos] = self.__put_price(S[tau_pos], tau[tau_pos], sigma, r)
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
+            
+        # ouptut is squeezed to scalar or Pandas Series if possible
+        if squeeze_output:
+            price = price.squeeze()
         
         return price
           
@@ -652,7 +659,7 @@ class DigitalOption(EuropeanOption):
         self.__mkt_info = r"[S_t={:.1f}, r={:.1f}%, sigma={:.1f}%, t={}]".format(self.get_S(), self.get_r()*100, self.get_sigma()*100, datetime_obj_to_date_string(self.get_t()))
         
         # initial price of the option
-        self.__initial_price = self.price().iloc[0,0]
+        self.__initial_price = self.price()#.iloc[0,0]
 
         # informations dictionary
         self.__docstring_dict = {
@@ -707,7 +714,7 @@ class DigitalOption(EuropeanOption):
         """
         
         # underlying value
-        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
         
         # call case
         if self.get_type() == 'call':
@@ -754,7 +761,7 @@ class DigitalOption(EuropeanOption):
         """
 
         # underlying value, time-to-maturity and short-rate
-        S, tau, _, r = self.process_input_parameters(*args, **kwargs)
+        S, tau, _, r, _ = self.process_input_parameters(*args, **kwargs)
             
         # the same for call and put
         return self.get_Q()*np.exp(-r * tau)
@@ -773,7 +780,7 @@ class DigitalOption(EuropeanOption):
        """
 
         # underlying value
-        S, _, _, _ = self.process_input_parameters(*args, **kwargs)
+        S, _, _, _, _ = self.process_input_parameters(*args, **kwargs)
         
         # the same for call and put
         return 0.0*S
@@ -811,7 +818,7 @@ class DigitalOption(EuropeanOption):
         """
                        
         # underlying value, time-to-maturity, underlying volatility and short-rate
-        S, tau, sigma, r = self.process_input_parameters(*args, **kwargs)
+        S, tau, sigma, r, squeeze_output = self.process_input_parameters(*args, **kwargs)
             
         # initialize an empty structure to hold prices
         price = pd.DataFrame(index=S.index, columns=S.columns)
@@ -836,6 +843,10 @@ class DigitalOption(EuropeanOption):
             # tau == 0 case
             price[~tau_pos] = self.__put_payoff(S[~tau_pos])  
         
+        # ouptut is squeezed to scalar or Pandas Series if possible
+        if squeeze_output:
+            price = price.squeeze()
+            
         return price
           
     def __call_price(self, S, tau, sigma, r):
