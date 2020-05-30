@@ -34,13 +34,6 @@ def main():
     call_pos = 2
     put_pos = -5
 
-    # a date-range of 5 valuation dates between t and the nearest maturity
-    t_range = pd.date_range(start=market_env.get_t(), 
-                            end=min(T_call, T_put, key=date_string_to_datetime_obj), 
-                            periods=5)
-
-    print("t ([t...T] pd.date_range): {}\n".format(t_range))
-
     #
     # Step 0: empty portfolio initialized
     #
@@ -60,6 +53,12 @@ def main():
     ptf.add_instrument(call, call_pos)
     print(ptf)
 
+    # a date-range of 5 valuation dates between t and the nearest maturity
+    t_range = pd.date_range(start=ptf.get_t(), 
+                            end=min(T_call, T_put, key=date_string_to_datetime_obj), 
+                            periods=5)
+    print("t ([t...T] pd.date_range): {}\n".format(t_range))
+    
     # portfolio value
     print("\nPortfolio Value:\n", ptf.price(S=S_vector, t=t_range, np_output=np_output))
 
