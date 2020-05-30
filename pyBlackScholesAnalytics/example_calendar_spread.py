@@ -47,8 +47,8 @@ def main():
     # Calendar-Spread P&L plot
     calendar_spread_ptf_plotter.plot(t=T_short, plot_metrics="PnL", plot_details=True)
     
-    # current date 
-    valuation_date = market_env.get_t()
+    # valuation date of the portfolio
+    valuation_date = calendar_spread_ptf.get_t()
     print(valuation_date)
         
     # a date-range of 5 valuation dates between t and T_short

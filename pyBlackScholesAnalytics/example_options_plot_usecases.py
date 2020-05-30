@@ -44,9 +44,6 @@ def main():
                                              end=expiration_date - pd.Timedelta(days=10), 
                                              periods=5)
     
-    Vanilla_Call.price(S=[90, 100], t=multiple_valuation_dates[0])
-    Vanilla_Call.PnL(S=[90, 100], t=0)
-    
     # Vanilla Call price plot at multiple dates
     plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
     

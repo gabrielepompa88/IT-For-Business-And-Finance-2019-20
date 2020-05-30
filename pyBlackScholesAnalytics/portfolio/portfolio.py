@@ -58,7 +58,8 @@ class Portfolio:
         self.__info = "{} Portfolio: \n".format(name)
         self.__mkt_info = None
         
-        # initialize underlying value, strikes and times-to-maturity attributes
+        # initialize valuation date, underlying value, strikes and times-to-maturity attributes
+        self.__t = None
         self.__S = None
         self.__K = np.array([])
         self.__tau = np.array([])
@@ -74,6 +75,9 @@ class Portfolio:
     def get_mkt_info(self):
         return self.__mkt_info
     
+    def get_t(self):
+        return self.__t
+    
     def get_K(self):
         return self.__K
     
@@ -87,6 +91,9 @@ class Portfolio:
         return self.__composition
     
     # setters
+    def set_t(self, t):
+        self.__t = t
+        
     def set_S(self, S):
         self.__S = S
         
@@ -104,6 +111,7 @@ class Portfolio:
         self.__update_info(FinancialInstrument, position)
         
         # update portfolio attributes
+        self.__update_t(FinancialInstrument)
         self.__update_S(FinancialInstrument)
         self.__update_K(FinancialInstrument)
         self.__update_tau(FinancialInstrument)
@@ -114,10 +122,17 @@ class Portfolio:
         if self.__mkt_info is None:
             self.__mkt_info = fin_inst.get_mkt_info()
             
+    def __update_t(self, fin_inst):
+        if self.get_t() is None:
+            self.set_t(fin_inst.get_t())
+        else:
+            if self.get_t() != fin_inst.get_t():
+                raise ValueError("No multiple valuation dates in input allowed: \n\n current: {}, \n\n other given input: {}"\
+                                      .format(self, self.get_t(), fin_inst.get_t()))
+            
     def __update_S(self, fin_inst):
         if self.get_S() is None:
             self.set_S(fin_inst.get_S())
-
             
     def __update_K(self, fin_inst):
         # append new instrument strike
@@ -143,7 +158,7 @@ class Portfolio:
         
         # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
         if self.is_multi_horizon and is_numeric(time_param):
-            raise NotImplementedError("No time-to-maturity time parameter allowed for multi-horizon \n{} \ntau={} given in input"\
+            raise TypeError("No time-to-maturity time parameter allowed for multi-horizon \n\n tau={} given in input"\
                                       .format(self, time_param))  
             
     # portfolio "payoff", that is expiration value

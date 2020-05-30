@@ -44,16 +44,16 @@ def main():
     # Bull-Spread P&L plot
     bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics="PnL", plot_details=True)
     
-    # valuation date of the option
-    emission_date = '01-06-2020'
-    print(emission_date)
+    # valuation date of the portfolio
+    valuation_date = bull_spread_ptf.get_t()
+    print(valuation_date)
     
     # expiration date of the option
     expiration_date = Vanilla_Call_long.get_T()
     print(expiration_date)
     
     # a date-range of 5 valuation dates between t and T-10d
-    multiple_valuation_dates = pd.date_range(start=emission_date, 
+    multiple_valuation_dates = pd.date_range(start=valuation_date, 
                                              end=expiration_date - pd.Timedelta(days=10), 
                                              periods=5)
     
