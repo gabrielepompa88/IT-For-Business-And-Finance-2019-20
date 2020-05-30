@@ -1,9 +1,21 @@
 import pandas as pd
 
 from market.market import MarketEnvironment
-from options.options import PlainVanillaOption
+from options.options import PlainVanillaOption, DigitalOption
 from plotter.plotter import OptionPlotter
 
+def option_factory(mkt_env, plain_or_digital, option_type):
+
+    option_dispatcher = {
+            "plain_vanilla": {"call": PlainVanillaOption(mkt_env),
+                              "put":  PlainVanillaOption(mkt_env, option_type="put")
+                             },
+            "digital": {"call": DigitalOption(mkt_env),
+                        "put":  DigitalOption(mkt_env, option_type="put")
+                       }
+    }
+            
+    return option_dispatcher[plain_or_digital][option_type]
 
 def main():
     
@@ -13,14 +25,17 @@ def main():
     market_env = MarketEnvironment()
     print(market_env)
     
-    Vanilla_Call = PlainVanillaOption(market_env)
-    print(Vanilla_Call)
+    option = option_factory(market_env, "plain_vanilla", "call")
+#    option = option_factory(market_env, "plain_vanilla", "put")
+#    option = option_factory(market_env, "digital", "call")
+#    option = option_factory(market_env, "digital", "put")
+    print(option)
         
     # option plotter instance
-    plotter = OptionPlotter(Vanilla_Call)
+    plotter = OptionPlotter(option)
     
     # valuation date of the option
-    emission_date = Vanilla_Call.get_t()
+    emission_date = option.get_t()
     print(emission_date)
     
     # Vanilla Call price plot at t
@@ -36,7 +51,7 @@ def main():
     plotter.plot(t="01-06-2020", plot_metrics="PnL")
 
     # emission/expiration date of the option
-    expiration_date = Vanilla_Call.get_T()
+    expiration_date = option.get_T()
     print(expiration_date)
     
     # a date-range of 5 valuation dates between t and T-10d
