@@ -69,10 +69,79 @@ def homogenize(x, *args, **kwargs):
     
 #-----------------------------------------------------------------------------#
 
-def coordinate(x, y, col_labels, ind_labels):
+def coordinate(x, y, *args, np_output=True, **kwargs):
     """
-    Utility function to coordinate the two scalar/np.ndarray variables x and y. 
-    The following cases are considered:
+    Utility function to coordinate the two scalar/np.ndarray variables x and y:
+        
+        - as NumPy Arrays: calling coordinate_as_ndarray() function
+        - as Pandas DataFrames: calling coordinate_as_df() function
+    """
+    
+    if np_output:
+        return coordinate_as_ndarray(x, y)
+    else:
+        return coordinate_as_df(x, y, *args, **kwargs)
+    
+#-----------------------------------------------------------------------------#
+
+def coordinate_as_ndarray(x, y):
+    """
+    Utility function to coordinate the two scalar/np.ndarray variables x and y
+    as NumPy Arrays. The following cases are considered:
+        
+        1) if x is array of lenght n; y is array of length m, then:
+            x, y ---> (m, n) shaped arrays creating a mesh-grid
+            (see np.meshgrid documentation)
+            
+        2) if x is array of length n; y is scalar, then:
+            y ---> array of length n, repeating its value n-times
+
+        3) if y is array of length m; x is scalar, then:
+            x ---> array of length m, repeating its value m-times
+        
+        4) if both x and y are scalar, then:
+            y, x ---> array of length 1 made of their own values
+    """
+        
+    if is_iterable(x) and is_iterable(y):
+        # case 1
+        
+        # creating a mesh-grid combining x and y
+        x, y = np.meshgrid(x, y)
+        
+    elif is_iterable(x) and (not is_iterable(y)):
+        # case 2
+        
+        # length of x
+        n = len(x)
+        
+        # make y look like x
+        y = np.repeat(y, repeats=n)
+        
+    elif (not is_iterable(x)) and is_iterable(y):
+        # case 3
+        
+        # length of y
+        m = len(y)
+
+        # make x look like y
+        x = np.repeat(x, repeats=m)
+        
+    else:
+        # case 4 
+        
+        # make x and y length-1 arrays
+        x = np.array([x])
+        y = np.array([y])
+    
+    return x, y
+
+#-----------------------------------------------------------------------------#
+
+def coordinate_as_df(x, y, col_labels, ind_labels):
+    """
+    Utility function to coordinate the two scalar/np.ndarray variables x and y
+    as Pandas DataFrames. The following cases are considered:
         
         1) if x has length n and y has length m, then:
             x, y ---> [m rows x n cols] pd.DataFrame defining a mesh-grid
@@ -155,20 +224,6 @@ def coordinate(x, y, col_labels, ind_labels):
     
     return x_df, y_df
 
-#-----------------------------------------------------------------------------#
-
-def simple_output(x, do_simplify=True):
-    """
-    Utility function to simplify to NumPy array or scalar a variable x
-    that is a Pandas DataFrame or Series.
-    """
-    
-    if do_simplify:
-        x = x.squeeze()
-        return x.values if is_iterable(x) else x
-    else:
-        return x
-       
 #-----------------------------------------------------------------------------#
 
 def test_same_type(iterable_obj):
