@@ -167,7 +167,7 @@ class Portfolio:
         Returns the portfolio payoff as the scalar product (i.e. sum of elementwise products) 
         between single instrument payoffs and positions.
         
-        As single instruments .payoff(), can be called with single/multiple 'S' and single 't' or 'tau'. 
+        As single instruments .payoff(), can be called with single/multiple 'S'. 
         """
            
         # check time parameter
@@ -182,7 +182,7 @@ class Portfolio:
         Returns the portfolio value as the scalar product (i.e. sum of elementwise products) 
         between single instrument prices and positions.
         
-        As single instruments .price(), can be called with single/multiple 'S' and single 't' or 'tau'. 
+        As single instruments .price(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
         
         # check time parameter
@@ -197,7 +197,7 @@ class Portfolio:
         Returns the portfolio Profit & Loss as the scalar product (i.e. sum of elementwise products) 
         between single instrument P&Ls and positions.
         
-        As single instruments .PnL(), can be called with single/multiple 'S' and single 't' or 'tau'. 
+        As single instruments .PnL(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
         # check time parameter

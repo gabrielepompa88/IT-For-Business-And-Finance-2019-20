@@ -61,28 +61,28 @@ class EuropeanOption:
         d1_and_d2: flaot, float
             Computes the d1 and d2 terms of Black-Scholes pricing formula
 
+        payoff: float
+            Computes the payoff of the option and returns it
+            
+        price: float
+            Computes the Black-Scholes price of the option and returns it
+            
         PnL: float
             Computes the P&L of the option.
 
     Template Methods:
     --------   
     
-        getters for all common attributes
+        getters for all common private attributes
         
-        setters for common attributes, not belonging to mkt_env
+        setters for common private attributes, not belonging to mkt_env
         
-        payoff: float
-            Template method for payoff. Raises NotImplementedError if called.
-
         price_upper_limit: float 
             Template method for upper limit. Raises NotImplementedError if called.
 
         price_lower_limit: float 
             Template method for lower limit. Raises NotImplementedError if called.
             
-        price: float
-            Template method for price. Raises NotImplementedError if called.
-
     """
 
     def __init__(self, mkt_env, option_type='call', K=100.0, T="31-12-2020"):
@@ -112,7 +112,10 @@ class EuropeanOption:
     def __repr__(self):
         raise NotImplementedError()
     
+    #
     # getters
+    #
+    
     def get_type(self):
         return self.__type
 
@@ -144,7 +147,10 @@ class EuropeanOption:
     def get_docstring(self, label):
         raise NotImplementedError()
 
+    #
     # setters
+    #
+    
     def set_type(self, option_type):
         self.__type = option_type
         
@@ -165,14 +171,20 @@ class EuropeanOption:
         # update expiration date, given changed tau, to keep internal consistency
         self.__update_T()
         
+    #
     # update methods (private)
+    #
+    
     def __update_tau(self):
         self.__tau = self.time_to_maturity()
 
     def __update_T(self):
         self.__T = self.__t + dt.timedelta(days=math.ceil(self.__tau*365))
 
+    #
     # utility methods
+    #
+    
     def time_to_maturity(self, *args, **kwargs):
         """
         Utility method to compute time-to-maturity
@@ -249,7 +261,6 @@ class EuropeanOption:
                 "r": r, 
                 "np_output": np_output}
     
-    # d1 and d2 terms
     def d1_and_d2(self, *args, **kwargs):
         """
         Utility method to compute d1 and d2 terms of Black-Scholes pricing formula
@@ -268,9 +279,13 @@ class EuropeanOption:
 
         return d1, d2
     
-    # payoff calculation - with optional *args and **kwargs parameters
+    #
+    # Public methods
+    # 
+    
     def payoff(self, *args, **kwargs):
         """
+        Calculates and returns the payoff of the option. Usage example: example_options.py
         Can be called using (underlying), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -278,7 +293,7 @@ class EuropeanOption:
         
             - Empty: .get_S() is used,
             - A number (e.g. S=100),
-            - A List of numbers
+            - A List of numbers        
         """
         
         # process input parameters
@@ -302,9 +317,10 @@ class EuropeanOption:
     def price_lower_limit(self):
         raise NotImplementedError()     
         
-    # price calculation - with optional *args and **kwargs parameters
     def price(self, *args, **kwargs):
         """
+        Calculates and returns the price of the option. Usage example: example_options.py
+        If tau==0, returns the payoff of the option, otherwise the price.                 
         Can be called using (underlying, time-parameter, sigma, short-rate), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -318,8 +334,9 @@ class EuropeanOption:
           It's value can be:
         
             - Empty: .get_tau() is used,
-            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A time-to-maturity value (e.g. tau=0.5)
+            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
+              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
+            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
 
         - sigma can be specified as keyboard argument 'sigma'. 
           It's value can be:
@@ -374,35 +391,27 @@ class EuropeanOption:
             
         return price
         
-    # profit and loss calculation calculation - with optional *args and **kwargs parameters
     def PnL(self, *args, **kwargs):
         """
-        Can be called using (underlying, time-parameter), where:
+        Calculates and returns the P&L of generated owning an option. Usage example: example_options.py
+        Can be called as the underlying .price() method.
 
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: .get_S() is used,
-            - A number (e.g. S=100),
-            - A List of numbers
+        We distinguish two cases:
             
-        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
+            1) if tau==0, this is the P&L at option's expiration. 
+               That is, the PnL if the option is kept until maturity. 
+               It is computed as:
         
-            - Empty: .get_tau() is used,
-            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A time-to-maturity value (e.g. tau=0.5)
+                   P&L = payoff - initial price
+                   
+            2) if tau > 0, this is the P&L as if the option position is closed before maturity, 
+               when the time-to-maturity is tau. It is computed as:
+                  
+                  P&L = current price - initial price
+        
+        The choice between payoff and current price is delegated to .price() method
         """
                 
-        # if tau==0, this is the P&L at option's expiration, that is the PnL if the option is kept until maturity
-        # it is computed as:
-        # P&L = payoff - initial price
-        #
-        # if tau > 0, this is the P&L as if the option position is closed before maturity, when the time-to-maturity is tau
-        # it is computed as:
-        # P&L = current price - initial price
-        #
-        # the choice between payoff and current price is delegated to .price() method
         return self.price(*args, **kwargs) - scalarize(self.get_initial_price())
             
 #-----------------------------------------------------------------------------#
@@ -429,20 +438,15 @@ class PlainVanillaOption(EuropeanOption):
 
         public methods inherited from EuropeanOption class
 
-        payoff: float
-            Overridden method. Computes the payoff of the option and returns it
-
         price_upper_limit: float 
             Overridden method. Returns the upper limit for a vanilla option price.
 
         price_lower_limit: float 
             Overridden method. Returns the lower limit for a vanilla option price.
-            
-        price: float
-            Overridden method. Computes the exact price of the option and returns it
-            
-    Usage: 
+                        
+    Usage: example_options.py
     --------   
+
         - default: PlainVanillaOption(mkt_env) is equivalent to 
                    PlainVanillaOption(mkt_env, option_type='call', K=100.0, T="31-12-2020")
 
@@ -482,7 +486,10 @@ class PlainVanillaOption(EuropeanOption):
                 format(self.get_type(), self.get_S(), self.get_K(), self.get_t().strftime("%d-%m-%Y"), 
                        self.get_T().strftime("%d-%m-%Y"), self.get_tau(), self.get_r()*100, self.get_sigma()*100)
     
+    #
     # getters
+    #
+    
     def get_info(self):
         return self.__info
     
@@ -494,18 +501,25 @@ class PlainVanillaOption(EuropeanOption):
 
     def get_docstring(self, label):
         return self.__docstring_dict[self.get_type()][label] 
+
+    #
+    # Public methods
+    # 
     
     def call_payoff(self, S):
-        # np.maximum(arr, x) returns the array of the maximum between each
-        # element of arr and x
+        """Plain-Vanilla call option payoff
+        """
+        # Function np.maximum(arr, x) returns the array of the maximum 
+        # between each element of arr and x
         return np.maximum(S - self.get_K(), 0.0)
 
     def put_payoff(self, S):
+        """Plain-Vanilla put option payoff"""
         return np.maximum(self.get_K() - S, 0.0)
         
-    # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
         """
+        Calculates and returns the upper limit of the Plain-Vanilla option price. Usage example: example_options.py
         Can be called using (underlying, time-parameter, short-rate), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -545,14 +559,16 @@ class PlainVanillaOption(EuropeanOption):
             return self.put_price_upper_limit(S, tau, r)
             
     def call_price_upper_limit(self, S):
+        """Plain-Vanilla call option price upper limit"""
         return S
     
     def put_price_upper_limit(self, S, tau, r):
+        """Plain-Vanilla call option price upper limit"""
         return self.get_K()*np.exp(-r * tau)
 
-    # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
         """
+        Calculates and returns the lower limit of the Plain-Vanilla option price. Usage example: example_options.py
         Can be called using (underlying, time-parameter, short-rate), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -592,14 +608,17 @@ class PlainVanillaOption(EuropeanOption):
             return self.put_price_lower_limit(S, tau, r)
             
     def call_price_lower_limit(self, S, tau, r):
-        # np.maximum(arr, x) returns the array of the maximum between each
-        # element of arr and x
+        """Plain-Vanilla call option price lower limit"""
+        # Function np.maximum(arr, x) returns the array of the maximum 
+        # between each element of arr and x
         return np.maximum(S - self.get_K()*np.exp(-r * tau), 0.0)
         
     def put_price_lower_limit(self, S, tau, r):
+        """Plain-Vanilla put option price lower limit"""
         return np.maximum(self.get_K()*np.exp(-r * tau) - S, 0.0)
                                                  
     def call_price(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option price """
         
         # get d1 and d2 terms
         d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
@@ -613,7 +632,7 @@ class PlainVanillaOption(EuropeanOption):
         return price
     
     def put_price(self, S, tau, sigma, r):
-        """ Put price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
+        """ Plain-Vanilla put option price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
         return self.call_price(S, tau, sigma, r) + self.get_K() * np.exp(-r * tau) - S     
     
 #-----------------------------------------------------------------------------#
@@ -641,19 +660,13 @@ class DigitalOption(EuropeanOption):
  
         public methods inherited from EuropeanOption class
 
-        payoff: float
-            Overridden method. Computes the payoff of the option and returns it
-
         price_upper_limit: float 
             Overridden method. Returns the upper limit for a vanilla option price.
 
         price_lower_limit: float 
             Overridden method. Returns the lower limit for a vanilla option price.
             
-        price: float
-            Overridden method. Computes the exact price of the option and returns it, using call_price() or put_price()
-
-    Usage: 
+    Usage: example_options.py
     --------   
         - default: DigitalOption(mkt_env) is equivalent to 
                    DigitalOption(mkt_env, cash_amount=1.0, option_type='call', K=100.0, T="31-12-2020")
@@ -698,7 +711,10 @@ class DigitalOption(EuropeanOption):
                 format(self.get_type(), self.get_Q(), self.get_S(), self.get_K(), self.get_t().strftime("%d-%m-%Y"), 
                        self.get_T().strftime("%d-%m-%Y"), self.get_tau(), self.get_r()*100, self.get_sigma()*100)
     
+    #
     # getters
+    #
+    
     def get_info(self):
         return self.__info
     
@@ -711,28 +727,36 @@ class DigitalOption(EuropeanOption):
     def get_initial_price(self):
         return self.__initial_price
     
-    # docstring getter
     def get_docstring(self, label):
         return self.__docstring_dict[self.get_type()][label] 
     
+    #
     # setters
+    #
+
     def set_Q(self, cash_amount):
         self.__Q = cash_amount
+
+    #
+    # Public methods
+    # 
     
     def call_payoff(self, S):
-        # np.heaviside(arr, x) returns
-        #
-        # 0 if arr < 0
-        # x if arr == 0
-        # 1 if arr > 0
+        """ CON call option payoff"""
+        # Function np.heaviside(arr, x) returns:
+        #        
+        #    0 if arr < 0
+        #    x if arr == 0
+        #    1 if arr > 0
         return np.heaviside(S - self.get_K(), 0.0)
-
+        
     def put_payoff(self, S):
+        """ CON put option payoff"""
         return np.heaviside(self.get_K() - S, 1.0)
         
-    # upper price limit - with optional *args and **kwargs parameters
     def price_upper_limit(self, *args, **kwargs):
         """
+        Calculates and returns the upper limit of the CON option price. Usage example: example_options.py
         Can be called using (underlying, time-parameter, short-rate), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -766,9 +790,9 @@ class DigitalOption(EuropeanOption):
         # the same for call and put
         return self.get_Q()*np.exp(-r * tau)
         
-    # lower price limit - with optional *args and **kwargs parameters
     def price_lower_limit(self, *args, **kwargs):
         """
+        Calculates and returns the lower limit of the CON option price. Usage example: example_options.py
         Can be called using (underlying), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -789,6 +813,7 @@ class DigitalOption(EuropeanOption):
         return 0.0*S
        
     def call_price(self, S, tau, sigma, r):
+        """ CON call option Black-Scholes price"""
                 
         Q = self.get_Q()
         
@@ -800,5 +825,5 @@ class DigitalOption(EuropeanOption):
         return price
     
     def put_price(self, S, tau, sigma, r):
-        """ Put price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""
+        """ CON put option price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""
         return self.get_Q() * np.exp(- r * tau) - self.call_price(S, tau, sigma, r)        
