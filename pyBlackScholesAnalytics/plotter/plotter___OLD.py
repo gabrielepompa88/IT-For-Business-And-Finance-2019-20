@@ -12,9 +12,6 @@ import numpy as np
 # for Matplotlib plotting
 import matplotlib.pyplot as plt
 
-# for 3D plot
-from mpl_toolkits.mplot3d import Axes3D
-
 # ----------------------- sub-modules imports ------------------------------- #
 
 from utils.utils import *
@@ -169,13 +166,6 @@ class Plotter:
         plot_details = kwargs['plot_details'] if 'plot_details' in kwargs else False
         return plot_details
      
-    def parse_surf_plot(self, **kwargs):
-        """
-        Utility method to decide whether to plot multi-line or surface.
-        """
-        surf_plot = kwargs['surf_plot'] if 'surf_plot' in kwargs else False
-        return surf_plot
-    
     #
     # Public methods
     # 
@@ -225,16 +215,13 @@ class Plotter:
         x_axis = self.x_axis(*args, **kwargs)
         time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
         plot_metrics = self.parse_plot_metrics(**kwargs)
-        surf_plot = self.parse_surf_plot(**kwargs)
 
-        if is_iterable_not_string(time_parameter) and not surf_plot:
+        if is_iterable_not_string(time_parameter):
             self.plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
-        elif is_iterable_not_string(time_parameter):
-            self.plot_surf(x_axis, time_parameter, time_label_parameter, plot_metrics)
         else:
             plot_details = self.parse_plot_details(*args, **kwargs)
             self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
-            
+
 #-----------------------------------------------------------------------------#
 
 class OptionPlotter(Plotter):
@@ -264,75 +251,6 @@ class OptionPlotter(Plotter):
         # calling the Plotter initializer
         super(OptionPlotter, self).__init__(*args, **kwargs)
                                                         
-    def plot_surf(self, S, multiple_times, time_labels, plot_metrics):
-        """
-        Plot FinancialInstrument/Portfolio values as a surface of underlying value(s) and multiple dates.
-        """
-        
-        # number of times-to-maturity considered
-        tau_num = len(multiple_times)
-#        plt.gca().set_prop_cycle(None)
-        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues_r(np.linspace(0,1,tau_num)))
-
-        # define the figure
-        fig = plt.figure(figsize=(12,8))
-        ax = fig.gca(projection='3d')
-
-        # convert dates to time-to-maturity, including zero if needed
-        ttm = self.fin_inst.time_to_maturity(multiple_times)
-
-        if not (0 in ttm):
-            ttm_extended = np.append(ttm, 0.0)[::-1]
-
-        # precompute surface (exploiting vectorization)
-        surface_metrics = getattr(self.fin_inst, plot_metrics)(S, ttm_extended, np_output=False)
-        
-        # grid points
-        underlying, time = np.meshgrid(surface_metrics.columns, surface_metrics.index)
-        
-        # surface plot
-        surf = ax.plot_surface(underlying, time, surface_metrics.values.astype('float64'), rstride=2, cstride=2,
-                               cmap=plt.cm.Blues, linewidth=0.5, antialiased=True, zorder=1)
-        
-        # plot the price for different underlying values, one line for each different date
-        plt.gca().set_prop_cycle(None)
-        for i in range(len(ttm_extended)-1):
-            ax.plot(S, np.repeat(ttm_extended[i], repeats=len(S)), surface_metrics.iloc[i,:], '-', lw=2.5, 
-                    label=plot_metrics + r" at " + time_labels[i], zorder=1+i+1)
-            
-        # plot the red payoff line for different underlying values
-        if plot_metrics == 'PnL':
-            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)", zorder=1+i+2)
-        else:
-            ax.plot(S, np.zeros_like(S), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'), zorder=1+i+2)
-        
-        # set y ticks
-        ax.set_yticks(ttm)
-        ax.set_yticklabels(time_labels)
-        
-        # set axis labels 
-        ax.set_xlabel(r"Underlying Value", fontsize=12) 
-        ax.set_ylabel(r"Date" if is_date(multiple_times) else r"Time-to-Maturity", fontsize=12)        
-        ax.set_zlabel('Black-Scholes {}'.format(plot_metrics), fontsize=12) 
-
-        # set title
-        ax.set_title(self.get_title(), fontsize=12) 
-
-        # add the legend ('best' loc parameters places the legend in the best position automatically)
-        ax.legend(loc='best', ncol=2)
-
-        # add a gride to ease visualization
-        plt.grid(True)
-
-        # draw a colorbar for color-reference
-        fig.colorbar(surf, shrink=0.5, aspect=5)
-
-        ax.view_init(30, -60)
-        
-        # show the plot
-        fig.tight_layout()
-        plt.show()
-
     def plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
         """
         Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.

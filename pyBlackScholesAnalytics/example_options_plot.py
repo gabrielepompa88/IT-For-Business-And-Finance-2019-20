@@ -58,9 +58,13 @@ def main():
     multiple_valuation_dates = pd.date_range(start=emission_date, 
                                              end=expiration_date - pd.Timedelta(days=10), 
                                              periods=5)
+    print(multiple_valuation_dates)
     
     # Vanilla Call price plot at multiple dates
     plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+
+    # Vanilla Call price surface plot
+    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", surf_plot=True)
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
