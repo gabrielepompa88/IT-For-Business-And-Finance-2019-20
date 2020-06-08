@@ -24,18 +24,18 @@ def main():
     # calendar-spread portfolio initialized (as empty portfolio)   
     calendar_spread_ptf = Portfolio(name="Calendar Spread Strategy")
     print(calendar_spread_ptf)
-
-    # T_short-call
-    Vanilla_Call_short = PlainVanillaOption(market_env, T=T_short, K=S_t)
-    print(Vanilla_Call_short)
     
     # T_long-call
     Vanilla_Call_long = PlainVanillaOption(market_env, T=T_long, K=S_t)
     print(Vanilla_Call_long)
 
+    # T_short-call
+    Vanilla_Call_short = PlainVanillaOption(market_env, T=T_short, K=S_t)
+    print(Vanilla_Call_short)
+
     # creation of Calendar-Spread portfolio strategy   
-    calendar_spread_ptf.add_instrument(Vanilla_Call_short, -1)    
     calendar_spread_ptf.add_instrument(Vanilla_Call_long, 1)
+    calendar_spread_ptf.add_instrument(Vanilla_Call_short, -1)    
     print(calendar_spread_ptf)
     
     # portfolio plotter instance

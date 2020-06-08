@@ -371,6 +371,9 @@ class PortfolioPlotter(Plotter):
     def __init__(self, *args, **kwargs):
         # calling the Plotter initializer
         super(PortfolioPlotter, self).__init__(*args, **kwargs)
+        
+        # setting the color cycle to plot constituent instruments reference lines
+        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.RdYlGn_r(np.linspace(0,1,len(self.fin_inst.get_composition()))))
 
     def plot(self, *args, **kwargs):
         """
@@ -501,10 +504,6 @@ class PortfolioPlotter(Plotter):
 
         # optionally, plot the instruments details
         if plot_instrument_payoffs:
-            
-            # set a color cycle according to the number of instruments in portfolio
-            number_of_instruments = len(self.fin_inst.get_composition())
-            plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.RdYlGn(np.linspace(0,1,number_of_instruments)))
             
             for inst in self.fin_inst.get_composition():
                 position = inst["position"]

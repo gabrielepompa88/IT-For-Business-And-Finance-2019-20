@@ -97,8 +97,8 @@ def main():
     print("\nPortfolio P&L:\n", ptf.PnL(S=S_vector, t=t_range, np_output=np_output))
     
     # verification with benchmark P&L
-    call_pos * call.PnL(S=S_vector, t=t_range, np_output=np_output) + \
-                                put_pos * put.PnL(S=S_vector, t=t_range, np_output=np_output)                         
+    benchmark_pnl = call_pos * call.PnL(S=S_vector, t=t_range, np_output=np_output) + \
+                    put_pos * put.PnL(S=S_vector, t=t_range, np_output=np_output)                         
     print("\nbenchmark P&L:\n", benchmark_pnl)
     
 #----------------------------- usage example ---------------------------------#
