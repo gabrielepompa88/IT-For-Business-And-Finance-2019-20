@@ -29,10 +29,10 @@ def main():
     market_env = MarketEnvironment()
     print(market_env)
     
-    option = option_factory(market_env, "plain_vanilla", "call")
-#    option = option_factory(market_env, "plain_vanilla", "put")
-#    option = option_factory(market_env, "digital", "call")
-#    option = option_factory(market_env, "digital", "put")
+    # define option style and type
+    opt_style = "plain_vanilla" # "digital"
+    opt_type = "call" # "put"   
+    option = option_factory(market_env, opt_style, opt_type)
     print(option)
     
     # 
