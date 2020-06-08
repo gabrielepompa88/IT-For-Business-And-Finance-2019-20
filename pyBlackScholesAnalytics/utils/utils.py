@@ -478,10 +478,10 @@ def plot(x, f, **kwargs):
     ax.grid(True)
     
     if f_up is not None:
-        ax.plot(x, f_up, 'r--', lw=0.5, label=f_up_label)
+        ax.plot(x, f_up, 'g--', lw=0.5, label=f_up_label)
     
     if f_down is not None:
-        ax.plot(x, f_down, 'g--', lw=0.5, label=f_down_label)
+        ax.plot(x, f_down, 'r--', lw=0.5, label=f_down_label)
 
     # add legend
     if (f_up is not None) or (f_down is not None):

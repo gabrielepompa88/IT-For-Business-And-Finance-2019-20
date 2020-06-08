@@ -49,11 +49,8 @@ class Plotter:
         
         parse_plot_details utility method to parse 'plot_details' optional parameter of .plot() method.
         
-    Template Methods:
-    --------   
-    
         plot:
-            Template method to plot the price/P&L of the FinancialObject. It raises a NotImplementedError if called.
+            Public method to plot the price/P&L of the FinancialObject. It raises a NotImplementedError if called.
 
     """
     
@@ -71,7 +68,10 @@ class Plotter:
         # set default time parameter
         self.__time_parameter, _ = self.time_parameter(self.fin_inst.get_tau())
                
+    #
     # getters
+    #
+    
     def get_x_axis(self):
         return self.__x_axis
 
@@ -81,7 +81,10 @@ class Plotter:
     def get_title(self):
         return self.__title_label
     
+    #
     # utility methods
+    #
+    
     def x_axis(self, *args, **kwargs):
         """
         Utility method to define the x-axis of the plot, optionally parsing x-axis in input.
@@ -131,11 +134,11 @@ class Plotter:
                              (only 'dd-mm-YYYY' Strings or dt.datetime objects allowed)".format(type(time_parameter)))
             
         # create time parameter label
-        time_parameter_label = self.__time_parameter_label(time_parameter)
+        time_parameter_label = self.time_parameter_label(time_parameter)
         
         return time_parameter, time_parameter_label
     
-    def __time_parameter_label(self, time_parameter):
+    def time_parameter_label(self, time_parameter):
     
         if is_numeric(time_parameter):
             if is_iterable_not_string(time_parameter):
@@ -163,9 +166,61 @@ class Plotter:
         plot_details = kwargs['plot_details'] if 'plot_details' in kwargs else False
         return plot_details
      
-    # template plot method
-    def plot(self):
-        raise NotImplementedError()
+    #
+    # Public methods
+    # 
+    
+    def plot(self, *args, **kwargs):
+        """
+        Plotter class public plotting method. Usage example: 
+            - example_options_plot.py
+            - example_bull_spread.py
+            - example_calendar_spread.py
+            
+        Can be called using (underlying, time-parameter, plot-metrics, plot-details), where:
+
+        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
+          It's value can be:
+        
+            - Empty: the option's or portfolio's strike price(s) used as middle point(s) of the x-axis,
+            - A number (e.g. S=100),
+            - A List of numbers
+            
+        - time-parameter can be specified either as the 1st positional argument (if no underlying is specified) or
+          as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
+          It's value can be:
+        
+            - Empty: .get_tau() is used,
+            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
+              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
+            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
+            
+        - plot-metrics can be specified as keyboard argument 'plot_metrics'. It's value can be:
+        
+            - Empty: default value used is 'price'
+            - plot_metrics = a String 'method' corresponding to a valid '.method()' implemented by self.fin_inst object  
+            
+        - plot-details can be specified as keyboard argument 'plot_details'. It's value can be:
+        
+            - Empty: default value used is False
+            - plot_details = True or False
+        
+          If True, we distinguish between the single-option (a) and portfolio (b) cases:
+        
+            a) Single-option case: upper and lower price boundaries are shown if .plot_single_time() method is called. 
+            b) Portfolio case: constituent instruments' details are shown if .plot_single_time() method is called.
+        """
+        
+        # argument parsing and plot setup
+        x_axis = self.x_axis(*args, **kwargs)
+        time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
+        plot_metrics = self.parse_plot_metrics(**kwargs)
+
+        if is_iterable_not_string(time_parameter):
+            self.plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
+        else:
+            plot_details = self.parse_plot_details(*args, **kwargs)
+            self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
 
 #-----------------------------------------------------------------------------#
 
@@ -185,63 +240,20 @@ class OptionPlotter(Plotter):
     
         public methods inherited from Plotter class
         
-        plot:
-            Overridden Method. It plots the price/P&L of the FinancialInstrument. It uses .__plot_single_time() or 
-            .__plot_multi_time() (private) methods depending on whether time_parameter is a single value or an Iterable.
-
+        plot_multi_time:
+            Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
+        
+        plot_single_time:
+            Plot FinancialInstrument values against underlying value(s) at fixed date. 
     """
     
     def __init__(self, *args, **kwargs):
         # calling the Plotter initializer
         super(OptionPlotter, self).__init__(*args, **kwargs)
-                                    
-    def plot(self, *args, **kwargs):
-        """
-        Can be called using (underlying, time-parameter, plot-metrics, plot-details), where:
-
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: option's strike price is used as middle point of the x-axis,
-            - A number (e.g. S=100),
-            - A List of numbers
-            
-        - time-parameter can be specified either as the 1st positional argument (if no underlying is specified) or
-          as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
-        
-            - Empty: .get_tau() is used,
-            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
-              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
-            
-        - plot-metrics can be specified as keyboard argument 'plot_metrics'. It's value can be:
-        
-            - Empty: default value used is 'price'
-            - plot_metrics = a String 'method' corresponding to a valid '.method()' implemented by self.fin_inst object  
-            
-        - plot-details can be specified as keyboard argument 'plot_details'. If True, upper and lower price boundaries 
-          are shown if .__plot_single_time() method is called. It's value can be:
-        
-            - Empty: default value used is False
-            - plot_details = True or False
-        """
-        
-        # argument parsing and plot setup
-        x_axis = self.x_axis(*args, **kwargs)
-        time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
-        plot_metrics = self.parse_plot_metrics(**kwargs)
-
-        if is_iterable_not_string(time_parameter):
-            self.__plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
-        else:
-            plot_limits = self.parse_plot_details(**kwargs)
-            self.__plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_limits)
-                    
-    def __plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
+                                                        
+    def plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
         """
         Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
-        Dates can be specified either as date Strings or time-to-maturity values.
         """
         
         # number of times-to-maturity considered
@@ -294,11 +306,9 @@ class OptionPlotter(Plotter):
         fig.tight_layout()
         plt.show()
  
-    def __plot_single_time(self, S, time, time_label, plot_metrics, plot_limits):
+    def plot_single_time(self, S, time, time_label, plot_metrics, plot_limits):
         """
         Plot FinancialInstrument values against underlying value(s) at fixed date. 
-        Date can be specified either as date String or time-to-maturity value.
-        Optionally, it plots theoretical upper and lower bounds of the price.
         """
         
         # define the figure
@@ -362,10 +372,11 @@ class PortfolioPlotter(Plotter):
     
         public methods inherited from Plotter class
         
-        plot:
-            Overridden method. It plots the price/P&L of the portfolio. It uses .__plot_single_time() or 
-            .__plot_multi_time() (private) methods depending on whether time_parameter is a single value or an Iterable.
-
+        plot_multi_time:
+            Plot Portfolio values against underlying value(s), possibly at multiple dates.
+        
+        plot_single_time:
+            Plot Portfolio values against underlying value(s) at fixed date. 
     """
     
     def __init__(self, *args, **kwargs):
@@ -375,53 +386,9 @@ class PortfolioPlotter(Plotter):
         # setting the color cycle to plot constituent instruments reference lines
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.RdYlGn_r(np.linspace(0,1,len(self.fin_inst.get_composition()))))
 
-    def plot(self, *args, **kwargs):
-        """
-        Can be called using (underlying, time-parameter, plot-metrics, plot-details), where:
-
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: option's strike price is used as middle point of the x-axis,
-            - A number (e.g. S=100),
-            - A List of numbers
-            
-        - time-parameter can be specified either as the 1st positional argument (if no underlying is specified) or
-          as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
-        
-            - Empty: .get_tau() is used,
-            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
-              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
-            
-        - plot-metrics can be specified as keyboard argument 'plot_metrics'. It's value can be:
-        
-            - Empty: default value used is 'price'
-            - plot_metrics = a String 'method' corresponding to a valid '.method()' implemented by self.fin_inst object  
-            
-        - plot-details can be specified as keyboard argument 'plot_details'. If True, constituent instruments' details 
-          are shown if .__plot_single_time() method is called. It's value can be:
-        
-            - Empty: default value used is False
-            - plot_details = True or False
-        """
-        
-        # argument parsing and plot setup
-        x_axis = self.x_axis(*args, **kwargs)
-        time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
-        plot_metrics = self.parse_plot_metrics(**kwargs)
-
-        if is_iterable_not_string(time_parameter):
-            self.__plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
-        else:
-            plot_instrument_payoffs = self.parse_plot_details(*args, **kwargs)
-            self.__plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_instrument_payoffs)
-                    
-    def __plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
+    def plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
         """
         Plot Portfolio values against underlying value(s), possibly at multiple dates.
-        Dates can be specified either as date Strings or time-to-maturity values.
         """
         
         # number of times-to-maturity considered
@@ -476,11 +443,9 @@ class PortfolioPlotter(Plotter):
         fig.tight_layout()
         plt.show()
     
-    def __plot_single_time(self, S, time, time_label, plot_metrics, plot_instrument_payoffs):
+    def plot_single_time(self, S, time, time_label, plot_metrics, plot_instrument_payoffs):
         """
         Plot Portfolio values against underlying value(s) at fixed date. 
-        Date can be specified either as date String or time-to-maturity value.
-        Optionally, it plots theoretical upper and lower bounds of the price.
         """
         
         # define the figure

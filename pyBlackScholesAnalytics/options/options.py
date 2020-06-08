@@ -280,9 +280,21 @@ class EuropeanOption:
         return d1, d2
     
     #
-    # Public methods
+    # Template methods
     # 
     
+    # upper price limit template
+    def price_upper_limit(self):
+        raise NotImplementedError()     
+
+    # lower price limit template
+    def price_lower_limit(self):
+        raise NotImplementedError()     
+
+    #
+    # Public methods
+    # 
+
     def payoff(self, *args, **kwargs):
         """
         Calculates and returns the payoff of the option. Usage example: example_options.py
@@ -308,15 +320,7 @@ class EuropeanOption:
         # put case
         else:
             return self.put_payoff(S)
-        
-    # upper price limit template
-    def price_upper_limit(self):
-        raise NotImplementedError()     
-
-    # lower price limit template
-    def price_lower_limit(self):
-        raise NotImplementedError()     
-        
+                
     def price(self, *args, **kwargs):
         """
         Calculates and returns the price of the option. Usage example: example_options.py
