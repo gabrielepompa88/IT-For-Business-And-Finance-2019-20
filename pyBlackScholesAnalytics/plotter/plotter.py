@@ -176,6 +176,23 @@ class Plotter:
         surf_plot = kwargs['surf_plot'] if 'surf_plot' in kwargs else False
         return surf_plot
     
+    def parse_surf_plot_view(self, **kwargs):
+        """
+        Utility method to set the elevation and azimutal angles of the surface view.
+        """
+        view = kwargs['view'] if 'view' in kwargs else (30, -60)
+        return view
+
+    def make_dense(self, tau):
+        """
+        Utility method to densify a time-to-maturity parameter.
+        """
+        tau_dense = np.linspace(0.0, max(tau), 100)
+        for ttm in tau:
+            if ttm not in tau_dense:
+                tau_dense = np.append(tau_dense, ttm)
+        return np.sort(tau_dense)
+        
     #
     # Public methods
     # 
@@ -187,7 +204,12 @@ class Plotter:
             - example_bull_spread.py
             - example_calendar_spread.py
             
-        Can be called using (underlying, time-parameter, plot-metrics, plot-details), where:
+        Can be called using (underlying, 
+                             time-parameter, 
+                             plot-metrics, 
+                             plot-details, 
+                             surf_plot, 
+                             view), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -219,6 +241,22 @@ class Plotter:
         
             a) Single-option case: upper and lower price boundaries are shown if .plot_single_time() method is called. 
             b) Portfolio case: constituent instruments' details are shown if .plot_single_time() method is called.
+        
+        - surf-plot can be specified as keyboard argument 'surf_plot'. It's value can be:
+            
+            - Empty: default value used is False
+            - surf_plot = True or False
+            
+          If True, .plot_surf() is called in case of Iterable time-parameter, 
+          otherwise .plot_multi_time() is called.
+        
+        - view can be specified as keyboard argument 'view'. It's value can be:
+            
+            - Empty: default value used is (30, -60)
+            - surf_plot = Tuple of two numbers
+            
+          It represent the pair of (elevation angle, azimutal angle) of the plot view
+          in case .plot_surf() is called.
         """
         
         # argument parsing and plot setup
@@ -230,7 +268,8 @@ class Plotter:
         if is_iterable_not_string(time_parameter) and not surf_plot:
             self.plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
         elif is_iterable_not_string(time_parameter):
-            self.plot_surf(x_axis, time_parameter, time_label_parameter, plot_metrics)
+            plot_view = self.parse_surf_plot_view(**kwargs)
+            self.plot_surf(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_view)
         else:
             plot_details = self.parse_plot_details(*args, **kwargs)
             self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
@@ -264,28 +303,27 @@ class OptionPlotter(Plotter):
         # calling the Plotter initializer
         super(OptionPlotter, self).__init__(*args, **kwargs)
                                                         
-    def plot_surf(self, S, multiple_times, time_labels, plot_metrics):
+    def plot_surf(self, S, multiple_times, time_labels, plot_metrics, view):
         """
         Plot FinancialInstrument/Portfolio values as a surface of underlying value(s) and multiple dates.
         """
         
         # number of times-to-maturity considered
         tau_num = len(multiple_times)
-#        plt.gca().set_prop_cycle(None)
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues_r(np.linspace(0,1,tau_num)))
 
         # define the figure
-        fig = plt.figure(figsize=(12,8))
+        fig = plt.figure(figsize=(14,10))
         ax = fig.gca(projection='3d')
 
-        # convert dates to time-to-maturity, including zero if needed
-        ttm = self.fin_inst.time_to_maturity(multiple_times)
-
-        if not (0 in ttm):
-            ttm_extended = np.append(ttm, 0.0)[::-1]
+        # convert dates to time-to-maturity for uniform treatment of time-parameter
+        tau = self.fin_inst.time_to_maturity(multiple_times) if is_date(multiple_times) else multiple_times
+                    
+        # define a dense grid of tau-points (including zero)
+        tau_dense = self.make_dense(tau)
 
         # precompute surface (exploiting vectorization)
-        surface_metrics = getattr(self.fin_inst, plot_metrics)(S, ttm_extended, np_output=False)
+        surface_metrics = getattr(self.fin_inst, plot_metrics)(S, tau_dense, np_output=False)
         
         # grid points
         underlying, time = np.meshgrid(surface_metrics.columns, surface_metrics.index)
@@ -296,18 +334,31 @@ class OptionPlotter(Plotter):
         
         # plot the price for different underlying values, one line for each different date
         plt.gca().set_prop_cycle(None)
-        for i in range(len(ttm_extended)-1):
-            ax.plot(S, np.repeat(ttm_extended[i], repeats=len(S)), surface_metrics.iloc[i,:], '-', lw=2.5, 
+        for i in range(tau_num):
+            ax.plot(S, np.repeat(tau[i], repeats=len(S)), surface_metrics.loc[tau[i],:], '-', lw=1.5, 
                     label=plot_metrics + r" at " + time_labels[i], zorder=1+i+1)
             
+        # precompute S_t level metrics (exploiting vectorization)
+        S_t = self.fin_inst.get_S()
+        S_t_level_metrics = getattr(self.fin_inst, plot_metrics)(S_t, multiple_times)
+        S_t_level_metrics_dense = getattr(self.fin_inst, plot_metrics)(S_t, tau_dense)
+
+        # blue dot at original underlying level for reference
+        ax.plot(S_t + np.zeros_like(tau), tau, S_t_level_metrics, 'b.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t), zorder=1+i+2)
+        ax.plot(S_t + np.zeros_like(tau_dense), tau_dense, S_t_level_metrics_dense, 'b--', lw=1.5, zorder=1+i+2)
+
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)", zorder=1+i+2)
+            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)", zorder=1+i+3)
         else:
-            ax.plot(S, np.zeros_like(S), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'), zorder=1+i+2)
+            ax.plot(S, np.zeros_like(S), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'), zorder=1+i+3)
+
+        # plot a dot to highlight the strike position and a reference zero line
+        ax.plot(self.fin_inst.get_K() + np.zeros_like(tau), np.zeros_like(tau), np.zeros_like(tau), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
+        ax.plot(self.fin_inst.get_K() + np.zeros_like(tau_dense), tau_dense, np.zeros_like(tau_dense), 'k--', lw=1.5, zorder=1+i+5)
         
         # set y ticks
-        ax.set_yticks(ttm)
+        ax.set_yticks(tau)
         ax.set_yticklabels(time_labels)
         
         # set axis labels 
@@ -319,15 +370,16 @@ class OptionPlotter(Plotter):
         ax.set_title(self.get_title(), fontsize=12) 
 
         # add the legend ('best' loc parameters places the legend in the best position automatically)
-        ax.legend(loc='best', ncol=2)
-
+        ax.legend(bbox_to_anchor=(1.1,1), loc=1, ncol=1)
+        
         # add a gride to ease visualization
         plt.grid(True)
 
         # draw a colorbar for color-reference
         fig.colorbar(surf, shrink=0.5, aspect=5)
 
-        ax.view_init(30, -60)
+        # set the plot view
+        ax.view_init(view[0], view[1])
         
         # show the plot
         fig.tight_layout()
@@ -368,7 +420,7 @@ class OptionPlotter(Plotter):
             ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
         # plot a dot to highlight the strike position and a reference zero line
-        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K$")
+        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
         ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
         
         # set axis labels 
@@ -417,7 +469,7 @@ class OptionPlotter(Plotter):
             ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
         # plot a dot to highlight the strike position and a reference zero line
-        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K$")
+        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
         ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
 
         # set axis labels 
@@ -505,7 +557,7 @@ class PortfolioPlotter(Plotter):
             
         # plot a dot to highlight the strike position and a reference zero line
         strikes = self.fin_inst.get_K()
-        ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K$")
+        ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K={}$".format(strikes))
         ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
         
         # set axis labels 
@@ -573,7 +625,7 @@ class PortfolioPlotter(Plotter):
                 
         # plot a dot to highlight the strike position and a reference zero line
         strikes = self.fin_inst.get_K()
-        ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K$")
+        ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K={}$".format(strikes))
         ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
 
         # set axis labels 

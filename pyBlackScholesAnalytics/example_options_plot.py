@@ -54,17 +54,33 @@ def main():
     expiration_date = option.get_T()
     print(expiration_date)
     
-    # a date-range of 5 valuation dates between t and T-10d
-    multiple_valuation_dates = pd.date_range(start=emission_date, 
-                                             end=expiration_date - pd.Timedelta(days=10), 
-                                             periods=5)
+#    # a date-range of 5 valuation dates between t and T-10d
+#    multiple_valuation_dates = pd.date_range(start=emission_date, 
+#                                             end=expiration_date - pd.Timedelta(days=10), 
+#                                             periods=5)
+#    print(multiple_valuation_dates)
+    
+    multiple_valuation_dates = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
     print(multiple_valuation_dates)
     
     # Vanilla Call price plot at multiple dates
     plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
 
     # Vanilla Call price surface plot
-    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", surf_plot=True)
+    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                 surf_plot=True)
+
+    # Vanilla Call price surface plot (rotate)
+    # Underlying value side
+    # focus on: time-decay at original Emission level (S=90)
+    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                 surf_plot=True, view=(0,180))
+
+    # Vanilla Call price surface plot (rotate)
+    # Date side
+    # focuse on: underlying value dependency
+    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                 surf_plot=True, view=(0,-90))
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
