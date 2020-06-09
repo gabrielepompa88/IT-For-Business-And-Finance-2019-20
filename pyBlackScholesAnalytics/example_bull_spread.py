@@ -52,19 +52,72 @@ def main():
     expiration_date = Vanilla_Call_long.get_T()
     print(expiration_date)
     
-    # a date-range of 5 valuation dates between t and T-10d
-    multiple_valuation_dates = pd.date_range(start=valuation_date, 
-                                             end=expiration_date - pd.Timedelta(days=10), 
-                                             periods=5)
+    for time_kind in ['date', 'tau']:
+        
+        if time_kind == 'date':
     
-    print(multiple_valuation_dates)
+            # time-parameter as a date-range of 5 valuation dates between t and T-10d
+            multiple_valuation_dates = pd.date_range(start=valuation_date, 
+                                                     end=expiration_date - pd.Timedelta(days=10), 
+                                                     periods=5)
+        else:
+            
+            # (alternatively) time-parameter as a list of times-to-maturity
+            multiple_valuation_dates = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
     
-    # Bull-Spread price plot (multiple dates)
-    bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+        print(multiple_valuation_dates)
+    
+        
+        #
+        # Bull-Spread plot (multiple dates)
+        #
+        
+        # price
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+        
+        # P&L
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
+    
+        #
+        # Bull-Spread price surface plot 
+        #
+        
+        # price
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                     surf_plot=True)
+    
+        # PnL
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                     surf_plot=True)
+    
+        #
+        # Bull-Spread price surface plot 
+        # Underlying value side
+        # focus on: time-decay at original Emission level (S=90)
+        # 
+    
+        # price
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                     surf_plot=True, view=(0,180))
+    
+        # PnL
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                     surf_plot=True, view=(0,180))
 
-    # Bull-Spread P&L plot (multiple dates)
-    bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
+        #
+        # Bull-Spread price surface plot 
+        # Date side
+        # focuse on: underlying value dependency
+        #
     
+        # price
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                     surf_plot=True, view=(0,-90))
+    
+        # PnL
+        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                     surf_plot=True, view=(0,-90))
+        
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     

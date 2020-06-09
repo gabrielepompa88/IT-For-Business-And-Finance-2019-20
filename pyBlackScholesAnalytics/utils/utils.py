@@ -35,7 +35,7 @@ def scalarize(x):
     
 #-----------------------------------------------------------------------------#
 
-def iterable_to_numpy_array(x, sort=True, sort_func=None):
+def iterable_to_numpy_array(x, sort=True, sort_func=None, reverse_order=False):
     """
     Create a 1-dim NumPy Array from a 1-dim Iterable with elements of the same type.
     If the iterable has elements of different data-type, it raises an error.
@@ -47,7 +47,7 @@ def iterable_to_numpy_array(x, sort=True, sort_func=None):
     if is_iterable_not_string(x) and test_same_type(x):
         if not isinstance(x, np.ndarray):
             x = np.array([xi for xi in x])
-        return np.array(sorted(x, key=sort_func)) if sort else x
+        return np.array(sorted(x, key=sort_func, reverse=reverse_order)) if sort else x
     else:
         return x
     

@@ -51,19 +51,76 @@ def main():
     valuation_date = calendar_spread_ptf.get_t()
     print(valuation_date)
         
-    # a date-range of 5 valuation dates between t and T_short
+#    # a date-range of 5 valuation dates between t and T_short
+#    multiple_valuation_dates = pd.date_range(start=valuation_date, 
+#                                             end=T_short, 
+#                                             periods=5)
+#    
+#    print(multiple_valuation_dates)
+#    
+#    # Calendar-Spread price plot (multiple dates)
+#    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", n=500)
+#
+#    # Calendar-Spread P&L plot (multiple dates)
+#    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", n=500)
+    
+    # time-parameter as a date-range of 5 valuation dates between t and T_short
     multiple_valuation_dates = pd.date_range(start=valuation_date, 
                                              end=T_short, 
                                              periods=5)
-    
     print(multiple_valuation_dates)
     
-    # Calendar-Spread price plot (multiple dates)
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", n=500)
-
-    # Calendar-Spread P&L plot (multiple dates)
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", n=500)
+        
+    #
+    # Calendar-Spread plot (multiple dates)
+    #
     
+    # price
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+    
+    # P&L
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
+
+    #
+    # Calendar-Spread price surface plot 
+    #
+    
+    # price
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                 surf_plot=True)
+
+    # PnL
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                 surf_plot=True)
+
+    #
+    # Calendar-Spread price surface plot 
+    # Underlying value side
+    # focus on: time-decay at original Emission level (S=90)
+    # 
+
+    # price
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                 surf_plot=True, view=(0,180))
+
+    # PnL
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                 surf_plot=True, view=(0,180))
+
+    #
+    # Calendar-Spread price surface plot 
+    # Date side
+    # focuse on: underlying value dependency
+    #
+
+    # price
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                                 surf_plot=True, view=(0,-90))
+
+    # PnL
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                                 surf_plot=True, view=(0,-90))
+        
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     

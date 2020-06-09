@@ -223,7 +223,7 @@ class EuropeanOption:
             tau = time_param = self.get_tau()
         # case 2: valid time-to-maturity in input
         elif is_numeric(time_param):
-            time_param = homogenize(time_param)
+            time_param = homogenize(time_param, reverse_order=True)
             tau = time_param
         # case 3: valuation date in input, to be converted into time-to-maturity
         elif is_date(time_param):

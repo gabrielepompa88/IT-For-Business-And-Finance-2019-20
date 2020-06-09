@@ -126,7 +126,7 @@ class Plotter:
         
         # case 1: time-to-maturity in input (if Iterable, sort from longest to shortest)
         if is_numeric(time):
-            time_parameter = homogenize(time)
+            time_parameter = homogenize(time, reverse_order=True)
 
         # case 2: valuation date in input (if Iterable, sort from first to last, i.e. chronological order)
         elif is_date(time):
@@ -191,7 +191,7 @@ class Plotter:
         for ttm in tau:
             if ttm not in tau_dense:
                 tau_dense = np.append(tau_dense, ttm)
-        return np.sort(tau_dense)
+        return homogenize(tau_dense, reverse_order=True)
         
     #
     # Public methods
@@ -273,36 +273,7 @@ class Plotter:
         else:
             plot_details = self.parse_plot_details(*args, **kwargs)
             self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
-            
-#-----------------------------------------------------------------------------#
 
-class OptionPlotter(Plotter):
-    """
-    Plotter class to plot the price/P&L of single options. Inherits from Plotter base-class.
-    It implements a composition with an underlying `PlainVanillaOption` or `DigitalOption` object to access 
-    option-specific attributes.
-    
-    Attributes:
-    -----------
-    
-        public attributes inherited from Plotter class
-    
-    Public Methods:
-    --------   
-    
-        public methods inherited from Plotter class
-        
-        plot_multi_time:
-            Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
-        
-        plot_single_time:
-            Plot FinancialInstrument values against underlying value(s) at fixed date. 
-    """
-    
-    def __init__(self, *args, **kwargs):
-        # calling the Plotter initializer
-        super(OptionPlotter, self).__init__(*args, **kwargs)
-                                                        
     def plot_surf(self, S, multiple_times, time_labels, plot_metrics, view):
         """
         Plot FinancialInstrument/Portfolio values as a surface of underlying value(s) and multiple dates.
@@ -310,7 +281,7 @@ class OptionPlotter(Plotter):
         
         # number of times-to-maturity considered
         tau_num = len(multiple_times)
-        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues_r(np.linspace(0,1,tau_num)))
+        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,tau_num)))
 
         # define the figure
         fig = plt.figure(figsize=(14,10))
@@ -349,13 +320,20 @@ class OptionPlotter(Plotter):
 
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)", zorder=1+i+3)
+            label_plot = self.fin_inst.get_docstring('payoff') + r" (net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
+            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
         else:
-            ax.plot(S, np.zeros_like(S), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'), zorder=1+i+3)
+            label_plot = self.fin_inst.get_docstring('payoff') if hasattr(self.fin_inst, "get_docstring") else r"Payoff at maturity"
+            ax.plot(S, np.zeros_like(S), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
 
         # plot a dot to highlight the strike position and a reference zero line
-        ax.plot(self.fin_inst.get_K() + np.zeros_like(tau), np.zeros_like(tau), np.zeros_like(tau), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
-        ax.plot(self.fin_inst.get_K() + np.zeros_like(tau_dense), tau_dense, np.zeros_like(tau_dense), 'k--', lw=1.5, zorder=1+i+5)
+        if isinstance(self.fin_inst.get_K(), Iterable):
+            for K in self.fin_inst.get_K():
+                ax.plot(K + np.zeros_like(tau), np.zeros_like(tau), np.zeros_like(tau), 'k.', ms=15, label="Strike $K={}$".format(K), zorder=1+i+4)
+                ax.plot(K + np.zeros_like(tau_dense), tau_dense, np.zeros_like(tau_dense), 'k--', lw=1.5, zorder=1+i+5)
+        else:
+            ax.plot(self.fin_inst.get_K() + np.zeros_like(tau), np.zeros_like(tau), np.zeros_like(tau), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
+            ax.plot(self.fin_inst.get_K() + np.zeros_like(tau_dense), tau_dense, np.zeros_like(tau_dense), 'k--', lw=1.5, zorder=1+i+5)
         
         # set y ticks
         ax.set_yticks(tau)
@@ -384,7 +362,36 @@ class OptionPlotter(Plotter):
         # show the plot
         fig.tight_layout()
         plt.show()
+            
+#-----------------------------------------------------------------------------#
 
+class OptionPlotter(Plotter):
+    """
+    Plotter class to plot the price/P&L of single options. Inherits from Plotter base-class.
+    It implements a composition with an underlying `PlainVanillaOption` or `DigitalOption` object to access 
+    option-specific attributes.
+    
+    Attributes:
+    -----------
+    
+        public attributes inherited from Plotter class
+    
+    Public Methods:
+    --------   
+    
+        public methods inherited from Plotter class
+        
+        plot_multi_time:
+            Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
+        
+        plot_single_time:
+            Plot FinancialInstrument values against underlying value(s) at fixed date. 
+    """
+    
+    def __init__(self, *args, **kwargs):
+        # calling the Plotter initializer
+        super(OptionPlotter, self).__init__(*args, **kwargs)
+                                                        
     def plot_multi_time(self, S, multiple_times, time_labels, plot_metrics):
         """
         Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
@@ -410,8 +417,12 @@ class OptionPlotter(Plotter):
         S_t_level_metrics = getattr(self.fin_inst, plot_metrics)(S_t, multiple_times)
 
         # blue dot at original underlying level for reference
-        for i in range(tau_num):
-            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
+        ax.plot(S_t + np.zeros_like(S_t_level_metrics), S_t_level_metrics, 'b.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
+#        make_label = True
+#        for i in range(tau_num):
+#            label_plot = r"Emission level $S={:.1f}$".format(S_t) if make_label else None
+#            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=label_plot)
+#            make_label = False
             
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
@@ -545,9 +556,13 @@ class PortfolioPlotter(Plotter):
         S_t_level_metrics = getattr(self.fin_inst, plot_metrics)(S_t, multiple_times)
 
         # blue dot at original underlying level for reference
-        for i in range(tau_num):
-            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
-
+        ax.plot(S_t + np.zeros_like(S_t_level_metrics), S_t_level_metrics, 'b.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
+#        make_label = True
+#        for i in range(tau_num):
+#            label_plot = r"Emission level $S={:.1f}$".format(S_t) if make_label else None
+#            ax.plot(S_t, S_t_level_metrics[i], '.', ms=10, label=label_plot)
+#            make_label = False
+            
         # plot the red payoff line for different underlying values
         if not self.fin_inst.is_multi_horizon:
             if plot_metrics == 'PnL':

@@ -17,6 +17,33 @@ def option_factory(mkt_env, plain_or_digital, option_type):
             
     return option_dispatcher[plain_or_digital][option_type]
 
+def get_time_parameter(option, kind='date'):
+    
+    # date time-parameter
+    if kind == 'date':
+        
+        # valuation date of the option
+        emission_date = option.get_t()
+        print(emission_date)
+    
+        # emission/expiration date of the option
+        expiration_date = option.get_T()
+        print(expiration_date)
+        
+        # time-parameter as a date-range of 5 valuation dates between t and T-10d
+        time_parameter = pd.date_range(start=emission_date, 
+                                       end=expiration_date - pd.Timedelta(days=10), 
+                                       periods=5)
+        
+    # time-to-maturity time parameter    
+    else: 
+        
+        # time-parameter as a list of times-to-maturity
+        time_parameter = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+        
+    print(time_parameter)
+    return time_parameter
+
 def main():
     
     # vanilla call implementation example
@@ -33,7 +60,7 @@ def main():
         
     # option plotter instance
     plotter = OptionPlotter(option)
-    
+        
     # valuation date of the option
     emission_date = option.get_t()
     print(emission_date)
@@ -49,39 +76,52 @@ def main():
 
     # Vanilla Call P&L plot at another date-string date
     plotter.plot(t="01-06-2020", plot_metrics="PnL")
-
-    # emission/expiration date of the option
-    expiration_date = option.get_T()
-    print(expiration_date)
+        
+    for time_kind in ['date', 'tau']:
+        
+        # set time-parameter to plot
+        multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
+        
+        # Vanilla Call price plot at multiple dates
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
     
-#    # a date-range of 5 valuation dates between t and T-10d
-#    multiple_valuation_dates = pd.date_range(start=emission_date, 
-#                                             end=expiration_date - pd.Timedelta(days=10), 
-#                                             periods=5)
-#    print(multiple_valuation_dates)
+        # Vanilla Call P&L plot at multiple dates
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
     
-    multiple_valuation_dates = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-    print(multiple_valuation_dates)
+        # Vanilla Call surface plot
+        
+        # price
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                     surf_plot=True)
     
-    # Vanilla Call price plot at multiple dates
-    plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
-
-    # Vanilla Call price surface plot
-    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                 surf_plot=True)
-
-    # Vanilla Call price surface plot (rotate)
-    # Underlying value side
-    # focus on: time-decay at original Emission level (S=90)
-    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                 surf_plot=True, view=(0,180))
-
-    # Vanilla Call price surface plot (rotate)
-    # Date side
-    # focuse on: underlying value dependency
-    plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                 surf_plot=True, view=(0,-90))
+        # P&L
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                     surf_plot=True)
     
+        # Vanilla Call surface plot (rotate)
+        # Underlying value side
+        # focus on: time-decay at original Emission level (S=90)
+        
+        # price
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                     surf_plot=True, view=(0,180))
+    
+        # P&L
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                     surf_plot=True, view=(0,180))
+    
+        # Vanilla Call price surface plot (rotate)
+        # Date side
+        # focuse on: underlying value dependency
+    
+        # price
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
+                     surf_plot=True, view=(0,-90))
+        
+        # P&L
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+                     surf_plot=True, view=(0,-90))
+
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     

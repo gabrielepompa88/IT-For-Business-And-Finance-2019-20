@@ -68,7 +68,10 @@ class Portfolio:
     def __repr__(self):
         return self.get_info()
     
+    # 
     # getters
+    #
+    
     def get_info(self):
         return self.__info
     
@@ -90,14 +93,20 @@ class Portfolio:
     def get_composition(self):
         return self.__composition
     
+    #
     # setters
+    #
+    
     def set_t(self, t):
         self.__t = t
         
     def set_S(self, S):
         self.__S = S
         
-    # composition method
+    #
+    # Composition method
+    #
+    
     def add_instrument(self, FinancialInstrument, position):
         
         long_short = 'Long' if position > 0 else 'Short'
@@ -116,7 +125,10 @@ class Portfolio:
         self.__update_K(FinancialInstrument)
         self.__update_tau(FinancialInstrument)
     
-    # private method to update the info
+    # 
+    # Private methods
+    #
+    
     def __update_info(self, fin_inst, pos):
         self.__info += self.__composition[-1]["info"] + "\n"
         if self.__mkt_info is None:
@@ -158,10 +170,27 @@ class Portfolio:
         
         # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
         if self.is_multi_horizon and is_numeric(time_param):
-            raise TypeError("No time-to-maturity time parameter allowed for multi-horizon \n\n tau={} given in input"\
+            raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio \n\n tau={} given in input"\
                                       .format(self, time_param))  
             
-    # portfolio "payoff", that is expiration value
+    #
+    # Public methods
+    #
+
+    def time_to_maturity(self, *args, **kwargs):
+        """
+        Utility method to compute time-to-maturity of the portfolio, 
+        if possible (that is, if the portfolio is not multi-horizon and if it's
+        not empty. Method taken from an instrument.
+        """
+        
+        if self.is_multi_horizon:
+            raise NotImplementedError("No time-to-maturity defined for multi-horizon portofolio")  
+        elif self.get_composition() == []:
+            raise NotImplementedError("No time-to-maturity defined for empty portofolio") 
+        else:
+            return self.get_composition()[0]["instrument"].time_to_maturity(*args, **kwargs)
+            
     def payoff(self, *args, **kwargs):
         """
         Returns the portfolio payoff as the scalar product (i.e. sum of elementwise products) 
@@ -176,7 +205,6 @@ class Portfolio:
         # portfolio payoff is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].payoff(*args, **kwargs) for inst in self.get_composition()])
               
-    # portfolio value (called 'price' as for single options, to implement polymorphism)
     def price(self, *args, **kwargs):
         """
         Returns the portfolio value as the scalar product (i.e. sum of elementwise products) 
@@ -191,7 +219,6 @@ class Portfolio:
         # portfolio price is the sum position * instrument_price
         return sum([inst["position"]*inst["instrument"].price(*args, **kwargs) for inst in self.get_composition()])
                                       
-    # portfolio P&L
     def PnL(self, *args, **kwargs):
         """
         Returns the portfolio Profit & Loss as the scalar product (i.e. sum of elementwise products) 
