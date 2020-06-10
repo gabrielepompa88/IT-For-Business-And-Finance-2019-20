@@ -65,28 +65,28 @@ def main():
     emission_date = option.get_t()
     print(emission_date)
     
-#    # Vanilla Call price plot at t
-#    plotter.plot(t=[emission_date], plot_metrics="price", plot_details=True)
-#
-#    # Vanilla Call P&L plot at t
-#    plotter.plot(t=[emission_date], plot_metrics="PnL")
-#
-#    # Vanilla Call price plot at another date-string date
-#    plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
-#
-#    # Vanilla Call P&L plot at another date-string date
-#    plotter.plot(t="01-06-2020", plot_metrics="PnL")
+    # Vanilla Call price plot at t
+    plotter.plot(t=[emission_date], plot_metrics="price", plot_details=True)
+
+    # Vanilla Call P&L plot at t
+    plotter.plot(t=[emission_date], plot_metrics="PnL")
+
+    # Vanilla Call price plot at another date-string date
+    plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
+
+    # Vanilla Call P&L plot at another date-string date
+    plotter.plot(t="01-06-2020", plot_metrics="PnL")
         
-    for time_kind in ['tau']: #['date', 'tau']:
+    for time_kind in ['date', 'tau']:
         
         # set time-parameter to plot
         multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
         
-#        # Vanilla Call price plot at multiple dates
-#        plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
-#    
-#        # Vanilla Call P&L plot at multiple dates
-#        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
+        # Vanilla Call price plot at multiple dates
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+    
+        # Vanilla Call P&L plot at multiple dates
+        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
     
         # Vanilla Call surface plot
         

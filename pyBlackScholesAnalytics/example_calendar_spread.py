@@ -59,14 +59,16 @@ def main():
     
         
     #
-    # Calendar-Spread plot (multiple dates)
+    # Calendar-Spread plot (multiple dates) - "n" sets the density in S dimension
     #
     
     # price
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price",
+                                     n=200)
     
     # P&L
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
+    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL",
+                                     n=200)
 
     #
     # Calendar-Spread price surface plot 
@@ -74,11 +76,11 @@ def main():
     
     # price
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True)
+                                 surf_plot=True, n=200)
 
     # PnL
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True)
+                                 surf_plot=True, n=200)
 
     #
     # Calendar-Spread price surface plot 
@@ -88,11 +90,11 @@ def main():
 
     # price
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True, view=(0,180))
+                                 surf_plot=True, n=200, view=(0,180))
 
     # PnL
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True, view=(0,180))
+                                 surf_plot=True, n=200, view=(0,180))
 
     #
     # Calendar-Spread price surface plot 
@@ -102,11 +104,11 @@ def main():
 
     # price
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True, view=(0,-90))
+                                 surf_plot=True, n=200, view=(0,-90))
 
     # PnL
     calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True, view=(0,-90))
+                                 surf_plot=True, n=200, view=(0,-90))
         
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

@@ -58,12 +58,12 @@ def main():
     
             # time-parameter as a date-range of 5 valuation dates between t and T-10d
             multiple_valuation_dates = pd.date_range(start=valuation_date, 
-                                                     end=expiration_date - pd.Timedelta(days=10), 
+                                                     end=expiration_date - pd.Timedelta(days=20), 
                                                      periods=5)
         else:
             
             # (alternatively) time-parameter as a list of times-to-maturity
-            multiple_valuation_dates = [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+            multiple_valuation_dates = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
     
         print(multiple_valuation_dates)
     
