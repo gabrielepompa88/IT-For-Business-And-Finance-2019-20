@@ -60,6 +60,7 @@ class Portfolio:
         
         # initialize valuation date, underlying value, strikes and times-to-maturity attributes
         self.__t = None
+        self.__T = np.array([])
         self.__S = None
         self.__K = np.array([])
         self.__tau = np.array([])
@@ -82,6 +83,9 @@ class Portfolio:
     def get_t(self):
         return self.__t
     
+    def get_T(self):
+        return scalarize(self.__T)
+
     def get_K(self):
         return self.__K
     
@@ -125,6 +129,7 @@ class Portfolio:
         
         # update portfolio attributes
         self.__update_t(FinancialInstrument)
+        self.__update_T(FinancialInstrument)
         self.__update_S(FinancialInstrument)
         self.__update_K(FinancialInstrument)
         self.__update_tau(FinancialInstrument)
@@ -145,6 +150,14 @@ class Portfolio:
             if self.get_t() != fin_inst.get_t():
                 raise ValueError("No multiple valuation dates in input allowed: \n\n current: {}, \n\n other given input: {}"\
                                       .format(self, self.get_t(), fin_inst.get_t()))
+    
+    def __update_T(self, fin_inst):
+        expiration_dates = np.append(self.get_T(), fin_inst.get_T())
+        # filter only distinct strikes
+        self.__T = np.unique(expiration_dates)
+        # check if the portfolio is a multi-horizon portfolio
+        if len(self.__T) > 1:
+            self.is_multi_horizon = True
             
     def __update_S(self, fin_inst):
         if self.get_S() is None:
@@ -161,10 +174,11 @@ class Portfolio:
         times_to_maturity = np.append(self.get_tau(), fin_inst.get_tau())
         # filter only distinct times-to-maturity
         self.__tau = np.unique(times_to_maturity)
-        # check if the portfolio is a multi-horizon portfolio
-        if len(self.__tau) > 1:
-            self.is_multi_horizon = True
-                    
+        # consistency check
+        if (len(self.__tau) > 1) and (not self.is_multi_horizon):
+            raise AttributeError("Multi-horizon portfolio not properly handled: \n \tau = {}"\
+                                 .format(self.__tau)) 
+                            
     def __check_time_parameter(self, *args, **kwargs):
         
         # time parameter:
@@ -188,10 +202,10 @@ class Portfolio:
         not empty. Method taken from an instrument.
         """
         
-        if self.is_multi_horizon:
-            raise NotImplementedError("No time-to-maturity defined for multi-horizon portofolio")  
-        elif self.is_empty:
-            raise NotImplementedError("No time-to-maturity defined for empty portofolio") 
+        if self.is_empty:
+            raise NotImplementedError("No time-to-maturity defined for empty portfolio") 
+        elif self.is_multi_horizon:
+            raise NotImplementedError("No time-to-maturity defined for multi-horizon portfolio")  
         else:
             return self.get_composition()[0]["instrument"].time_to_maturity(*args, **kwargs)
             

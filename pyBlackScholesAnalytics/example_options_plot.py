@@ -77,7 +77,7 @@ def main():
     # Vanilla Call P&L plot at another date-string date
     plotter.plot(t="01-06-2020", plot_metrics="PnL")
         
-    for time_kind in ['date', 'tau']:
+    for time_kind in ['date']: #['date', 'tau']:
         
         # set time-parameter to plot
         multiple_valuation_dates = get_time_parameter(option, kind=time_kind)

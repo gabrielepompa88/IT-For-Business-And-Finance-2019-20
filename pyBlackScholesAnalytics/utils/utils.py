@@ -18,6 +18,9 @@ import datetime as dt
 # for Matplotlib plotting
 import matplotlib.pyplot as plt
 
+# to handle dates in matplotlib
+import matplotlib.dates as mpl_dates
+
 # to identify iterable data-structures
 from collections.abc import Iterable
 
@@ -328,6 +331,19 @@ def date_string_to_datetime_obj(date_string):
     else: 
         return date_string
                                                          
+#-----------------------------------------------------------------------------#
+
+def date_to_number(date):
+    """
+    Utility function to convert a date-like object into its numeric representation.
+    Useful in matplotlib plots with dates axes. AttributeError handled.
+    """
+    
+    try:
+        return mpl_dates.date2num(date) if is_date(date) else date
+    except AttributeError:
+        raise
+    
 #-----------------------------------------------------------------------------#
 
 def is_iterable(x):

@@ -49,7 +49,7 @@ def main():
     print(valuation_date)
     
     # expiration date of the option
-    expiration_date = Vanilla_Call_long.get_T()
+    expiration_date = bull_spread_ptf.get_T()
     print(expiration_date)
     
     for time_kind in ['date', 'tau']:
