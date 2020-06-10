@@ -154,7 +154,7 @@ class Portfolio:
     def __update_T(self, fin_inst):
         expiration_dates = np.append(self.get_T(), fin_inst.get_T())
         # filter only distinct strikes
-        self.__T = np.unique(expiration_dates)
+        self.__T = iterable_to_numpy_array(np.unique(expiration_dates), sort_func=date_string_to_datetime_obj)
         # check if the portfolio is a multi-horizon portfolio
         if len(self.__T) > 1:
             self.is_multi_horizon = True

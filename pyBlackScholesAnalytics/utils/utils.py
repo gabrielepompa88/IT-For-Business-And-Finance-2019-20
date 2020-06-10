@@ -333,14 +333,18 @@ def date_string_to_datetime_obj(date_string):
                                                          
 #-----------------------------------------------------------------------------#
 
-def date_to_number(date):
+def date_to_number(date, reverse_order=False):
     """
     Utility function to convert a date-like object into its numeric representation.
     Useful in matplotlib plots with dates axes. AttributeError handled.
     """
     
     try:
-        return mpl_dates.date2num(date) if is_date(date) else date
+        if is_date(date):
+            date_out = mpl_dates.date2num(date)
+            return date_out[::-1] if reverse_order else date_out
+        else:
+            return date
     except AttributeError:
         raise
     
