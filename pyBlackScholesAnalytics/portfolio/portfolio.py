@@ -64,6 +64,7 @@ class Portfolio:
         self.__K = np.array([])
         self.__tau = np.array([])
         self.is_multi_horizon = False
+        self.is_empty = True
         
     def __repr__(self):
         return self.get_info()
@@ -108,6 +109,9 @@ class Portfolio:
     #
     
     def add_instrument(self, FinancialInstrument, position):
+
+        if self.is_empty:
+            self.is_empty = False
         
         long_short = 'Long' if position > 0 else 'Short'
         instrument_info = long_short + " {} ".format(abs(position)) + FinancialInstrument.get_info()
@@ -115,7 +119,7 @@ class Portfolio:
         self.__composition.append({"instrument": FinancialInstrument,
                                    "position":   position,
                                    "info":       instrument_info})
-        
+            
         # update portfolio info strings
         self.__update_info(FinancialInstrument, position)
         
@@ -186,7 +190,7 @@ class Portfolio:
         
         if self.is_multi_horizon:
             raise NotImplementedError("No time-to-maturity defined for multi-horizon portofolio")  
-        elif self.get_composition() == []:
+        elif self.is_empty:
             raise NotImplementedError("No time-to-maturity defined for empty portofolio") 
         else:
             return self.get_composition()[0]["instrument"].time_to_maturity(*args, **kwargs)

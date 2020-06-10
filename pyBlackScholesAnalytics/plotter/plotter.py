@@ -196,7 +196,7 @@ class Plotter:
             time_dense = np.linspace(0.0, max(time), n)
             
             # include the requested times-to-maturity
-            time_dense = np.union1d(time)
+            time_dense = np.union1d(time_dense, time)
             
             return homogenize(time_dense, reverse_order=True)
         
@@ -299,8 +299,8 @@ class Plotter:
         """
         
         # number of times-to-maturity considered
-        tau_num = len(multiple_times)
-        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,tau_num)))
+        time_num = len(multiple_times)
+        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,time_num)))
 
         # define the figure
         fig = plt.figure(figsize=(14,10))
@@ -324,7 +324,7 @@ class Plotter:
         
         # plot the price for different underlying values, one line for each different date
         plt.gca().set_prop_cycle(None)
-        for i in range(tau_num):
+        for i in range(time_num):
             ax.plot(S, np.repeat(tau[i], repeats=len(S)), surface_metrics.loc[tau[i],:], '-', lw=1.5, 
                     label=plot_metrics + r" at " + time_labels[i], zorder=1+i+1)
             
@@ -339,7 +339,7 @@ class Plotter:
 
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            label_plot = self.fin_inst.get_docstring('payoff') + r" (net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
+            label_plot = self.fin_inst.get_docstring('payoff') + "\n(net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
             ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
         else:
             label_plot = self.fin_inst.get_docstring('payoff') if hasattr(self.fin_inst, "get_docstring") else r"Payoff at maturity"
@@ -367,13 +367,13 @@ class Plotter:
         ax.set_title(self.get_title(), fontsize=12) 
 
         # add the legend ('best' loc parameters places the legend in the best position automatically)
-        ax.legend(bbox_to_anchor=(1.1,1), loc=1, ncol=1)
+        ax.legend(loc='best', ncol=1)
         
         # add a gride to ease visualization
         plt.grid(True)
 
         # draw a colorbar for color-reference
-        fig.colorbar(surf, shrink=0.5, aspect=5)
+        fig.colorbar(surf, orientation="horizontal",  shrink=0.5, aspect=10, pad=0.05)
 
         # set the plot view
         ax.view_init(view[0], view[1])
@@ -457,7 +457,7 @@ class OptionPlotter(Plotter):
 #
 #        # plot the red payoff line for different underlying values
 #        if plot_metrics == 'PnL':
-#            label_plot = self.fin_inst.get_docstring('payoff') + r" (net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
+#            label_plot = self.fin_inst.get_docstring('payoff') + "\n(net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
 #            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
 #        else:
 #            label_plot = self.fin_inst.get_docstring('payoff') if hasattr(self.fin_inst, "get_docstring") else r"Payoff at maturity"
@@ -485,13 +485,13 @@ class OptionPlotter(Plotter):
 #        ax.set_title(self.get_title(), fontsize=12) 
 #
 #        # add the legend ('best' loc parameters places the legend in the best position automatically)
-#        ax.legend(bbox_to_anchor=(1.1,1), loc=1, ncol=1)
+#        ax.legend(loc='best', ncol=1)
 #        
 #        # add a gride to ease visualization
 #        plt.grid(True)
 #
 #        # draw a colorbar for color-reference
-#        fig.colorbar(surf, shrink=0.5, aspect=5)
+#        fig.colorbar(surf, orientation="horizontal",  shrink=0.5, aspect=10, pad=0.05)
 #
 #        # set the plot view
 #        ax.view_init(view[0], view[1])
@@ -529,7 +529,7 @@ class OptionPlotter(Plotter):
             
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
+            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + "\n(net of initial price)")
         else:
             ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
@@ -578,7 +578,7 @@ class OptionPlotter(Plotter):
 
         # plot the red payoff line for different underlying values
         if plot_metrics == 'PnL':
-            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + r" (net of initial price)")
+            ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff') + "\n(net of initial price)")
         else:
             ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=self.fin_inst.get_docstring('payoff'))
 
@@ -681,7 +681,7 @@ class PortfolioPlotter(Plotter):
 #
 #        # plot the red payoff line for different underlying values
 #        if plot_metrics == 'PnL':
-#            label_plot = self.fin_inst.get_docstring('payoff') + r" (net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
+#            label_plot = self.fin_inst.get_docstring('payoff') + "\n(net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
 #            ax.plot(S, np.zeros_like(S), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
 #        else:
 #            label_plot = self.fin_inst.get_docstring('payoff') if hasattr(self.fin_inst, "get_docstring") else r"Payoff at maturity"
