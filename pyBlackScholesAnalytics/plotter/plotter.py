@@ -158,19 +158,37 @@ class Plotter:
             else:
                 return datetime_obj_to_date_string(time_parameter)
             
-    def add_time_tick_and_label(self, old_time_ticks, old_time_ticks_label, new_time_tick, new_time_tick_label):
-        
-        old_time_ticks = np.union1d(old_time_ticks, new_time_tick)
-        old_time_ticks = homogenize(old_time_ticks, reverse_order=True)
-        
-        if is_numeric(new_time_tick_label):
-            old_time_ticks_label = np.union1d(old_time_ticks_label, r"$\tau={:.2f}y$".format(new_time_tick_label))
+    def add_time_tick_and_label(self, time_parameter, old_time_ticks, old_time_ticks_label):
+
+        if is_numeric(time_parameter):
             
-        elif is_date(new_time_tick_label):
-            old_time_ticks_label = np.union1d(old_time_ticks_label, datetime_obj_to_date_string(new_time_tick_label))
+            # include zero time-to-maturity tick (that is, expiration)
+            time_ticks = np.union1d(old_time_ticks, 0.0)            
+            time_ticks = homogenize(time_ticks, reverse_order=True)
+            
+            # include zero time-to-maturity tick label
+            time_ticks_label = np.union1d(old_time_ticks_label, r"$\tau=0.00y$")
+            time_ticks_label = homogenize(time_ticks_label, reverse_order=True)
+            
+        elif is_date(time_parameter):
+            
+            # in case of multi-horizon portfolio, 
+            # only the most recent expiration date is added
+            T = self.fin_inst.get_T()
+            expiration_date = T[0] if is_iterable_not_string(T) else T
+            
+            # convert to numeric representation
+            expiration_date_numeric = date_to_number(expiration_date)   
+            
+            # include expiration date to ticks
+            time_ticks = np.union1d(old_time_ticks, expiration_date_numeric)
+            
+            # include expiration date to tick labels
+            old_time_ticks_label = np.union1d(old_time_ticks_label, datetime_obj_to_date_string(expiration_date))
+            time_ticks_label = homogenize(old_time_ticks_label, sort_func=date_string_to_datetime_obj)
         
-        return old_time_ticks, old_time_ticks_label
-                
+        return time_ticks, time_ticks_label
+                            
     def parse_plot_metrics(self, **kwargs):
         """
         Utility method to parse the metrics of the plot: either 'price' or 'PnL'.
@@ -366,35 +384,23 @@ class Plotter:
         if plot_metrics == 'PnL':
             label_plot = self.fin_inst.get_docstring('payoff') + "\n(net of initial price)" if hasattr(self.fin_inst, "get_docstring") else r"PnL at maturity"
             ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
-#            ax.plot(S, np.repeat(times_dense_numeric[0], repeats=len(S)), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
         else:
             label_plot = self.fin_inst.get_docstring('payoff') if hasattr(self.fin_inst, "get_docstring") else r"Payoff at maturity"
             ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
-#            ax.plot(S, np.repeat(times_dense_numeric[0], repeats=len(S)), self.fin_inst.payoff(S), 'r-',  lw=1.5, label=label_plot, zorder=1+i+3)
 
         # plot a dot to highlight the strike position and a reference zero line
         if isinstance(self.fin_inst.get_K(), Iterable):
             for K in self.fin_inst.get_K():
-#                ax.plot(K + np.zeros(n_times), np.repeat(times_dense_numeric[-1], repeats=n_times), np.zeros(n_times), 'k.', ms=15, label="Strike $K={}$".format(K), zorder=1+i+4)
                 ax.plot(np.array([K]), np.array([times_dense_numeric[-1]]), np.array([0.0]), 'k.', ms=15, label="Strike $K={}$".format(K), zorder=1+i+4)
-#                ax.plot(np.array([K]), np.array([times_dense_numeric[0]]), np.array([0.0]), 'k.', ms=15, label="Strike $K={}$".format(K), zorder=1+i+4)
                 ax.plot(K + np.zeros(n_times_dense), times_dense_numeric, np.zeros_like(times_dense), 'k--', lw=1.5, zorder=1+i+5)
         else:
-#            ax.plot(self.fin_inst.get_K() + np.zeros(n_times), np.repeat(times_dense_numeric[-1], repeats=n_times), np.zeros_like(times), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
             ax.plot(np.array([self.fin_inst.get_K()]), np.array([times_dense_numeric[-1]]), np.array([0.0]), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
-#            ax.plot(np.array([self.fin_inst.get_K()]), np.array([times_dense_numeric[0]]), np.array([0.0]), 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()), zorder=1+i+4)
             ax.plot(self.fin_inst.get_K() + np.zeros(n_times_dense), times_dense_numeric, np.zeros_like(times_dense), 'k--', lw=1.5, zorder=1+i+5)
-        
-#        # include expiraton time tick
-#        # in case of multi-horizon portfolio, 
-#        # only the most recent expiration date is added
-#        T = self.fin_inst.get_T()
-#        expiration_date = T[0] if is_iterable_not_string(T) else T
-#        expiration_date_numeric = date_to_number(expiration_date)         
-#        times_numeric, time_labels = self.add_time_tick_and_label(old_time_ticks=times_numeric, 
-#                                                                  old_time_ticks_label=time_labels, 
-#                                                                  new_time_tick=expiration_date_numeric,
-#                                                                  new_time_tick_label=expiration_date)
+                
+        # include expiraton time tick
+        times_numeric, time_labels = self.add_time_tick_and_label(time_parameter=times, 
+                                                                  old_time_ticks=times_numeric, 
+                                                                  old_time_ticks_label=time_labels)
         
         # set y ticks
         ax.set_yticks(times_numeric)

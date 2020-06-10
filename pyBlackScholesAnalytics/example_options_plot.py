@@ -32,7 +32,7 @@ def get_time_parameter(option, kind='date'):
         
         # time-parameter as a date-range of 5 valuation dates between t and T-10d
         time_parameter = pd.date_range(start=emission_date, 
-                                       end=expiration_date - pd.Timedelta(days=30), #10 
+                                       end=expiration_date - pd.Timedelta(days=20),
                                        periods=5)
         
     # time-to-maturity time parameter    
@@ -77,7 +77,7 @@ def main():
 #    # Vanilla Call P&L plot at another date-string date
 #    plotter.plot(t="01-06-2020", plot_metrics="PnL")
         
-    for time_kind in ['date']: #['date', 'tau']:
+    for time_kind in ['tau']: #['date', 'tau']:
         
         # set time-parameter to plot
         multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
