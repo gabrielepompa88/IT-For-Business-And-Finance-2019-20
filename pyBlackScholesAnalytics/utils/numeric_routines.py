@@ -15,7 +15,7 @@ from utils.utils import *
 
 #-----------------------------------------------------------------------------#
 
-class NumericalGreeks:
+class NumericGreeks:
     
     def __init__(self, FinancialObject, epsilon=1e-4, method="price"):
         
