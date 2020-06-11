@@ -417,7 +417,132 @@ class EuropeanOption:
         """
                 
         return self.price(*args, **kwargs) - scalarize(self.get_initial_price())
-            
+  
+    def delta(self, *args, **kwargs):
+        """
+        Calculates and returns the Gamma of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
+        See .price() method docstring.
+        """
+                       
+        # process input parameters
+        param_dict = self.process_input_parameters(*args, **kwargs)
+
+        # underlying value, time-to-maturity and short-rate
+        S = param_dict["S"]
+        tau = param_dict["tau"]
+        sigma = param_dict["sigma"]
+        r = param_dict["r"]
+        np_output = param_dict["np_output"]
+                
+        # call case
+        if self.get_type() == 'call':
+            return self.call_delta(S, tau, sigma, r)
+        # put case
+        else:
+            return self.put_delta(S, tau, sigma, r)
+
+    def theta(self, *args, **kwargs):
+        """
+        Calculates and returns the Theta of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
+        See .price() method docstring.
+        """
+                       
+        # process input parameters
+        param_dict = self.process_input_parameters(*args, **kwargs)
+
+        # underlying value, time-to-maturity and short-rate
+        S = param_dict["S"]
+        tau = param_dict["tau"]
+        sigma = param_dict["sigma"]
+        r = param_dict["r"]
+        np_output = param_dict["np_output"]
+                
+        # call case
+        if self.get_type() == 'call':
+            return self.call_theta(S, tau, sigma, r)
+        # put case
+        else:
+            return self.put_theta(S, tau, sigma, r)
+
+    def gamma(self, *args, **kwargs):
+        """
+        Calculates and returns the Gamma of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
+        See .price() method docstring.
+        """
+                       
+        # process input parameters
+        param_dict = self.process_input_parameters(*args, **kwargs)
+
+        # underlying value, time-to-maturity and short-rate
+        S = param_dict["S"]
+        tau = param_dict["tau"]
+        sigma = param_dict["sigma"]
+        r = param_dict["r"]
+        np_output = param_dict["np_output"]
+                
+        # call case
+        if self.get_type() == 'call':
+            return self.call_gamma(S, tau, sigma, r)
+        # put case
+        else:
+            return self.put_gamma(S, tau, sigma, r)
+          
+    def vega(self, *args, **kwargs):
+        """
+        Calculates and returns the Vega of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
+        See .price() method docstring.
+        """
+                       
+        # process input parameters
+        param_dict = self.process_input_parameters(*args, **kwargs)
+
+        # underlying value, time-to-maturity and short-rate
+        S = param_dict["S"]
+        tau = param_dict["tau"]
+        sigma = param_dict["sigma"]
+        r = param_dict["r"]
+        np_output = param_dict["np_output"]
+                
+        # call case
+        if self.get_type() == 'call':
+            return self.call_vega(S, tau, sigma, r)
+        # put case
+        else:
+            return self.put_vega(S, tau, sigma, r)
+
+    def rho(self, *args, **kwargs):
+        """
+        Calculates and returns the Rho of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
+        See .price() method docstring.
+        """
+                       
+        # process input parameters
+        param_dict = self.process_input_parameters(*args, **kwargs)
+
+        # underlying value, time-to-maturity and short-rate
+        S = param_dict["S"]
+        tau = param_dict["tau"]
+        sigma = param_dict["sigma"]
+        r = param_dict["r"]
+        np_output = param_dict["np_output"]
+                
+        # call case
+        if self.get_type() == 'call':
+            return self.call_rho(S, tau, sigma, r)
+        # put case
+        else:
+            return self.put_rho(S, tau, sigma, r)
+
 #-----------------------------------------------------------------------------#
         
 class PlainVanillaOption(EuropeanOption):
@@ -639,6 +764,82 @@ class PlainVanillaOption(EuropeanOption):
         """ Plain-Vanilla put option price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
         return self.call_price(S, tau, sigma, r) + self.get_K() * np.exp(-r * tau) - S     
     
+    def call_delta(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option Delta """
+        
+        # get d1 term
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute delta
+        delta = stats.norm.cdf(d1, 0.0, 1.0)
+                           
+        return delta
+
+    def put_delta(self, S, tau, sigma, r):
+        """"Plain-Vanilla put option Delta """
+        
+        return self.call_delta(S, tau, sigma, r) - 1.0
+
+    def call_theta(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option Theta """
+        
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # get strike price    
+        K = self.get_K()
+        
+        # compute theta
+        theta = - (S * sigma * stats.norm.pdf(d1, 0.0, 1.0) / (2.0 * np.sqrt(tau))) - r * K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
+                           
+        return theta
+
+    def put_theta(self, S, tau, sigma, r):
+        """"Plain-Vanilla put option Theta """
+        
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # get strike price    
+        K = self.get_K()
+
+        # compute theta
+        theta = - (S * sigma * stats.norm.pdf(d1, 0.0, 1.0) / (2.0 * np.sqrt(tau))) + r * K * np.exp(-r * tau) * stats.norm.cdf(-d2, 0.0, 1.0)
+        
+        return theta
+
+    def call_gamma(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option Gamma """
+        
+        # get d1 term
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute gamma
+        gamma = stats.norm.pdf(d1, 0.0, 1.0) / (S * sigma * np.sqrt(tau))
+        
+        return gamma
+        
+    def put_gamma(self, S, tau, sigma, r):
+        """"Plain-Vanilla put option Gamma """
+        
+        return self.call_gamma(S, tau, sigma, r)
+
+    def call_vega(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option vega """
+        
+        # get d1 term
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+        
+        # compute vega
+        vega = S * np.sqrt(tau) + stats.norm.pdf(d1, 0.0, 1.0)
+                           
+        return vega
+    
+    def put_vega(self, S, tau, sigma, r):
+        """"Plain-Vanilla put option vega """
+        
+        return self.call_vega(S, tau, sigma, r)
+        
 #-----------------------------------------------------------------------------#
 
 class DigitalOption(EuropeanOption):
