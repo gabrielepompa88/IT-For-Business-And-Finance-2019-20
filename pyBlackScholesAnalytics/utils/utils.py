@@ -437,9 +437,9 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[1,0].grid(True)
     
     # [Mid-Right] (f(x) - f_ref(x)) / f_ref(x) Vs x
-    axs[1,1].plot(x, (f-f_ref)/f_ref, 'r-', lw=1.5)
+    axs[1,1].plot(x, ((f-f_ref)/f_ref)*100, 'r-', lw=1.5)
     axs[1,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
-    axs[1,1].set_ylabel(r"$ \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"}$", fontsize=12)
+    axs[1,1].set_ylabel(r"$ \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"}$ (%)", fontsize=12)
     axs[1,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[1,1].set_title("Relative Differences", fontsize=12)
     axs[1,1].grid(True)
@@ -453,9 +453,9 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[2,0].grid(True)
     
     # [Bottom-Right] |(f(x) - f_ref(x)) / f_ref(x)| Vs x
-    axs[2,1].plot(x, np.abs((f-f_ref)/f_ref), 'r-', lw=1.5)
+    axs[2,1].plot(x, np.abs((f-f_ref)/f_ref)*100, 'r-', lw=1.5)
     axs[2,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
-    axs[2,1].set_ylabel(r"$ \left| \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"} \right|$", fontsize=12)
+    axs[2,1].set_ylabel(r"$ \left| \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"} \right|$ (%)", fontsize=12)
     axs[2,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[2,1].set_title("Relative Differences (absolute value)", fontsize=12)
     axs[2,1].grid(True)

@@ -30,6 +30,7 @@ class NumericGreeks:
         self.__eps=eps
                 
     def delta(self, **kwargs):
+        """Numeric derivative df/dS"""
         if "S" in kwargs:
             S0 = kwargs["S"]
             del kwargs["S"]
@@ -38,6 +39,7 @@ class NumericGreeks:
         return (self.f(S=S0+self.get_epsilon(), **kwargs) - self.f(S=S0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())
 
     def gamma(self, **kwargs):
+        """Numeric derivative d^2f/dS^2"""
         if "S" in kwargs:
             S0 = kwargs["S"]
             del kwargs["S"]
@@ -45,23 +47,32 @@ class NumericGreeks:
             S0 = self.opt.get_S()
         return (self.f(S=S0-self.get_epsilon(), **kwargs) - 2.0*self.f(S=S0, **kwargs) + self.f(S=S0+self.get_epsilon(), **kwargs))/(self.get_epsilon()*self.get_epsilon())
     
-    def vega(self, sigma0=None, **kwargs):
+    def vega(self, sigma0=None, rescaled=True, **kwargs):
+        """Numeric derivative df/dsigma, possibly scaled to consider variation of +1% of sigma (not +100%)"""
         sigma0 = self.opt.get_sigma() if sigma0 is None else sigma0
+        if rescaled:
+            rescaling_factor = 0.01
         if is_iterable(sigma0):
-            return np.array([(self.f(sigma=vol0+self.get_epsilon(), **kwargs) - self.f(sigma=vol0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for vol0 in sigma0])
+            return np.array([(self.f(sigma=vol0+self.get_epsilon(), **kwargs) - self.f(sigma=vol0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for vol0 in sigma0]) * rescaling_factor
         else:
-            return (self.f(sigma=sigma0+self.get_epsilon(), **kwargs) - self.f(sigma=sigma0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())
+            return (self.f(sigma=sigma0+self.get_epsilon(), **kwargs) - self.f(sigma=sigma0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) * rescaling_factor
 
-    def theta(self, tau0=None, **kwargs):
+    def theta(self, tau0=None, rescaled=True, **kwargs):
+        """Numeric derivative df/dt = -df/dtau, possible scaled to consider variation of +1 calendar day of t (not +1 year)"""
         tau0 = self.opt.get_tau() if tau0 is None else tau0
+        if rescaled:
+            rescaling_factor = 1.0 / 365.0
         if is_iterable(tau0):
-            return -np.array([(self.f(tau=ttm0+self.get_epsilon(), **kwargs) - self.f(tau=ttm0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for ttm0 in tau0])/365.0
+            return -np.array([(self.f(tau=ttm0+self.get_epsilon(), **kwargs) - self.f(tau=ttm0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for ttm0 in tau0]) * rescaling_factor
         else:
-            return -((self.f(tau=tau0+self.get_epsilon(), **kwargs) - self.f(tau=tau0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()))/365.0
+            return -((self.f(tau=tau0+self.get_epsilon(), **kwargs) - self.f(tau=tau0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())) * rescaling_factor
 
-    def rho(self, r0=None, **kwargs):
+    def rho(self, r0=None, rescaled=True, **kwargs):
+        """Numeric derivative df/dr scaled to consider variation of +1% of r (not +100%)"""
         r0 = self.opt.get_r() if r0 is None else r0
+        if rescaled:
+            rescaling_factor = 0.01
         if is_iterable(r0):
-            return np.array([(self.f(r=sr0+self.get_epsilon(), **kwargs) - self.f(r=sr0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for sr0 in r0])*0.01
+            return np.array([(self.f(r=sr0+self.get_epsilon(), **kwargs) - self.f(r=sr0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for sr0 in r0]) * rescaling_factor
         else:
-            return ((self.f(r=r0+self.get_epsilon(), **kwargs) - self.f(r=r0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()))*0.01
+            return ((self.f(r=r0+self.get_epsilon(), **kwargs) - self.f(r=r0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())) * rescaling_factor

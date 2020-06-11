@@ -50,12 +50,12 @@ def main():
 
     # define option style and type
     opt_style = "plain_vanilla" # "digital"
-    opt_type = "put" # "put"  
+    opt_type = "call" # "put"  
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
     
     # select greek
-    greek_type = "rho"
+    greek_type = "theta"
     
     # plot common title
     common_title = option.get_info() + "\n" + "Market at emission: " + option.get_mkt_info()
