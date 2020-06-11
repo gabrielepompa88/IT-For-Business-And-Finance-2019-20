@@ -836,10 +836,37 @@ class PlainVanillaOption(EuropeanOption):
         return vega
     
     def put_vega(self, S, tau, sigma, r):
-        """"Plain-Vanilla put option vega """
+        """Plain-Vanilla put option vega """
         
         return self.call_vega(S, tau, sigma, r)
         
+    def call_rho(self, S, tau, sigma, r):
+        """"Plain-Vanilla call option Rho """
+        
+        # get d2 term
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # get strike price    
+        K = self.get_K()
+        
+        # compute rho
+        rho = tau * K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
+        
+        return rho
+
+    def put_rho(self, S, tau, sigma, r):
+        """Plain-Vanilla put option Rho """
+
+        # get d2 term
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # get strike price    
+        K = self.get_K()
+        
+        # compute rho
+        rho = - tau * K * np.exp(-r * tau) * stats.norm.cdf(-d2, 0.0, 1.0)
+        
+        return rho
 #-----------------------------------------------------------------------------#
 
 class DigitalOption(EuropeanOption):
@@ -1107,3 +1134,24 @@ class DigitalOption(EuropeanOption):
         """ CON put option Black-Scholes Vega"""
         
         return - self.call_vega(S, tau, sigma, r)
+    
+    def call_rho(self, S, tau, sigma, r):
+        """CON call option Rho """
+        
+        Q = self.get_Q()
+        
+        # get d2 term
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute rho
+        rho = Q * np.exp(- r * tau) * (((np.sqrt(tau) * stats.norm.pdf(d2, 0.0, 1.0))/(sigma)) - tau * stats.norm.cdf(d2, 0.0, 1.0))
+
+        return rho
+
+    def put_rho(self, S, tau, sigma, r):
+        """Plain-Vanilla put option Rho """
+        
+        Q = self.get_Q()
+
+        return - self.call_rho(S, tau, sigma, r) - tau * Q * np.exp(- r * tau)
+
