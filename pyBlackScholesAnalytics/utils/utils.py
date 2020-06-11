@@ -408,7 +408,8 @@ def plot_compare(x, f, f_ref, **kwargs):
     # parsing optional parameters
     f_label = kwargs['f_label'] if 'f_label' in kwargs else "f"
     f_ref_label = kwargs['f_ref_label'] if 'f_ref_label' in kwargs else "f_ref"
-    title = kwargs['title'] if 'title' in kwargs else "f Vs f_ref comparison"    
+    title = kwargs['title'] if 'title' in kwargs else "f Vs f_ref comparison"
+    x_label = kwargs['x_label'] if 'x_label' in kwargs else "x"   
     
     # define the figure
     fig, axs = plt.subplots(figsize=(15, 8), nrows=3, ncols=2)
@@ -416,14 +417,14 @@ def plot_compare(x, f, f_ref, **kwargs):
     # [Top-Left] f(x) Vs x
     axs[0,0].plot(x, f, 'b-', lw=1.5)
     axs[0,0].set_ylabel(r"$" + f_label + r"$", fontsize=12)
-    axs[0,0].set_xlabel(r"$x$", fontsize=12) 
+    axs[0,0].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[0,0].set_title("Test function", fontsize=12)
     axs[0,0].grid(True)
 
     # [Top-Right] f_ref(x) Vs x
     axs[0,1].plot(x, f_ref, 'b-', lw=1.5)
     axs[0,1].set_ylabel(r"$" + f_ref_label + r"$", fontsize=12)
-    axs[0,1].set_xlabel(r"$x$", fontsize=12) 
+    axs[0,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[0,1].set_title("Reference function", fontsize=12)
     axs[0,1].grid(True)
 
@@ -431,7 +432,7 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[1,0].plot(x, f-f_ref, 'r-')
     axs[1,0].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[1,0].set_ylabel(r"$" + f_label + r" - " + f_ref_label + r"$", fontsize=12)
-    axs[1,0].set_xlabel(r"$x$", fontsize=12) 
+    axs[1,0].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[1,0].set_title("Differences", fontsize=12)
     axs[1,0].grid(True)
     
@@ -439,7 +440,7 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[1,1].plot(x, (f-f_ref)/f_ref, 'r-', lw=1.5)
     axs[1,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[1,1].set_ylabel(r"$ \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"}$", fontsize=12)
-    axs[1,1].set_xlabel(r"$x$", fontsize=12) 
+    axs[1,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[1,1].set_title("Relative Differences", fontsize=12)
     axs[1,1].grid(True)
 
@@ -447,7 +448,7 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[2,0].plot(x, np.abs(f-f_ref), 'r-')
     axs[2,0].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[2,0].set_ylabel(r"$|" + f_label + r" - " + f_ref_label + r"|$", fontsize=12)
-    axs[2,0].set_xlabel(r"$x$", fontsize=12) 
+    axs[2,0].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[2,0].set_title("Differences (absolute value)", fontsize=12)
     axs[2,0].grid(True)
     
@@ -455,7 +456,7 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[2,1].plot(x, np.abs((f-f_ref)/f_ref), 'r-', lw=1.5)
     axs[2,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[2,1].set_ylabel(r"$ \left| \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"} \right|$", fontsize=12)
-    axs[2,1].set_xlabel(r"$x$", fontsize=12) 
+    axs[2,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
     axs[2,1].set_title("Relative Differences (absolute value)", fontsize=12)
     axs[2,1].grid(True)
 

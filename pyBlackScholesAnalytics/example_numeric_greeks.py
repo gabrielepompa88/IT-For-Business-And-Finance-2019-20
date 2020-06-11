@@ -27,7 +27,7 @@ def label_dispatcher(option_type):
 
 def main():
 
-    # numeric delta and gamma example
+    # numeric greeks example
             
     # default market environment
     market_env = MarketEnvironment()
@@ -52,14 +52,14 @@ def main():
     S_range = np.linspace(50, 150, 2000)
     
     # numeric delta
-    delta_numerical = NumGreeks.delta(S0=S_range)
+    delta_numerical = NumGreeks.delta(S=S_range)
     
     # delta plot
     plot(x=S_range, f=delta_numerical, x_label=r"$S$", f_label=r"$\Delta"+suffix+"(S)$", 
          title=r"Numeric Delta of a " + common_title)
     
     # numeric gamma
-    gamma_numerical = NumGreeks.gamma(S0=S_range)
+    gamma_numerical = NumGreeks.gamma(S=S_range)
     
     # gamma plot
     plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma(S)$", 

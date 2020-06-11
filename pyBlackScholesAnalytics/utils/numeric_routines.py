@@ -29,12 +29,20 @@ class NumericGreeks:
     def set_epsilon(self, eps=1e-4):
         self.__eps=eps
                 
-    def delta(self, S0=None, **kwargs):
-        S0 = self.opt.get_S() if S0 is None else S0
+    def delta(self, **kwargs):
+        if "S" in kwargs:
+            S0 = kwargs["S"]
+            del kwargs["S"]
+        else: 
+            S0 = self.opt.get_S()
         return (self.f(S=S0+self.get_epsilon(), **kwargs) - self.f(S=S0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())
 
-    def gamma(self, S0=None, **kwargs):
-        S0 = self.opt.get_S() if S0 is None else S0
+    def gamma(self, **kwargs):
+        if "S" in kwargs:
+            S0 = kwargs["S"]
+            del kwargs["S"]
+        else: 
+            S0 = self.opt.get_S()
         return (self.f(S=S0-self.get_epsilon(), **kwargs) - 2.0*self.f(S=S0, **kwargs) + self.f(S=S0+self.get_epsilon(), **kwargs))/(self.get_epsilon()*self.get_epsilon())
     
     def vega(self, sigma0=None, **kwargs):
