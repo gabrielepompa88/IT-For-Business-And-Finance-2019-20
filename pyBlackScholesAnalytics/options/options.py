@@ -1025,6 +1025,7 @@ class DigitalOption(EuropeanOption):
         # get d2 term
         _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # compute price
         price = Q * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
         return price
@@ -1032,3 +1033,77 @@ class DigitalOption(EuropeanOption):
     def put_price(self, S, tau, sigma, r):
         """ CON put option price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""
         return self.get_Q() * np.exp(- r * tau) - self.call_price(S, tau, sigma, r)        
+
+    def call_delta(self, S, tau, sigma, r):
+        """ CON call option Black-Scholes Delta"""
+                
+        Q = self.get_Q()
+        
+        # get d2 term
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute delta
+        delta = Q * np.exp(-r * tau) * stats.norm.pdf(d2, 0.0, 1.0) / (S * sigma * np.sqrt(tau))
+
+        return delta
+
+    def put_delta(self, S, tau, sigma, r):
+        """ CON put option Black-Scholes Delta"""
+        
+        return - self.call_delta(S, tau, sigma, r)
+
+    def call_theta(self, S, tau, sigma, r):
+        """ CON call option Black-Scholes Theta"""
+                
+        Q = self.get_Q()
+        
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute theta
+        theta = Q * np.exp(- r * tau) * (((d1 * sigma * np.sqrt(tau) - 2.0 * r *tau)/(2.0 * sigma * tau * np.sqrt(tau))) * stats.norm.pdf(d2, 0.0, 1.0) + r * stats.norm.cdf(d2, 0.0, 1.0))
+
+        return theta
+
+    def put_theta(self, S, tau, sigma, r):
+        """ CON put option Black-Scholes Theta"""
+        
+        Q = self.get_Q()
+
+        return - self.call_theta(S, tau, sigma, r) + r * Q * np.exp(- r * tau)
+
+    def call_gamma(self, S, tau, sigma, r):
+        """ CON call option Black-Scholes Gamma"""
+                
+        Q = self.get_Q()
+        
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute gamma
+        gamma = - (d1 * Q * np.exp(- r * tau) * stats.norm.pdf(d2, 0.0, 1.0)) / (S*S * sigma*sigma * tau)
+
+        return gamma
+
+    def put_gamma(self, S, tau, sigma, r):
+        """ CON put option Black-Scholes Gamma"""
+        
+        return - self.call_gamma(S, tau, sigma, r)
+    
+    def call_vega(self, S, tau, sigma, r):
+        """ CON call option Black-Scholes Vega"""
+                
+        Q = self.get_Q()
+        
+        # get d1 and d2 terms
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # compute vega
+        vega = - (d1 * Q * np.exp(- r * tau) * stats.norm.pdf(d2, 0.0, 1.0)) / (sigma)
+
+        return vega
+    
+    def put_vega(self, S, tau, sigma, r):
+        """ CON put option Black-Scholes Vega"""
+        
+        return - self.call_vega(S, tau, sigma, r)
