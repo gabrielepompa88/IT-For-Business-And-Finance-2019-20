@@ -200,22 +200,78 @@ class EuropeanOption:
         
         # compute and return time to maturity (in years)
         return (T-t).days / 365.0
-    
+
     def process_input_parameters(self, *args, **kwargs):
         """
         Utility method to parse underlying, time, volatility and short-rate parameters
         """
-
+        
+        # 
+        # Parsing input parameters 
+        # 
+        
         # underlying value 
         S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
         
-        # homogenize underlying in input
-        S = homogenize(S)
-                    
         # time parameter:
         time_param = args[1] if len(args) > 1 \
                      else kwargs['tau'] if 'tau' in kwargs \
                         else (kwargs['t'] if 't' in kwargs else None)
+
+        # underlying volatility 
+        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
+
+        # short rate
+        r = kwargs['r'] if 'r' in kwargs else self.get_r()
+
+        # squeeze output flag
+        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
+
+        #
+        # Iterable parameters check
+        #
+        
+        # counter for iterable parameters in input (no more than 2 allowed)
+        iterable_parameters = 0
+        iterable_S = iterable_tau = iterable_sigma = iterable_r = False
+
+        if is_iterable(S):
+            iterable_S = True
+            iterable_parameters += 1
+            
+        if is_iterable_not_string(time_param):
+            iterable_tau = True
+            iterable_parameters += 1
+            
+        if is_iterable(sigma):
+            iterable_sigma = True
+            iterable_parameters += 1
+            
+        if is_iterable(r):
+            iterable_r = True
+            iterable_parameters += 1
+        
+        if iterable_parameters > 2:
+            raise NotImplementedError("More than two iterable parameters in input. Maximum 2 allowed.")
+                
+        #
+        # Checking and processing single parameters
+        #
+            
+        # 
+        # 1) Underlying value
+        #
+        
+        # homogenize underlying in input
+        S = homogenize(S)
+ 
+        # checking whether any value in S is smaller than zero. Works if S is scalar too.
+        if np.any(S < 0):
+            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
+                   
+        # 
+        # 2) Time parameter
+        #
                                 
         # time parameter interpretation (and homogenization) according to its type        
         # case 1: no time-parameter in input
@@ -232,34 +288,205 @@ class EuropeanOption:
         # error case: the time parameter in input has a data-type that is not recognized
         else: 
             raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-                    
-        # squeeze output flag
-        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-        
-        # make S and tau coordinated np.ndarray or pd.DataFrames, 
-        # if necessary creating a (S, tau) grid
-        S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-                            col_labels=S, ind_labels=time_param)
-
-        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-        if np.any(S < 0):
-            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-
+              
         # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
         if np.any(tau < 0):
             warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-            
-        # underlying volatility 
-        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
 
-        # short rate
-        r = kwargs['r'] if 'r' in kwargs else self.get_r()
+        # 
+        # 3) Underlying volatility
+        #
         
+        # homogenize underlying volatility in input
+        sigma = homogenize(sigma)
+ 
+        # checking whether any value in sigma is smaller than zero. Works if sigma is scalar too.
+        if np.any(sigma < 0):
+            warnings.warn("Warning: sigma = {} < 0 value encountered".format(sigma))
+        
+        # 
+        # 4) Short-rate
+        #
+        
+        # homogenize short-rate in input
+        r = homogenize(r)
+ 
+        # We allow for negative short rate, but we raise a warning anyway 
+        # if any value in r is smaller than zero. Works if r is scalar too.
+        if np.any(r < 0):
+            warnings.warn("Warning: r = {} < 0 value encountered".format(r))
+
+        #
+        # Coordinate iterable parameters
+        #
+
+        #
+        # Case A: (S,tau) iterables
+        #
+        
+        if iterable_S and iterable_tau:   
+             
+            # make S and tau coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (S, tau) grid
+            S, tau = coordinate(x=S, y=tau, np_output=np_output, 
+                                col_labels=S, ind_labels=time_param)
+        
+            # coordinate sigma with S
+            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            
+            # coordinate r with S
+            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+
+        #
+        # Case B: (S,sigma) iterables
+        #
+        
+        elif iterable_S and iterable_sigma:     
+            # make S and sigma coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (S, sigma) grid
+            S, sigma = coordinate(x=S, y=sigma, np_output=np_output,
+                                  col_labels=S, ind_labels=sigma)
+            
+            # coordinate tau with S
+            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+
+            # coordinate r with S
+            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+
+        #
+        # Case C: (S,r) iterables
+        #
+        
+        elif iterable_S and iterable_r:     
+            # make S and r coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (S, r) grid
+            S, r = coordinate(x=S, y=r, np_output=np_output,
+                              col_labels=S, ind_labels=r)
+            
+            # coordinate tau with S
+            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+
+            # coordinate sigma with S
+            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                    
+        #
+        # Case D: (sigma,tau) iterables
+        #
+        
+        if iterable_sigma and iterable_tau:   
+             
+            # make sigma and tau coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (sigma, tau) grid
+            sigma, tau = coordinate(x=sigma, y=tau, np_output=np_output, 
+                                    col_labels=sigma, ind_labels=time_param)
+        
+            # coordinate S with sigma
+            S = coordinate_x_with_y(x=sigma, y=S, np_output=np_output)
+            
+            # coordinate r with S
+            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            
+        #
+        # Case E: (r,tau) iterables
+        #
+        
+        if iterable_r and iterable_tau:   
+             
+            # make r and tau coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (r, tau) grid
+            r, tau = coordinate(x=r, y=tau, np_output=np_output, 
+                                col_labels=r, ind_labels=time_param)
+        
+            # coordinate S with r
+            S = coordinate_x_with_y(x=r, y=S, np_output=np_output)
+            
+            # coordinate sigma with S
+            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+
+        #
+        # Case F: (r,sigma) iterables
+        #
+        
+        if iterable_r and iterable_sigma:   
+             
+            # make r and sigma coordinated np.ndarray or pd.DataFrames, 
+            # if necessary creating a (r, sigma) grid
+            r, sigma = coordinate(x=r, y=sigma, np_output=np_output, 
+                                col_labels=r, ind_labels=sigma)
+        
+            # coordinate S with r
+            S = coordinate_x_with_y(x=r, y=S, np_output=np_output)
+            
+            # coordinate tau with S
+            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+
+########### TODO: completare con caso 1 scalare e 0 scalari.
+            
         return {"S": S, 
                 "tau": tau, 
                 "sigma": sigma, 
                 "r": r, 
                 "np_output": np_output}
+    
+#    def process_input_parameters_OLD(self, *args, **kwargs):
+#        """
+#        Utility method to parse underlying, time, volatility and short-rate parameters
+#        """
+#
+#        # underlying value 
+#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
+#        
+#        # homogenize underlying in input
+#        S = homogenize(S)
+#                    
+#        # time parameter:
+#        time_param = args[1] if len(args) > 1 \
+#                     else kwargs['tau'] if 'tau' in kwargs \
+#                        else (kwargs['t'] if 't' in kwargs else None)
+#                                
+#        # time parameter interpretation (and homogenization) according to its type        
+#        # case 1: no time-parameter in input
+#        if time_param is None:
+#            tau = time_param = self.get_tau()
+#        # case 2: valid time-to-maturity in input
+#        elif is_numeric(time_param):
+#            time_param = homogenize(time_param, reverse_order=True)
+#            tau = time_param
+#        # case 3: valuation date in input, to be converted into time-to-maturity
+#        elif is_date(time_param):
+#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
+#            tau = self.time_to_maturity(t=time_param)
+#        # error case: the time parameter in input has a data-type that is not recognized
+#        else: 
+#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
+#                    
+#        # squeeze output flag
+#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
+#        
+#        # make S and tau coordinated np.ndarray or pd.DataFrames, 
+#        # if necessary creating a (S, tau) grid
+#        S, tau = coordinate(x=S, y=tau, np_output=np_output, 
+#                            col_labels=S, ind_labels=time_param)
+#
+#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
+#        if np.any(S < 0):
+#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
+#
+#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
+#        if np.any(tau < 0):
+#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
+#            
+#        # underlying volatility 
+#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
+#
+#        # short rate
+#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
+#        
+#        return {"S": S, 
+#                "tau": tau, 
+#                "sigma": sigma, 
+#                "r": r, 
+#                "np_output": np_output}
     
     def d1_and_d2(self, *args, **kwargs):
         """
@@ -383,17 +610,91 @@ class EuropeanOption:
         # call case
         if self.get_type() == 'call':
             # tau > 0 case
-            price[tau_pos] = self.call_price(S[tau_pos], tau[tau_pos], sigma, r)
+            price[tau_pos] = self.call_price(S[tau_pos], tau[tau_pos], sigma[tau_pos], r[tau_pos])
             # tau == 0 case
             price[~tau_pos] = self.call_payoff(S[~tau_pos])  
         # put case
         else:
             # tau > 0 case
-            price[tau_pos] = self.put_price(S[tau_pos], tau[tau_pos], sigma, r)
+            price[tau_pos] = self.put_price(S[tau_pos], tau[tau_pos], sigma[tau_pos], r[tau_pos])
             # tau == 0 case
             price[~tau_pos] = self.put_payoff(S[~tau_pos])  
             
         return price
+
+#    def price_OLD(self, *args, **kwargs):
+#        """
+#        Calculates and returns the price of the option. Usage example: example_options.py
+#        If tau==0, returns the payoff of the option, otherwise the price.                 
+#        Can be called using (underlying, time-parameter, sigma, short-rate), where:
+#
+#        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
+#          It's value can be:
+#        
+#            - Empty: .get_S() is used,
+#            - A number (e.g. S=100),
+#            - A List of numbers
+#            
+#        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
+#          It's value can be:
+#        
+#            - Empty: .get_tau() is used,
+#            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
+#              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
+#            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
+#
+#        - sigma can be specified as keyboard argument 'sigma'. 
+#          It's value can be:
+#        
+#            - Empty: .get_sigma() is used,
+#            - A volatility value (e.g. 0.2 for 20% per year)
+#
+#        - short-rate can be specified as keyboard argument 'r'. 
+#          It's value can be:
+#        
+#            - Empty: .get_r() is used,
+#            - A short-rate value (e.g. 0.05 for 5% per year)
+#        """
+#                       
+#        # process input parameters
+#        param_dict = self.process_input_parameters(*args, **kwargs)
+#
+#        # underlying value, time-to-maturity and short-rate
+#        S = param_dict["S"]
+#        tau = param_dict["tau"]
+#        sigma = param_dict["sigma"]
+#        r = param_dict["r"]
+#        np_output = param_dict["np_output"]
+#        
+#        #
+#        # for tau==0 output the payoff, otherwise price
+#        #
+#        
+#        if np_output:
+#            # initialize an empty structure to hold prices
+#            price = np.empty_like(S, dtype=float)
+#            # filter positive times-to-maturity
+#            tau_pos = tau > 0
+#        else:
+#            # initialize an empty structure to hold prices
+#            price = pd.DataFrame(index=S.index, columns=S.columns)
+#            # filter positive times-to-maturity
+#            tau_pos = tau.iloc[:,0] > 0
+#        
+#        # call case
+#        if self.get_type() == 'call':
+#            # tau > 0 case
+#            price[tau_pos] = self.call_price(S[tau_pos], tau[tau_pos], sigma, r)
+#            # tau == 0 case
+#            price[~tau_pos] = self.call_payoff(S[~tau_pos])  
+#        # put case
+#        else:
+#            # tau > 0 case
+#            price[tau_pos] = self.put_price(S[tau_pos], tau[tau_pos], sigma, r)
+#            # tau == 0 case
+#            price[~tau_pos] = self.put_payoff(S[~tau_pos])  
+#            
+#        return price
         
     def PnL(self, *args, **kwargs):
         """

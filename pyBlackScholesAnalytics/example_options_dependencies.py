@@ -2,8 +2,7 @@ import numpy as np
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
-from utils.numeric_routines import NumericGreeks
-from utils.utils import plot, homogenize
+from utils.utils import plot
 
 def option_factory(mkt_env, plain_or_digital, option_type):
 
@@ -57,14 +56,6 @@ def main():
     opt_type = "call" # "call"  
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
-
-    
-#    # underlying range at which compute greeks
-#    S_range = np.linspace(50, 150, 2000)
-#
-#    # time-to-maturity range at which compute greeks
-#    tau_range = np.linspace(1e-4,1.0,1000)
-#    tau_range = homogenize(tau_range, reverse_order=True)
 
     # select dependency type
     for dependency_type in ["tau"]: #["S", "tau", "sigma", "r"]:

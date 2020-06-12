@@ -74,18 +74,6 @@ def homogenize(x, *args, **kwargs):
 
 #-----------------------------------------------------------------------------#
 
-#def homogenize_time(time):
-#    
-#    # time-to-maturity case: sort from longest to shortest ttm
-#    if is_numeric(time):
-#        return homogenize(time, reverse_order=True)
-#    
-#    # date case: sort from nearest to farest date
-#    elif is_date(time):
-#        return homogenize(time, sort_func=date_string_to_datetime_obj)
-            
-#-----------------------------------------------------------------------------#
-
 def coordinate(x, y, *args, np_output=True, **kwargs):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y:
@@ -98,7 +86,27 @@ def coordinate(x, y, *args, np_output=True, **kwargs):
         return coordinate_as_ndarray(x, y)
     else:
         return coordinate_as_df(x, y, *args, **kwargs)
+  
+#-----------------------------------------------------------------------------#
+
+def coordinate_x_with_y(x, y, np_output=True):
+    """
+    Utility function to coordinate the a scalar value y with a np.ndarray/pd.DataFrame x.
+    We distinguish the two cases according to the value of the boolean flag np_output:
+        
+        - If np_output is True, x is expected to be a np.ndarray and y will be returned 
+          as a np.ndarray x-shaped filled with y value.
+          
+        - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
+          as a pd.DataFrame identical to x filled with y value.
+    """    
+    if np_output:
+        y = y + np.zeros_like(x)
+    else:
+        y = y + pd.DataFrame(index=x.index, columns=x.columns)
     
+    return y
+
 #-----------------------------------------------------------------------------#
 
 def coordinate_as_ndarray(x, y):
