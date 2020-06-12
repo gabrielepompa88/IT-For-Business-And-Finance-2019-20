@@ -854,7 +854,7 @@ class PlainVanillaOption(EuropeanOption):
         d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
         
         # compute vega
-        vega = S * np.sqrt(tau) + stats.norm.pdf(d1, 0.0, 1.0)
+        vega = S * np.sqrt(tau) * stats.norm.pdf(d1, 0.0, 1.0)
                            
         return vega
     
