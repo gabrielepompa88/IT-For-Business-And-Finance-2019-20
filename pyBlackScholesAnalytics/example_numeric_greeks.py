@@ -3,7 +3,7 @@ import numpy as np
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
 from utils.numeric_routines import NumericGreeks
-from utils.utils import plot
+from utils.utils import plot, homogenize
 
 def option_factory(mkt_env, plain_or_digital, option_type):
 
@@ -51,6 +51,10 @@ def main():
     # underlying range at which compute greeks
     S_range = np.linspace(50, 150, 2000)
     
+    # tau range at which compute greeks
+    tau_range = np.linspace(1e-4,1.0,1000)
+    tau_range = homogenize(tau_range, reverse_order=True)
+    
     # numeric delta
     delta_numerical = NumGreeks.delta(S=S_range)
     
@@ -65,13 +69,24 @@ def main():
     plot(x=S_range, f=gamma_numerical, x_label=r"$S$", f_label=r"$\Gamma(S)$", 
          title=r"Numeric Gamma of a " + common_title)  
     
-    # numeric theta
-    theta_numerical = NumGreeks.theta(S=S_range)
+    #
+    # Numeric Theta
+    #
     
-    # theta plot
-    plot(x=S_range, f=theta_numerical, x_label=r"$S$", f_label=r"$\Theta"+suffix+"(S)$",
+    # theta Vs S
+    theta_numerical_Vs_S = NumGreeks.theta(S=S_range)
+    
+    # theta Vs S plot
+    plot(x=S_range, f=theta_numerical_Vs_S, x_label=r"Underlying level $S$", f_label=r"$\Theta"+suffix+"(S)$",
          title=r"Numeric Theta of a " + common_title)
     
+    # theta Vs tau
+    theta_numerical_Vs_tau = NumGreeks.theta(tau=tau_range)
+    
+    # theta Vs tau plot
+    plot(x=tau_range, f=theta_numerical_Vs_tau, x_label=r"Time to maturity $\tau$", f_label=r"$\Theta"+suffix+r"(\tau)$",
+         title=r"Numeric Theta of a " + common_title)
+
     # numeric vega
     vega_numerical = NumGreeks.vega(S=S_range)
     

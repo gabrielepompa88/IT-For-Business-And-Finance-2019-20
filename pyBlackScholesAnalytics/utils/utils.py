@@ -54,6 +54,8 @@ def iterable_to_numpy_array(x, sort=True, sort_func=None, reverse_order=False):
     else:
         return x
     
+#-----------------------------------------------------------------------------#
+
 def homogenize(x, *args, **kwargs):
     """
     Utility function to homogenize variable x, calling:
@@ -69,7 +71,19 @@ def homogenize(x, *args, **kwargs):
     x = scalarize(x)
     
     return x
-    
+
+#-----------------------------------------------------------------------------#
+
+#def homogenize_time(time):
+#    
+#    # time-to-maturity case: sort from longest to shortest ttm
+#    if is_numeric(time):
+#        return homogenize(time, reverse_order=True)
+#    
+#    # date case: sort from nearest to farest date
+#    elif is_date(time):
+#        return homogenize(time, sort_func=date_string_to_datetime_obj)
+            
 #-----------------------------------------------------------------------------#
 
 def coordinate(x, y, *args, np_output=True, **kwargs):
@@ -410,22 +424,24 @@ def plot_compare(x, f, f_ref, **kwargs):
     f_ref_label = kwargs['f_ref_label'] if 'f_ref_label' in kwargs else "f_ref"
     title = kwargs['title'] if 'title' in kwargs else "f Vs f_ref comparison"
     x_label = kwargs['x_label'] if 'x_label' in kwargs else "x"   
+    top_left_subtitle = kwargs['f_test_name'] if 'f_test_name' in kwargs else "Test function"
+    top_right_subtitle = kwargs['f_ref_name'] if 'f_ref_name' in kwargs else "Reference function"
     
     # define the figure
-    fig, axs = plt.subplots(figsize=(15, 8), nrows=3, ncols=2)
+    fig, axs = plt.subplots(figsize=(17, 10), nrows=3, ncols=2)
     
     # [Top-Left] f(x) Vs x
     axs[0,0].plot(x, f, 'b-', lw=1.5)
     axs[0,0].set_ylabel(r"$" + f_label + r"$", fontsize=12)
     axs[0,0].set_xlabel(r"$" + x_label + "$", fontsize=12) 
-    axs[0,0].set_title("Test function", fontsize=12)
+    axs[0,0].set_title(top_left_subtitle, fontsize=12)
     axs[0,0].grid(True)
 
     # [Top-Right] f_ref(x) Vs x
     axs[0,1].plot(x, f_ref, 'b-', lw=1.5)
     axs[0,1].set_ylabel(r"$" + f_ref_label + r"$", fontsize=12)
     axs[0,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
-    axs[0,1].set_title("Reference function", fontsize=12)
+    axs[0,1].set_title(top_right_subtitle, fontsize=12)
     axs[0,1].grid(True)
 
     # [Mid-Left] f(x) - f_ref(x) Vs x
@@ -437,7 +453,11 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[1,0].grid(True)
     
     # [Mid-Right] (f(x) - f_ref(x)) / f_ref(x) Vs x
-    axs[1,1].plot(x, ((f-f_ref)/f_ref)*100, 'r-', lw=1.5)
+    f_ref_nonzero = np.empty_like(f_ref) * np.nan
+    f_ref_nonzero_mask = np.abs(f_ref) > 1e-15 #f_ref != 0
+    f_ref_nonzero[f_ref_nonzero_mask] = f_ref[f_ref_nonzero_mask]  
+
+    axs[1,1].plot(x, ((f-f_ref)/f_ref_nonzero)*100, 'r-', lw=1.5)
     axs[1,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[1,1].set_ylabel(r"$ \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"}$ (%)", fontsize=12)
     axs[1,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 
@@ -453,7 +473,7 @@ def plot_compare(x, f, f_ref, **kwargs):
     axs[2,0].grid(True)
     
     # [Bottom-Right] |(f(x) - f_ref(x)) / f_ref(x)| Vs x
-    axs[2,1].plot(x, np.abs((f-f_ref)/f_ref)*100, 'r-', lw=1.5)
+    axs[2,1].plot(x, np.abs((f-f_ref)/f_ref_nonzero)*100, 'r-', lw=1.5)
     axs[2,1].plot(x, np.zeros(len(x)), 'k--', lw=0.5)
     axs[2,1].set_ylabel(r"$ \left| \frac{" + f_label + r" - " + f_ref_label + r"}{" + f_ref_label + r"} \right|$ (%)", fontsize=12)
     axs[2,1].set_xlabel(r"$" + x_label + "$", fontsize=12) 

@@ -420,7 +420,8 @@ class EuropeanOption:
   
     def delta(self, *args, **kwargs):
         """
-        Calculates and returns the Gamma of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Calculates and returns the Gamma of the option. 
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -445,10 +446,14 @@ class EuropeanOption:
 
     def theta(self, *args, **kwargs):
         """
-        Calculates and returns the Theta of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Calculates and returns the Theta of the option. 
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
+
+        Optionally, the theta can be rescaled using the "factor" keyboard parameter. 
+        By default it is scaled to consider variation of +1 calendar day of t (not +1 year).
         """
                        
         # process input parameters
@@ -460,17 +465,21 @@ class EuropeanOption:
         sigma = param_dict["sigma"]
         r = param_dict["r"]
         np_output = param_dict["np_output"]
+        
+        # rescaling factor
+        rescaling_factor = kwargs["factor"] if "factor" in kwargs else 1.0/365.0
                 
         # call case
         if self.get_type() == 'call':
-            return self.call_theta(S, tau, sigma, r)
+            return self.call_theta(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_theta(S, tau, sigma, r)
+            return self.put_theta(S, tau, sigma, r) * rescaling_factor
 
     def gamma(self, *args, **kwargs):
         """
-        Calculates and returns the Gamma of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Calculates and returns the Gamma of the option. 
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -495,10 +504,14 @@ class EuropeanOption:
           
     def vega(self, *args, **kwargs):
         """
-        Calculates and returns the Vega of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Calculates and returns the Vega of the option. 
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
+
+        Optionally, the vega can be rescaled using the "factor" keyboard parameter. 
+        By default it is scaled to consider variation of +1% of sigma (not +100%).
         """
                        
         # process input parameters
@@ -511,19 +524,26 @@ class EuropeanOption:
         r = param_dict["r"]
         np_output = param_dict["np_output"]
                 
+        # rescaling factor
+        rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
+
         # call case
         if self.get_type() == 'call':
-            return self.call_vega(S, tau, sigma, r)
+            return self.call_vega(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_vega(S, tau, sigma, r)
+            return self.put_vega(S, tau, sigma, r) * rescaling_factor
 
     def rho(self, *args, **kwargs):
         """
-        Calculates and returns the Rho of the option. Usage example: #TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO#TODO
+        Calculates and returns the Rho of the option. 
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
+
+        Optionally, the rho can be rescaled using the "factor" keyboard parameter. 
+        By default it is scaled to consider variation of +1% of r (not +100%).
         """
                        
         # process input parameters
@@ -536,12 +556,15 @@ class EuropeanOption:
         r = param_dict["r"]
         np_output = param_dict["np_output"]
                 
+        # rescaling factor
+        rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
+
         # call case
         if self.get_type() == 'call':
-            return self.call_rho(S, tau, sigma, r)
+            return self.call_rho(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_rho(S, tau, sigma, r)
+            return self.put_rho(S, tau, sigma, r) * rescaling_factor
 
 #-----------------------------------------------------------------------------#
         
