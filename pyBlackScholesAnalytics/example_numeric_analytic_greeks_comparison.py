@@ -66,13 +66,13 @@ def main():
     print(market_env)
 
     # define option style and type
-    opt_style = "digital" # "plain_vanilla" # "digital"
-    opt_type = "put" # "call"  
+    opt_style = "plain_vanilla" # "digital"
+    opt_type = "call" # "put"  
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
     
     # select greek
-    for greek_type in ["rho"]:# ["delta", "theta", "gamma", "vega", "rho"]:
+    for greek_type in ["delta", "theta", "gamma", "vega", "rho"]:
         
         # numeric greeks instance
         NumGreeks = NumericGreeks(option)
