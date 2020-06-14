@@ -300,9 +300,10 @@ class EuropeanOption:
         # homogenize underlying volatility in input
         sigma = homogenize(sigma)
  
-        # checking whether any value in sigma is smaller than zero. Works if sigma is scalar too.
-        if np.any(sigma < 0):
-            warnings.warn("Warning: sigma = {} < 0 value encountered".format(sigma))
+        # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
+        # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
+        if np.any(sigma <= 0):
+            warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
         
         # 
         # 4) Short-rate
@@ -331,10 +332,10 @@ class EuropeanOption:
                                 col_labels=S, ind_labels=time_param)
             
             # coordinate sigma with S
-            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
             
             # coordinate r with S
-            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
             
             
         # 
@@ -349,10 +350,10 @@ class EuropeanOption:
                                     col_labels=S, ind_labels=time_param)
 
                 # coordinate sigma with S
-                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
                 
                 # coordinate r with S
-                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
 
             elif iterable_tau:
                 
@@ -361,10 +362,10 @@ class EuropeanOption:
                                     col_labels=S, ind_labels=time_param)
     
                 # coordinate sigma with S
-                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
                 
                 # coordinate r with S
-                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
 
             elif iterable_sigma:
                 # make S and sigma coordinated np.ndarray or pd.DataFrames, 
@@ -372,10 +373,10 @@ class EuropeanOption:
                                       col_labels=S, ind_labels=sigma)
                 
                 # coordinate tau with S
-                tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+                tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
     
                 # coordinate r with S
-                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
                 
             elif iterable_r:
                 # make S and r coordinated np.ndarray or pd.DataFrames, 
@@ -383,10 +384,10 @@ class EuropeanOption:
                                   col_labels=S, ind_labels=r)
                 
                 # coordinate tau with S
-                tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+                tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
     
                 # coordinate sigma with S
-                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
             
         #
         # Case A: (S,tau) iterables
@@ -400,10 +401,10 @@ class EuropeanOption:
                                 col_labels=S, ind_labels=time_param)
         
             # coordinate sigma with S
-            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
             
             # coordinate r with S
-            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
 
         #
         # Case B: (S,sigma) iterables
@@ -416,10 +417,10 @@ class EuropeanOption:
                                   col_labels=S, ind_labels=sigma)
             
             # coordinate tau with S
-            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
 
             # coordinate r with S
-            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
 
         #
         # Case C: (S,r) iterables
@@ -432,10 +433,10 @@ class EuropeanOption:
                               col_labels=S, ind_labels=r)
             
             # coordinate tau with S
-            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
 
             # coordinate sigma with S
-            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
                     
         #
         # Case D: (sigma,tau) iterables
@@ -449,10 +450,10 @@ class EuropeanOption:
                                     col_labels=sigma, ind_labels=time_param)
         
             # coordinate S with sigma
-            S = coordinate_x_with_y(x=sigma, y=S, np_output=np_output)
+            S = coordinate_y_with_x(x=sigma, y=S, np_output=np_output)
             
             # coordinate r with S
-            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
             
         #
         # Case E: (r,tau) iterables
@@ -466,10 +467,10 @@ class EuropeanOption:
                                 col_labels=r, ind_labels=time_param)
         
             # coordinate S with r
-            S = coordinate_x_with_y(x=r, y=S, np_output=np_output)
+            S = coordinate_y_with_x(x=r, y=S, np_output=np_output)
             
             # coordinate sigma with S
-            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
 
         #
         # Case F: (r,sigma) iterables
@@ -483,10 +484,10 @@ class EuropeanOption:
                                 col_labels=r, ind_labels=sigma)
         
             # coordinate S with r
-            S = coordinate_x_with_y(x=r, y=S, np_output=np_output)
+            S = coordinate_y_with_x(x=r, y=S, np_output=np_output)
             
             # coordinate tau with S
-            tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
 
 ########### TODO: completare con caso 1 scalare e 0 scalari.
             

@@ -74,6 +74,19 @@ def homogenize(x, *args, **kwargs):
 
 #-----------------------------------------------------------------------------#
 
+def full_coordination(pivot_x, pivot_y, others, *args, np_output=True, **kwargs):
+
+    pivot_x, pivot_y = coordinate(x=pivot_x, y=pivot_y, np_output=np_output, 
+                                  *args, **kwargs)
+    
+    for i in range(len(others)):
+        others[i] = coordinate_y_with_x(x=pivot_x, y=others[i], 
+                                        np_output=np_output)
+        
+    return pivot_x, pivot_y, others
+    
+#-----------------------------------------------------------------------------#
+
 def coordinate(x, y, *args, np_output=True, **kwargs):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y:
@@ -89,7 +102,7 @@ def coordinate(x, y, *args, np_output=True, **kwargs):
   
 #-----------------------------------------------------------------------------#
 
-def coordinate_x_with_y(x, y, np_output=True):
+def coordinate_y_with_x(x, y, np_output=True):
     """
     Utility function to coordinate the a scalar value y with a np.ndarray/pd.DataFrame x.
     We distinguish the two cases according to the value of the boolean flag np_output:
