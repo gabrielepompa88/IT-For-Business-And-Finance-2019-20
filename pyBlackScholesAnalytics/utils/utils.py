@@ -103,7 +103,7 @@ def coordinate_x_with_y(x, y, np_output=True):
     if np_output:
         y = y + np.zeros_like(x)
     else:
-        y = y + pd.DataFrame(index=x.index, columns=x.columns)
+        y = pd.DataFrame(data=y, index=x.index, columns=x.columns)
     
     return y
 

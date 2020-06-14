@@ -255,7 +255,7 @@ class EuropeanOption:
             raise NotImplementedError("More than two iterable parameters in input. Maximum 2 allowed.")
                 
         #
-        # Checking and processing single parameters
+        # Homogenizing and checking each parameters
         #
             
         # 
@@ -317,9 +317,77 @@ class EuropeanOption:
             warnings.warn("Warning: r = {} < 0 value encountered".format(r))
 
         #
-        # Coordinate iterable parameters
+        # Coordinate parameters
         #
+        
+        # 
+        # Case 0: all scalar parameters
+        # 
 
+        if iterable_parameters == 0:
+            
+            # make S and tau coordinated np.ndarray or pd.DataFrames
+            S, tau = coordinate(x=S, y=tau, np_output=np_output, 
+                                col_labels=S, ind_labels=time_param)
+            
+            # coordinate sigma with S
+            sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            
+            # coordinate r with S
+            r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+            
+            
+        # 
+        # Case 1: one iterable parameter
+        # 
+        
+        elif iterable_parameters == 1:
+            
+            if iterable_S:
+                # make S and tau coordinated np.ndarray or pd.DataFrames
+                S, tau = coordinate(x=S, y=tau, np_output=np_output, 
+                                    col_labels=S, ind_labels=time_param)
+
+                # coordinate sigma with S
+                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                
+                # coordinate r with S
+                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+
+            elif iterable_tau:
+                
+                # make S and tau coordinated np.ndarray or pd.DataFrames
+                S, tau = coordinate(x=S, y=tau, np_output=np_output, 
+                                    col_labels=S, ind_labels=time_param)
+    
+                # coordinate sigma with S
+                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+                
+                # coordinate r with S
+                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+
+            elif iterable_sigma:
+                # make S and sigma coordinated np.ndarray or pd.DataFrames, 
+                S, sigma = coordinate(x=S, y=sigma, np_output=np_output,
+                                      col_labels=S, ind_labels=sigma)
+                
+                # coordinate tau with S
+                tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+    
+                # coordinate r with S
+                r = coordinate_x_with_y(x=S, y=r, np_output=np_output)
+                
+            elif iterable_r:
+                # make S and r coordinated np.ndarray or pd.DataFrames, 
+                S, r = coordinate(x=S, y=r, np_output=np_output,
+                                  col_labels=S, ind_labels=r)
+                
+                # coordinate tau with S
+                tau = coordinate_x_with_y(x=S, y=tau, np_output=np_output)
+    
+                # coordinate sigma with S
+                sigma = coordinate_x_with_y(x=S, y=sigma, np_output=np_output)
+            
         #
         # Case A: (S,tau) iterables
         #
