@@ -82,7 +82,7 @@ def main():
     tau_range = homogenize(tau_range, reverse_order=True)
 
     # select greek
-    for greek_type in ["vega"]:# ["delta", "theta", "gamma", "vega", "rho"]:
+    for greek_type in ["delta", "theta", "gamma", "vega", "rho"]:
                 
         #
         # greek Vs Underlying level S
