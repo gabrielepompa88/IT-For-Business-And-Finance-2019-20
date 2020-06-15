@@ -1,17 +1,18 @@
 import numpy as np
+import pandas as pd
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
 from utils.utils import plot
 
-def option_factory(mkt_env, plain_or_digital, option_type):
+def option_factory(mkt_env, plain_or_digital, option_type, **kwargs):
 
     option_dispatcher = {
-            "plain_vanilla": {"call": PlainVanillaOption(mkt_env),
-                              "put":  PlainVanillaOption(mkt_env, option_type="put")
+            "plain_vanilla": {"call": PlainVanillaOption(mkt_env, **kwargs),
+                              "put":  PlainVanillaOption(mkt_env, option_type="put", **kwargs)
                              },
-            "digital": {"call": DigitalOption(mkt_env),
-                        "put":  DigitalOption(mkt_env, option_type="put")
+            "digital": {"call": DigitalOption(mkt_env, **kwargs),
+                        "put":  DigitalOption(mkt_env, option_type="put", **kwargs)
                        }
     }
             
@@ -19,9 +20,9 @@ def option_factory(mkt_env, plain_or_digital, option_type):
 
 def options_parameters_factory(parameter_name):
     
-    param_dict = {"S": np.linspace(50, 150, 2000), 
-                  "tau": np.linspace(0.0,1.0,1000)[::-1],
-                  "sigma": np.linspace(0.0, 0.6, 1000),
+    param_dict = {"S": np.linspace(0, 110, 1000), 
+                  "tau": np.linspace(0.0,1.7,1000)[::-1],
+                  "sigma": np.linspace(0.001, 0.6, 1000),
                   "r": np.linspace(0.0, 0.1, 1000)}
     
     return {parameter_name: param_dict[parameter_name]}
@@ -48,17 +49,19 @@ def main():
     # option price dependencies example
             
     # default market environment
-    market_env = MarketEnvironment()
+#    market_env = MarketEnvironment()
+    market_env = MarketEnvironment(t="15-06-2020", r=0.05, S_t=50.0, sigma=0.3)
     print(market_env)
 
     # define option style and type
     opt_style = "plain_vanilla" # "digital"
-    opt_type = "call" # "call"  
-    option = option_factory(market_env, opt_style, opt_type)
+    opt_type = "put"
+    option = option_factory(market_env, opt_style, opt_type, K=50.0, 
+                            T=market_env.get_t() + pd.Timedelta(days=365))
     print(option)
 
     # select dependency type
-    for dependency_type in ["tau"]: #["S", "tau", "sigma", "r"]:
+    for dependency_type in ["S", "tau", "sigma", "r"]:
           
         # keyboard parameter and corresponding range to test
         param = options_parameters_factory(dependency_type)

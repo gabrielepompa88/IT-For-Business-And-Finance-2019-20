@@ -327,16 +327,11 @@ class EuropeanOption:
 
         if iterable_parameters == 0:
             
-            # make S and tau coordinated np.ndarray or pd.DataFrames
-            S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-                                col_labels=S, ind_labels=time_param)
-            
-            # coordinate sigma with S
-            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
-            
-            # coordinate r with S
-            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
-            
+            # make the 4 parameters coordinated together as 1-dim np.ndarray
+            # or pd.DataFrame
+            S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
+                                          np_output=np_output, 
+                                          col_labels=S, ind_labels=time_param)   
             
         # 
         # Case 1: one iterable parameter
@@ -344,50 +339,29 @@ class EuropeanOption:
         
         elif iterable_parameters == 1:
             
-            if iterable_S:
-                # make S and tau coordinated np.ndarray or pd.DataFrames
-                S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-                                    col_labels=S, ind_labels=time_param)
+            if iterable_S or iterable_tau:
 
-                # coordinate sigma with S
-                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
-                
-                # coordinate r with S
-                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
-
-            elif iterable_tau:
-                
                 # make S and tau coordinated np.ndarray or pd.DataFrames
-                S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-                                    col_labels=S, ind_labels=time_param)
-    
-                # coordinate sigma with S
-                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
-                
-                # coordinate r with S
-                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
+                # and sigma and r coordinated accordingly
+                S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=time_param)   
 
             elif iterable_sigma:
-                # make S and sigma coordinated np.ndarray or pd.DataFrames, 
-                S, sigma = coordinate(x=S, y=sigma, np_output=np_output,
-                                      col_labels=S, ind_labels=sigma)
-                
-                # coordinate tau with S
-                tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
-    
-                # coordinate r with S
-                r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
-                
+
+                # make S and sigma coordinated np.ndarray or pd.DataFrames
+                # and tau and r coordinated accordingly
+                S, sigma, tau, r = coordinate(x=S, y=sigma, others=[tau, r], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=sigma)   
+
             elif iterable_r:
-                # make S and r coordinated np.ndarray or pd.DataFrames, 
-                S, r = coordinate(x=S, y=r, np_output=np_output,
-                                  col_labels=S, ind_labels=r)
-                
-                # coordinate tau with S
-                tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
-    
-                # coordinate sigma with S
-                sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
+
+                # make S and r coordinated np.ndarray or pd.DataFrames
+                # and tau and sigma coordinated accordingly
+                S, r, tau, sigma = coordinate(x=S, y=r, others=[tau, sigma], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=r)   
             
         #
         # Case A: (S,tau) iterables
@@ -395,65 +369,47 @@ class EuropeanOption:
         
         if iterable_S and iterable_tau:   
              
-            # make S and tau coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (S, tau) grid
-            S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-                                col_labels=S, ind_labels=time_param)
-        
-            # coordinate sigma with S
-            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
-            
-            # coordinate r with S
-            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
+            # make S and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (S,tau) grid and sigma and r coordinated accordingly
+            S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
+                                          np_output=np_output, 
+                                          col_labels=S, ind_labels=time_param)   
 
         #
         # Case B: (S,sigma) iterables
         #
         
         elif iterable_S and iterable_sigma:     
-            # make S and sigma coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (S, sigma) grid
-            S, sigma = coordinate(x=S, y=sigma, np_output=np_output,
-                                  col_labels=S, ind_labels=sigma)
-            
-            # coordinate tau with S
-            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
 
-            # coordinate r with S
-            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
+            # make S and sigma coordinated np.ndarray or pd.DataFrames
+            # creating a (S,sigma) grid and tau and r coordinated accordingly
+            S, sigma, tau, r = coordinate(x=S, y=sigma, others=[tau, r], 
+                                          np_output=np_output, 
+                                          col_labels=S, ind_labels=sigma)   
 
         #
         # Case C: (S,r) iterables
         #
         
         elif iterable_S and iterable_r:     
-            # make S and r coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (S, r) grid
-            S, r = coordinate(x=S, y=r, np_output=np_output,
-                              col_labels=S, ind_labels=r)
-            
-            # coordinate tau with S
-            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
 
-            # coordinate sigma with S
-            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
-                    
+            # make S and r coordinated np.ndarray or pd.DataFrames
+            # creating a (S,r) grid and tau and sigma coordinated accordingly
+            S, r, tau, sigma = coordinate(x=S, y=r, others=[tau, sigma], 
+                                          np_output=np_output, 
+                                          col_labels=S, ind_labels=r)
+                                
         #
         # Case D: (sigma,tau) iterables
         #
         
         if iterable_sigma and iterable_tau:   
              
-            # make sigma and tau coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (sigma, tau) grid
-            sigma, tau = coordinate(x=sigma, y=tau, np_output=np_output, 
-                                    col_labels=sigma, ind_labels=time_param)
-        
-            # coordinate S with sigma
-            S = coordinate_y_with_x(x=sigma, y=S, np_output=np_output)
-            
-            # coordinate r with S
-            r = coordinate_y_with_x(x=S, y=r, np_output=np_output)
+            # make sigma and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (sigma,tau) grid and S and r coordinated accordingly
+            sigma, tau, S, r = coordinate(x=sigma, y=tau, others=[S, r], 
+                                          np_output=np_output, 
+                                          col_labels=sigma, ind_labels=time_param)   
             
         #
         # Case E: (r,tau) iterables
@@ -461,16 +417,11 @@ class EuropeanOption:
         
         if iterable_r and iterable_tau:   
              
-            # make r and tau coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (r, tau) grid
-            r, tau = coordinate(x=r, y=tau, np_output=np_output, 
-                                col_labels=r, ind_labels=time_param)
-        
-            # coordinate S with r
-            S = coordinate_y_with_x(x=r, y=S, np_output=np_output)
-            
-            # coordinate sigma with S
-            sigma = coordinate_y_with_x(x=S, y=sigma, np_output=np_output)
+            # make r and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (r,tau) grid and S and sigma coordinated accordingly
+            r, tau, S, sigma = coordinate(x=r, y=tau, others=[S, sigma], 
+                                          np_output=np_output, 
+                                          col_labels=r, ind_labels=time_param)   
 
         #
         # Case F: (r,sigma) iterables
@@ -478,85 +429,19 @@ class EuropeanOption:
         
         if iterable_r and iterable_sigma:   
              
-            # make r and sigma coordinated np.ndarray or pd.DataFrames, 
-            # if necessary creating a (r, sigma) grid
-            r, sigma = coordinate(x=r, y=sigma, np_output=np_output, 
-                                col_labels=r, ind_labels=sigma)
-        
-            # coordinate S with r
-            S = coordinate_y_with_x(x=r, y=S, np_output=np_output)
-            
-            # coordinate tau with S
-            tau = coordinate_y_with_x(x=S, y=tau, np_output=np_output)
+            # make r and sigma coordinated np.ndarray or pd.DataFrames
+            # creating a (r,sigma) grid and S and tau coordinated accordingly
+            r, sigma, S, tau = coordinate(x=r, y=sigma, others=[S, tau], 
+                                          np_output=np_output, 
+                                          col_labels=r, ind_labels=sigma)   
 
-########### TODO: completare con caso 1 scalare e 0 scalari.
-            
+
         return {"S": S, 
                 "tau": tau, 
                 "sigma": sigma, 
                 "r": r, 
                 "np_output": np_output}
-    
-#    def process_input_parameters_OLD(self, *args, **kwargs):
-#        """
-#        Utility method to parse underlying, time, volatility and short-rate parameters
-#        """
-#
-#        # underlying value 
-#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-#        
-#        # homogenize underlying in input
-#        S = homogenize(S)
-#                    
-#        # time parameter:
-#        time_param = args[1] if len(args) > 1 \
-#                     else kwargs['tau'] if 'tau' in kwargs \
-#                        else (kwargs['t'] if 't' in kwargs else None)
-#                                
-#        # time parameter interpretation (and homogenization) according to its type        
-#        # case 1: no time-parameter in input
-#        if time_param is None:
-#            tau = time_param = self.get_tau()
-#        # case 2: valid time-to-maturity in input
-#        elif is_numeric(time_param):
-#            time_param = homogenize(time_param, reverse_order=True)
-#            tau = time_param
-#        # case 3: valuation date in input, to be converted into time-to-maturity
-#        elif is_date(time_param):
-#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
-#            tau = self.time_to_maturity(t=time_param)
-#        # error case: the time parameter in input has a data-type that is not recognized
-#        else: 
-#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-#                    
-#        # squeeze output flag
-#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-#        
-#        # make S and tau coordinated np.ndarray or pd.DataFrames, 
-#        # if necessary creating a (S, tau) grid
-#        S, tau = coordinate(x=S, y=tau, np_output=np_output, 
-#                            col_labels=S, ind_labels=time_param)
-#
-#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-#        if np.any(S < 0):
-#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-#
-#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
-#        if np.any(tau < 0):
-#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-#            
-#        # underlying volatility 
-#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-#
-#        # short rate
-#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-#        
-#        return {"S": S, 
-#                "tau": tau, 
-#                "sigma": sigma, 
-#                "r": r, 
-#                "np_output": np_output}
-    
+      
     def d1_and_d2(self, *args, **kwargs):
         """
         Utility method to compute d1 and d2 terms of Black-Scholes pricing formula

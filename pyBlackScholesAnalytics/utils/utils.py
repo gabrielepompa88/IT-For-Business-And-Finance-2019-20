@@ -74,20 +74,28 @@ def homogenize(x, *args, **kwargs):
 
 #-----------------------------------------------------------------------------#
 
-def full_coordination(pivot_x, pivot_y, others, *args, np_output=True, **kwargs):
+def coordinate(x, y, others, *args, np_output=True, **kwargs):
+    """
+    Utility function to coordinate two main parameters x and y, each other and
+    possibly with others parameters.
+    """
+    
+    # coordinate the two main parameters (x,y) ---> (coord_x, coord_y)
+    coord_x, coord_y = coordinate_x_and_y(x, y, *args, np_output=np_output, **kwargs)
 
-    pivot_x, pivot_y = coordinate(x=pivot_x, y=pivot_y, np_output=np_output, 
-                                  *args, **kwargs)
+    # initialize output list of coordinated parameters
+    coordinated_parameters = [coord_x, coord_y]
+
+    # coordinate each other parameter p (if any) with coord_x: p ---> coord_p
+    for p in others:  
+        coord_p = coordinate_y_with_x(x=coord_x, y=p, np_output=np_output)
+        coordinated_parameters.append(coord_p)
     
-    for i in range(len(others)):
-        others[i] = coordinate_y_with_x(x=pivot_x, y=others[i], 
-                                        np_output=np_output)
-        
-    return pivot_x, pivot_y, others
-    
+    # return output list of coordinated parameters
+    return coordinated_parameters 
 #-----------------------------------------------------------------------------#
 
-def coordinate(x, y, *args, np_output=True, **kwargs):
+def coordinate_x_and_y(x, y, *args, np_output, **kwargs):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y:
         
@@ -96,33 +104,13 @@ def coordinate(x, y, *args, np_output=True, **kwargs):
     """
     
     if np_output:
-        return coordinate_as_ndarray(x, y)
+        return coordinate_x_and_y_as_ndarray(x, y)
     else:
-        return coordinate_as_df(x, y, *args, **kwargs)
+        return coordinate_x_and_y_as_df(x, y, *args, **kwargs)
   
 #-----------------------------------------------------------------------------#
 
-def coordinate_y_with_x(x, y, np_output=True):
-    """
-    Utility function to coordinate the a scalar value y with a np.ndarray/pd.DataFrame x.
-    We distinguish the two cases according to the value of the boolean flag np_output:
-        
-        - If np_output is True, x is expected to be a np.ndarray and y will be returned 
-          as a np.ndarray x-shaped filled with y value.
-          
-        - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
-          as a pd.DataFrame identical to x filled with y value.
-    """    
-    if np_output:
-        y = y + np.zeros_like(x)
-    else:
-        y = pd.DataFrame(data=y, index=x.index, columns=x.columns)
-    
-    return y
-
-#-----------------------------------------------------------------------------#
-
-def coordinate_as_ndarray(x, y):
+def coordinate_x_and_y_as_ndarray(x, y):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y
     as NumPy Arrays. The following cases are considered:
@@ -176,7 +164,7 @@ def coordinate_as_ndarray(x, y):
 
 #-----------------------------------------------------------------------------#
 
-def coordinate_as_df(x, y, col_labels, ind_labels):
+def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y
     as Pandas DataFrames. The following cases are considered:
@@ -261,6 +249,31 @@ def coordinate_as_df(x, y, col_labels, ind_labels):
                         columns=cols)
     
     return x_df, y_df
+
+#-----------------------------------------------------------------------------#
+
+def coordinate_y_with_x(x, y, np_output):
+    """
+    Utility function to coordinate the scalar parameter y with a np.ndarray/pd.DataFrame x.
+    We distinguish the two cases according to the value of the boolean flag np_output:
+        
+        - If np_output is True, x is expected to be a np.ndarray and y will be returned 
+          as a np.ndarray x-shaped filled with y value.
+          
+        - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
+          as a pd.DataFrame identical to x filled with y value.
+    """    
+    if np_output:
+        if isinstance(x, np.ndarray):
+            y = y + np.zeros_like(x)
+        else:
+            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (np.ndarray expected)".format(x, type(x)))
+    else:
+        if isinstance(x, pd.DataFrame):
+            y = pd.DataFrame(data=y, index=x.index, columns=x.columns)
+        else:
+            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (pd.DataFrame expected)".format(x, type(x)))
+    return y
 
 #-----------------------------------------------------------------------------#
 
