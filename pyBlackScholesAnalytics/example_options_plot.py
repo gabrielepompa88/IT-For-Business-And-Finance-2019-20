@@ -24,11 +24,9 @@ def get_time_parameter(option, kind='date'):
         
         # valuation date of the option
         emission_date = option.get_t()
-        print(emission_date)
     
         # emission/expiration date of the option
         expiration_date = option.get_T()
-        print(expiration_date)
         
         # time-parameter as a date-range of 5 valuation dates between t and T-10d
         time_parameter = pd.date_range(start=emission_date, 
@@ -41,7 +39,6 @@ def get_time_parameter(option, kind='date'):
         # time-parameter as a list of times-to-maturity
         time_parameter = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
         
-    print(time_parameter)
     return time_parameter
 
 def main():
@@ -65,65 +62,28 @@ def main():
     emission_date = option.get_t()
     print(emission_date)
     
-    # Price plot at t
-    plotter.plot(t=[emission_date], plot_metrics="price", plot_details=True)
+    # select metrics to plot
+    for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+        
+        plot_details_flag = True if plot_metrics == "price" else False
+        
+        # Plot at t
+        plotter.plot(t=[emission_date], plot_metrics=plot_metrics, 
+                     plot_details=plot_details_flag)
+    
+        # Plot at another date-string date
+        plotter.plot(t="01-06-2020", plot_metrics=plot_metrics, 
+                     plot_details=plot_details_flag)
 
-    # P&L plot at t
-    plotter.plot(t=[emission_date], plot_metrics="PnL")
+        for time_kind in ['date', 'tau']:
 
-    # Price plot at another date-string date
-    plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
-
-    # P&L plot at another date-string date
-    plotter.plot(t="01-06-2020", plot_metrics="PnL")
+            # set time-parameter to plot
+            multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
+            print(multiple_valuation_dates)
         
-    for time_kind in ['date', 'tau']:
+            # Plot at multiple dates
+            plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics)
         
-        # set time-parameter to plot
-        multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
-        
-        # Price plot at multiple dates
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
-    
-        # P&L plot at multiple dates
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
-    
-        #
-        # Surface plot
-        #
-        
-        # Price
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                     surf_plot=True)
-    
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True)
-    
-        # Surface plot (rotate)
-        # Underlying value side
-        # focus on: time-decay at original Emission level (S=90)
-        
-        # Price
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                     surf_plot=True, view=(0,180))
-    
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True, view=(0,180))
-    
-        # Price surface plot (rotate)
-        # Date side
-        # focuse on: underlying value dependency
-    
-        # Price
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                     surf_plot=True, view=(0,-90))
-        
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True, view=(0,-90))
-
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     
