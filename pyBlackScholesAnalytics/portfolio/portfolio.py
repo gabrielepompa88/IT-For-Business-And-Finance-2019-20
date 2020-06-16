@@ -248,5 +248,75 @@ class Portfolio:
         # check time parameter
         self.__check_time_parameter(*args, **kwargs)
 
-        # portfolio payoff is the sum position * instrument_payoff
+        # portfolio P&L is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].PnL(*args, **kwargs) for inst in self.get_composition()])
+
+    def delta(self, *args, **kwargs):
+        """
+        Returns the portfolio Delta as the scalar product (i.e. sum of elementwise products) 
+        between single instrument Deltas and positions.
+        
+        As single instruments .delta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        """
+                
+        # check time parameter
+        self.__check_time_parameter(*args, **kwargs)
+
+        # portfolio delta is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].delta(*args, **kwargs) for inst in self.get_composition()])
+
+    def theta(self, *args, **kwargs):
+        """
+        Returns the portfolio Theta as the scalar product (i.e. sum of elementwise products) 
+        between single instrument Thetas and positions.
+        
+        As single instruments .theta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        """
+                
+        # check time parameter
+        self.__check_time_parameter(*args, **kwargs)
+
+        # portfolio theta is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].theta(*args, **kwargs) for inst in self.get_composition()])
+
+    def gamma(self, *args, **kwargs):
+        """
+        Returns the portfolio Gamma as the scalar product (i.e. sum of elementwise products) 
+        between single instrument Gammas and positions.
+        
+        As single instruments .gamma(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        """
+                
+        # check time parameter
+        self.__check_time_parameter(*args, **kwargs)
+
+        # portfolio gamma is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].gamma(*args, **kwargs) for inst in self.get_composition()])
+
+    def vega(self, *args, **kwargs):
+        """
+        Returns the portfolio Vega as the scalar product (i.e. sum of elementwise products) 
+        between single instrument Vegas and positions.
+        
+        As single instruments .vega(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        """
+                
+        # check time parameter
+        self.__check_time_parameter(*args, **kwargs)
+
+        # portfolio vega is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].vega(*args, **kwargs) for inst in self.get_composition()])
+
+    def rho(self, *args, **kwargs):
+        """
+        Returns the portfolio Rho as the scalar product (i.e. sum of elementwise products) 
+        between single instrument Rhos and positions.
+        
+        As single instruments .rho(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        """
+                
+        # check time parameter
+        self.__check_time_parameter(*args, **kwargs)
+
+        # portfolio rho is the sum position * instrument_payoff
+        return sum([inst["position"]*inst["instrument"].rho(*args, **kwargs) for inst in self.get_composition()])
