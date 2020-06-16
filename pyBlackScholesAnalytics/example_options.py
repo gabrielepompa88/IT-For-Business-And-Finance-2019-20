@@ -49,6 +49,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(np_output=np_output))
     print("Price:\n", option.price(np_output=np_output))
     print("P&L:\n", option.PnL(np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(np_output=np_output))
     print("Delta:\n", option.delta(np_output=np_output))
     print("Theta:\n", option.theta(np_output=np_output))
     print("Gamma:\n", option.gamma(np_output=np_output))
@@ -75,6 +77,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Price:\n", option.price(S=S_scalar, t=t_scalar, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Delta:\n", option.delta(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Theta:\n", option.theta(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_scalar, t=t_scalar, np_output=np_output))
@@ -92,6 +96,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Price:\n", option.price(S=S_scalar, t=t_scalar, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_scalar, t=t_scalar, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Delta:\n", option.delta(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Theta:\n", option.theta(S=S_scalar, t=t_scalar, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_scalar, t=t_scalar, np_output=np_output))
@@ -109,6 +115,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_scalar, tau=tau_scalar, np_output=np_output))
     print("Price:\n", option.price(S=S_scalar, tau=tau_scalar, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_scalar, tau=tau_scalar, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_scalar, tau=tau_scalar, np_output=np_output))
     print("Delta:\n", option.delta(S=S_scalar, tau=tau_scalar, np_output=np_output))
     print("Theta:\n", option.theta(S=S_scalar, tau=tau_scalar, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_scalar, tau=tau_scalar, np_output=np_output))
@@ -131,6 +139,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_vector, np_output=np_output))
     print("Price:\n", option.price(S=S_vector, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_vector, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_vector, np_output=np_output))
     print("Delta:\n", option.delta(S=S_vector, np_output=np_output))
     print("Theta:\n", option.theta(S=S_vector, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_vector, np_output=np_output))
@@ -160,6 +170,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(t=t_range, np_output=np_output))
     print("Price:\n", option.price(t=t_range, np_output=np_output))
     print("P&L:\n", option.PnL(t=t_range, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(t=t_range, np_output=np_output))
     print("Delta:\n", option.delta(t=t_range, np_output=np_output))
     print("Theta:\n", option.theta(t=t_range, np_output=np_output))
     print("Gamma:\n", option.gamma(t=t_range, np_output=np_output))
@@ -184,6 +196,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_vector, t=t_range, np_output=np_output))
     print("Price:\n", option.price(S=S_vector, t=t_range, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_vector, t=t_range, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_vector, t=t_range, np_output=np_output))
     print("Delta:\n", option.delta(S=S_vector, t=t_range, np_output=np_output))
     print("Theta:\n", option.theta(S=S_vector, t=t_range, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_vector, t=t_range, np_output=np_output))
@@ -201,6 +215,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_vector, t=t_list, np_output=np_output))
     print("Price:\n", option.price(S=S_vector, t=t_list, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_vector, t=t_list, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_vector, t=t_list, np_output=np_output))
     print("Delta:\n", option.delta(S=S_vector, t=t_list, np_output=np_output))
     print("Theta:\n", option.theta(S=S_vector, t=t_list, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_vector, t=t_list, np_output=np_output))
@@ -218,6 +234,8 @@ def main():
     print("Price lower limit:\n", option.price_lower_limit(S=S_vector, tau=tau_list, np_output=np_output))
     print("Price:\n", option.price(S=S_vector, tau=tau_list, np_output=np_output))
     print("P&L:\n", option.PnL(S=S_vector, tau=tau_list, np_output=np_output))
+    print("Implied Volatility (expected iv={}):\n".format(option.get_sigma()), 
+          option.implied_volatility(S=S_vector, tau=tau_list, np_output=np_output))
     print("Delta:\n", option.delta(S=S_vector, tau=tau_list, np_output=np_output))
     print("Theta:\n", option.theta(S=S_vector, tau=tau_list, np_output=np_output))
     print("Gamma:\n", option.gamma(S=S_vector, tau=tau_list, np_output=np_output))
