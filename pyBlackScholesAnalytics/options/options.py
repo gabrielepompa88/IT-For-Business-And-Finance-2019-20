@@ -599,6 +599,45 @@ class EuropeanOption:
                 
         return self.price(*args, **kwargs) - scalarize(self.get_initial_price())
   
+#    def implied_volatility__OLD(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
+#        """
+#        Calculates and returns the Implied Volatility of the option. 
+#        Usage example: example_options.py
+#        Can be called using (underlying, time-parameter, sigma, short-rate). 
+#        
+#        See .price() method docstring.
+#        """
+#                
+#        # target price
+#        target_price = kwargs["targe_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
+#
+#        # if a pd.DataFrame is required in output
+#        if not kwargs["np_output"]:
+#            col_output=target_price.columns
+#            ind_output=target_price.index
+#            cast_output=True
+#            target_price = target_price.values
+#            kwargs["np_output"] = True
+#            
+#        # delete "sigma" from kwargs if it exists
+#        kwargs.pop("sigma", None)
+#
+#        # initial guess for implied volatility
+#        iv_new = iv_old = iv_estimated
+#        
+#        # stopping criterion: sum of squared iv updates smaller than epsilon threshold
+#        # initialized at value greater than epsilon by construction
+#        total_squared_iv_updates = epsilon + 1
+#        while total_squared_iv_updates > epsilon:
+#            iv_old = iv_new
+#            iv_new = iv_old - (self.price(*args, sigma=iv_old, **kwargs) - target_price)/self.vega(*args, sigma=iv_old, factor = 1.0, **kwargs)          
+#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
+#            
+#        if cast_output:
+#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
+#
+#        return iv_new
+
     def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
         """
         Calculates and returns the Implied Volatility of the option. 
@@ -607,33 +646,37 @@ class EuropeanOption:
         
         See .price() method docstring.
         """
-                
+                            
         # target price
-        target_price = kwargs["targe_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
+        target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
+            
+        # delete "np_output" from kwargs if it exists, to do calculations 
+        # with np.ndarrays (returns True if not in kwargs)
+        np_output = kwargs.pop("np_output", True)
 
-        # if a pd.DataFrame is required in output
-        if not kwargs["np_output"]:
+        # casting output as pd.DataFrame, if necessary
+        if not np_output:
             col_output=target_price.columns
             ind_output=target_price.index
-            cast_output=True
-            target_price = target_price.values
-            kwargs["np_output"] = True
-            
+            target_price = target_price.values.flatten()
+
         # delete "sigma" from kwargs if it exists
         kwargs.pop("sigma", None)
-
-        # initial guess for implied volatility
-        iv_new = iv_old = iv_estimated
         
-        # stopping criterion: sum of squared iv updates smaller than epsilon threshold
-        # initialized at value greater than epsilon by construction
+        # initial guess for implied volatility
+        iv_new = iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, 
+                                              np_output=True)
+        
+        # stopping criterion: sum of squared iv updates smaller than epsilon 
+        # threshold; initialized at value greater than epsilon by construction
         total_squared_iv_updates = epsilon + 1
         while total_squared_iv_updates > epsilon:
-            iv_old = iv_new
-            iv_new = iv_old - (self.price(*args, sigma=iv_old, **kwargs) - target_price)/self.vega(*args, sigma=iv_old, factor = 1.0, **kwargs)          
+            for i in range(len(iv_new.flatten())):
+                iv_old[i] = iv_new[i]
+                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs) - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)
             total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-            
-        if cast_output:
+                        
+        if not np_output:
             iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
 
         return iv_new
