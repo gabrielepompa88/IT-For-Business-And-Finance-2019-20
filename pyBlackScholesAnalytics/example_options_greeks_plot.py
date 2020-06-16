@@ -64,66 +64,36 @@ def main():
     # valuation date of the option
     emission_date = option.get_t()
     print(emission_date)
-    
-    # Price plot at t
-    plotter.plot(t=[emission_date], plot_metrics="price", plot_details=True)
-
-    # P&L plot at t
-    plotter.plot(t=[emission_date], plot_metrics="PnL")
-
-    # Price plot at another date-string date
-    plotter.plot(t="01-06-2020", plot_metrics="price", plot_details=True)
-
-    # P&L plot at another date-string date
-    plotter.plot(t="01-06-2020", plot_metrics="PnL")
-        
+            
     for time_kind in ['date', 'tau']:
         
         # set time-parameter to plot
         multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
-        
-        # Price plot at multiple dates
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
-    
-        # P&L plot at multiple dates
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
-    
-        #
-        # Surface plot
-        #
+        print(multiple_valuation_dates)
         
         # Price
         plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
                      surf_plot=True)
-    
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True)
-    
-        # Surface plot (rotate)
-        # Underlying value side
-        # focus on: time-decay at original Emission level (S=90)
+#    
+#        # P&L
+#        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
+#                     surf_plot=True)
         
-        # Price
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                     surf_plot=True, view=(0,180))
-    
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True, view=(0,180))
-    
-        # Price surface plot (rotate)
-        # Date side
-        # focuse on: underlying value dependency
-    
-        # Price
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                     surf_plot=True, view=(0,-90))
+        # select greek
+        for greek_type in ["delta", "theta", "gamma", "vega", "rho"]:
+            
+            # Price
+            plotter.plot(t=multiple_valuation_dates, plot_metrics=greek_type, 
+                         surf_plot=True)
         
-        # P&L
-        plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                     surf_plot=True, view=(0,-90))
-
+            # Surface plot (rotate) - Underlying value side
+            plotter.plot(t=multiple_valuation_dates, plot_metrics=greek_type, 
+                         surf_plot=True, view=(0,180))
+        
+            # Price surface plot (rotate) - Date side
+            plotter.plot(t=multiple_valuation_dates, plot_metrics=greek_type, 
+                         surf_plot=True, view=(0,-90))
+            
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     

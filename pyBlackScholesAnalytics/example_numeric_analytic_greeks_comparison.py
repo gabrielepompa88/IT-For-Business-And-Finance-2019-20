@@ -5,14 +5,14 @@ from options.options import PlainVanillaOption, DigitalOption
 from utils.numeric_routines import NumericGreeks
 from utils.utils import plot_compare, homogenize
 
-def option_factory(mkt_env, plain_or_digital, option_type):
+def option_factory(mkt_env, plain_or_digital, option_type, **kwargs):
 
     option_dispatcher = {
-            "plain_vanilla": {"call": PlainVanillaOption(mkt_env),
-                              "put":  PlainVanillaOption(mkt_env, option_type="put")
+            "plain_vanilla": {"call": PlainVanillaOption(mkt_env, **kwargs),
+                              "put":  PlainVanillaOption(mkt_env, option_type="put", **kwargs)
                              },
-            "digital": {"call": DigitalOption(mkt_env),
-                        "put":  DigitalOption(mkt_env, option_type="put")
+            "digital": {"call": DigitalOption(mkt_env, **kwargs),
+                        "put":  DigitalOption(mkt_env, option_type="put", **kwargs)
                        }
     }
             

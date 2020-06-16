@@ -576,80 +576,6 @@ class EuropeanOption:
             
         return price
 
-#    def price_OLD(self, *args, **kwargs):
-#        """
-#        Calculates and returns the price of the option. Usage example: example_options.py
-#        If tau==0, returns the payoff of the option, otherwise the price.                 
-#        Can be called using (underlying, time-parameter, sigma, short-rate), where:
-#
-#        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-#          It's value can be:
-#        
-#            - Empty: .get_S() is used,
-#            - A number (e.g. S=100),
-#            - A List of numbers
-#            
-#        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-#          It's value can be:
-#        
-#            - Empty: .get_tau() is used,
-#            - A single (e.g. t='15-05-2020') / Iterable (e.g. pd.date_range) valuation date(s): 
-#              accepted types are either a 'dd-mm-YYYY' String or a dt.datetime object
-#            - A single (e.g. tau=0.5) / Iterable time-to-maturity value(s) 
-#
-#        - sigma can be specified as keyboard argument 'sigma'. 
-#          It's value can be:
-#        
-#            - Empty: .get_sigma() is used,
-#            - A volatility value (e.g. 0.2 for 20% per year)
-#
-#        - short-rate can be specified as keyboard argument 'r'. 
-#          It's value can be:
-#        
-#            - Empty: .get_r() is used,
-#            - A short-rate value (e.g. 0.05 for 5% per year)
-#        """
-#                       
-#        # process input parameters
-#        param_dict = self.process_input_parameters(*args, **kwargs)
-#
-#        # underlying value, time-to-maturity and short-rate
-#        S = param_dict["S"]
-#        tau = param_dict["tau"]
-#        sigma = param_dict["sigma"]
-#        r = param_dict["r"]
-#        np_output = param_dict["np_output"]
-#        
-#        #
-#        # for tau==0 output the payoff, otherwise price
-#        #
-#        
-#        if np_output:
-#            # initialize an empty structure to hold prices
-#            price = np.empty_like(S, dtype=float)
-#            # filter positive times-to-maturity
-#            tau_pos = tau > 0
-#        else:
-#            # initialize an empty structure to hold prices
-#            price = pd.DataFrame(index=S.index, columns=S.columns)
-#            # filter positive times-to-maturity
-#            tau_pos = tau.iloc[:,0] > 0
-#        
-#        # call case
-#        if self.get_type() == 'call':
-#            # tau > 0 case
-#            price[tau_pos] = self.call_price(S[tau_pos], tau[tau_pos], sigma, r)
-#            # tau == 0 case
-#            price[~tau_pos] = self.call_payoff(S[~tau_pos])  
-#        # put case
-#        else:
-#            # tau > 0 case
-#            price[tau_pos] = self.put_price(S[tau_pos], tau[tau_pos], sigma, r)
-#            # tau == 0 case
-#            price[~tau_pos] = self.put_payoff(S[~tau_pos])  
-#            
-#        return price
-        
     def PnL(self, *args, **kwargs):
         """
         Calculates and returns the P&L of generated owning an option. Usage example: example_options.py
@@ -1050,6 +976,10 @@ class PlainVanillaOption(EuropeanOption):
 
         # compute delta
         delta = stats.norm.cdf(d1, 0.0, 1.0)
+        
+        # stats.norm.cdf down-cast pd.DataFrames to np.ndarray    
+        if isinstance(S, pd.DataFrame):
+            delta = pd.DataFrame(data=delta, index=S.index, columns=S.columns)
                            
         return delta
 

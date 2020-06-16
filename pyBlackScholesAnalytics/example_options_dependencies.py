@@ -20,7 +20,7 @@ def option_factory(mkt_env, plain_or_digital, option_type, **kwargs):
 
 def options_parameters_factory(parameter_name):
     
-    param_dict = {"S": np.linspace(0, 110, 1000), 
+    param_dict = {"S": np.linspace(50, 140, 1000), 
                   "tau": np.linspace(0.0,1.7,1000)[::-1],
                   "sigma": np.linspace(0.001, 0.6, 1000),
                   "r": np.linspace(0.0, 0.1, 1000)}
@@ -49,19 +49,17 @@ def main():
     # option price dependencies example
             
     # default market environment
-#    market_env = MarketEnvironment()
-    market_env = MarketEnvironment(t="15-06-2020", r=0.05, S_t=50.0, sigma=0.3)
+    market_env = MarketEnvironment()
     print(market_env)
 
     # define option style and type
-    opt_style = "plain_vanilla" # "digital"
-    opt_type = "put"
-    option = option_factory(market_env, opt_style, opt_type, K=50.0, 
-                            T=market_env.get_t() + pd.Timedelta(days=365))
+    opt_style = "digital" # "digital"
+    opt_type = "call" # put
+    option = option_factory(market_env, opt_style, opt_type)
     print(option)
 
     # select dependency type
-    for dependency_type in ["S", "tau", "sigma", "r"]:
+    for dependency_type in ["sigma"]: #["S", "tau", "sigma", "r"]:
           
         # keyboard parameter and corresponding range to test
         param = options_parameters_factory(dependency_type)
