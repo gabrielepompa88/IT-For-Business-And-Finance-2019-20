@@ -5,6 +5,29 @@ from portfolio.portfolio import Portfolio
 from options.options import PlainVanillaOption
 from plotter.plotter import PortfolioPlotter
 
+def get_time_parameter(option, kind='date'):
+    
+    # date time-parameter
+    if kind == 'date':
+        
+        # valuation date of the option
+        emission_date = option.get_t()
+    
+        # emission/expiration date of the option
+        expiration_date = option.get_T()
+        
+        # time-parameter as a date-range of 5 valuation dates between t and T-10d
+        time_parameter = pd.date_range(start=emission_date, 
+                                       end=expiration_date - pd.Timedelta(days=20),
+                                       periods=5)
+        
+    # time-to-maturity time parameter    
+    else: 
+        
+        # time-parameter as a list of times-to-maturity
+        time_parameter = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
+        
+    return time_parameter
 
 def main():
     
@@ -38,85 +61,35 @@ def main():
     # portfolio plotter instance
     bull_spread_ptf_plotter = PortfolioPlotter(bull_spread_ptf)
     
-    # Bull-Spread price plot
-    bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics="price", plot_details=True)
+    # select metrics to plot
+    for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+        
+        plot_details_flag = True if plot_metrics == "price" else False
 
-    # Bull-Spread P&L plot
-    bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics="PnL", plot_details=True)
-    
-    # valuation date of the portfolio
-    valuation_date = bull_spread_ptf.get_t()
-    print(valuation_date)
-    
-    # expiration date of the option
-    expiration_date = bull_spread_ptf.get_T()
-    print(expiration_date)
-    
-    for time_kind in ['date', 'tau']:
+        # Bull-Spread price plot
+        bull_spread_ptf_plotter.plot(t='01-06-2020', plot_metrics=plot_metrics, 
+                                     plot_details=plot_details_flag)
         
-        if time_kind == 'date':
-    
-            # time-parameter as a date-range of 5 valuation dates between t and T-10d
-            multiple_valuation_dates = pd.date_range(start=valuation_date, 
-                                                     end=expiration_date - pd.Timedelta(days=20), 
-                                                     periods=5)
-        else:
-            
-            # (alternatively) time-parameter as a list of times-to-maturity
-            multiple_valuation_dates = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-    
-        print(multiple_valuation_dates)
-    
-        
-        #
-        # Bull-Spread plot (multiple dates)
-        #
-        
-        # price
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price")
-        
-        # P&L
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL")
-    
-        #
-        # Bull-Spread price surface plot 
-        #
-        
-        # price
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                     surf_plot=True)
-    
-        # PnL
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                     surf_plot=True)
-    
-        #
-        # Bull-Spread price surface plot 
-        # Underlying value side
-        # focus on: time-decay at original Emission level (S=90)
-        # 
-    
-        # price
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                     surf_plot=True, view=(0,180))
-    
-        # PnL
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                     surf_plot=True, view=(0,180))
+        for time_kind in ['date', 'tau']:
 
-        #
-        # Bull-Spread price surface plot 
-        # Date side
-        # focuse on: underlying value dependency
-        #
+            # set time-parameter to plot
+            multiple_valuation_dates = get_time_parameter(bull_spread_ptf, kind=time_kind)
+            print(multiple_valuation_dates)
     
-        # price
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                     surf_plot=True, view=(0,-90))
-    
-        # PnL
-        bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                     surf_plot=True, view=(0,-90))
+            # Plot at multiple dates
+            bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics)
+        
+            # Surface plot
+            bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True)
+        
+            # Surface plot (rotate) - Underlying value side
+            bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True, view=(0,180))
+        
+            # Price surface plot (rotate) - Date side
+            bull_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True, view=(0,-90))
         
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

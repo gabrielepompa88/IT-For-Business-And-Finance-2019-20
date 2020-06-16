@@ -4,6 +4,7 @@ from market.market import MarketEnvironment
 from portfolio.portfolio import Portfolio
 from options.options import PlainVanillaOption
 from plotter.plotter import PortfolioPlotter
+from utils.utils import date_string_to_datetime_obj
 
 
 def main():
@@ -41,74 +42,40 @@ def main():
     # portfolio plotter instance
     calendar_spread_ptf_plotter = PortfolioPlotter(calendar_spread_ptf)
     
-    # Calendar-Spread price plot
-    calendar_spread_ptf_plotter.plot(t=T_short, plot_metrics="price", plot_details=True)
-
-    # Calendar-Spread P&L plot
-    calendar_spread_ptf_plotter.plot(t=T_short, plot_metrics="PnL", plot_details=True)
-    
     # valuation date of the portfolio
     valuation_date = calendar_spread_ptf.get_t()
     print(valuation_date)
         
-    # time-parameter as a date-range of 5 valuation dates between t and T_short
-    multiple_valuation_dates = pd.date_range(start=valuation_date, 
-                                             end=T_short, 
-                                             periods=5)
-    print(multiple_valuation_dates)
-    
+    # select metrics to plot
+    for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
         
-    #
-    # Calendar-Spread plot (multiple dates) - "n" sets the density in S dimension
-    #
+        plot_details_flag = True if plot_metrics == "price" else False
+
+        # time-parameter as a date-range of 5 valuation dates between t and T_short
+        last_date = T_short if plot_metrics in ["price", "PnL"] else date_string_to_datetime_obj(T_short) - pd.Timedelta(days=1)
+        multiple_valuation_dates = pd.date_range(start=valuation_date, 
+                                                 end=last_date, 
+                                                 periods=5)
+        print(multiple_valuation_dates)
+
+        # Bull-Spread price plot
+        calendar_spread_ptf_plotter.plot(t=last_date, plot_metrics=plot_metrics, 
+                                         plot_details=plot_details_flag)
+            
+        # Plot at multiple dates
+        calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics)
     
-    # price
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price",
-                                     n=200)
+        # Surface plot
+        calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True)
     
-    # P&L
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL",
-                                     n=200)
-
-    #
-    # Calendar-Spread price surface plot 
-    #
+        # Surface plot (rotate) - Underlying value side
+        calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True, view=(0,180))
     
-    # price
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True, n=200)
-
-    # PnL
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True, n=200)
-
-    #
-    # Calendar-Spread price surface plot 
-    # Underlying value side
-    # focus on: time-decay at original Emission level (S=90)
-    # 
-
-    # price
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True, n=200, view=(0,180))
-
-    # PnL
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True, n=200, view=(0,180))
-
-    #
-    # Calendar-Spread price surface plot 
-    # Date side
-    # focuse on: underlying value dependency
-    #
-
-    # price
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="price", 
-                                 surf_plot=True, n=200, view=(0,-90))
-
-    # PnL
-    calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics="PnL", 
-                                 surf_plot=True, n=200, view=(0,-90))
+        # Price surface plot (rotate) - Date side
+        calendar_spread_ptf_plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
+                                         surf_plot=True, view=(0,-90))
         
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
