@@ -155,11 +155,9 @@ def main():
     print(option)
     
     # loop over different cases:
-#    for case in ["0", "1.1_S", "1.2_S", "1.3_S", "1.4_S", \
-#                      "1.1_t", "1.2_t", "1.3_t", "1.4_t", \
-#                      "2.1", "2.2_sigma", "2.3_r", "2.4"]:
-    
-    for case in ["2.4"]:
+    for case in ["0", "1.1_S", "1.2_S", "1.3_S", "1.4_S", \
+                      "1.1_t", "1.2_t", "1.3_t", "1.4_t", \
+                      "2.1", "2.2_sigma", "2.3_r", "2.4"]:
         
         # get parameters dictionary for case considered
         param_dict, case_info = get_param_dict(option, np_output, case)
