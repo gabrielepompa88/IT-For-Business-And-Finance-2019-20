@@ -74,97 +74,25 @@ def homogenize(x, *args, **kwargs):
 
 #-----------------------------------------------------------------------------#
 
-def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vector={}, np_output=True, **kwargs):
+def coordinate(x, y, others, *args, np_output=True, **kwargs):
     """
     Utility function to coordinate two main parameters x and y, each other and
-    possibly with others scalar parameters scalar or vector.
-    
-    Any other vector parameter p should be of the same shape of coord_x, that is
-    
-        - if x is m-shaped and y is n-shaped: p should be (m,n) shaped (or reshapable);
-        - if x is m-shaped and y is scalar: p should be (m,) shaped (or reshapable);
-        - if x is scalar and y is n-shaped: p should be (n,) shaped (or reshapable);
-        - if x and y are scalar: p should be (1,) shaped (or reshapable).
+    possibly with others parameters.
     """
     
-    # test dimensionality: x and y can either be scalar or 1-dim arrays
-    if is_iterable(x):
-        test_dim(x, dim=1)        
-    if is_iterable(y):
-        test_dim(y, dim=1)
-        
     # coordinate the two main parameters (x,y) ---> (coord_x, coord_y)
     coord_x, coord_y = coordinate_x_and_y(x, y, *args, np_output=np_output, **kwargs)
 
-    # initialize output dictionary of coordinated parameters
-    coordinated_parameters = {}
-    coordinated_parameters[x_name] = coord_x 
-    coordinated_parameters[y_name] = coord_y 
+    # initialize output list of coordinated parameters
+    coordinated_parameters = [coord_x, coord_y]
+
+    # coordinate each other parameter p (if any) with coord_x: p ---> coord_p
+    for p in others:  
+        coord_p = coordinate_y_with_x(x=coord_x, y=p, np_output=np_output)
+        coordinated_parameters.append(coord_p)
     
-    # coordinate each other scalar parameter p (if any) with coord_x: p ---> coord_p
-    for p_name in others_scalar:
-        
-        p = others_scalar[p_name]
-        
-        coord_p_scal = coordinate_y_with_x(x=coord_x, y=p, 
-                                      np_output=np_output)
-        if p_name not in coordinated_parameters:
-            coordinated_parameters[p_name] = coord_p_scal
-        else:
-            raise KeyError("Duplicate parameter name: {}".format(p_name))
-
-    # coordinate each other vector parameter p_vec (if any) with coord_x
-    for p_name in others_vector:
-        
-        coord_p_vec = others_vector[p_name]
-        
-        # if different shapes, try reshaping
-        if coord_p_vec.shape != coord_x.shape:
-            try:
-                coord_p_vec = coord_p_vec.reshape(coord_x.shape)
-            except ValueError:
-                raise ValueError("Cannot reshape parameter '{}' of shape {} into shape {} of parameter '{}'"\
-                      .format(p_name, coord_p_vec.shape, coord_x.shape, x_name))
-                
-        # if parameters should be pd.DataFrame, recast
-        if (not np_output) and (not isinstance(coord_p_vec, pd.DataFrame)):
-            coord_p_vec = coordinate_y_with_x(x=coord_x, 
-                                              y=coord_p_vec, 
-                                              np_output=np_output)
-        
-        if p_name not in coordinated_parameters:
-            coordinated_parameters[p_name] = coord_p_vec
-        else:
-            raise KeyError("Duplicate parameter name: {}".format(p_name))
-
-    # return output dictionary of coordinated parameters
+    # return output list of coordinated parameters
     return coordinated_parameters 
-
-#-----------------------------------------------------------------------------#
-
-def coordinate_y_with_x(x, y, np_output):
-    """
-    Utility function to coordinate the scalar parameter y with a np.ndarray/pd.DataFrame x.
-    We distinguish the two cases according to the value of the boolean flag np_output:
-        
-        - If np_output is True, x is expected to be a np.ndarray and y will be returned 
-          as a np.ndarray x-shaped filled with y value.
-          
-        - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
-          as a pd.DataFrame identical to x filled with y value.
-    """    
-    if np_output:
-        if isinstance(x, np.ndarray):
-            y_coord_x = y + np.zeros_like(x)
-        else:
-            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (np.ndarray expected)".format(x, type(x)))
-    else:
-        if isinstance(x, pd.DataFrame):
-            y_coord_x = pd.DataFrame(data=y, index=x.index, columns=x.columns)
-        else:
-            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (pd.DataFrame expected)".format(x, type(x)))
-    return y_coord_x
-
 #-----------------------------------------------------------------------------#
 
 def coordinate_x_and_y(x, y, *args, np_output, **kwargs):
@@ -324,25 +252,34 @@ def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels):
 
 #-----------------------------------------------------------------------------#
 
-def test_dim(iterable_obj, dim=1):
+def coordinate_y_with_x(x, y, np_output):
     """
-    Utility function to test whether an iterable_obj is of dimension dim,
-    checking its .ndim attribute.
-    """
-    
-    try:         
-        if iterable_obj.ndim != dim:
-            raise ValueError("Iterable obj: {} has dimension={}; expected dimension={}".\
-                             format(iterable_obj, iterable_obj.ndim, dim))
-    except AttributeError:
-        raise AttributeError("Iterable obj: {} of type {} has no attribute 'ndim'".\
-                             format(iterable_obj, type(iterable_obj)))
-    
+    Utility function to coordinate the scalar parameter y with a np.ndarray/pd.DataFrame x.
+    We distinguish the two cases according to the value of the boolean flag np_output:
+        
+        - If np_output is True, x is expected to be a np.ndarray and y will be returned 
+          as a np.ndarray x-shaped filled with y value.
+          
+        - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
+          as a pd.DataFrame identical to x filled with y value.
+    """    
+    if np_output:
+        if isinstance(x, np.ndarray):
+            y = y + np.zeros_like(x)
+        else:
+            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (np.ndarray expected)".format(x, type(x)))
+    else:
+        if isinstance(x, pd.DataFrame):
+            y = pd.DataFrame(data=y, index=x.index, columns=x.columns)
+        else:
+            raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (pd.DataFrame expected)".format(x, type(x)))
+    return y
+
 #-----------------------------------------------------------------------------#
 
 def test_same_type(iterable_obj):
     """
-    Utility function to test whether all elements of an iterable_obj are of the 
+    Utility function to test whether all elements of aniterable_obj are of the 
     same type. If not it raises a TypeError.
     """
     # by set definition, the set of types of the elements in iterable_obj

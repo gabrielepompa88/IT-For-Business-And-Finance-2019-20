@@ -128,9 +128,9 @@ def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vec
                 
         # if parameters should be pd.DataFrame, recast
         if (not np_output) and (not isinstance(coord_p_vec, pd.DataFrame)):
-            coord_p_vec = coordinate_y_with_x(x=coord_x, 
-                                              y=coord_p_vec, 
-                                              np_output=np_output)
+            coord_p_vec = pd.DataFrame(data=coord_p_vec, 
+                                       index=coord_x.index,
+                                       columns=coord_x.columns)
         
         if p_name not in coordinated_parameters:
             coordinated_parameters[p_name] = coord_p_vec
@@ -139,7 +139,6 @@ def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vec
 
     # return output dictionary of coordinated parameters
     return coordinated_parameters 
-
 #-----------------------------------------------------------------------------#
 
 def coordinate_y_with_x(x, y, np_output):

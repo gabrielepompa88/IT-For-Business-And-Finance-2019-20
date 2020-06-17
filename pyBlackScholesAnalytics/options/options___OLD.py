@@ -231,12 +231,9 @@ class EuropeanOption:
         # Iterable parameters check
         #
         
-        # counter for iterable parameters in input 
+        # counter for iterable parameters in input (no more than 2 allowed)
         iterable_parameters = 0
-        iterable_S = False
-        iterable_tau = False
-        iterable_sigma = False
-        iterable_r = False
+        iterable_S = iterable_tau = iterable_sigma = iterable_r = False
 
         if is_iterable(S):
             iterable_S = True
@@ -254,6 +251,9 @@ class EuropeanOption:
             iterable_r = True
             iterable_parameters += 1
         
+        if iterable_parameters > 2:
+            raise NotImplementedError("More than two iterable parameters in input. Maximum 2 allowed.")
+                
         #
         # Homogenizing and checking each parameters
         #
@@ -298,7 +298,7 @@ class EuropeanOption:
         #
         
         # homogenize underlying volatility in input
-        sigma = homogenize(sigma, sort=False)
+        sigma = homogenize(sigma)
  
         # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
         # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
@@ -310,7 +310,7 @@ class EuropeanOption:
         #
         
         # homogenize short-rate in input
-        r = homogenize(r, sort=False)
+        r = homogenize(r)
  
         # We allow for negative short rate, but we raise a warning anyway 
         # if any value in r is smaller than zero. Works if r is scalar too.
@@ -321,87 +321,120 @@ class EuropeanOption:
         # Coordinate parameters
         #
         
+        # 
         # Case 0: all scalar parameters
-        #
-        # make the 4 parameters coordinated together as 1-dim np.ndarray
-        # or pd.DataFrame
+        # 
+
         if iterable_parameters == 0:
             
-            coord_params = coordinate(x=S, y=tau, 
-                                      x_name="S", y_name="tau",
-                                      others_scalar={"sigma": sigma, "r": r}, 
-                                      np_output=np_output, 
-                                      col_labels=S, ind_labels=time_param) 
-            
-        # Case 1: S and/or tau iterable parameters
-        #
-        # make S and tau coordinated np.ndarray or pd.DataFrames
-        # creating a (S,tau) grid if both are iterable, 
-        # with sigma and r coordinated accordingly
-        elif iterable_S or iterable_tau:
-            
-            scalar_params = {}
-            vector_params = {}
-            
-            if iterable_sigma:
-                vector_params["sigma"] = sigma
-            else:
-                scalar_params["sigma"] = sigma
-                
-            if iterable_r:
-                vector_params["r"] = r
-            else:
-                scalar_params["r"] = r
-                
-            coord_params = coordinate(x=S, y=tau, 
-                                      x_name="S", y_name="tau",
-                                      others_scalar=scalar_params, 
-                                      others_vector=vector_params,
-                                      np_output=np_output, 
-                                      col_labels=S, ind_labels=time_param)   
-                        
-        # case 2: sigma and/or r are iterable 1-dim vectors 
-        #         and S and tau are both scalar
-        elif iterable_sigma or iterable_r:
-            
-            # case 2.1: sigma and r are iterable 1-dim vectors
-            #
-            # make r and sigma coordinated np.ndarray or pd.DataFrames
-            # creating a (r,sigma) grid and S and tau coordinated accordingly
-            if iterable_sigma and iterable_r:
-                coord_params = coordinate(x=r, y=sigma, 
-                                          x_name="r", y_name="sigma",
-                                          others_scalar={"S": S, "tau": tau}, 
+            # make the 4 parameters coordinated together as 1-dim np.ndarray
+            # or pd.DataFrame
+            S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
                                           np_output=np_output, 
-                                          col_labels=r, ind_labels=sigma)   
+                                          col_labels=S, ind_labels=time_param)   
+            
+        # 
+        # Case 1: one iterable parameter
+        # 
+        
+        elif iterable_parameters == 1:
+            
+            if iterable_S or iterable_tau:
 
-            # case 2.2: sigma is a 1-dim vector and r is scalar
-            #
-            # make S and sigma coordinated np.ndarray or pd.DataFrames
-            # and tau and r coordinated accordingly
+                # make S and tau coordinated np.ndarray or pd.DataFrames
+                # and sigma and r coordinated accordingly
+                S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=time_param)   
+
             elif iterable_sigma:
-                coord_params = coordinate(x=S, y=sigma, 
-                                          x_name="S", y_name="sigma",
-                                          others_scalar={"tau": tau, "r": r}, 
+
+                # make S and sigma coordinated np.ndarray or pd.DataFrames
+                # and tau and r coordinated accordingly
+                S, sigma, tau, r = coordinate(x=S, y=sigma, others=[tau, r], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=sigma)   
+
+            elif iterable_r:
+
+                # make S and r coordinated np.ndarray or pd.DataFrames
+                # and tau and sigma coordinated accordingly
+                S, r, tau, sigma = coordinate(x=S, y=r, others=[tau, sigma], 
+                                              np_output=np_output, 
+                                              col_labels=S, ind_labels=r)   
+            
+        #
+        # Case A: (S,tau) iterables
+        #
+        
+        if iterable_S and iterable_tau:   
+             
+            # make S and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (S,tau) grid and sigma and r coordinated accordingly
+            S, tau, sigma, r = coordinate(x=S, y=tau, others=[sigma, r], 
+                                          np_output=np_output, 
+                                          col_labels=S, ind_labels=time_param)   
+
+        #
+        # Case B: (S,sigma) iterables
+        #
+        
+        elif iterable_S and iterable_sigma:     
+
+            # make S and sigma coordinated np.ndarray or pd.DataFrames
+            # creating a (S,sigma) grid and tau and r coordinated accordingly
+            S, sigma, tau, r = coordinate(x=S, y=sigma, others=[tau, r], 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=sigma)   
 
-            # case 2.3: r is a 1-dim vector and sigma is scalar
-            #
+        #
+        # Case C: (S,r) iterables
+        #
+        
+        elif iterable_S and iterable_r:     
+
             # make S and r coordinated np.ndarray or pd.DataFrames
-            # and tau and sigma coordinated accordingly
-            elif iterable_r:
-                coord_params = coordinate(x=S, y=r, 
-                                          x_name="S", y_name="r",
-                                          others_scalar={"tau": tau, "sigma": sigma}, 
+            # creating a (S,r) grid and tau and sigma coordinated accordingly
+            S, r, tau, sigma = coordinate(x=S, y=r, others=[tau, sigma], 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=r)
+                                
+        #
+        # Case D: (sigma,tau) iterables
+        #
+        
+        if iterable_sigma and iterable_tau:   
+             
+            # make sigma and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (sigma,tau) grid and S and r coordinated accordingly
+            sigma, tau, S, r = coordinate(x=sigma, y=tau, others=[S, r], 
+                                          np_output=np_output, 
+                                          col_labels=sigma, ind_labels=time_param)   
+            
+        #
+        # Case E: (r,tau) iterables
+        #
+        
+        if iterable_r and iterable_tau:   
+             
+            # make r and tau coordinated np.ndarray or pd.DataFrames
+            # creating a (r,tau) grid and S and sigma coordinated accordingly
+            r, tau, S, sigma = coordinate(x=r, y=tau, others=[S, sigma], 
+                                          np_output=np_output, 
+                                          col_labels=r, ind_labels=time_param)   
 
-        # get coordinated parameters
-        S = coord_params["S"]
-        tau = coord_params["tau"]
-        sigma = coord_params["sigma"]
-        r = coord_params["r"]
+        #
+        # Case F: (r,sigma) iterables
+        #
+        
+        if iterable_r and iterable_sigma:   
+             
+            # make r and sigma coordinated np.ndarray or pd.DataFrames
+            # creating a (r,sigma) grid and S and tau coordinated accordingly
+            r, sigma, S, tau = coordinate(x=r, y=sigma, others=[S, tau], 
+                                          np_output=np_output, 
+                                          col_labels=r, ind_labels=sigma)   
+
 
         return {"S": S, 
                 "tau": tau, 
@@ -445,10 +478,7 @@ class EuropeanOption:
 
     def payoff(self, *args, **kwargs):
         """
-        Calculates and returns the payoff of the option.
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
+        Calculates and returns the payoff of the option. Usage example: example_options.py
         Can be called using (underlying), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
@@ -474,10 +504,7 @@ class EuropeanOption:
                 
     def price(self, *args, **kwargs):
         """
-        Calculates and returns the price of the option. 
-        Usage examples: 
-            - example_options_1.py
-            - example_options_2.py
+        Calculates and returns the price of the option. Usage example: example_options.py
         If tau==0, returns the payoff of the option, otherwise the price.                 
         Can be called using (underlying, time-parameter, sigma, short-rate), where:
 
@@ -501,16 +528,12 @@ class EuropeanOption:
         
             - Empty: .get_sigma() is used,
             - A volatility value (e.g. 0.2 for 20% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
 
         - short-rate can be specified as keyboard argument 'r'. 
           It's value can be:
         
             - Empty: .get_r() is used,
             - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
         """
                        
         # process input parameters
@@ -555,10 +578,7 @@ class EuropeanOption:
 
     def PnL(self, *args, **kwargs):
         """
-        Calculates and returns the P&L of generated owning an option.
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py        
+        Calculates and returns the P&L of generated owning an option. Usage example: example_options.py
         Can be called as the underlying .price() method.
 
         We distinguish two cases:
@@ -618,55 +638,10 @@ class EuropeanOption:
 #
 #        return iv_new
 
-#    def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
-#        """
-#        Calculates and returns the Implied Volatility of the option. 
-#        Usage example: example_options.py
-#        Can be called using (underlying, time-parameter, sigma, short-rate). 
-#        
-#        See .price() method docstring.
-#        """
-#                            
-#        # target price
-#        target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
-#            
-#        # delete "np_output" from kwargs if it exists, to do calculations 
-#        # with np.ndarrays (returns True if not in kwargs)
-#        np_output = kwargs.pop("np_output", True)
-#
-#        # casting output as pd.DataFrame, if necessary
-#        if not np_output:
-#            col_output=target_price.columns
-#            ind_output=target_price.index
-#            target_price = target_price.values.flatten()
-#
-#        # delete "sigma" from kwargs if it exists
-#        kwargs.pop("sigma", None)
-#        
-#        # initial guess for implied volatility
-#        iv_new = iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, 
-#                                              np_output=True)
-#        
-#        # stopping criterion: sum of squared iv updates smaller than epsilon 
-#        # threshold; initialized at value greater than epsilon by construction
-#        total_squared_iv_updates = epsilon + 1
-#        while total_squared_iv_updates > epsilon:
-#            for i in range(len(iv_new.flatten())):
-#                iv_old[i] = iv_new[i]
-#                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs)[i] - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)[i]
-#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-#                        
-#        if not np_output:
-#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
-#
-#        return iv_new
-
     def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
         """
         Calculates and returns the Implied Volatility of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
+        Usage example: example_options.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -674,7 +649,6 @@ class EuropeanOption:
                             
         # target price
         target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
-        
             
         # delete "np_output" from kwargs if it exists, to do calculations 
         # with np.ndarrays (returns True if not in kwargs)
@@ -684,49 +658,33 @@ class EuropeanOption:
         if not np_output:
             col_output=target_price.columns
             ind_output=target_price.index
-            target_price = target_price.values
+            target_price = target_price.values.flatten()
 
         # delete "sigma" from kwargs if it exists
         kwargs.pop("sigma", None)
         
         # initial guess for implied volatility
-        iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
-        iv_new = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
+        iv_new = iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, 
+                                              np_output=True)
         
         # stopping criterion: sum of squared iv updates smaller than epsilon 
         # threshold; initialized at value greater than epsilon by construction
         total_squared_iv_updates = epsilon + 1
         while total_squared_iv_updates > epsilon:
-            iv_old = iv_new
-            iv_new = iv_old - (self.price(*args, sigma=iv_old, **kwargs) - target_price)/self.vega(*args, sigma=iv_old, factor=1.0, **kwargs)
+            for i in range(len(iv_new.flatten())):
+                iv_old[i] = iv_new[i]
+                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs)[i] - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)[i]
             total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-            
+                        
         if not np_output:
             iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
 
         return iv_new
 
-#        # stopping criterion: sum of squared iv updates smaller than epsilon 
-#        # threshold; initialized at value greater than epsilon by construction
-#        total_squared_iv_updates = epsilon + 1
-#        while total_squared_iv_updates > epsilon:
-#            for i in range(len(iv_new.flatten())):
-#                iv_old[i] = iv_new[i]
-#                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs)[i] - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)[i]
-#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-#                        
-#        if not np_output:
-#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
-#
-#        return iv_new
-
     def delta(self, *args, **kwargs):
         """
         Calculates and returns the Gamma of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -752,10 +710,7 @@ class EuropeanOption:
     def theta(self, *args, **kwargs):
         """
         Calculates and returns the Theta of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -787,10 +742,7 @@ class EuropeanOption:
     def gamma(self, *args, **kwargs):
         """
         Calculates and returns the Gamma of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -816,10 +768,7 @@ class EuropeanOption:
     def vega(self, *args, **kwargs):
         """
         Calculates and returns the Vega of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -851,10 +800,7 @@ class EuropeanOption:
     def rho(self, *args, **kwargs):
         """
         Calculates and returns the Rho of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
+        Usage example: example_numeric_analytic_greeks_comparison.py
         Can be called using (underlying, time-parameter, sigma, short-rate). 
         
         See .price() method docstring.
@@ -1059,8 +1005,6 @@ class PlainVanillaOption(EuropeanOption):
         
             - Empty: .get_r() is used,
             - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
         """
 
         # process input parameters
@@ -1356,8 +1300,6 @@ class DigitalOption(EuropeanOption):
         
             - Empty: .get_r() is used,
             - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
         """
 
         # process input parameters

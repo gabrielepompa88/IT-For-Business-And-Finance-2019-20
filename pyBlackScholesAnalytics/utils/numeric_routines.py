@@ -17,10 +17,10 @@ from utils.utils import *
 
 class NumericGreeks:
     
-    def __init__(self, FinancialObject, epsilon=1e-4):#, method="price"):
+    def __init__(self, FinancialObject, epsilon=1e-4):
         
         self.opt = FinancialObject
-        self.f = FinancialObject.price #getattr(FinancialObject, method)
+        self.f = FinancialObject.price 
         self.__eps = epsilon
         
     def get_epsilon(self):
@@ -76,10 +76,7 @@ class NumericGreeks:
         # rescaling factor
         rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
 
-        if is_iterable(sigma0):
-           return np.array([(self.f(sigma=vol0+self.get_epsilon(), **kwargs) - self.f(sigma=vol0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for vol0 in sigma0]) * rescaling_factor
-        else:
-            return (self.f(sigma=sigma0+self.get_epsilon(), **kwargs) - self.f(sigma=sigma0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) * rescaling_factor
+        return (self.f(sigma=sigma0+self.get_epsilon(), **kwargs) - self.f(sigma=sigma0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) * rescaling_factor
 
     def theta(self, **kwargs):
         """
@@ -117,7 +114,4 @@ class NumericGreeks:
         # rescaling factor
         rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
 
-        if is_iterable(r0):
-            return np.array([(self.f(r=sr0+self.get_epsilon(), **kwargs) - self.f(r=sr0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon()) for sr0 in r0]) * rescaling_factor
-        else:
-            return ((self.f(r=r0+self.get_epsilon(), **kwargs) - self.f(r=r0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())) * rescaling_factor
+        return ((self.f(r=r0+self.get_epsilon(), **kwargs) - self.f(r=r0-self.get_epsilon(), **kwargs))/(2*self.get_epsilon())) * rescaling_factor

@@ -53,13 +53,13 @@ def main():
     print(market_env)
 
     # define option style and type
-    opt_style = "digital" # "digital"
+    opt_style = "plain_vanilla" # "digital"
     opt_type = "call" # put
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
 
     # select dependency type
-    for dependency_type in ["sigma"]: #["S", "tau", "sigma", "r"]:
+    for dependency_type in ["S", "tau", "sigma", "r"]:
           
         # keyboard parameter and corresponding range to test
         param = options_parameters_factory(dependency_type)
