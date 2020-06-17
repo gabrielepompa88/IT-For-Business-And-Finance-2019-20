@@ -199,7 +199,7 @@ class EuropeanOption:
         T = date_string_to_datetime_obj(T)
         
         # compute and return time to maturity (in years)
-        return (T-t).days / 365.0
+        return homogenize((T-t).days / 365.0, sort=False) # (T-t).days / 365.0
 
     def process_input_parameters(self, *args, **kwargs):
         """
@@ -682,9 +682,11 @@ class EuropeanOption:
 
         # casting output as pd.DataFrame, if necessary
         if not np_output:
-            col_output=target_price.columns
             ind_output=target_price.index
-            target_price = target_price.values
+            col_output=target_price.columns
+            m = len(ind_output)
+            n = len(col_output)
+            target_price = target_price.values.squeeze()
 
         # delete "sigma" from kwargs if it exists
         kwargs.pop("sigma", None)
@@ -702,7 +704,7 @@ class EuropeanOption:
             total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
             
         if not np_output:
-            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
+            iv_new = pd.DataFrame(data=iv_new.reshape(m,n), index=ind_output, columns=col_output)
 
         return iv_new
 

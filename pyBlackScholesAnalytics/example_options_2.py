@@ -32,11 +32,11 @@ def get_param_dict(option, np_output, case):
                              periods=n)    
     # sigma
     sigma_vector = [0.1, 0.2, 0.3, 0.4, 0.5]
-    sigma_grid = np.array([0.1*(1.0 + i) for i in range(m*n)]).reshape(m,n)
+    sigma_grid = np.array([0.1*(1.0 + i) for i in range(m*n)]).reshape(n,m)
     
     # r
     r_vector = [0.0, 0.01, 0.025, 0.03, 0.04, 0.05]
-    r_grid = np.array([0.01*(1.0 + i) for i in range(m*n)]).reshape(m,n)
+    r_grid = np.array([0.01*(1.0 + i) for i in range(m*n)]).reshape(n,m)
 
     cases_dict = {
             "0": {"parameters": {"S": S_vector[0],
@@ -51,56 +51,56 @@ def get_param_dict(option, np_output, case):
                                    "sigma": 0.1,
                                    "r": 0.01,
                                    "np_output": np_output},
-                    "info": "Case 1.1 - (S vector, other scalar)"
+                    "info": "Case 1.1_S - (S vector, other scalar)"
                   },
             "1.2_S": {"parameters": {"S": S_vector,
                                    "t": t_vector[0],
                                    "sigma": 0.1,
                                    "r": [0.01*(1.0 + i) for i in range(m)],
                                    "np_output": np_output},
-                    "info": "Case 1.2 - (S vector, t scalar, sigma scalar, r vector as S)"
+                    "info": "Case 1.2_S - (S vector, t scalar, sigma scalar, r vector as S)"
                   },
             "1.3_S": {"parameters": {"S": S_vector,
                                    "t": t_vector[0],
                                    "sigma": [0.1*(1.0 + i) for i in range(m)],
                                    "r": 0.01,
                                    "np_output": np_output},
-                    "info": "Case 1.3 - (S vector, t scalar, sigma vector as S, r scalar)"
+                    "info": "Case 1.3_S - (S vector, t scalar, sigma vector as S, r scalar)"
                   },
             "1.4_S": {"parameters": {"S": S_vector,
                                    "t": t_vector[0],
                                    "sigma": [0.1*(1.0 + i) for i in range(m)],
                                    "r": [0.01*(1.0 + i) for i in range(m)],
                                    "np_output": np_output},
-                    "info": "Case 1.4 - (S vector, t scalar, sigma vector as S, r vector as S)"
+                    "info": "Case 1.4_S - (S vector, t scalar, sigma vector as S, r vector as S)"
                   },
             "1.1_t": {"parameters": {"S": S_vector[0],
                                    "t": t_vector,
                                    "sigma": 0.1,
                                    "r": 0.01,
                                    "np_output": np_output},
-                    "info": "Case 1.1 - (t vector, other scalar)"
+                    "info": "Case 1.1_t - (t vector, other scalar)"
                   },
             "1.2_t": {"parameters": {"S": S_vector[0],
                                    "t": t_vector,
                                    "sigma": 0.1,
                                    "r": [0.01*(1.0 + i) for i in range(n)],
                                    "np_output": np_output},
-                    "info": "Case 1.2 - (S scalar, t vector, sigma scalar, r vector as t)"
+                    "info": "Case 1.2_t - (S scalar, t vector, sigma scalar, r vector as t)"
                   },
             "1.3_t": {"parameters": {"S": S_vector[0],
                                    "t": t_vector,
                                    "sigma": [0.1*(1.0 + i) for i in range(n)],
                                    "r": 0.01,
                                    "np_output": np_output},
-                    "info": "Case 1.3 - (S scalae, t vector, sigma vector as t, r scalar)"
+                    "info": "Case 1.3_t - (S scalae, t vector, sigma vector as t, r scalar)"
                   },
             "1.4_t": {"parameters": {"S": S_vector[0],
                                    "t": t_vector,
                                    "sigma": [0.1*(1.0 + i) for i in range(n)],
                                    "r": [0.01*(1.0 + i) for i in range(n)],
                                    "np_output": np_output},
-                    "info": "Case 1.4 - (S scalar, t vector, sigma vector as t, r vector as t)"
+                    "info": "Case 1.4_t - (S scalar, t vector, sigma vector as t, r vector as t)"
                   },
             "2.1": {"parameters": {"S": S_vector,
                                    "t": t_vector,
@@ -114,14 +114,14 @@ def get_param_dict(option, np_output, case):
                                    "sigma": sigma_grid,
                                    "r": 0.01,
                                    "np_output": np_output},
-                    "info": "Case 2.2 - (S and t vector, sigma grid as Sxt, r scalar)"
+                    "info": "Case 2.2_sigma - (S and t vector, sigma grid as Sxt, r scalar)"
                   },
             "2.3_r": {"parameters": {"S": S_vector,
                                    "t": t_vector,
                                    "sigma": 0.1,
                                    "r": r_grid,
                                    "np_output": np_output},
-                    "info": "Case 2.3 - (S and t vector, sigma scalar, r grid as Sxt)"
+                    "info": "Case 2.3_r - (S and t vector, sigma scalar, r grid as Sxt)"
                   },
             "2.4": {"parameters": {"S": S_vector,
                                    "t": t_vector,
@@ -149,8 +149,8 @@ def main():
     print(market_env)
     
     # define option style and type
-    opt_style = "plain_vanilla" # "digital"
-    opt_type = "call" # "put"   
+    opt_style = "digital" # "plain_vanilla" # "digital"
+    opt_type = "call" # "call" # "put"   
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
     
@@ -158,7 +158,7 @@ def main():
     for case in ["0", "1.1_S", "1.2_S", "1.3_S", "1.4_S", \
                       "1.1_t", "1.2_t", "1.3_t", "1.4_t", \
                       "2.1", "2.2_sigma", "2.3_r", "2.4"]:
-        
+
         # get parameters dictionary for case considered
         param_dict, case_info = get_param_dict(option, np_output, case)
     

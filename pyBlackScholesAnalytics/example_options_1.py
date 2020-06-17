@@ -121,8 +121,8 @@ def main():
         print("\nPrice lower limit:\n", option.price_lower_limit(**param_dict))
         print("\nPrice:\n", option.price(**param_dict))
         print("\nP&L:\n", option.PnL(**param_dict))
-        print("\nImplied Volatility (expected iv:\n{}):\n"\
-              .format(option.get_sigma(), option.implied_volatility(**param_dict)))
+        print("\nImplied Volatility (expected iv:\n{}):\n".format(option.get_sigma()), 
+              option.implied_volatility(**param_dict))
         print("\nDelta:\n", option.delta(**param_dict))
         print("\nTheta:\n", option.theta(**param_dict))
         print("\nGamma:\n", option.gamma(**param_dict))
