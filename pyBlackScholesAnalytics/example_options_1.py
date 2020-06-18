@@ -1,7 +1,10 @@
 import pandas as pd
+import warnings
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
+
+warnings.filterwarnings("ignore")
 
 def option_factory(mkt_env, plain_or_digital, option_type):
 
@@ -121,7 +124,10 @@ def main():
         print("\nPrice lower limit:\n", option.price_lower_limit(**param_dict))
         print("\nPrice:\n", option.price(**param_dict))
         print("\nP&L:\n", option.PnL(**param_dict))
-        print("\nImplied Volatility (expected iv:\n{}):\n".format(option.get_sigma()), 
+        print("\nImplied Volatility - Newton method (expected iv:\n{}):\n".format(option.get_sigma()),
+              option.implied_volatility(**param_dict))
+        param_dict["minimization_method"] = "Least-Squares"
+        print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n".format(option.get_sigma()), 
               option.implied_volatility(**param_dict))
         print("\nDelta:\n", option.delta(**param_dict))
         print("\nTheta:\n", option.theta(**param_dict))

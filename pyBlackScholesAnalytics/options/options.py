@@ -14,6 +14,9 @@ import pandas as pd
 # for statistical functions
 from scipy import stats
 
+# for optimization routines
+import scipy.optimize as sc_opt
+
 # for some mathematical functions
 import math
 
@@ -22,6 +25,9 @@ import datetime as dt
 
 # for warning messages
 import warnings
+
+# to copy python variables (and not setting references)
+#import copy
 
 # ----------------------- sub-modules imports ------------------------------- #
 
@@ -579,95 +585,18 @@ class EuropeanOption:
                 
         return self.price(*args, **kwargs) - scalarize(self.get_initial_price())
   
-#    def implied_volatility__OLD(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
-#        """
-#        Calculates and returns the Implied Volatility of the option. 
-#        Usage example: example_options.py
-#        Can be called using (underlying, time-parameter, sigma, short-rate). 
-#        
-#        See .price() method docstring.
-#        """
-#                
-#        # target price
-#        target_price = kwargs["targe_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
-#
-#        # if a pd.DataFrame is required in output
-#        if not kwargs["np_output"]:
-#            col_output=target_price.columns
-#            ind_output=target_price.index
-#            cast_output=True
-#            target_price = target_price.values
-#            kwargs["np_output"] = True
-#            
-#        # delete "sigma" from kwargs if it exists
-#        kwargs.pop("sigma", None)
-#
-#        # initial guess for implied volatility
-#        iv_new = iv_old = iv_estimated
-#        
-#        # stopping criterion: sum of squared iv updates smaller than epsilon threshold
-#        # initialized at value greater than epsilon by construction
-#        total_squared_iv_updates = epsilon + 1
-#        while total_squared_iv_updates > epsilon:
-#            iv_old = iv_new
-#            iv_new = iv_old - (self.price(*args, sigma=iv_old, **kwargs) - target_price)/self.vega(*args, sigma=iv_old, factor = 1.0, **kwargs)          
-#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-#            
-#        if cast_output:
-#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
-#
-#        return iv_new
-
-#    def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
-#        """
-#        Calculates and returns the Implied Volatility of the option. 
-#        Usage example: example_options.py
-#        Can be called using (underlying, time-parameter, sigma, short-rate). 
-#        
-#        See .price() method docstring.
-#        """
-#                            
-#        # target price
-#        target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
-#            
-#        # delete "np_output" from kwargs if it exists, to do calculations 
-#        # with np.ndarrays (returns True if not in kwargs)
-#        np_output = kwargs.pop("np_output", True)
-#
-#        # casting output as pd.DataFrame, if necessary
-#        if not np_output:
-#            col_output=target_price.columns
-#            ind_output=target_price.index
-#            target_price = target_price.values.flatten()
-#
-#        # delete "sigma" from kwargs if it exists
-#        kwargs.pop("sigma", None)
-#        
-#        # initial guess for implied volatility
-#        iv_new = iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, 
-#                                              np_output=True)
-#        
-#        # stopping criterion: sum of squared iv updates smaller than epsilon 
-#        # threshold; initialized at value greater than epsilon by construction
-#        total_squared_iv_updates = epsilon + 1
-#        while total_squared_iv_updates > epsilon:
-#            for i in range(len(iv_new.flatten())):
-#                iv_old[i] = iv_new[i]
-#                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs)[i] - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)[i]
-#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-#                        
-#        if not np_output:
-#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
-#
-#        return iv_new
-
-    def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-6, **kwargs):
+    def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-8, 
+                           minimization_method="Newton", max_iter = 100, **kwargs):
         """
         Calculates and returns the Implied Volatility of the option. 
         Usage example: 
             - example_options_1.py
             - example_options_2.py
+        Implements two minimization routines:
+            - Newton (unconstrained) method;
+            - Least-Squares constrained method.            
         Can be called using (underlying, time-parameter, sigma, short-rate). 
+        
         
         See .price() method docstring.
         """
@@ -691,36 +620,89 @@ class EuropeanOption:
         # delete "sigma" from kwargs if it exists
         kwargs.pop("sigma", None)
         
-        # initial guess for implied volatility
-        iv_old = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
-        iv_new = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
-        
-        # stopping criterion: sum of squared iv updates smaller than epsilon 
-        # threshold; initialized at value greater than epsilon by construction
-        total_squared_iv_updates = epsilon + 1
-        while total_squared_iv_updates > epsilon:
-            iv_old = iv_new
-            iv_new = iv_old - (self.price(*args, sigma=iv_old, **kwargs) - target_price)/self.vega(*args, sigma=iv_old, factor=1.0, **kwargs)
-            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
+        if minimization_method == "Newton":
             
+            # initial guess for implied volatility: iv_{n} and iv_{n+1}
+            # iv_{n+1} will be iteratively updated
+            iv_n = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
+            iv_np1 = coordinate_y_with_x(x=target_price, y=iv_estimated, np_output=True)
+            
+            # stopping criterion: 
+            #
+            # - SRSR > epsilon threshold or 
+            # - maximum iterations exceeded
+            # 
+            # where: SRSR is the Sum of Relative Squared Residuals between
+            # n-th and (n+1)-th iteration solutions, defined as: 
+            #
+            # SRSR = \Sum_{i} ((x_{n+1} - x_{n})/x_{n})**2 (NaN excluded)
+            
+            # SRSR is initialized at value greater than epsilon by construction
+            SRSR = epsilon + 1
+            
+            # iterations counter initialized at 1
+            iter_num = 1
+            
+            while (SRSR > epsilon) and (iter_num <= max_iter):
+                
+                # update last solution found
+                iv_n = iv_np1
+
+                # new solution found
+                iv_np1 = iv_n - (self.price(*args, sigma=iv_n, **kwargs) - target_price)/self.vega(*args, sigma=iv_n, factor=1.0, **kwargs)
+
+                # calculation of new value for stopping metrics
+                SRSR = np.nansum(((iv_np1 - iv_n)/iv_n)**2)
+
+                # iteration counter update
+                iter_num += 1
+                
+            print(iter_num)
+            print("\nTermination value for Sum of Relative Squared Residuals \
+                  \nbetween n-th and (n+1)-th iteration solutions metric \
+                  \n(NaN excluded): {} (eps = {}). Iterations: {} \n"\
+                  .format(SRSR, epsilon, iter_num))
+        
+        elif minimization_method == "Least-Squares":
+            #
+            # See documentation for scipt.optmize.least_squares function
+            #
+            # at: https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.least_squares.html#scipy.optimize.least_squares
+            #
+            
+            # minimization function (function of implied volatility only)
+            f = lambda iv: (self.price(*args, sigma=iv, **kwargs) - target_price).flatten() 
+            
+            # initial implied volatility guess
+            iv0 = np.repeat(iv_estimated, repeats=target_price.size)
+            
+            # positivity bounds: iv > 0
+            iv_bounds = (0.0, np.inf)
+            
+            # minimization method: Trust-Region-Reflective algorithm
+            min_method='trf'
+            
+            # tolerance for termination by the change of the cost function
+            cost_tolerance = kwargs["cost_tolerance"] if "cost_tolerance" in kwargs else 1e-12
+            
+            # tolerance for termination by the change of the solution found
+            sol_tolerance = kwargs["sol_tolerance"] if "sol_tolerance" in kwargs else 1e-12
+            
+            # optimization
+            res = sc_opt.least_squares(fun=f, x0=iv0, bounds=iv_bounds, method=min_method,
+                                ftol=cost_tolerance, xtol=sol_tolerance)
+            
+            # output message
+            print("\nTermination message: " + res.message + " Success? {}".format(res.success))
+            
+            # optimal iv found
+            iv_np1 = res.x
+              
+        # output adjustment, if necessary
         if not np_output:
-            iv_new = pd.DataFrame(data=iv_new.reshape(m,n), index=ind_output, columns=col_output)
+            iv_np1 = pd.DataFrame(data=iv_np1.reshape(m,n), index=ind_output, columns=col_output)
 
-        return iv_new
-
-#        # stopping criterion: sum of squared iv updates smaller than epsilon 
-#        # threshold; initialized at value greater than epsilon by construction
-#        total_squared_iv_updates = epsilon + 1
-#        while total_squared_iv_updates > epsilon:
-#            for i in range(len(iv_new.flatten())):
-#                iv_old[i] = iv_new[i]
-#                iv_new[i] = iv_old[i] - (self.price(*args, sigma=iv_old[i], **kwargs)[i] - target_price[i])/self.vega(*args, sigma=iv_old[i], factor=1.0, **kwargs)[i]
-#            total_squared_iv_updates = ((iv_new - iv_old)**2).sum()
-#                        
-#        if not np_output:
-#            iv_new = pd.DataFrame(data=iv_new, index=ind_output, columns=col_output)
-#
-#        return iv_new
+        return iv_np1
 
     def delta(self, *args, **kwargs):
         """
