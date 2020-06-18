@@ -34,11 +34,9 @@ def get_param_dict(option, np_output, case):
                              end=expiration_date-pd.Timedelta(days=10), 
                              periods=n)    
     # sigma
-    sigma_vector = [0.1, 0.2, 0.3, 0.4, 0.5]
     sigma_grid = np.array([0.1*(1.0 + i) for i in range(m*n)]).reshape(n,m)
     
     # r
-    r_vector = [0.0, 0.01, 0.025, 0.03, 0.04, 0.05]
     r_grid = np.array([0.01*(1.0 + i) for i in range(m*n)]).reshape(n,m)
 
     cases_dict = {

@@ -205,7 +205,7 @@ class EuropeanOption:
         T = date_string_to_datetime_obj(T)
         
         # compute and return time to maturity (in years)
-        return homogenize((T-t).days / 365.0, sort=False) # (T-t).days / 365.0
+        return homogenize((T-t).days / 365.0, sort=False)
 
     def process_input_parameters(self, *args, **kwargs):
         """
@@ -647,9 +647,15 @@ class EuropeanOption:
                 
                 # update last solution found
                 iv_n = iv_np1
+                
+                # function to minimize at last solution found
+                f_iv_n = self.price(*args, sigma=iv_n, **kwargs) - target_price
 
+                # derivative w.r.t. to sigma (that is, Vega) at last solution found
+                df_div_n = self.vega(*args, sigma=iv_n, factor=1.0, **kwargs)
+                
                 # new solution found
-                iv_np1 = iv_n - (self.price(*args, sigma=iv_n, **kwargs) - target_price)/self.vega(*args, sigma=iv_n, factor=1.0, **kwargs)
+                iv_np1 = iv_n - f_iv_n/df_div_n
 
                 # calculation of new value for stopping metrics
                 SRSR = np.nansum(((iv_np1 - iv_n)/iv_n)**2)
