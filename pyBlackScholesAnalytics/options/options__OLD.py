@@ -207,7 +207,7 @@ class EuropeanOption:
         # compute and return time to maturity (in years)
         return homogenize((T-t).days / 365.0, sort=False)
 
-    def process_pricing_parameters(self, *args, **kwargs):
+    def process_input_parameters(self, *args, **kwargs):
         """
         Utility method to parse underlying, time, volatility and short-rate parameters
         """
@@ -219,9 +219,6 @@ class EuropeanOption:
         # underlying value 
         S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
         
-        # strike price
-        K = kwargs['K'] if 'K' in kwargs else self.get_K()
-
         # time parameter:
         time_param = args[1] if len(args) > 1 \
                      else kwargs['tau'] if 'tau' in kwargs \
@@ -243,7 +240,6 @@ class EuropeanOption:
         # counter for iterable parameters in input 
         iterable_parameters = 0
         iterable_S = False
-        iterable_K = False
         iterable_tau = False
         iterable_sigma = False
         iterable_r = False
@@ -252,10 +248,6 @@ class EuropeanOption:
             iterable_S = True
             iterable_parameters += 1
             
-        if is_iterable(K):
-            iterable_K = True
-            iterable_parameters += 1
-        
         if is_iterable_not_string(time_param):
             iterable_tau = True
             iterable_parameters += 1
@@ -267,21 +259,7 @@ class EuropeanOption:
         if is_iterable(r):
             iterable_r = True
             iterable_parameters += 1
-            
-        #
-        # Checking that only one of S or K is iterable
-        #
         
-        if iterable_S and iterable_K:
-            raise NotImplementedError("Just one between 'S' and 'K' parameters allowed to be iterable."\
-                                      " Both iterable given in input:\nS={}\nK={}".format(S,K))
-        
-        # flag for iterability of S or K
-        iterable_S_or_K = iterable_S or iterable_K
-        
-        # flag for iterability of S only
-        iterable_S_not_K = iterable_S and (not iterable_K)
-            
         #
         # Homogenizing and checking each parameters
         #
@@ -298,18 +276,7 @@ class EuropeanOption:
             warnings.warn("Warning: S = {} < 0 value encountered".format(S))
                    
         # 
-        # 2) Strike price
-        #
-        
-        # homogenize strike in input
-        K = homogenize(K)
- 
-        # checking whether any value in K is smaller than zero. Works if K is scalar too.
-        if np.any(K <= 0):
-            warnings.warn("Warning: K = {} <= 0 value encountered".format(K))
-
-        # 
-        # 3) Time parameter
+        # 2) Time parameter
         #
                                 
         # time parameter interpretation (and homogenization) according to its type        
@@ -333,7 +300,7 @@ class EuropeanOption:
             warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
 
         # 
-        # 4) Underlying volatility
+        # 3) Underlying volatility
         #
         
         # homogenize underlying volatility in input
@@ -345,7 +312,7 @@ class EuropeanOption:
             warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
         
         # 
-        # 5) Short-rate
+        # 4) Short-rate
         #
         
         # homogenize short-rate in input
@@ -368,16 +335,16 @@ class EuropeanOption:
             
             coord_params = coordinate(x=S, y=tau, 
                                       x_name="S", y_name="tau",
-                                      others_scalar={"K": K, "sigma": sigma, "r": r}, 
+                                      others_scalar={"sigma": sigma, "r": r}, 
                                       np_output=np_output, 
                                       col_labels=S, ind_labels=time_param) 
             
-        # Case 1: S (or K) and/or tau iterable parameters
+        # Case 1: S and/or tau iterable parameters
         #
-        # make S (or K) and tau coordinated np.ndarray or pd.DataFrames
-        # creating a (S,tau) or (K,tau) grid if both are iterable, 
-        # with sigma, K (or S) and r coordinated accordingly
-        elif iterable_S_or_K or iterable_tau:
+        # make S and tau coordinated np.ndarray or pd.DataFrames
+        # creating a (S,tau) grid if both are iterable, 
+        # with sigma and r coordinated accordingly
+        elif iterable_S or iterable_tau:
             
             scalar_params = {}
             vector_params = {}
@@ -391,71 +358,61 @@ class EuropeanOption:
                 vector_params["r"] = r
             else:
                 scalar_params["r"] = r
-
-            # if S is iterable and K is scalar, the column-dimension is spanned by S
-            if iterable_S_not_K:           
-                x=S
-                x_name="S"
-                x_col=S
-                scalar_params["K"] = K
                 
-            # if K is iterable and S is scalar, the column-dimension is spanned by K
-            else:
-                x=K
-                x_name="K"
-                x_col=K
-                scalar_params["S"] = S
-
-            coord_params = coordinate(x=x, y=tau, 
-                                      x_name=x_name, y_name="tau",
+            coord_params = coordinate(x=S, y=tau, 
+                                      x_name="S", y_name="tau",
                                       others_scalar=scalar_params, 
                                       others_vector=vector_params,
                                       np_output=np_output, 
-                                      col_labels=x_col, ind_labels=time_param)   
+                                      col_labels=S, ind_labels=time_param)   
                         
         # case 2: sigma and/or r are iterable 1-dim vectors 
-        #         and S, K and tau are both scalar
+        #         and S and tau are both scalar
         elif iterable_sigma or iterable_r:
             
             # case 2.1: sigma and r are iterable 1-dim vectors
             #
             # make r and sigma coordinated np.ndarray or pd.DataFrames
-            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
+            # creating a (r,sigma) grid and S and tau coordinated accordingly
             if iterable_sigma and iterable_r:
                 coord_params = coordinate(x=r, y=sigma, 
                                           x_name="r", y_name="sigma",
-                                          others_scalar={"S": S, "K": K, "tau": tau}, 
+                                          others_scalar={"S": S, "tau": tau}, 
                                           np_output=np_output, 
                                           col_labels=r, ind_labels=sigma)   
 
             # case 2.2: sigma is a 1-dim vector and r is scalar
             #
             # make S and sigma coordinated np.ndarray or pd.DataFrames
-            # and K, tau and r coordinated accordingly
+            # and tau and r coordinated accordingly
             elif iterable_sigma:
                 coord_params = coordinate(x=S, y=sigma, 
                                           x_name="S", y_name="sigma",
-                                          others_scalar={"K": K, "tau": tau, "r": r}, 
+                                          others_scalar={"tau": tau, "r": r}, 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=sigma)   
 
             # case 2.3: r is a 1-dim vector and sigma is scalar
             #
             # make S and r coordinated np.ndarray or pd.DataFrames
-            # and K, tau and sigma coordinated accordingly
+            # and tau and sigma coordinated accordingly
             elif iterable_r:
                 coord_params = coordinate(x=S, y=r, 
                                           x_name="S", y_name="r",
-                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
+                                          others_scalar={"tau": tau, "sigma": sigma}, 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=r)
 
-        # return coordinated parameters
-        return {"S": coord_params["S"], 
-                "K": coord_params["K"],
-                "tau": coord_params["tau"], 
-                "sigma": coord_params["sigma"], 
-                "r": coord_params["r"], 
+        # get coordinated parameters
+        S = coord_params["S"]
+        tau = coord_params["tau"]
+        sigma = coord_params["sigma"]
+        r = coord_params["r"]
+
+        return {"S": S, 
+                "tau": tau, 
+                "sigma": sigma, 
+                "r": r, 
                 "np_output": np_output}
       
     def d1_and_d2(self, *args, **kwargs):
@@ -498,36 +455,28 @@ class EuropeanOption:
         Usage example: 
             - example_options_1.py
             - example_options_2.py
-        Can be called using (underlying, strike-price), where:
+        Can be called using (underlying), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
         
             - Empty: .get_S() is used,
             - A number (e.g. S=100),
-            - A List of numbers (allowed only if parameter 'K' is a scalar)       
-
-        - strike-price can be specified as keyboard argument 'K'. 
-          It's value can be:
-        
-            - Empty: .get_K() is used,
-            - A number (e.g. K=100),
-            - A List of numbers (allowed only if parameter 'S' is a scalar)       
+            - A List of numbers        
         """
         
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
         
-        # underlying value and strike price
+        # underlying value
         S = param_dict["S"]
-        K = param_dict["K"]
                 
         # call case
         if self.get_type() == 'call':
-            return self.call_payoff(S=S, K=K)
+            return self.call_payoff(S)
         # put case
         else:
-            return self.put_payoff(S=S, K=K)
+            return self.put_payoff(S)
                 
     def price(self, *args, **kwargs):
         """
@@ -536,22 +485,15 @@ class EuropeanOption:
             - example_options_1.py
             - example_options_2.py
         If tau==0, returns the payoff of the option, otherwise the price.                 
-        Can be called using (underlying, strike-price, time-parameter, sigma, short-rate), where:
+        Can be called using (underlying, time-parameter, sigma, short-rate), where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
         
             - Empty: .get_S() is used,
             - A number (e.g. S=100),
-            - A List of numbers (allowed only if parameter 'K' is a scalar)       
-
-        - strike-price can be specified as keyboard argument 'K'. 
-          It's value can be:
-        
-            - Empty: .get_K() is used,
-            - A number (e.g. K=100),
-            - A List of numbers (allowed only if parameter 'S' is a scalar)       
-
+            - A List of numbers
+            
         - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
           It's value can be:
         
@@ -578,11 +520,10 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity, volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
@@ -606,15 +547,15 @@ class EuropeanOption:
         # call case
         if self.get_type() == 'call':
             # tau > 0 case
-            price[tau_pos] = self.call_price(S=S[tau_pos], K=K[tau_pos], tau=tau[tau_pos], sigma=sigma[tau_pos], r=r[tau_pos])
+            price[tau_pos] = self.call_price(S[tau_pos], tau[tau_pos], sigma[tau_pos], r[tau_pos])
             # tau == 0 case
-            price[~tau_pos] = self.call_payoff(S=S[~tau_pos], K=K[~tau_pos])  
+            price[~tau_pos] = self.call_payoff(S[~tau_pos])  
         # put case
         else:
             # tau > 0 case
-            price[tau_pos] = self.put_price(S=S[tau_pos], K=K[tau_pos], tau=tau[tau_pos], sigma=sigma[tau_pos], r=r[tau_pos])
+            price[tau_pos] = self.put_price(S[tau_pos], tau[tau_pos], sigma[tau_pos], r[tau_pos])
             # tau == 0 case
-            price[~tau_pos] = self.put_payoff(S=S[~tau_pos], K=K[~tau_pos])  
+            price[~tau_pos] = self.put_payoff(S[~tau_pos])  
             
         return price
 
@@ -782,21 +723,21 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity, volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
+        np_output = param_dict["np_output"]
                 
         # call case
         if self.get_type() == 'call':
-            return self.call_delta(S=S, K=K, tau=tau, sigma=sigma, r=r)
+            return self.call_delta(S, tau, sigma, r)
         # put case
         else:
-            return self.put_delta(S=S, K=K, tau=tau, sigma=sigma, r=r)
+            return self.put_delta(S, tau, sigma, r)
 
     def theta(self, *args, **kwargs):
         """
@@ -814,24 +755,24 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
+        np_output = param_dict["np_output"]
         
         # rescaling factor
         rescaling_factor = kwargs["factor"] if "factor" in kwargs else 1.0/365.0
                 
         # call case
         if self.get_type() == 'call':
-            return self.call_theta(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.call_theta(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_theta(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.put_theta(S, tau, sigma, r) * rescaling_factor
 
     def gamma(self, *args, **kwargs):
         """
@@ -846,21 +787,21 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
+        np_output = param_dict["np_output"]
                 
         # call case
         if self.get_type() == 'call':
-            return self.call_gamma(S=S, K=K, tau=tau, sigma=sigma, r=r)
+            return self.call_gamma(S, tau, sigma, r)
         # put case
         else:
-            return self.put_gamma(S=S, K=K, tau=tau, sigma=sigma, r=r)
+            return self.put_gamma(S, tau, sigma, r)
           
     def vega(self, *args, **kwargs):
         """
@@ -878,24 +819,24 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
+        np_output = param_dict["np_output"]
                 
         # rescaling factor
         rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
 
         # call case
         if self.get_type() == 'call':
-            return self.call_vega(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.call_vega(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_vega(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.put_vega(S, tau, sigma, r) * rescaling_factor
 
     def rho(self, *args, **kwargs):
         """
@@ -913,24 +854,24 @@ class EuropeanOption:
         """
                        
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         sigma = param_dict["sigma"]
         r = param_dict["r"]
+        np_output = param_dict["np_output"]
                 
         # rescaling factor
         rescaling_factor = kwargs["factor"] if "factor" in kwargs else 0.01
 
         # call case
         if self.get_type() == 'call':
-            return self.call_rho(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.call_rho(S, tau, sigma, r) * rescaling_factor
         # put case
         else:
-            return self.put_rho(S=S, K=K, tau=tau, sigma=sigma, r=r) * rescaling_factor
+            return self.put_rho(S, tau, sigma, r) * rescaling_factor
 
 #-----------------------------------------------------------------------------#
         
@@ -1024,16 +965,16 @@ class PlainVanillaOption(EuropeanOption):
     # Public methods
     # 
     
-    def call_payoff(self, S, K):
+    def call_payoff(self, S):
         """Plain-Vanilla call option payoff
         """
         # Function np.maximum(arr, x) returns the array of the maximum 
         # between each element of arr and x
-        return np.maximum(S-K, 0.0)
+        return np.maximum(S - self.get_K(), 0.0)
 
-    def put_payoff(self, S, K):
+    def put_payoff(self, S):
         """Plain-Vanilla put option payoff"""
-        return np.maximum(K-S, 0.0)
+        return np.maximum(self.get_K() - S, 0.0)
         
     def price_upper_limit(self, *args, **kwargs):
         """
@@ -1062,28 +1003,27 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
         
-        # underlying value, strike-price, time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         r = param_dict["r"]
 
         if self.get_type() == 'call':
             # call case
-            return self.call_price_upper_limit(S=S)
+            return self.call_price_upper_limit(S)
         else:
             # put case
-            return self.put_price_upper_limit(S=S, K=K, tau=tau, r=r)
+            return self.put_price_upper_limit(S, tau, r)
             
     def call_price_upper_limit(self, S):
         """Plain-Vanilla call option price upper limit"""
         return S
     
-    def put_price_upper_limit(self, S, K, tau, r):
+    def put_price_upper_limit(self, S, tau, r):
         """Plain-Vanilla call option price upper limit"""
-        return K*np.exp(-r * tau)
+        return self.get_K()*np.exp(-r * tau)
 
     def price_lower_limit(self, *args, **kwargs):
         """
@@ -1114,51 +1054,53 @@ class PlainVanillaOption(EuropeanOption):
         """
 
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
 
-        # underlying value, strike-price, time-to-maturity and short-rate
+        # underlying value, time-to-maturity and short-rate
         S = param_dict["S"]
-        K = param_dict["K"]
         tau = param_dict["tau"]
         r = param_dict["r"]
                                        
         # call case
         if self.get_type() == 'call':
-            return self.call_price_lower_limit(S=S, K=K, tau=tau, r=r)
+            return self.call_price_lower_limit(S, tau, r)
         # put case
         else:
-            return self.put_price_lower_limit(S=S, K=K, tau=tau, r=r)
+            return self.put_price_lower_limit(S, tau, r)
             
-    def call_price_lower_limit(self, S, K, tau, r):
+    def call_price_lower_limit(self, S, tau, r):
         """Plain-Vanilla call option price lower limit"""
         # Function np.maximum(arr, x) returns the array of the maximum 
         # between each element of arr and x
-        return np.maximum(S - K*np.exp(-r * tau), 0.0)
+        return np.maximum(S - self.get_K()*np.exp(-r * tau), 0.0)
         
-    def put_price_lower_limit(self, S, K, tau, r):
+    def put_price_lower_limit(self, S, tau, r):
         """Plain-Vanilla put option price lower limit"""
-        return np.maximum(K*np.exp(-r * tau) - S, 0.0)
+        return np.maximum(self.get_K()*np.exp(-r * tau) - S, 0.0)
                                                  
-    def call_price(self, S, K, tau, sigma, r):
+    def call_price(self, S, tau, sigma, r):
         """"Plain-Vanilla call option price """
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # get strike price    
+        K = self.get_K()
+        
         # compute price
         price = S * stats.norm.cdf(d1, 0.0, 1.0) - K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
                            
         return price
     
-    def put_price(self, S, K, tau, sigma, r):
+    def put_price(self, S, tau, sigma, r):
         """ Plain-Vanilla put option price from Put-Call parity relation: Call + Ke^{-r*tau} = Put + S"""
-        return self.call_price(S=S, K=K, tau=tau, sigma=sigma, r=r) + K * np.exp(-r * tau) - S     
+        return self.call_price(S, tau, sigma, r) + self.get_K() * np.exp(-r * tau) - S     
     
-    def call_delta(self, S, K, tau, sigma, r):
+    def call_delta(self, S, tau, sigma, r):
         """"Plain-Vanilla call option Delta """
         
         # get d1 term
-        d1, _ = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute delta
         delta = stats.norm.cdf(d1, 0.0, 1.0)
@@ -1169,82 +1111,94 @@ class PlainVanillaOption(EuropeanOption):
                            
         return delta
 
-    def put_delta(self, S, K, tau, sigma, r):
+    def put_delta(self, S, tau, sigma, r):
         """"Plain-Vanilla put option Delta """
         
-        return self.call_delta(S=S, K=K, tau=tau, sigma=sigma, r=r) - 1.0
+        return self.call_delta(S, tau, sigma, r) - 1.0
 
-    def call_theta(self, S, K, tau, sigma, r):
+    def call_theta(self, S, tau, sigma, r):
         """"Plain-Vanilla call option Theta """
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # get strike price    
+        K = self.get_K()
+        
         # compute theta
         theta = - (S * sigma * stats.norm.pdf(d1, 0.0, 1.0) / (2.0 * np.sqrt(tau))) - r * K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
                            
         return theta
 
-    def put_theta(self, S, K, tau, sigma, r):
+    def put_theta(self, S, tau, sigma, r):
         """"Plain-Vanilla put option Theta """
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
+
+        # get strike price    
+        K = self.get_K()
 
         # compute theta
         theta = - (S * sigma * stats.norm.pdf(d1, 0.0, 1.0) / (2.0 * np.sqrt(tau))) + r * K * np.exp(-r * tau) * stats.norm.cdf(-d2, 0.0, 1.0)
         
         return theta
 
-    def call_gamma(self, S, K, tau, sigma, r):
+    def call_gamma(self, S, tau, sigma, r):
         """"Plain-Vanilla call option Gamma """
         
         # get d1 term
-        d1, _ = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute gamma
         gamma = stats.norm.pdf(d1, 0.0, 1.0) / (S * sigma * np.sqrt(tau))
         
         return gamma
         
-    def put_gamma(self, S, K, tau, sigma, r):
+    def put_gamma(self, S, tau, sigma, r):
         """"Plain-Vanilla put option Gamma """
         
-        return self.call_gamma(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        return self.call_gamma(S, tau, sigma, r)
 
-    def call_vega(self, S, K, tau, sigma, r):
+    def call_vega(self, S, tau, sigma, r):
         """"Plain-Vanilla call option vega """
         
         # get d1 term
-        d1, _ = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, _ = self.d1_and_d2(S, tau, sigma=sigma, r=r)
         
         # compute vega
         vega = S * np.sqrt(tau) * stats.norm.pdf(d1, 0.0, 1.0)
                            
         return vega
     
-    def put_vega(self, S, K, tau, sigma, r):
+    def put_vega(self, S, tau, sigma, r):
         """Plain-Vanilla put option vega """
         
-        return self.call_vega(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        return self.call_vega(S, tau, sigma, r)
         
-    def call_rho(self, S, K, tau, sigma, r):
+    def call_rho(self, S, tau, sigma, r):
         """"Plain-Vanilla call option Rho """
         
         # get d2 term
-        _, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # get strike price    
+        K = self.get_K()
+        
         # compute rho
         rho = tau * K * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
         
         return rho
 
-    def put_rho(self, S, K, tau, sigma, r):
+    def put_rho(self, S, tau, sigma, r):
         """Plain-Vanilla put option Rho """
 
         # get d2 term
-        _, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
+        # get strike price    
+        K = self.get_K()
+        
         # compute rho
         rho = - tau * K * np.exp(-r * tau) * stats.norm.cdf(-d2, 0.0, 1.0)
         
@@ -1355,18 +1309,18 @@ class DigitalOption(EuropeanOption):
     # Public methods
     # 
     
-    def call_payoff(self, S, K):
+    def call_payoff(self, S):
         """ CON call option payoff"""
         # Function np.heaviside(arr, x) returns:
         #        
         #    0 if arr < 0
         #    x if arr == 0
         #    1 if arr > 0
-        return np.heaviside(S-K, 0.0)
+        return np.heaviside(S - self.get_K(), 0.0)
         
-    def put_payoff(self, S, K):
+    def put_payoff(self, S):
         """ CON put option payoff"""
-        return np.heaviside(K-S, 1.0)
+        return np.heaviside(self.get_K() - S, 1.0)
         
     def price_upper_limit(self, *args, **kwargs):
         """
@@ -1397,9 +1351,9 @@ class DigitalOption(EuropeanOption):
         """
 
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
         
-        # time-to-maturity volatility and short-rate
+        # underlying value, time-to-maturity and short-rate
         tau = param_dict["tau"]
         r = param_dict["r"]
         
@@ -1420,7 +1374,7 @@ class DigitalOption(EuropeanOption):
        """
 
         # process input parameters
-        param_dict = self.process_pricing_parameters(*args, **kwargs)
+        param_dict = self.process_input_parameters(*args, **kwargs)
         
         # underlying value
         S = param_dict["S"]
@@ -1428,114 +1382,114 @@ class DigitalOption(EuropeanOption):
         # the same for call and put
         return 0.0*S
        
-    def call_price(self, S, K, tau, sigma, r):
+    def call_price(self, S, tau, sigma, r):
         """ CON call option Black-Scholes price"""
                 
         Q = self.get_Q()
         
         # get d2 term
-        _, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute price
         price = Q * np.exp(-r * tau) * stats.norm.cdf(d2, 0.0, 1.0)
 
         return price
     
-    def put_price(self, S, K, tau, sigma, r):
+    def put_price(self, S, tau, sigma, r):
         """ CON put option price from Put-Call parity relation: CON_Call + CON_Put = Qe^{-r*tau}"""
-        return self.get_Q() * np.exp(- r * tau) - self.call_price(S=S, K=K, tau=tau, sigma=sigma, r=r)        
+        return self.get_Q() * np.exp(- r * tau) - self.call_price(S, tau, sigma, r)        
 
-    def call_delta(self, S, K, tau, sigma, r):
+    def call_delta(self, S, tau, sigma, r):
         """ CON call option Black-Scholes Delta"""
                 
         Q = self.get_Q()
         
         # get d2 term
-        _, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute delta
         delta = Q * np.exp(-r * tau) * stats.norm.pdf(d2, 0.0, 1.0) / (S * sigma * np.sqrt(tau))
 
         return delta
 
-    def put_delta(self, S, K, tau, sigma, r):
+    def put_delta(self, S, tau, sigma, r):
         """ CON put option Black-Scholes Delta"""
         
-        return - self.call_delta(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        return - self.call_delta(S, tau, sigma, r)
 
-    def call_theta(self, S, K, tau, sigma, r):
+    def call_theta(self, S, tau, sigma, r):
         """ CON call option Black-Scholes Theta"""
                 
         Q = self.get_Q()
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute theta
         theta = Q * np.exp(- r * tau) * (((d1 * sigma * np.sqrt(tau) - 2.0 * r *tau)/(2.0 * sigma * tau * np.sqrt(tau))) * stats.norm.pdf(d2, 0.0, 1.0) + r * stats.norm.cdf(d2, 0.0, 1.0))
 
         return theta
 
-    def put_theta(self, S, K, tau, sigma, r):
+    def put_theta(self, S, tau, sigma, r):
         """ CON put option Black-Scholes Theta"""
         
         Q = self.get_Q()
 
-        return - self.call_theta(S=S, K=K, tau=tau, sigma=sigma, r=r) + r * Q * np.exp(- r * tau)
+        return - self.call_theta(S, tau, sigma, r) + r * Q * np.exp(- r * tau)
 
-    def call_gamma(self, S, K, tau, sigma, r):
+    def call_gamma(self, S, tau, sigma, r):
         """ CON call option Black-Scholes Gamma"""
                 
         Q = self.get_Q()
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute gamma
         gamma = - (d1 * Q * np.exp(- r * tau) * stats.norm.pdf(d2, 0.0, 1.0)) / (S*S * sigma*sigma * tau)
 
         return gamma
 
-    def put_gamma(self, S, K, tau, sigma, r):
+    def put_gamma(self, S, tau, sigma, r):
         """ CON put option Black-Scholes Gamma"""
         
-        return - self.call_gamma(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        return - self.call_gamma(S, tau, sigma, r)
     
-    def call_vega(self, S, K, tau, sigma, r):
+    def call_vega(self, S, tau, sigma, r):
         """ CON call option Black-Scholes Vega"""
                 
         Q = self.get_Q()
         
         # get d1 and d2 terms
-        d1, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        d1, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute vega
         vega = - (d1 * Q * np.exp(- r * tau) * stats.norm.pdf(d2, 0.0, 1.0)) / (sigma)
 
         return vega
     
-    def put_vega(self, S, K, tau, sigma, r):
+    def put_vega(self, S, tau, sigma, r):
         """ CON put option Black-Scholes Vega"""
         
-        return - self.call_vega(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        return - self.call_vega(S, tau, sigma, r)
     
-    def call_rho(self, S, K, tau, sigma, r):
+    def call_rho(self, S, tau, sigma, r):
         """CON call option Rho """
         
         Q = self.get_Q()
         
         # get d2 term
-        _, d2 = self.d1_and_d2(S=S, K=K, tau=tau, sigma=sigma, r=r)
+        _, d2 = self.d1_and_d2(S, tau, sigma=sigma, r=r)
 
         # compute rho
         rho = Q * np.exp(- r * tau) * (((np.sqrt(tau) * stats.norm.pdf(d2, 0.0, 1.0))/(sigma)) - tau * stats.norm.cdf(d2, 0.0, 1.0))
 
         return rho
 
-    def put_rho(self, S, K, tau, sigma, r):
+    def put_rho(self, S, tau, sigma, r):
         """Plain-Vanilla put option Rho """
         
         Q = self.get_Q()
 
-        return - self.call_rho(S=S, K=K, tau=tau, sigma=sigma, r=r) - tau * Q * np.exp(- r * tau)
+        return - self.call_rho(S, tau, sigma, r) - tau * Q * np.exp(- r * tau)
 

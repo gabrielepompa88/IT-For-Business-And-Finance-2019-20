@@ -21,6 +21,7 @@ def option_factory(mkt_env, plain_or_digital, option_type, **kwargs):
 def options_parameters_factory(parameter_name):
     
     param_dict = {"S": np.linspace(50, 140, 1000), 
+                  "K": np.linspace(50, 140, 1000),
                   "tau": np.linspace(0.0,1.7,1000)[::-1],
                   "sigma": np.linspace(0.001, 0.6, 1000),
                   "r": np.linspace(0.0, 0.1, 1000)}
@@ -59,7 +60,7 @@ def main():
     print(option)
 
     # select dependency type
-    for dependency_type in ["S", "tau", "sigma", "r"]:
+    for dependency_type in ["S", "K", "tau", "sigma", "r"]:
           
         # keyboard parameter and corresponding range to test
         param = options_parameters_factory(dependency_type)
