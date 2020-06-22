@@ -21,7 +21,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [EXAMS](#exam_info)
-  - [I Exam - Summer Term](#class_schedule)
+  - [I Exam - Summer Term](#I_Exam_Summer_Term)
+  - [II Exam - Summer Term](#II_Exam_Summer_Term)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
 - [Class Diary](#class_diary)
@@ -36,13 +37,13 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
 
-- &#x1F534; **Exam dates**: these below are the exam dates of the IT for Business and Finance course for summer/fall terms:
+- **Exam dates**: these below are the exam dates of the IT for Business and Finance course for summer/fall terms:
   - Summer term – 1st session: Thursday **June 4th, 2020** h 10:30 – 12:30
   - Summer term – 2nd session: Monday **June 29th, 2020** h 10:30 – 12:30
   - Fall term – 1st session: Tuesday **September 1st, 2020** h 10:30 – 12:30
   - Fall term – 2nd session: Friday **September 18th**, 2020 h 10:30 -12:30
  
-# &#x1F534; EXAMS <a name="exam_info"></a>
+# EXAMS <a name="exam_info"></a>
 
 For additional informations see _Exams_ section of [Moodle page for IT for Business and Finance class](https://elearning.unisi.it/course/view.php?id=3326)
 
@@ -90,8 +91,10 @@ Upon suggestions, you may do some extra work and prepare a financial project . T
   - The project might be helpful for exam preparation and, in particular, for your future to show off your ability (to recruiters and/or hiring managers);
   - The project shall take the form of the development of a personal GitHub repository, on the footprints of the class one;
   - I will be happy (write me to take an appointment) to discuss with you project topics of mutual interest and to help you with the project;
-  
-## I Exam - Summer Term <a name="class_schedule"></a> 
+
+For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
+
+## I Exam - Summer Term <a name="I_Exam_Summer_Term"></a> 
 
 Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
 
@@ -102,7 +105,16 @@ Exam sheet: I_Exam_Summer_Term.ipynb (you'll find it attached by the beginning o
 Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
 Registrations are now open and will close on Monday June 1st, 2020.
 
-For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
+## &#x1F534; II Exam - Summer Term <a name="II_Exam_Summer_Term"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=106971](https://elearning.unisi.it/mod/assign/view.php?id=106971)
+
+_Exam Schedule_
+
+Exam timing: Monday June 29th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+Exam sheet: II_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
+Registrations are now open and will close on Friday June 26th, 2020.
 
 ---
 
