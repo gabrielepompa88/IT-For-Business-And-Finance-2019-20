@@ -101,9 +101,12 @@ Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearni
 _Exam Schedule_
 
 Exam timing: Thursday June 4th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+
 Exam sheet: I_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+
 Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
-Registrations are now open and will close on Monday June 1st, 2020.
+
+Registrations are closed.
 
 ## &#x1F534; II Exam - Summer Term <a name="II_Exam_Summer_Term"></a> 
 
@@ -112,8 +115,11 @@ Exam: [https://elearning.unisi.it/mod/assign/view.php?id=106971](https://elearni
 _Exam Schedule_
 
 Exam timing: Monday June 29th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+
 Exam sheet: II_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+
 Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
+
 Registrations are now open and will close on Friday June 26th, 2020.
 
 ---
