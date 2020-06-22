@@ -48,7 +48,7 @@ For additional informations see _Exams_ section of [Moodle page for IT for Busin
 
 _General Informations_
 
-On the exam date, at the beginning of the exam time window ([next exam: Thursday June 4th, 2020 at 10:30, Rome time](https://elearning.unisi.it/mod/assign/view.php?id=104104)), you will find attached an exam sheet to the specific exam activity section (next: [I Exam - Summer Term](https://elearning.unisi.it/mod/assign/view.php?id=104104));
+On the exam date, at the beginning of the exam time window ([next exam: Monday June 29th, 2020 at 10:30, Rome time](https://elearning.unisi.it/mod/assign/view.php?id=106971), you will find attached an exam sheet to the specific exam activity section (next: [II Exam - Summer Term](https://elearning.unisi.it/mod/assign/view.php?id=106971);
 The exam sheet is a Jupyter Notebook with questions/exercises and empty Code cells for your answers. A Jupyter Notebook is a file with .ipynb extension. It is the kind of file on which lecture notes have been delivered so far, so you should be already familiar with this (see Prerequisites);
 
 _Operational Instructions_
