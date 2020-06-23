@@ -1,4 +1,7 @@
 import pandas as pd
+import warnings
+
+warnings.filterwarnings("ignore")
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
@@ -16,6 +19,15 @@ def option_factory(mkt_env, plain_or_digital, option_type):
     }
             
     return option_dispatcher[plain_or_digital][option_type]
+
+def options_x_axis_parameters_factory(option, parameter_name):
+    
+    param_dict = {"S": option.get_S(), 
+                  "K": option.get_K(),
+                  "sigma": option.get_sigma(),
+                  "r": option.get_r()}
+    
+    return {parameter_name: param_dict[parameter_name]}
 
 def get_time_parameter(option, kind='date'):
     
@@ -61,26 +73,41 @@ def main():
     # valuation date of the option
     emission_date = option.get_t()
             
-    # select metrics to plot
-    for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
-        
-        for time_kind in ['date', 'tau']:
+    # select dependency to plot as x-axis of the plot
+    #
+    # multi-time plot (like a surface plot) available only if S or K parameters are chosen for x-axis.
+    # This, because if S/K and/or t/tau is a vector, sigma/r are interpreted as pricing parameters
+    # to be distributed along the vector dimension(s). This requires their length and/or shape
+    # to match the vectorial one. See EuropeanOption.price() docstring
+    for dependency_type in ["S", "K"]:
 
-            # set time-parameter to plot
-            multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
-            print(multiple_valuation_dates)
-                    
-            # Surface plot
-            plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
-                         surf_plot=True)
-        
-            # Surface plot (rotate) - Underlying value side
-            plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
-                         surf_plot=True, view=(0,180))
-        
-            # Price surface plot (rotate) - Date side
-            plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics, 
-                         surf_plot=True, view=(0,-90))
+        # keyboard parameter and corresponding range to test
+        x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    
+
+        # select metrics to plot
+        for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+            
+            for time_kind in ['date', 'tau']:
+    
+                # set time-parameter to plot
+                multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
+                print(multiple_valuation_dates)
+                        
+                # Surface plot
+                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                             plot_metrics=plot_metrics, surf_plot=True)
+                            
+                # Surface plot (rotate) - x-axis side
+                azimut_angle = 180 if dependency_type == 'S' else -90
+                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                             plot_metrics=plot_metrics, surf_plot=True, 
+                             view=(0,azimut_angle))
+            
+                # Price surface plot (rotate) - Date side
+                azimut_angle = -90 if dependency_type == 'S' else 180
+                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                             plot_metrics=plot_metrics, surf_plot=True, 
+                             view=(0,azimut_angle))
             
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

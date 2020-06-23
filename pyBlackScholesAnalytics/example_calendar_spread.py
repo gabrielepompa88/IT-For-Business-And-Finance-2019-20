@@ -1,4 +1,7 @@
 import pandas as pd
+import warnings
+
+warnings.filterwarnings("ignore")
 
 from market.market import MarketEnvironment
 from portfolio.portfolio import Portfolio

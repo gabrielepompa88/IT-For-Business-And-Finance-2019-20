@@ -95,9 +95,9 @@ def main():
                          plot_metrics=plot_metrics, plot_details=plot_details_flag)
             
             # multi-time plot available only if S or K parameters are chosen for x-axis.
-            # This, because if t/tau is a vector, sigma/r are expected to be either scalar
-            # or vectors with shape constrained to be the same of the t/tau shape 
-            # to be distributed accordigly. See EuropeanOption.price() docstring
+            # This, because if S/K and/or t/tau is a vector, sigma/r are interpreted as pricing parameters
+            # to be distributed along the vector dimension(s). This requires their length and/or shape
+            # to match the vectorial one. See EuropeanOption.price() docstring
             if dependency_type in ["S", "K"]:
     
                 for time_kind in ['date', 'tau']:

@@ -411,11 +411,19 @@ class OptionPlotter(Plotter):
         # calling the Plotter initializer
         super(OptionPlotter, self).__init__(*args, **kwargs)
                                                                 
-    def plot_surf(self, S, times, time_labels, plot_metrics, view):
+    def plot_surf(self, x_axis_dict, times, time_labels, plot_metrics, view):
         """
         Plot FinancialInstrument values as a surface of underlying value(s) and multiple dates.
         """
         
+        # identifier of the x-axis
+        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
+        if x_id not in ["S", "K"]:
+            raise NotImplementedError(".plot_surf() availabe only for S or K x-axis variables. Given: " + x_id)
+        
+        # x-axis values
+        x = x_axis_dict[x_id]
+
         # number of times-to-maturity considered
         n_times = len(times)
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,n_times)))
@@ -435,34 +443,42 @@ class OptionPlotter(Plotter):
         times_dense_numeric = date_to_number(times_dense)
         
         # precompute surface (exploiting vectorization)
-        surface_metrics = getattr(self.fin_inst, plot_metrics)(S, times_dense, np_output=False)
+        surface_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': times_dense}, np_output=False)
                 
         # grid points, if needed convert dates to numeric representation for plotting
-        underlying_grid, time_grid = np.meshgrid(surface_metrics.columns, times_dense_numeric)
+        x_axis_grid, time_grid = np.meshgrid(surface_metrics.columns, times_dense_numeric)
                 
         # surface plot
-        surf = ax.plot_surface(underlying_grid, time_grid, surface_metrics.values.astype('float64'), rstride=2, cstride=2,
+        surf = ax.plot_surface(x_axis_grid, time_grid, surface_metrics.values.astype('float64'), rstride=2, cstride=2,
                                cmap=plt.cm.Blues, linewidth=0.5, antialiased=True, zorder=1)
                 
         # plot the price for different underlying values, one line for each different date
         plt.gca().set_prop_cycle(None)
         for i in range(n_times):
-            ax.plot(S, np.repeat(times_numeric[i], repeats=len(S)), surface_metrics.loc[times[i],:], '-', lw=1.5, 
+            ax.plot(x, np.repeat(times_numeric[i], repeats=len(x)), surface_metrics.loc[times[i],:], '-', lw=1.5, 
                     label=time_labels[i], zorder=1+i+1)
             
-        # precompute S_t level metrics (exploiting vectorization)
-        S_t = self.fin_inst.get_S()
-        S_t_level_metrics = getattr(self.fin_inst, plot_metrics)(S_t, times)
-        S_t_level_metrics_dense = getattr(self.fin_inst, plot_metrics)(S_t, times_dense)
+        # precompute emission level metrics (exploiting vectorization)
+        if x_id == 'S':
+            x_emission = self.fin_inst.get_S()
+        elif x_id == 'K':
+            x_emission = self.fin_inst.get_K()
+        elif x_id == 'sigma':
+            x_emission = self.fin_inst.get_sigma()
+        elif x_id == 'r':
+            x_emission = self.fin_inst.get_r()
+        
+        emission_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': times})
+        emission_metrics_dense = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': times_dense})
 
         # blue dot at original underlying level for reference
-        ax.plot(S_t + np.zeros(n_times), times_numeric, S_t_level_metrics, 'b.', ms=10, 
-                label=r"Emission level $S={:.1f}$".format(S_t), zorder=1+i+2)
-        ax.plot(S_t + np.zeros(n_times_dense), times_dense_numeric, S_t_level_metrics_dense, 'b--', lw=1.5, zorder=1+i+2)
+        ax.plot(x_emission + np.zeros(n_times), times_numeric, emission_metrics, 'b.', ms=10, 
+                label=r"Emission level $" + x_id + r"={:.2f}$".format(x_emission), zorder=1+i+2)
+        ax.plot(x_emission + np.zeros(n_times_dense), times_dense_numeric, emission_metrics_dense, 'b--', lw=1.5, zorder=1+i+2)
 
         # plot the red payoff line for different underlying values
         if plot_metrics in ['price', 'PnL']:
-            ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), getattr(self.fin_inst, plot_metrics)(S,tau=0.0), 'r-',  lw=1.5, 
+            ax.plot(x, np.repeat(times_dense_numeric[-1], repeats=len(x)), getattr(self.fin_inst, plot_metrics)(x_axis_dict,tau=0.0), 'r-',  lw=1.5, 
                     label=plot_metrics + r" at maturity (" + self.fin_inst.get_docstring('payoff') + r")", zorder=1+i+3)
         
         # plot a dot to highlight the strike position and a reference zero line
@@ -480,7 +496,7 @@ class OptionPlotter(Plotter):
         ax.set_yticklabels(time_labels)
         
         # set axis labels 
-        ax.set_xlabel(r"Underlying Value", fontsize=12) 
+        ax.set_xlabel(x_id, fontsize=12) 
         ax.set_ylabel(r"Date" if is_date(times) else r"Time-to-Maturity", fontsize=12)        
         ax.set_zlabel('Black-Scholes {}'.format(plot_metrics), fontsize=12) 
 
@@ -680,11 +696,19 @@ class PortfolioPlotter(Plotter):
         # setting the color cycle to plot constituent instruments reference lines
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.RdYlGn_r(np.linspace(0,1,len(self.fin_inst.get_composition()))))
 
-    def plot_surf(self, S, times, time_labels, plot_metrics, view):
+    def plot_surf(self, x_axis_dict, times, time_labels, plot_metrics, view):
         """
         Plot Portfolio values as a surface of underlying value(s) and multiple dates.
         """
         
+        # identifier of the x-axis
+        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
+        if x_id != 'S':
+            raise NotImplementedError(".plot_surf() for Portfolios availabe only for S x-axis variable. Given: " + x_id)
+        
+        # x-axis values
+        S = x_axis_dict[x_id]
+
         # number of times-to-maturity considered
         n_times = len(times)
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,n_times)))
@@ -735,14 +759,6 @@ class PortfolioPlotter(Plotter):
             if plot_metrics in ['price', 'PnL']:
                 ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), getattr(self.fin_inst, plot_metrics)(S,tau=0.0), 'r-',  lw=1.5, 
                         label=plot_metrics + r" at maturity", zorder=1+i+3)
-#            if plot_metrics == 'price':
-#                ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), self.fin_inst.payoff(S), 'r-',  lw=1.5, 
-#                        label=r"Payoff at maturity", zorder=1+i+3)
-#            elif plot_metrics == 'PnL':
-#                ax.plot(S, np.repeat(times_dense_numeric[-1], repeats=len(S)), self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, 
-#                        label=r"PnL at maturity", zorder=1+i+3)
-#            else:
-#                pass
             
         # plot a dot to highlight the strike position and a reference zero line
         for K in self.fin_inst.get_K():
@@ -789,11 +805,19 @@ class PortfolioPlotter(Plotter):
         fig.tight_layout()
         plt.show()
         
-    def plot_multi_time(self, S, times, time_labels, plot_metrics):
+    def plot_multi_time(self, x_axis_dict, times, time_labels, plot_metrics):
         """
         Plot Portfolio values against underlying value(s), possibly at multiple dates.
         """
         
+        # identifier of the x-axis
+        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
+        if x_id != 'S':
+            raise NotImplementedError(".plot_multi_time() for Portfolios availabe only for S x-axis variable. Given: " + x_id)
+        
+        # x-axis values
+        S = x_axis_dict[x_id]
+
         # number of times-to-maturity considered
         n_times = len(times)
 
@@ -847,54 +871,76 @@ class PortfolioPlotter(Plotter):
         fig.tight_layout()
         plt.show()
     
-    def plot_single_time(self, S, time, time_label, plot_metrics, plot_instruments_metrics):
+    def plot_single_time(self, x_axis_dict, time, time_label, plot_metrics, plot_instruments_metrics):
         """
         Plot Portfolio values against underlying value(s) at fixed date. 
         """
         
+        # identifier of the x-axis
+        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
+        
+        # x-axis values
+        x = x_axis_dict[x_id]
+
         # define the figure
         fig, ax = plt.subplots(figsize=(10,6))
         
-        # plot the price for different underlying values
-        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time), 'b-', lw=1.5, 
+        # plot the price for different x-axis values
+        ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': time}), 'b-', lw=1.5, 
                 label=time_label)
         
-        # blue dot at original underlying level for reference
-        S_t = self.fin_inst.get_S()
-        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time), 'b.', ms=15, 
-                label=r"Emission level $S={:.1f}$".format(S_t))
+        # precompute emission level metrics (exploiting vectorization)
+        if x_id == 'S':
+            x_emission = self.fin_inst.get_S()
+        elif x_id == 'K':
+            x_emission = self.fin_inst.get_K()
+        elif x_id == 'sigma':
+            x_emission = self.fin_inst.get_sigma()
+        elif x_id == 'r':
+            x_emission = self.fin_inst.get_r()
         
-        # plot the red payoff line for different underlying values
-        if not self.fin_inst.is_multi_horizon:
-            if plot_metrics == 'price':
-                ax.plot(S, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=r"Payoff at maturity")
-            elif plot_metrics == 'PnL':
-                ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=r"PnL at maturity")
-            else:
-                pass
-            
-        # optionally, plot the instruments details
-        if plot_instruments_metrics:
-            # loop over instruments in portfolio
-            for inst in self.fin_inst.get_composition():
-                position = inst["position"]
-                # discriminating between multi- and single-horizon portfolios
-                if self.fin_inst.is_multi_horizon:          
-                    # plot_metrics at current time
-                    ax.plot(S, position * getattr(inst["instrument"], plot_metrics)(S, time), '--', lw=1.5, 
-                        label=plot_metrics + r" " + inst["info"] + r" at " + time_label)
-                else:
-                    # plot_metrics at-maturity
-                    ax.plot(S, position * getattr(inst["instrument"], plot_metrics)(S, tau=0.0), '--', lw=1.5, 
-                        label=plot_metrics + r" " + inst["info"] + r" at maturity")
+        emission_metric = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': time})
 
-        # plot a dot to highlight the strike position and a reference zero line
-        strikes = self.fin_inst.get_K()
-        ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K={}$".format(strikes))
-        ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
+        # blue dot at original emission level of the x-axis for reference
+        ax.plot(x_emission, emission_metric, 'b.', ms=10,\
+                label=r"Emission level $" + x_id + r"={:.2f}$".format(x_emission))
+        
+        # part meaningful only if the x-axis is 'S' or 'K'
+        if x_id in ['S', 'K']:
+
+            # plot the red payoff line for different x-axis values
+            if (not self.fin_inst.is_multi_horizon) and plot_metrics in ['price', 'PnL']:
+                ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0}), 'r-',  lw=1.5, 
+                        label=plot_metrics + r" at maturity")
+#                if plot_metrics == 'price':
+#                    ax.plot(x, self.fin_inst.payoff(S), 'r-',  lw=1.5, label=r"Payoff at maturity")
+#                elif plot_metrics == 'PnL':
+#                    ax.plot(S, self.fin_inst.PnL(S, tau=0.0), 'r-',  lw=1.5, label=r"PnL at maturity")
+#                else:
+#                    pass
+                
+            # optionally, plot the instruments details
+            if plot_instruments_metrics:
+                # loop over instruments in portfolio
+                for inst in self.fin_inst.get_composition():
+                    position = inst["position"]
+                    # discriminating between multi- and single-horizon portfolios
+                    if self.fin_inst.is_multi_horizon:          
+                        # plot_metrics at current time
+                        ax.plot(x, position * getattr(inst["instrument"], plot_metrics)(**{x_id: x, 't': time}), '--', lw=1.5, 
+                            label=plot_metrics + r" " + inst["info"] + r" at " + time_label)
+                    else:
+                        # plot_metrics at-maturity
+                        ax.plot(x, position * getattr(inst["instrument"], plot_metrics)(**{x_id: x, 'tau': 0.0}), '--', lw=1.5, 
+                            label=plot_metrics + r" " + inst["info"] + r" at maturity")
+    
+            # plot a dot to highlight the strike position and a reference zero line
+            strikes = self.fin_inst.get_K()
+            ax.plot(strikes, np.zeros_like(strikes), 'k.', ms=15, label="Strikes $K={}$".format(strikes))
+            ax.plot(x, np.zeros_like(x), 'k--', lw=1.5)
 
         # set axis labels 
-        ax.set_xlabel(r"Underlying Value at " + time_label, fontsize=12)
+        ax.set_xlabel(x_id + r" at " + time_label, fontsize=12)
         ax.set_ylabel('Black-Scholes {}'.format(plot_metrics), fontsize=12) 
 
         # set title
