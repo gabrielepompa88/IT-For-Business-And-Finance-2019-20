@@ -722,10 +722,9 @@ class EuropeanOption:
                 # iteration counter update
                 iter_num += 1
                 
-            print(iter_num)
             print("\nTermination value for Sum of Relative Squared Residuals \
                   \nbetween n-th and (n+1)-th iteration solutions metric \
-                  \n(NaN excluded): {} (eps = {}). Iterations: {} \n"\
+                  \n(NaN excluded): {:.1E} (eps = {:.1E}). Iterations: {} \n"\
                   .format(SRSR, epsilon, iter_num))
         
         elif minimization_method == "Least-Squares":

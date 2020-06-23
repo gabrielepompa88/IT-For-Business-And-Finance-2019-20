@@ -96,70 +96,23 @@ class Plotter:
         Utility method to define the x-axis of the plot, optionally parsing x-axis in input.
         """
         
-        #
         # parsing optional parameters
-        #
-        
-        x = None
-        
-        # case 1: x-axis = S
-        if len(args) > 0 or 'S' in kwargs:
-            x_name = 'S'
-            if len(args) > 0:
-                x = args[0]
-            elif 'S' in kwargs:
-                x = kwargs[x_name]
-        
-        # other cases
-        else:
-            # case 2: x-axis = K
-            if 'K' in kwargs:
-                x_name = 'K'
-                x = kwargs[x_name]
-            # case 3: x-axis = sigma
-            elif 'sigma' in kwargs:
-                x_name = 'sigma'
-                x = kwargs[x_name]
-            # case 4: x-axis = r
-            elif 'r' in kwargs:
-                x_name = 'r'
-                x = kwargs[x_name]
-            
-        # case default: x-axis = S default
-        if x is None:
-            x_name = 'S'
-            x = self.get_x_axis()[x_name]
-        
-        # granularity of the axis
+        x = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_x_axis()
         n = kwargs['n'] if 'n' in kwargs else 100
         
-        #
-        # defining the x-axis
-        #
         
-        # Case x-axis = S or K
-        if x_name in ['S', 'K']:
-            # case 1: a list of x-points in input. The x-axis is a wide range, including x-points
-            if is_iterable(x):
-                x_min = max(min(x)-20, 0.0)
-                x_max = max(x)+20
-            # case 2: a single x-point in input. The x-point is the middle point of the x-axis
-            else:
-                x_min = max(x-20, 0.0)
-                x_max = x+20
-                
-        # Case x-axis = sigma or r
-        elif x_name in ['sigma', 'r']:
-            # case 1: a list of x-points in input. The x-axis is a wide range, including x-points
-            if is_iterable(x):
-                x_min = 0.0
-                x_max = 1.5*max(x)
-            # case 2: a single x-point in input. The x-point is the middle point of the x-axis
-            else:
-                x_min = 0.0
-                x_max = 1.5*x
+        # define the x-axis
+        
+        # case 1: a list of x-points in input. The x-axis is a wide range, including x-points
+        if is_iterable(x):
+            x_min = max(min(x)-20, 0.0)
+            x_max = max(x)+20
+        # case 2: a single x-point in input. The x-point is the middle point of the x-axis
+        else:
+            x_min = max(x-20, 0.0)
+            x_max = x+20
 
-        return {x_name: np.linspace(x_min, x_max, n), 'x_axis': x_name}
+        return np.linspace(x_min, x_max, n)
         
     def time_parameter(self, *args, **kwargs):
         """
@@ -509,18 +462,10 @@ class OptionPlotter(Plotter):
         fig.tight_layout()
         plt.show()
 
-    def plot_multi_time(self, x_axis_dict, times, time_labels, plot_metrics):
+    def plot_multi_time(self, S, times, time_labels, plot_metrics):
         """
         Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
         """
-        
-        # identifier of the x-axis
-        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
-        if x_id not in ["S", "K"]:
-            raise NotImplementedError(".plot_multi_time() availabe only for S or K x-axis variables. Given: " + x_id)
-        
-        # x-axis values
-        x = x_axis_dict[x_id]
         
         # number of times-to-maturity considered
         n_times = len(times)
@@ -531,39 +476,30 @@ class OptionPlotter(Plotter):
         fig, ax = plt.subplots(figsize=(10,6))
 
         # precompute surface (exploiting vectorization)
-        surface_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': times})
+        surface_metrics = getattr(self.fin_inst, plot_metrics)(S, times)
             
-        # plot the price for different x-axis values, one line for each different date
+        # plot the price for different underlying values, one line for each different date
         for i in range(n_times):
-            ax.plot(x, surface_metrics[i,:], '-', lw=1.5, label=time_labels[i])
+            ax.plot(S, surface_metrics[i,:], '-', lw=1.5, label=time_labels[i])
             
-        # precompute emission level metrics (exploiting vectorization)
-        if x_id == 'S':
-            x_emission = self.fin_inst.get_S()
-        elif x_id == 'K':
-            x_emission = self.fin_inst.get_K()
-        elif x_id == 'sigma':
-            x_emission = self.fin_inst.get_sigma()
-        elif x_id == 'r':
-            x_emission = self.fin_inst.get_r()
-        
-        emission_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': times})
+        # precompute S_t level metrics (exploiting vectorization)
+        S_t = self.fin_inst.get_S()
+        S_t_level_metrics = getattr(self.fin_inst, plot_metrics)(S_t, times)
 
-        # blue dot at original emission level of the x-axis for reference
-        ax.plot(x_emission + np.zeros_like(emission_metrics), emission_metrics, 'b.', ms=10,\
-                label=r"Emission level $" + x_id + r"={:.2f}$".format(x_emission))
+        # blue dot at original underlying level for reference
+        ax.plot(S_t + np.zeros_like(S_t_level_metrics), S_t_level_metrics, 'b.', ms=10, label=r"Emission level $S={:.1f}$".format(S_t))
             
-        # plot the red payoff line for different x-axis values
+        # plot the red payoff line for different underlying values
         if plot_metrics in ['price', 'PnL']:
-            ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0}), 'r-',  lw=1.5, 
+            ax.plot(S, getattr(self.fin_inst, plot_metrics)(S,tau=0.0), 'r-',  lw=1.5, 
                     label=plot_metrics + r" at maturity (" + self.fin_inst.get_docstring('payoff') + r")")
         
         # plot a dot to highlight the strike position and a reference zero line
         ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
-        ax.plot(x, np.zeros_like(x), 'k--', lw=1.5)
+        ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
         
         # set axis labels 
-        ax.set_xlabel(x_id + r" at different dates", fontsize=12)
+        ax.set_xlabel(r"Underlying Value at different dates", fontsize=12)
         ax.set_ylabel('Black-Scholes {}'.format(plot_metrics), fontsize=12) 
 
         # set title
@@ -579,58 +515,39 @@ class OptionPlotter(Plotter):
         fig.tight_layout()
         plt.show()
  
-    def plot_single_time(self, x_axis_dict, time, time_label, plot_metrics, plot_price_limits):
+    def plot_single_time(self, S, time, time_label, plot_metrics, plot_price_limits):
         """
         Plot FinancialInstrument values against underlying value(s) at fixed date. 
         """
         
-        # identifier of the x-axis
-        x_id = x_axis_dict.pop('x_axis', 'x-id not found')
-        
-        # x-axis values
-        x = x_axis_dict[x_id]
-
         # define the figure
         fig, ax = plt.subplots(figsize=(10,6))
         
-        # plot the price for different x-axis values
-        ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': time}), 'b-', lw=1.5, 
+        # plot the price for different underlying values
+        ax.plot(S, getattr(self.fin_inst, plot_metrics)(S, time), 'b-', lw=1.5, 
                 label=time_label)
         
-        # precompute emission level metrics (exploiting vectorization)
-        if x_id == 'S':
-            x_emission = self.fin_inst.get_S()
-        elif x_id == 'K':
-            x_emission = self.fin_inst.get_K()
-        elif x_id == 'sigma':
-            x_emission = self.fin_inst.get_sigma()
-        elif x_id == 'r':
-            x_emission = self.fin_inst.get_r()
+        # blue dot at original underlying level for reference
+        S_t = self.fin_inst.get_S()
+        ax.plot(S_t, getattr(self.fin_inst, plot_metrics)(S_t, time), 'b.', ms=15, 
+                label=r"Emission level $S={:.1f}$".format(S_t))
         
-        emission_metric = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': time})
+        if plot_price_limits:
+            # plot the upper limit, the price and the lower limit for different underlying values
+            ax.plot(S, self.fin_inst.price_upper_limit(S, time), 'k-.', lw=1.5, label=self.fin_inst.get_docstring('price_upper_limit'))
+            ax.plot(S, self.fin_inst.price_lower_limit(S, time), 'k--', lw=1.5, label=self.fin_inst.get_docstring('price_lower_limit'))
 
-        # blue dot at original emission level of the x-axis for reference
-        ax.plot(x_emission, emission_metric, 'b.', ms=10,\
-                label=r"Emission level $" + x_id + r"={:.2f}$".format(x_emission))
-        
-        # part meaningful only if the x-axis is 'S' or 'K'
-        if x_id in ['S', 'K']:
-            if plot_price_limits:
-                # plot the upper limit, the price and the lower limit for different x-axis values
-                ax.plot(x, self.fin_inst.price_upper_limit(**{x_id: x, 't': time}), 'k-.', lw=1.5, label=self.fin_inst.get_docstring('price_upper_limit'))
-                ax.plot(x, self.fin_inst.price_lower_limit(**{x_id: x, 't': time}), 'k--', lw=1.5, label=self.fin_inst.get_docstring('price_lower_limit'))
-    
-            # plot the red payoff line for different x-axis values
-            if plot_metrics in ['price', 'PnL']:
-                ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0}), 'r-',  lw=1.5, 
-                        label=plot_metrics + r" at maturity(" + self.fin_inst.get_docstring('payoff') + r")")
-    
-            # plot a dot to highlight the strike position and a reference zero line
-            ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
-            ax.plot(x, np.zeros_like(x), 'k--', lw=1.5)
+        # plot the red payoff line for different underlying values
+        if plot_metrics in ['price', 'PnL']:
+            ax.plot(S, getattr(self.fin_inst, plot_metrics)(S,tau=0.0), 'r-',  lw=1.5, 
+                    label=plot_metrics + r" at maturity(" + self.fin_inst.get_docstring('payoff') + r")")
+
+        # plot a dot to highlight the strike position and a reference zero line
+        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
+        ax.plot(S, np.zeros_like(S), 'k--', lw=1.5)
 
         # set axis labels 
-        ax.set_xlabel(x_id + r" at " + time_label, fontsize=12) 
+        ax.set_xlabel(r"Underlying Value at " + time_label, fontsize=12) 
         ax.set_ylabel('Black-Scholes {}'.format(plot_metrics), fontsize=12) 
 
         # set title
