@@ -207,627 +207,6 @@ class EuropeanOption:
         # compute and return time to maturity (in years)
         return homogenize((T-t).days / 365.0, sort=False)
 
-#    def process_pricing_parameters___WRONG(self, *args, **kwargs):
-#        """
-#        Utility method to parse underlying, time, volatility and short-rate parameters
-#        """
-#        
-#        # 
-#        # Parsing input parameters 
-#        # 
-#        
-#        # underlying value 
-#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-#        
-#        # strike price
-#        K = kwargs['K'] if 'K' in kwargs else self.get_K()
-#
-#        # time parameter:
-#        time_param = args[1] if len(args) > 1 \
-#                     else kwargs['tau'] if 'tau' in kwargs \
-#                        else (kwargs['t'] if 't' in kwargs else None)
-#
-#        # underlying volatility 
-#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-#        
-#        # span an axis with volatility values if True, otherwise distribute its values
-#        sigma_axis = kwargs['sigma_axis'] if 'sigma_axis' in kwargs else False
-#
-#        # short rate
-#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-#
-#        # span an axis with short-rate values if True, otherwise distribute its values
-#        r_axis = kwargs['r_axis'] if 'r_axis' in kwargs else False
-#
-#        # squeeze output flag
-#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-#
-#        #
-#        # Iterable parameters check
-#        #
-#        
-#        # counter for iterable parameters in input 
-#        iterable_parameters = 0
-#        iterable_S = False
-#        iterable_K = False
-#        iterable_tau = False
-#        iterable_sigma = False
-#        iterable_r = False
-#
-#        if is_iterable(S):
-#            iterable_S = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(K):
-#            iterable_K = True
-#            iterable_parameters += 1
-#        
-#        if is_iterable_not_string(time_param):
-#            iterable_tau = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(sigma):
-#            iterable_sigma = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(r):
-#            iterable_r = True
-#            iterable_parameters += 1
-#        
-#        # utility list to keep track of iterable parameters setup: [S, K, tau, sigma, r]
-#        iterability_mask = [iterable_S, iterable_K, iterable_tau, iterable_sigma, iterable_r]
-#            
-#        #
-#        # Checking that only one of S or K is iterable
-#        #
-#        
-#        if iterable_S and iterable_K:
-#            raise NotImplementedError("Just one between 'S' and 'K' parameters allowed to be iterable."\
-#                                      " Both iterable given in input:\nS={}\nK={}".format(S,K))
-#        
-#        # flag for iterability of S or K
-#        iterable_S_or_K = iterable_S or iterable_K
-#        
-#        # flag for iterability of S only
-#        iterable_S_not_K = iterable_S and (not iterable_K)
-#            
-#        #
-#        # Homogenizing and checking each parameters
-#        #
-#            
-#        # 
-#        # 1) Underlying value
-#        #
-#        
-#        # homogenize underlying in input
-#        S = homogenize(S)
-# 
-#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-#        if np.any(S < 0):
-#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-#                   
-#        # 
-#        # 2) Strike price
-#        #
-#        
-#        # homogenize strike in input
-#        K = homogenize(K)
-# 
-#        # checking whether any value in K is smaller than zero. Works if K is scalar too.
-#        if np.any(K <= 0):
-#            warnings.warn("Warning: K = {} <= 0 value encountered".format(K))
-#
-#        # 
-#        # 3) Time parameter
-#        #
-#                                
-#        # time parameter interpretation (and homogenization) according to its type        
-#        # case 1: no time-parameter in input
-#        if time_param is None:
-#            tau = time_param = self.get_tau()
-#        # case 2: valid time-to-maturity in input
-#        elif is_numeric(time_param):
-#            time_param = homogenize(time_param, reverse_order=True)
-#            tau = time_param
-#        # case 3: valuation date in input, to be converted into time-to-maturity
-#        elif is_date(time_param):
-#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
-#            tau = self.time_to_maturity(t=time_param)
-#        # error case: the time parameter in input has a data-type that is not recognized
-#        else: 
-#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-#              
-#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
-#        if np.any(tau < 0):
-#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-#
-#        # 
-#        # 4) Underlying volatility
-#        #
-#        
-#        # homogenize underlying volatility in input
-#        sigma = homogenize(sigma, sort=False)
-# 
-#        # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
-#        # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
-#        if np.any(sigma <= 0):
-#            warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
-#        
-#        # 
-#        # 5) Short-rate
-#        #
-#        
-#        # homogenize short-rate in input
-#        r = homogenize(r, sort=False)
-# 
-#        # We allow for negative short rate, but we raise a warning anyway 
-#        # if any value in r is smaller than zero. Works if r is scalar too.
-#        if np.any(r < 0):
-#            warnings.warn("Warning: r = {} < 0 value encountered".format(r))
-#
-#        #
-#        # Coordinate parameters
-#        #
-#                
-#        # Case 0: all scalar parameters
-#        #
-#        # make the 4 parameters coordinated together as 1-dim np.ndarray
-#        # or pd.DataFrame with x-axis spanned by S and y-axis spanned by tau
-#        if iterable_parameters == 0:
-#            
-#            # x-axis
-#            x=S
-#            x_name="S"
-#            x_col=S
-#            
-#            # y-axis
-#            y=tau
-#            y_name="tau"
-#            y_ind=time_param
-#            
-#            # others
-#            scalar_params = {"K": K, "sigma": sigma, "r": r}
-#            vector_params = {}
-#            
-#        # Case 1: one iterable parameter
-#        elif iterable_parameters == 1:
-#            
-#            # Case 1.S: [S vector, all scalar]
-#            if iterability_mask == [1,0,0,0,0]:
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params = {"K": K, "sigma": sigma, "r": r}
-#                
-#            # Case 1.K: [K vector, all scalar]
-#            elif iterability_mask == [0,1,0,0,0]:
-#                x=K
-#                x_name="K"
-#                x_col=K
-#                scalar_params = {"S": S, "sigma": sigma, "r": r}
-#                
-#            # Case 1.tau: [tau vector, all scalar]
-#            elif iterability_mask == [0,0,1,0,0]:
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params = {"K": K, "sigma": sigma, "r": r}
-#
-#            # Case 1.sigma: [sigma vector, all scalar]
-#            elif iterability_mask == [0,0,0,1,0]:
-#                x=sigma
-#                x_name="sigma"
-#                x_col=sigma
-#                scalar_params = {"S": S, "K": K, "r": r}
-#
-#            # Case 1.r: [r vector, all scalar]
-#            elif iterability_mask == [0,0,0,0,1]:
-#                x=r
-#                x_name="r"
-#                x_col=r
-#                scalar_params = {"S": S, "K": K, "sigma": sigma}
-#
-#            # y-axis
-#            y=tau
-#            y_name="tau"
-#            y_ind=time_param
-#            
-#            # others
-#            vector_params={}
-#
-#        # Case 2: two iterable parameters
-#        elif iterable_parameters == 2:
-#
-#            # Cases 2.S.tau and 2.K.tau: S/K and tau iterables
-#            #
-#            # If S (respectively K) is iterable. Make S (resp. K) and tau 
-#            # coordinated np.ndarray or pd.DataFrames, creating a S x tau 
-#            # (K x tau) grid if both are iterable. Scalar parameters sigma, 
-#            # K (S) and r are coordinated accordingly.
-#            #
-#            # This case is identified by having sigma and r both scalar
-#            if iterability_mask[3:] == [0,0]:
-#                
-#                # y-axis
-#                y=tau
-#                y_name="tau"
-#                y_ind=time_param
-#
-#                # others
-#                scalar_params = {"sigma": sigma, "r": r}
-#                vector_params = {}
-#
-#                # x-axis
-#                    
-#                # if S is iterable and K is scalar, the x-axis is spanned by S
-#                if iterable_S_not_K:           
-#                    x=S
-#                    x_name="S"
-#                    x_col=S
-#                    scalar_params["K"] = K
-#                    
-#                # if K is iterable and S is scalar, the x-axis is spanned by K
-#                else:
-#                    x=K
-#                    x_name="K"
-#                    x_col=K
-#                    scalar_params["S"] = S
-#                                    
-#            # Cases 2.X.sigma and 2.X.r: X (S/K/tau) and sigma/r iterables
-#            #
-#            # This case is identified by having one between sigma and r vector
-#            elif iterability_mask[3:] == [1,0] or iterability_mask[3:] == [0,1]:
-#                
-#                # Case 2.tau.sigma: tau and sigma are iterables
-#                if iterable_sigma:
-#                    # Case 2.tau.sigma_ax: sigma vector generates an indipendent dimension
-#                    if sigma_axis:
-#                        pass
-#                    # Case 2.tau.sigma_dist: sigma vector values are distributed 
-#                    #      along the tau dimension. Requires: len(sigma) == len(tau)
-#                    else:
-#                        pass
-#                
-#                # Case 2.tau.r: tau and r are iterables
-#                elif iterable_r:
-#                    # Case 2.tau.r_ax: analogous to case 2.tau.sigma_ax
-#                    if r_axis:
-#                        pass
-#                    # Case 2.tau.r_dist: analogous to case 2.tau.sigma_dist. 
-#                    #      Requires: len(r) == len(tau)
-#                    else:
-#                        pass
-#            
-#            
-#            
-##            elif iterability_mask == [0,0,1,1,0] or\
-##                 iterability_mask == [0,0,1,0,1]:   
-#                     
-#                # If sigma_axis == True (resp. r_axis == True):
-#                # 
-#                # If sigma (r) is iterable. Make sigma (r) and tau 
-#                # coordinated np.ndarray or pd.DataFrames, creating a sigma x tau 
-#                # (r x tau) grid if both are iterable. Scalar parameters S, K and 
-#                # r (sigma) are coordinated accordingly.
-#                if sigma_axis or r_axis:
-#                    pass
-#
-#                # If sigma_axis == False (resp. r_axis == False):
-#                # 
-#                # Vector sigma/r parameters are spanned along the tau dimension.
-#                # That is, one different value of sigma/r
-#                else:
-#                    pass
-#                     
-#        # Case Error:
-#        else:
-#           raise NotImplementedError("The case (0: scalar, 1: vector) [S, K, tau, sigma, r] = {} not implmented."\
-#                                     .format(iterability_mask)) 
-#
-#        # coordinating parameters                    
-#        coord_params = coordinate(x=x, y=tau, 
-#                                  x_name=x_name, y_name=y_name,
-#                                  others_scalar=scalar_params, 
-#                                  others_vector=vector_params,
-#                                  np_output=np_output, 
-#                                  col_labels=x_col, ind_labels=y_ind)   
-#           
-##        # case 2: sigma and/or r are iterable 1-dim vectors 
-##        #         and S, K and tau are both scalar
-##        elif iterable_sigma or iterable_r:
-##            
-##            # case 2.1: sigma and r are iterable 1-dim vectors
-##            #
-##            # make r and sigma coordinated np.ndarray or pd.DataFrames
-##            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
-##            if iterable_sigma and iterable_r:
-##                coord_params = coordinate(x=r, y=sigma, 
-##                                          x_name="r", y_name="sigma",
-##                                          others_scalar={"S": S, "K": K, "tau": tau}, 
-##                                          np_output=np_output, 
-##                                          col_labels=r, ind_labels=sigma)   
-##
-##            # case 2.2: sigma is a 1-dim vector and r is scalar
-##            #
-##            # make S and sigma coordinated np.ndarray or pd.DataFrames
-##            # and K, tau and r coordinated accordingly
-##            elif iterable_sigma:
-##                coord_params = coordinate(x=S, y=sigma, 
-##                                          x_name="S", y_name="sigma",
-##                                          others_scalar={"K": K, "tau": tau, "r": r}, 
-##                                          np_output=np_output, 
-##                                          col_labels=S, ind_labels=sigma)   
-##
-##            # case 2.3: r is a 1-dim vector and sigma is scalar
-##            #
-##            # make S and r coordinated np.ndarray or pd.DataFrames
-##            # and K, tau and sigma coordinated accordingly
-##            elif iterable_r:
-##                coord_params = coordinate(x=S, y=r, 
-##                                          x_name="S", y_name="r",
-##                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
-##                                          np_output=np_output, 
-##                                          col_labels=S, ind_labels=r)
-#
-#        # return coordinated parameters
-#        return {"S": coord_params["S"], 
-#                "K": coord_params["K"],
-#                "tau": coord_params["tau"], 
-#                "sigma": coord_params["sigma"], 
-#                "r": coord_params["r"], 
-#                "np_output": np_output}
-
-#    def process_pricing_parameters___OLD(self, *args, **kwargs):
-#        """
-#        Utility method to parse underlying, time, volatility and short-rate parameters
-#        """
-#        
-#        # 
-#        # Parsing input parameters 
-#        # 
-#        
-#        # underlying value 
-#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-#        
-#        # strike price
-#        K = kwargs['K'] if 'K' in kwargs else self.get_K()
-#
-#        # time parameter:
-#        time_param = args[1] if len(args) > 1 \
-#                     else kwargs['tau'] if 'tau' in kwargs \
-#                        else (kwargs['t'] if 't' in kwargs else None)
-#
-#        # underlying volatility 
-#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-#
-#        # short rate
-#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-#
-#        # squeeze output flag
-#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-#
-#        #
-#        # Iterable parameters check
-#        #
-#        
-#        # counter for iterable parameters in input 
-#        iterable_parameters = 0
-#        iterable_S = False
-#        iterable_K = False
-#        iterable_tau = False
-#        iterable_sigma = False
-#        iterable_r = False
-#
-#        if is_iterable(S):
-#            iterable_S = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(K):
-#            iterable_K = True
-#            iterable_parameters += 1
-#        
-#        if is_iterable_not_string(time_param):
-#            iterable_tau = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(sigma):
-#            iterable_sigma = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(r):
-#            iterable_r = True
-#            iterable_parameters += 1
-#            
-#        #
-#        # Checking that only one of S or K is iterable
-#        #
-#        
-#        if iterable_S and iterable_K:
-#            raise NotImplementedError("Just one between 'S' and 'K' parameters allowed to be iterable."\
-#                                      " Both iterable given in input:\nS={}\nK={}".format(S,K))
-#        
-#        # flag for iterability of S or K
-#        iterable_S_or_K = iterable_S or iterable_K
-#        
-#        # flag for iterability of S only
-#        iterable_S_not_K = iterable_S and (not iterable_K)
-#            
-#        #
-#        # Homogenizing and checking each parameters
-#        #
-#            
-#        # 
-#        # 1) Underlying value
-#        #
-#        
-#        # homogenize underlying in input
-#        S = homogenize(S)
-# 
-#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-#        if np.any(S < 0):
-#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-#                   
-#        # 
-#        # 2) Strike price
-#        #
-#        
-#        # homogenize strike in input
-#        K = homogenize(K)
-# 
-#        # checking whether any value in K is smaller than zero. Works if K is scalar too.
-#        if np.any(K <= 0):
-#            warnings.warn("Warning: K = {} <= 0 value encountered".format(K))
-#
-#        # 
-#        # 3) Time parameter
-#        #
-#                                
-#        # time parameter interpretation (and homogenization) according to its type        
-#        # case 1: no time-parameter in input
-#        if time_param is None:
-#            tau = time_param = self.get_tau()
-#        # case 2: valid time-to-maturity in input
-#        elif is_numeric(time_param):
-#            time_param = homogenize(time_param, reverse_order=True)
-#            tau = time_param
-#        # case 3: valuation date in input, to be converted into time-to-maturity
-#        elif is_date(time_param):
-#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
-#            tau = self.time_to_maturity(t=time_param)
-#        # error case: the time parameter in input has a data-type that is not recognized
-#        else: 
-#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-#              
-#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
-#        if np.any(tau < 0):
-#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-#
-#        # 
-#        # 4) Underlying volatility
-#        #
-#        
-#        # homogenize underlying volatility in input
-#        sigma = homogenize(sigma, sort=False)
-# 
-#        # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
-#        # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
-#        if np.any(sigma <= 0):
-#            warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
-#        
-#        # 
-#        # 5) Short-rate
-#        #
-#        
-#        # homogenize short-rate in input
-#        r = homogenize(r, sort=False)
-# 
-#        # We allow for negative short rate, but we raise a warning anyway 
-#        # if any value in r is smaller than zero. Works if r is scalar too.
-#        if np.any(r < 0):
-#            warnings.warn("Warning: r = {} < 0 value encountered".format(r))
-#
-#        #
-#        # Coordinate parameters
-#        #
-#        
-#        # Case 0: all scalar parameters
-#        #
-#        # make the 4 parameters coordinated together as 1-dim np.ndarray
-#        # or pd.DataFrame
-#        if iterable_parameters == 0:
-#            
-#            coord_params = coordinate(x=S, y=tau, 
-#                                      x_name="S", y_name="tau",
-#                                      others_scalar={"K": K, "sigma": sigma, "r": r}, 
-#                                      np_output=np_output, 
-#                                      col_labels=S, ind_labels=time_param) 
-#            
-#        # Case 1: S (or K) and/or tau iterable parameters
-#        #
-#        # make S (or K) and tau coordinated np.ndarray or pd.DataFrames
-#        # creating a (S,tau) or (K,tau) grid if both are iterable, 
-#        # with sigma, K (or S) and r coordinated accordingly
-#        elif iterable_S_or_K or iterable_tau:
-#            
-#            scalar_params = {}
-#            vector_params = {}
-#            
-#            if iterable_sigma:
-#                vector_params["sigma"] = sigma
-#            else:
-#                scalar_params["sigma"] = sigma
-#                
-#            if iterable_r:
-#                vector_params["r"] = r
-#            else:
-#                scalar_params["r"] = r
-#
-#            # if S is iterable and K is scalar, the column-dimension is spanned by S
-#            if iterable_S_not_K:           
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params["K"] = K
-#                
-#            # if K is iterable and S is scalar, the column-dimension is spanned by K
-#            else:
-#                x=K
-#                x_name="K"
-#                x_col=K
-#                scalar_params["S"] = S
-#
-#            coord_params = coordinate(x=x, y=tau, 
-#                                      x_name=x_name, y_name="tau",
-#                                      others_scalar=scalar_params, 
-#                                      others_vector=vector_params,
-#                                      np_output=np_output, 
-#                                      col_labels=x_col, ind_labels=time_param)   
-#                        
-#        # case 2: sigma and/or r are iterable 1-dim vectors 
-#        #         and S, K and tau are both scalar
-#        elif iterable_sigma or iterable_r:
-#            
-#            # case 2.1: sigma and r are iterable 1-dim vectors
-#            #
-#            # make r and sigma coordinated np.ndarray or pd.DataFrames
-#            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
-#            if iterable_sigma and iterable_r:
-#                coord_params = coordinate(x=r, y=sigma, 
-#                                          x_name="r", y_name="sigma",
-#                                          others_scalar={"S": S, "K": K, "tau": tau}, 
-#                                          np_output=np_output, 
-#                                          col_labels=r, ind_labels=sigma)   
-#
-#            # case 2.2: sigma is a 1-dim vector and r is scalar
-#            #
-#            # make S and sigma coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and r coordinated accordingly
-#            elif iterable_sigma:
-#                coord_params = coordinate(x=S, y=sigma, 
-#                                          x_name="S", y_name="sigma",
-#                                          others_scalar={"K": K, "tau": tau, "r": r}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=sigma)   
-#
-#            # case 2.3: r is a 1-dim vector and sigma is scalar
-#            #
-#            # make S and r coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and sigma coordinated accordingly
-#            elif iterable_r:
-#                coord_params = coordinate(x=S, y=r, 
-#                                          x_name="S", y_name="r",
-#                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=r)
-#
-#        # return coordinated parameters
-#        return {"S": coord_params["S"], 
-#                "K": coord_params["K"],
-#                "tau": coord_params["tau"], 
-#                "sigma": coord_params["sigma"], 
-#                "r": coord_params["r"], 
-#                "np_output": np_output}
-      
     def process_pricing_parameters(self, *args, **kwargs):
         """
         Utility method to parse underlying, time, volatility and short-rate parameters
@@ -850,15 +229,9 @@ class EuropeanOption:
 
         # underlying volatility 
         sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-        
-        # span the x-axis with volatility values if True, otherwise distribute its values
-        sigma_axis = kwargs['sigma_axis'] if 'sigma_axis' in kwargs else False
 
         # short rate
         r = kwargs['r'] if 'r' in kwargs else self.get_r()
-
-        # span the x-axis with short-rate values if True, otherwise distribute its values
-        r_axis = kwargs['r_axis'] if 'r_axis' in kwargs else False
 
         # squeeze output flag
         np_output = kwargs['np_output'] if 'np_output' in kwargs else True
@@ -908,44 +281,7 @@ class EuropeanOption:
         
         # flag for iterability of S only
         iterable_S_not_K = iterable_S and (not iterable_K)
-        
-        # 
-        # Checking consistency between iterable_sigma and sigma_axis
-        #
-        
-        if not iterable_sigma and sigma_axis:
-            raise ValueError("Non-iterable sigma cannot span the x-axis.")
             
-        # 
-        # Checking consistency between iterable_r and r_axis
-        #
-        
-        if not iterable_r and r_axis:
-            raise ValueError("Non-iterable r cannot span the x-axis.")
-            
-        #
-        # Checking that sigma_axis and r_axis are not simultaneously True
-        #
-        
-        if sigma_axis and r_axis:
-            raise NotImplementedError("x-axis cannot be spanned simultaneously by sigma and r")
-
-        # 
-        # Checking that if S/K are iterables and sigma is vector, then sigma_axis == False
-        #
-        
-        if iterable_S_or_K and iterable_sigma:
-            if sigma_axis:
-                raise NotImplementedError("x-axis already spanned by S/K, cannot be spanned by sigma.")
-                
-        # 
-        # Checking that if S/K are iterables and r is vector, then r_axis == False
-        #
-        
-        if iterable_S_or_K and iterable_r:
-            if r_axis:
-                raise NotImplementedError("x-axis already spanned by S/K, cannot be spanned by r.")
-
         #
         # Homogenizing and checking each parameters
         #
@@ -975,8 +311,6 @@ class EuropeanOption:
         # 
         # 3) Time parameter
         #
-        
-        time_name = "tau"
                                 
         # time parameter interpretation (and homogenization) according to its type        
         # case 1: no time-parameter in input
@@ -988,7 +322,6 @@ class EuropeanOption:
             tau = time_param
         # case 3: valuation date in input, to be converted into time-to-maturity
         elif is_date(time_param):
-            time_name = "t"
             time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
             tau = self.time_to_maturity(t=time_param)
         # error case: the time parameter in input has a data-type that is not recognized
@@ -1034,7 +367,7 @@ class EuropeanOption:
         if iterable_parameters == 0:
             
             coord_params = coordinate(x=S, y=tau, 
-                                      x_name="S", y_name=time_name,
+                                      x_name="S", y_name="tau",
                                       others_scalar={"K": K, "sigma": sigma, "r": r}, 
                                       np_output=np_output, 
                                       col_labels=S, ind_labels=time_param) 
@@ -1049,52 +382,32 @@ class EuropeanOption:
             scalar_params = {}
             vector_params = {}
             
-            # x-axis default setup            
-            x=S
-            x_name="S"
-            x_col=S
-            scalar_params["K"] = K
-
             if iterable_sigma:
-                if sigma_axis:
-                    x=sigma
-                    x_name="sigma"
-                    x_col=sigma
-                    scalar_params["S"] = S
-                else:
-                    vector_params["sigma"] = sigma
+                vector_params["sigma"] = sigma
             else:
                 scalar_params["sigma"] = sigma
                 
             if iterable_r:
-                if r_axis:
-                    x=r
-                    x_name="r"
-                    x_col=r
-                    scalar_params["S"] = S
-                else:
-                    vector_params["r"] = r
+                vector_params["r"] = r
             else:
                 scalar_params["r"] = r
 
             # if S is iterable and K is scalar, the column-dimension is spanned by S
-#            if iterable_S:           
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params["K"] = K
-#                
-#            # if K is iterable and S is scalar, the column-dimension is spanned by K
-#            elif iterable_K:
-            if iterable_K:
+            if iterable_S_not_K:           
+                x=S
+                x_name="S"
+                x_col=S
+                scalar_params["K"] = K
+                
+            # if K is iterable and S is scalar, the column-dimension is spanned by K
+            else:
                 x=K
                 x_name="K"
                 x_col=K
-                del scalar_params["K"]
                 scalar_params["S"] = S
 
             coord_params = coordinate(x=x, y=tau, 
-                                      x_name=x_name, y_name=time_name,
+                                      x_name=x_name, y_name="tau",
                                       others_scalar=scalar_params, 
                                       others_vector=vector_params,
                                       np_output=np_output, 
@@ -1111,7 +424,7 @@ class EuropeanOption:
             if iterable_sigma and iterable_r:
                 coord_params = coordinate(x=r, y=sigma, 
                                           x_name="r", y_name="sigma",
-                                          others_scalar={"S": S, "K": K, time_name: tau}, 
+                                          others_scalar={"S": S, "K": K, "tau": tau}, 
                                           np_output=np_output, 
                                           col_labels=r, ind_labels=sigma)   
 
@@ -1122,7 +435,7 @@ class EuropeanOption:
             elif iterable_sigma:
                 coord_params = coordinate(x=S, y=sigma, 
                                           x_name="S", y_name="sigma",
-                                          others_scalar={"K": K, time_name: tau, "r": r}, 
+                                          others_scalar={"K": K, "tau": tau, "r": r}, 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=sigma)   
 
@@ -1133,18 +446,18 @@ class EuropeanOption:
             elif iterable_r:
                 coord_params = coordinate(x=S, y=r, 
                                           x_name="S", y_name="r",
-                                          others_scalar={"K": K, time_name: tau, "sigma": sigma}, 
+                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
                                           np_output=np_output, 
                                           col_labels=S, ind_labels=r)
 
         # return coordinated parameters
         return {"S": coord_params["S"], 
                 "K": coord_params["K"],
-                "tau": coord_params[time_name], 
+                "tau": coord_params["tau"], 
                 "sigma": coord_params["sigma"], 
                 "r": coord_params["r"], 
                 "np_output": np_output}
-
+      
     def d1_and_d2(self, *args, **kwargs):
         """
         Utility method to compute d1 and d2 terms of Black-Scholes pricing formula
@@ -1350,8 +663,6 @@ class EuropeanOption:
         # target price
         target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)
         
-        # shape of output IV
-        output_shape = target_price.shape
             
         # delete "np_output" from kwargs if it exists, to do calculations 
         # with np.ndarrays (returns True if not in kwargs)
@@ -1361,6 +672,8 @@ class EuropeanOption:
         if not np_output:
             ind_output=target_price.index
             col_output=target_price.columns
+            m = len(ind_output)
+            n = len(col_output)
             target_price = target_price.values.squeeze()
 
         # delete "sigma" from kwargs if it exists
@@ -1449,10 +762,9 @@ class EuropeanOption:
             # optimal iv found
             iv_np1 = res.x
               
-        # output reshape and cast as pd.DataFrame, if needed
-        iv_np1 = iv_np1.reshape(output_shape)
+        # output adjustment, if necessary
         if not np_output:
-            iv_np1 = pd.DataFrame(data=iv_np1, index=ind_output, columns=col_output)
+            iv_np1 = pd.DataFrame(data=iv_np1.reshape(m,n), index=ind_output, columns=col_output)
 
         return iv_np1
 

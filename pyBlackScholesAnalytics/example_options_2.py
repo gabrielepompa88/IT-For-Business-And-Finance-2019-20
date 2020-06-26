@@ -38,10 +38,12 @@ def get_param_dict(option, np_output, case):
                              end=expiration_date-pd.Timedelta(days=10), 
                              periods=n)    
     # sigma
+    sigma_axis = np.array([0.1*(1.0 + i) for i in range(3)])
     sigma_grid_S = np.array([0.1*(1.0 + i) for i in range(mS*n)]).reshape(n,mS)
     sigma_grid_K = np.array([0.1*(1.0 + i) for i in range(mK*n)]).reshape(n,mK)
     
     # r
+    r_axis = np.array([0.01*(1.0 + i) for i in range(3)])
     r_grid_S = np.array([0.01*(1.0 + i) for i in range(mS*n)]).reshape(n,mS)
     r_grid_K = np.array([0.01*(1.0 + i) for i in range(mK*n)]).reshape(n,mK)
 
@@ -134,6 +136,15 @@ def get_param_dict(option, np_output, case):
                                      "np_output": np_output},
                     "info": "Case 1.2_t - (S scalar, K scalar, t vector, sigma scalar, r vector as t)"
                   },
+            "1.2_t_r_axis": {"parameters": {"S": S_vector[0],
+                                     "K": K_vector[0],
+                                     "t": t_vector,
+                                     "sigma": 0.1,
+                                     "r": r_axis,
+                                     "np_output": np_output,
+                                     "r_axis": True},
+                    "info": "Case 1.2_t_r_axis - (S scalar, K scalar, t vector, sigma scalar, r vector axis)"
+                  },
             "1.3_t": {"parameters": {"S": S_vector[0],
                                      "K": K_vector[0],
                                      "t": t_vector,
@@ -141,6 +152,15 @@ def get_param_dict(option, np_output, case):
                                      "r": 0.01,
                                      "np_output": np_output},
                     "info": "Case 1.3_t - (S scalar, K scalar, t vector, sigma vector as t, r scalar)"
+                  },
+            "1.3_t_sigma_axis": {"parameters": {"S": S_vector[0],
+                                     "K": K_vector[0],
+                                     "t": t_vector,
+                                     "sigma": sigma_axis,
+                                     "r": 0.01,
+                                     "np_output": np_output,
+                                     "sigma_axis": True},
+                    "info": "Case 1.3_t_sigma_axis - (S scalar, K scalar, t vector, sigma vector axis, r scalar)"
                   },
             "1.4_t": {"parameters": {"S": S_vector[0],
                                      "K": K_vector[0],
@@ -240,13 +260,19 @@ def main():
 
     for case in ['0', '1.1_S', '1.2_S', '1.3_S', '1.4_S', \
                       '1.1_K', '1.2_K', '1.3_K', '1.4_K', \
-                      '1.1_t', '1.2_t', '1.3_t', '1.4_t', \
+                      '1.1_t', '1.2_t', '1.2_t_r_axis', \
+                      '1.3_t', '1.3_t_sigma_axis', '1.4_t', \
                       '2.1_S', '2.1_K', '2.2_S_sigma', '2.2_K_sigma', \
                       '2.3_S_r', '2.3_K_r', \
                       '2.4_S', '2.4_K']:
+    
+#    for case in ['1.3_t', '1.3_t_sigma_axis']:
         
         # get parameters dictionary for case considered
         param_dict, case_info = get_param_dict(option, np_output, case)
+
+        not_sigma_axis = ('sigma_axis' not in param_dict) or (param_dict['sigma_axis'] == False)
+        not_r_axis = ('r_axis' not in param_dict) or (param_dict['r_axis'] == False)
     
         print("\n--------------------------------------------\n")
         print("\n" + case_info + "\n")
@@ -264,16 +290,20 @@ def main():
         print("\nPrice lower limit:\n", option.price_lower_limit(**param_dict))
         print("\nPrice:\n", option.price(**param_dict))
         print("\nP&L:\n", option.PnL(**param_dict))
-        print("\nImplied Volatility - Newton method (expected iv:\n{}):\n".format(param_dict["sigma"]), 
-              option.implied_volatility(**param_dict))
-        param_dict["minimization_method"] = "Least-Squares"
-        print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n".format(param_dict["sigma"]), 
-              option.implied_volatility(**param_dict))
         print("\nDelta:\n", option.delta(**param_dict))
         print("\nTheta:\n", option.theta(**param_dict))
         print("\nGamma:\n", option.gamma(**param_dict))
         print("\nVega:\n", option.vega(**param_dict))
         print("\nRho:\n", option.rho(**param_dict))
+
+        # Implied volatility calculation is not implemented for x-axis (columns) 
+        # spanned by parameters different from S or K (like sigma or r)
+        if not_sigma_axis and not_r_axis:        
+            print("\nImplied Volatility - Newton method (expected iv:\n{}):\n"\
+                  .format(param_dict["sigma"]), option.implied_volatility(**param_dict))
+            param_dict["minimization_method"] = "Least-Squares"
+            print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n"\
+                  .format(param_dict["sigma"]), option.implied_volatility(**param_dict))
 
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

@@ -94,7 +94,8 @@ def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vec
         test_dim(y, dim=1)
         
     # coordinate the two main parameters (x,y) ---> (coord_x, coord_y)
-    coord_x, coord_y = coordinate_x_and_y(x, y, *args, np_output=np_output, **kwargs)
+    coord_x, coord_y = coordinate_x_and_y(x, y, *args, np_output=np_output, 
+                                          x_name=x_name, y_name=y_name, **kwargs)
 
     # initialize output dictionary of coordinated parameters
     coordinated_parameters = {}
@@ -108,6 +109,7 @@ def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vec
         
         coord_p_scal = coordinate_y_with_x(x=coord_x, y=p, 
                                            np_output=np_output)
+        
         if p_name not in coordinated_parameters:
             coordinated_parameters[p_name] = coord_p_scal
         else:
@@ -144,14 +146,16 @@ def coordinate(x, y, *args, x_name="x", y_name="y", others_scalar={}, others_vec
 
 def coordinate_y_with_x(x, y, np_output):
     """
-    Utility function to coordinate the scalar parameter y with a np.ndarray/pd.DataFrame x.
-    We distinguish the two cases according to the value of the boolean flag np_output:
+    Utility function to coordinate the scalar/vector parameter y with a 
+    np.ndarray/pd.DataFrame x. If y is a vector, it must be of the same shape 
+    of x. We distinguish the two cases according to the value of the boolean 
+    flag np_output:
         
         - If np_output is True, x is expected to be a np.ndarray and y will be returned 
-          as a np.ndarray x-shaped filled with y value.
+          as a np.ndarray x-shaped filled with y value(s).
           
         - If np_output is False, x is expected to be a pd.DataFrame and y will be returned 
-          as a pd.DataFrame identical to x filled with y value.
+          as a pd.DataFrame identical to x filled with y value(s).
     """    
     if np_output:
         if isinstance(x, np.ndarray):
@@ -161,6 +165,7 @@ def coordinate_y_with_x(x, y, np_output):
     else:
         if isinstance(x, pd.DataFrame):
             y_coord_x = pd.DataFrame(data=y, index=x.index, columns=x.columns)
+
         else:
             raise TypeError(r"Inconsistent type of \n x={} \n parameter in input: \n type(x)={} (pd.DataFrame expected)".format(x, type(x)))
     return y_coord_x
@@ -236,7 +241,7 @@ def coordinate_x_and_y_as_ndarray(x, y):
 
 #-----------------------------------------------------------------------------#
 
-def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels):
+def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels, **kwargs):
     """
     Utility function to coordinate the two scalar/np.ndarray variables x and y
     as Pandas DataFrames. The following cases are considered:
@@ -319,6 +324,16 @@ def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels):
     y_df = pd.DataFrame(data=y, 
                         index=inds,
                         columns=cols)
+    
+    # optional renaming of the column axis
+    if 'x_name' in kwargs:
+        x_df.rename_axis(kwargs['x_name'], axis = 'columns', inplace=True) 
+        y_df.rename_axis(kwargs['x_name'], axis = 'columns', inplace=True) 
+
+    # optional renaming of the index axis
+    if 'y_name' in kwargs:
+        x_df.rename_axis(kwargs['y_name'], axis = 'rows', inplace=True) 
+        y_df.rename_axis(kwargs['y_name'], axis = 'rows', inplace=True) 
     
     return x_df, y_df
 
