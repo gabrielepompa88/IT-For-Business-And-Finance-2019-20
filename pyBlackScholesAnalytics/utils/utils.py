@@ -336,7 +336,7 @@ def coordinate_x_and_y_as_df(x, y, col_labels, ind_labels, **kwargs):
         y_df.rename_axis(kwargs['y_name'], axis = 'rows', inplace=True) 
     
     return x_df, y_df
-
+    
 #-----------------------------------------------------------------------------#
 
 def test_dim(iterable_obj, dim=1):

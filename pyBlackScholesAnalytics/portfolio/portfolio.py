@@ -178,18 +178,40 @@ class Portfolio:
         if (len(self.__tau) > 1) and (not self.is_multi_horizon):
             raise AttributeError("Multi-horizon portfolio not properly handled: \n \tau = {}"\
                                  .format(self.__tau)) 
-                            
+    
+    def check_parameters(self, *args, **kwargs):
+        """"Check both x-axis and time dimensional parameters."""
+        
+        # check x-axis
+        self.__check_x_axis(self, *args, **kwargs)
+
+        # check time parameter
+        self.__check_time_parameter(self, *args, **kwargs)
+            
+    def __check_x_axis(self, *args, **kwargs):
+        """Check that no Strike-price variable is used to span the x-axis. 
+        This is something not well defined for portfolio with multi-strike options constituents,
+        and admissible but no so meaningful for single-strike portfolios (e.g. calendar spreads).
+        We decided to disallow tout-court the feature."""
+        
+        if "K" in kwargs:
+            raise NotImplementedError("No Strike-price pricing parameter allowed.")
+                          
     def __check_time_parameter(self, *args, **kwargs):
+        """"Check that multi-horizon portfolio do not get time(s)-to-maturity as input time parameter"""
         
         # time parameter:
         time_param = args[1] if len(args) > 1 \
                         else kwargs['tau'] if 'tau' in kwargs \
                             else (kwargs['t'] if 't' in kwargs else None)
         
-        # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
-        if self.is_multi_horizon and is_numeric(time_param):
-            raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio \n\n tau={} given in input"\
-                                      .format(self, time_param))  
+        # Case of no time parameter in input allowed: sigma x r grid case
+        if time_param is not None:
+            
+            # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
+            if self.is_multi_horizon and is_numeric(time_param):
+                raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio \n\n tau={} given in input"\
+                                .format(self, time_param))  
             
     #
     # Public methods
@@ -217,8 +239,8 @@ class Portfolio:
         As single instruments .payoff(), can be called with single/multiple 'S'. 
         """
            
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio payoff is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].payoff(*args, **kwargs) for inst in self.get_composition()])
@@ -231,8 +253,8 @@ class Portfolio:
         As single instruments .price(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
         
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
         
         # portfolio price is the sum position * instrument_price
         return sum([inst["position"]*inst["instrument"].price(*args, **kwargs) for inst in self.get_composition()])
@@ -245,8 +267,8 @@ class Portfolio:
         As single instruments .PnL(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio P&L is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].PnL(*args, **kwargs) for inst in self.get_composition()])
@@ -259,8 +281,8 @@ class Portfolio:
         As single instruments .delta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio delta is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].delta(*args, **kwargs) for inst in self.get_composition()])
@@ -273,8 +295,8 @@ class Portfolio:
         As single instruments .theta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+x        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio theta is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].theta(*args, **kwargs) for inst in self.get_composition()])
@@ -287,8 +309,8 @@ class Portfolio:
         As single instruments .gamma(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio gamma is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].gamma(*args, **kwargs) for inst in self.get_composition()])
@@ -301,8 +323,8 @@ class Portfolio:
         As single instruments .vega(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio vega is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].vega(*args, **kwargs) for inst in self.get_composition()])
@@ -315,8 +337,8 @@ class Portfolio:
         As single instruments .rho(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-        # check time parameter
-        self.__check_time_parameter(*args, **kwargs)
+        # check parameters
+        self.check_parameters(*args, **kwargs)
 
         # portfolio rho is the sum position * instrument_payoff
         return sum([inst["position"]*inst["instrument"].rho(*args, **kwargs) for inst in self.get_composition()])

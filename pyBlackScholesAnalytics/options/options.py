@@ -1378,6 +1378,10 @@ class EuropeanOption:
         
         See .price() method docstring.
         """
+        
+        # preliminary consistency check
+        if ('sigma_axis' in kwargs) and (kwargs['sigma_axis'] == True):
+            raise NotImplementedError(".implied_volatility() method not implemented for x-axis spanned by 'sigma' parameter.")
                             
         # target price
         target_price = kwargs["target_price"] if "target_price" in kwargs else self.price(*args, **kwargs)

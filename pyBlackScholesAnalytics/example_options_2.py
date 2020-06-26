@@ -269,7 +269,7 @@ def main():
     #
     
     # if np_output is True, the output will be np.ndarray, otherwise pd.DataFrame    
-    np_output = False # True
+    np_output = True # True
     
     # default market environment
     market_env = MarketEnvironment()
@@ -280,7 +280,7 @@ def main():
     opt_type = "call" # "call" # "put"   
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
-
+    
     for case in ['All_scalar', \
                  'S', 'S.sigma_distributed', 'S.r_distributed', 'S.sigma_and_r_distributed', \
                  'K', 'K.sigma_distributed', 'K.r_distributed', 'K.sigma_and_r_distributed', \
@@ -291,9 +291,6 @@ def main():
     
         # get parameters dictionary for case considered
         param_dict, case_info = get_param_dict(option, np_output, case)
-
-        not_sigma_axis = ('sigma_axis' not in param_dict) or (param_dict['sigma_axis'] == False)
-        not_r_axis = ('r_axis' not in param_dict) or (param_dict['r_axis'] == False)
     
         print("\n--------------------------------------------\n")
         print("\n" + case_info + "\n")
@@ -317,11 +314,13 @@ def main():
         print("\nVega:\n", option.vega(**param_dict))
         print("\nRho:\n", option.rho(**param_dict))
 
-        # Implied volatility calculation is not implemented for x-axis (columns) 
-        # spanned by parameters different from S or K (like sigma or r)
-        if not_sigma_axis and not_r_axis:        
+        # Implied volatility calculation is not implemented for x-axis 
+        # (columns) spanned by sigma
+        if ('sigma_axis' not in param_dict) or (param_dict['sigma_axis'] == False):
+            
             print("\nImplied Volatility - Newton method (expected iv:\n{}):\n"\
                   .format(param_dict["sigma"]), option.implied_volatility(**param_dict))
+            
             param_dict["minimization_method"] = "Least-Squares"
             print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n"\
                   .format(param_dict["sigma"]), option.implied_volatility(**param_dict))

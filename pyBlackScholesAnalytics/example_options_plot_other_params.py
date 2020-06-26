@@ -76,7 +76,7 @@ def main():
     print(emission_date)
     
     # select dependency to plot as x-axis of the plot
-    for dependency_type in ["S", "K", "sigma", "r"]:
+    for dependency_type in ["sigma"]: #["S", "K", "sigma", "r"]:
     
         # keyboard parameter and corresponding range to test
         x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    
@@ -98,17 +98,17 @@ def main():
             # This, because if S/K and/or t/tau is a vector, sigma/r are interpreted as pricing parameters
             # to be distributed along the vector dimension(s). This requires their length and/or shape
             # to match the vectorial one. See EuropeanOption.price() docstring
-            if dependency_type in ["S", "K"]:
+#            if dependency_type in ["S", "K"]:
+
+            for time_kind in ['date', 'tau']:
     
-                for time_kind in ['date', 'tau']:
-        
-                    # set time-parameter to plot
-                    multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
-                    print(multiple_valuation_dates)
-                
-                    # Plot at multiple dates
-                    plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
-                                 plot_metrics=plot_metrics)
+                # set time-parameter to plot
+                multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
+                print(multiple_valuation_dates)
+            
+                # Plot at multiple dates
+                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                             plot_metrics=plot_metrics)
         
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

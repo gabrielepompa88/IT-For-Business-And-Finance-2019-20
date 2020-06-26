@@ -532,8 +532,8 @@ class OptionPlotter(Plotter):
         
         # identifier of the x-axis
         x_id = x_axis_dict.pop('x_axis', 'x-id not found')
-        if x_id not in ["S", "K"]:
-            raise NotImplementedError(".plot_multi_time() availabe only for S or K x-axis variables. Given: " + x_id)
+#        if x_id not in ["S", "K"]:
+#            raise NotImplementedError(".plot_multi_time() availabe only for S or K x-axis variables. Given: " + x_id)
         
         # x-axis values
         x = x_axis_dict[x_id]
