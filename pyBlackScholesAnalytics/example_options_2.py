@@ -38,201 +38,224 @@ def get_param_dict(option, np_output, case):
                              end=expiration_date-pd.Timedelta(days=10), 
                              periods=n)    
     # sigma
-    sigma_axis = np.array([0.1*(1.0 + i) for i in range(3)])
-    sigma_grid_S = np.array([0.1*(1.0 + i) for i in range(mS*n)]).reshape(n,mS)
-    sigma_grid_K = np.array([0.1*(1.0 + i) for i in range(mK*n)]).reshape(n,mK)
+    sigma_axis = np.array([0.1*(0 + i) for i in range(3)])
+    sigma_grid_S = np.array([0.1*(0 + i) for i in range(mS*n)]).reshape(n,mS)
+    sigma_grid_K = np.array([0.1*(0 + i) for i in range(mK*n)]).reshape(n,mK)
     
     # r
-    r_axis = np.array([0.01*(1.0 + i) for i in range(3)])
-    r_grid_S = np.array([0.01*(1.0 + i) for i in range(mS*n)]).reshape(n,mS)
-    r_grid_K = np.array([0.01*(1.0 + i) for i in range(mK*n)]).reshape(n,mK)
+    r_axis = np.array([0.01*(0 + i) for i in range(3)])
+    r_grid_S = np.array([0.01*(0 + i) for i in range(mS*n)]).reshape(n,mS)
+    r_grid_K = np.array([0.01*(0 + i) for i in range(mK*n)]).reshape(n,mK)
 
     cases_dict = {
-            "0": {"parameters": {"S": S_vector[0],
-                                 "K": K_vector[0],
-                                 "t": t_vector[0],
-                                 "sigma": 0.1,
-                                 "r": 0.01,
-                                 "np_output": np_output},
+            "All_scalar": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector[0],
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
                   "info": "Case 0 - all scalar parameters"
                   },
-            "1.1_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector[0],
-                                     "sigma": 0.1,
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.1_S - (S vector, other scalar)"
+            "S": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector[0],
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case S - (S vector, other scalar)"
                   },
-            "1.2_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector[0],
-                                     "sigma": 0.1,
-                                     "r": [0.01*(1.0 + i) for i in range(mS)],
-                                     "np_output": np_output},
-                    "info": "Case 1.2_S - (S vector, K scalar, t scalar, sigma scalar, r vector as S)"
+            "S.sigma_distributed": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector[0],
+                                         "sigma": [0.1*(0 + i) for i in range(mS)],
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case S.sigma_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r scalar)"
                   },
-            "1.3_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector[0],
-                                     "sigma": [0.1*(1.0 + i) for i in range(mS)],
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.3_S - (S vector, K scalar, t scalar, sigma vector as S, r scalar)"
+            "S.r_distributed": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector[0],
+                                         "sigma": 0.1,
+                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "np_output": np_output},
+                    "info": "Case S.r_distributed - (S vector, K scalar, t scalar, sigma scalar, r distributed along S)"
                   },
-            "1.4_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector[0],
-                                     "sigma": [0.1*(1.0 + i) for i in range(mS)],
-                                     "r": [0.01*(1.0 + i) for i in range(mS)],
-                                     "np_output": np_output},
-                    "info": "Case 1.4_S - (S vector, K scalar, t scalar, sigma vector as S, r vector as S)"
+            "S.sigma_and_r_distributed": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector[0],
+                                         "sigma": [0.1*(0 + i) for i in range(mS)],
+                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "np_output": np_output},
+                    "info": "Case S.sigma_and_r_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r distributed along S)"
                   },
-            "1.1_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector[0],
-                                     "sigma": 0.1,
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.1_K - (K vector, other scalar)"
+            "K": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector[0],
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case K - (K vector, other scalar)"
                   },
-            "1.2_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector[0],
-                                     "sigma": 0.1,
-                                     "r": [0.01*(1.0 + i) for i in range(mK)],
-                                     "np_output": np_output},
-                    "info": "Case 1.2_S - (S scalar, K vector, t scalar, sigma scalar, r vector as K)"
+            "K.sigma_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector[0],
+                                         "sigma": [0.1*(0 + i) for i in range(mK)],
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case K.sigma_distributed - (S scalar, K vector, t scalar, sigma distributed along K, r scalar)"
                   },
-            "1.3_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector[0],
-                                     "sigma": [0.1*(1.0 + i) for i in range(mK)],
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.3_K - (S scalar, K vector, t scalar, sigma vector as K, r scalar)"
+            "K.r_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector[0],
+                                         "sigma": 0.1,
+                                         "r": [0.01*(0 + i) for i in range(mK)],
+                                         "np_output": np_output},
+                    "info": "Case S.r_distributed - (S scalar, K vector, t scalar, sigma scalar, r distributed along K)"
                   },
-            "1.4_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector[0],
-                                     "sigma": [0.1*(1.0 + i) for i in range(mK)],
-                                     "r": [0.01*(1.0 + i) for i in range(mK)],
-                                     "np_output": np_output},
-                    "info": "Case 1.4_K - (S scalar, K vector, t scalar, sigma vector as K, r vector as K)"
+            "K.sigma_and_r_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector[0],
+                                         "sigma": [0.1*(0 + i) for i in range(mK)],
+                                         "r": [0.01*(0 + i) for i in range(mK)],
+                                         "np_output": np_output},
+                    "info": "Case K.sigma_and_r_distributed - (S scalar, K vector, t scalar, sigma distributed along K, r distributed along K)"
                   },
-            "1.1_t": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": 0.1,
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.1_t - (t vector, other scalar)"
+            "t": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case t - (t vector, other scalar)"
                   },
-            "1.2_t": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": 0.1,
-                                     "r": [0.01*(1.0 + i) for i in range(n)],
-                                     "np_output": np_output},
-                    "info": "Case 1.2_t - (S scalar, K scalar, t vector, sigma scalar, r vector as t)"
+            "t.sigma_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": [0.1*(0 + i) for i in range(n)],
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case t.sigma_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r scalar)"
                   },
-            "1.2_t_r_axis": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": 0.1,
-                                     "r": r_axis,
-                                     "np_output": np_output,
-                                     "r_axis": True},
-                    "info": "Case 1.2_t_r_axis - (S scalar, K scalar, t vector, sigma scalar, r vector axis)"
+            "t.r_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "np_output": np_output},
+                    "info": "Case t.r_distributed - (S scalar, K scalar, t vector, sigma scalar, r distributed along t)"
                   },
-            "1.3_t": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": [0.1*(1.0 + i) for i in range(n)],
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 1.3_t - (S scalar, K scalar, t vector, sigma vector as t, r scalar)"
+            "t.sigma_and_r_distributed": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": [0.1*(0 + i) for i in range(n)],
+                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "np_output": np_output},
+                    "info": "Case t.sigma_and_r_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r distributed along t)"
                   },
-            "1.3_t_sigma_axis": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": sigma_axis,
-                                     "r": 0.01,
-                                     "np_output": np_output,
-                                     "sigma_axis": True},
-                    "info": "Case 1.3_t_sigma_axis - (S scalar, K scalar, t vector, sigma vector axis, r scalar)"
+            "S.t": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case S.t - (S and t vector, other scalar)"
                   },
-            "1.4_t": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": [0.1*(1.0 + i) for i in range(n)],
-                                     "r": [0.01*(1.0 + i) for i in range(n)],
-                                     "np_output": np_output},
-                    "info": "Case 1.4_t - (S scalar, K scalar, t vector, sigma vector as t, r vector as t)"
+            "S.t.sigma_distributed_as_Sxt_grid": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": sigma_grid_S,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case S.t.sigma_distributed_as_Sxt_grid - (S and t vector, K scalar, sigma distributed as Sxt grid, r scalar)"
                   },
-            "2.1_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": 0.1,
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 2.1_S - (S and t vector, other scalar)"
+            "S.t.r_distributed_as_Sxt_grid": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": r_grid_S,
+                                         "np_output": np_output},
+                    "info": "Case S.t.r_distributed_as_Sxt_grid - (S and t vector, K scalar, sigma scalar, r distributed as Sxt grid)"
                   },
-            "2.1_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector,
-                                     "sigma": 0.1,
-                                     "r": 0.01,
-                                     "np_output": np_output},
-                    "info": "Case 2.1_K - (K and t vector, other scalar)"
+            "S.t.sigma_and_r_distributed_as_Sxt_grid": {"parameters": 
+                                        {"S": S_vector,
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": sigma_grid_S,
+                                         "r": r_grid_S,
+                                         "np_output": np_output},
+                    "info": "Case S.t.sigma_and_r_distributed_as_Sxt_grid - (S and t vector, K scalar, sigma distributed as Sxt grid, r distributed as Sxt grid)"
                   },
-            "2.2_S_sigma": {"parameters": {"S": S_vector,
-                                           "K": K_vector[0],
-                                           "t": t_vector,
-                                           "sigma": sigma_grid_S,
-                                           "r": 0.01,
-                                           "np_output": np_output},
-                    "info": "Case 2.2_S_sigma - (S and t vector, K scalar, sigma grid as Sxt, r scalar)"
+            "K.t": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case K.t - (K and t vector, other scalar)"
                   },
-            "2.2_K_sigma": {"parameters": {"S": S_vector[0],
-                                           "K": K_vector,
-                                           "t": t_vector,
-                                           "sigma": sigma_grid_K,
-                                           "r": 0.01,
-                                           "np_output": np_output},
-                    "info": "Case 2.2_K_sigma - (S scalar, K and t vector, sigma grid as Kxt, r scalar)"
+            "K.t.sigma_distributed_as_Kxt_grid": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector,
+                                         "sigma": sigma_grid_K,
+                                         "r": 0.01,
+                                         "np_output": np_output},
+                    "info": "Case K.t.sigma_distributed_as_Kxt_grid - (S scalar, K and t vector, sigma distributed as Kxt grid, r scalar)"
                   },
-            "2.3_S_r": {"parameters": {"S": S_vector,
-                                       "K": K_vector[0],
-                                       "t": t_vector,
-                                       "sigma": 0.1,
-                                       "r": r_grid_S,
-                                       "np_output": np_output},
-                    "info": "Case 2.3_S_r - (S and t vector, K scalar, sigma scalar, r grid as Sxt)"
+            "K.t.r_distributed_as_Kxt_grid": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": r_grid_K,
+                                         "np_output": np_output},
+                    "info": "Case K.t.r_distributed_as_Kxt_grid - (S scalar, K and t vector, sigma scalar, r distributed as Kxt grid)"
                   },
-            "2.3_K_r": {"parameters": {"S": S_vector[0],
-                                       "K": K_vector,
-                                       "t": t_vector,
-                                       "sigma": 0.1,
-                                       "r": r_grid_K,
-                                       "np_output": np_output},
-                    "info": "Case 2.3_K_r - (S scalar, K and t vector, sigma scalar, r grid as Kxt)"
+            "K.t.sigma_and_r_distributed_as_Kxt_grid": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector,
+                                         "t": t_vector,
+                                         "sigma": sigma_grid_K,
+                                         "r": r_grid_K,
+                                         "np_output": np_output},
+                    "info": "Case K.t.sigma_and_r_distributed_as_Kxt_grid - (S scalar, K and t vector, sigma distributed as Kxt grid, r distributed as Kxt grid)"
                   },
-            "2.4_S": {"parameters": {"S": S_vector,
-                                     "K": K_vector[0],
-                                     "t": t_vector,
-                                     "sigma": sigma_grid_S,
-                                     "r": r_grid_S,
-                                     "np_output": np_output},
-                    "info": "Case 2.4_S - (S and t vector, K scalar, sigma grid as Sxt, r grid as Sxt)"
+            "t.sigma_axis": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": sigma_axis,
+                                         "r": 0.01,
+                                         "np_output": np_output,
+                                         "sigma_axis": True},
+                    "info": "Case t.sigma_axis - (S scalar, K scalar, t vector, sigma vector axis, r scalar)"
                   },
-            "2.4_K": {"parameters": {"S": S_vector[0],
-                                     "K": K_vector,
-                                     "t": t_vector,
-                                     "sigma": sigma_grid_K,
-                                     "r": r_grid_K,
-                                     "np_output": np_output},
-                    "info": "Case 2.4_K - (S scalar, K and t vector, sigma grid as Kxt, r grid as Kxt)"
+            "t.r_axis": {"parameters": 
+                                        {"S": S_vector[0],
+                                         "K": K_vector[0],
+                                         "t": t_vector,
+                                         "sigma": 0.1,
+                                         "r": r_axis,
+                                         "np_output": np_output,
+                                         "r_axis": True},
+                    "info": "Case t.r_axis - (S scalar, K scalar, t vector, sigma scalar, r vector axis)"
                   }
     }
     
@@ -258,16 +281,14 @@ def main():
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
 
-    for case in ['0', '1.1_S', '1.2_S', '1.3_S', '1.4_S', \
-                      '1.1_K', '1.2_K', '1.3_K', '1.4_K', \
-                      '1.1_t', '1.2_t', '1.2_t_r_axis', \
-                      '1.3_t', '1.3_t_sigma_axis', '1.4_t', \
-                      '2.1_S', '2.1_K', '2.2_S_sigma', '2.2_K_sigma', \
-                      '2.3_S_r', '2.3_K_r', \
-                      '2.4_S', '2.4_K']:
+    for case in ['All_scalar', \
+                 'S', 'S.sigma_distributed', 'S.r_distributed', 'S.sigma_and_r_distributed', \
+                 'K', 'K.sigma_distributed', 'K.r_distributed', 'K.sigma_and_r_distributed', \
+                 't', 't.sigma_distributed', 't.r_distributed', 't.sigma_and_r_distributed', \
+                 'S.t', 'S.t.sigma_distributed_as_Sxt_grid', 'S.t.r_distributed_as_Sxt_grid', 'S.t.sigma_and_r_distributed_as_Sxt_grid', \
+                 'K.t', 'K.t.sigma_distributed_as_Kxt_grid', 'K.t.r_distributed_as_Kxt_grid', 'K.t.sigma_and_r_distributed_as_Kxt_grid', \
+                 't.sigma_axis', 't.r_axis']:
     
-#    for case in ['1.3_t', '1.3_t_sigma_axis']:
-        
         # get parameters dictionary for case considered
         param_dict, case_info = get_param_dict(option, np_output, case)
 
