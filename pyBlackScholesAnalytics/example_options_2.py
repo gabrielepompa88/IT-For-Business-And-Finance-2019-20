@@ -237,6 +237,10 @@ def get_param_dict(option, np_output, case):
                                          "np_output": np_output},
                     "info": "Case K.t.sigma_and_r_distributed_as_Kxt_grid - (S scalar, K and t vector, sigma distributed as Kxt grid, r distributed as Kxt grid)"
                   },
+            # if we want to have the x-axis spanned by sigma or r, we have to explicitly
+            # ask for it, using "sigma_axis" or "r_axis" flags. Otherwise, sigma and r
+            # parameters are interpreted as parameters to be distributed along the 
+            # other(s) axis (and require length/shape match)
             "t.sigma_axis": {"parameters": 
                                         {"S": S_vector[0],
                                          "K": K_vector[0],

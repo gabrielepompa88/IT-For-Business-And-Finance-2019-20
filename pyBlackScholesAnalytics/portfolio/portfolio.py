@@ -295,7 +295,7 @@ class Portfolio:
         As single instruments .theta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
         """
                 
-x        # check parameters
+        # check parameters
         self.check_parameters(*args, **kwargs)
 
         # portfolio theta is the sum position * instrument_payoff

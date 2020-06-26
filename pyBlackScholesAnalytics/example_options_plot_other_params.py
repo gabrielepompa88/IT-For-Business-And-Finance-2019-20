@@ -28,7 +28,15 @@ def options_x_axis_parameters_factory(option, parameter_name):
                   "sigma": option.get_sigma(),
                   "r": option.get_r()}
     
-    return {parameter_name: param_dict[parameter_name]}
+    # if we want to have the x-axis spanned by sigma or r, we have to explicitly
+    # ask for it, using "sigma_axis" or "r_axis" flags. Otherwise, sigma and r
+    # parameters are interpreted as parameters to be distributed along the 
+    # other(s) axis (and require length/shape match)
+    if parameter_name in ["sigma", "r"]:
+        return {parameter_name: param_dict[parameter_name],
+                parameter_name + "_axis": True}
+    else:
+        return {parameter_name: param_dict[parameter_name]}
 
 def get_time_parameter(option, kind='date'):
     
@@ -105,7 +113,7 @@ def main():
                 # set time-parameter to plot
                 multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
                 print(multiple_valuation_dates)
-            
+                            
                 # Plot at multiple dates
                 plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
                              plot_metrics=plot_metrics)

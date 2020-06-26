@@ -96,6 +96,9 @@ class Plotter:
         Utility method to define the x-axis of the plot, optionally parsing x-axis in input.
         """
         
+        # output dictionary initialization
+        x_axis_dict = {}
+        
         #
         # parsing optional parameters
         #
@@ -150,6 +153,10 @@ class Plotter:
                 
         # Case x-axis = sigma or r
         elif x_name in ['sigma', 'r']:
+            
+            # explicitly ask for x-axis span by 'sigma' or 'r'
+            x_axis_dict[x_name + '_axis'] = True
+            
             # case 1: a list of x-points in input. The x-axis is a wide range, including x-points
             if is_iterable(x):
                 x_min = 0.0
@@ -159,7 +166,11 @@ class Plotter:
                 x_min = 0.0
                 x_max = 1.5*x
 
-        return {x_name: np.linspace(x_min, x_max, n), 'x_axis': x_name}
+        # x-axis dictionary filling
+        x_axis_dict[x_name] = np.linspace(x_min, x_max, n)
+        x_axis_dict['x_axis'] = x_name
+                    
+        return x_axis_dict
         
     def time_parameter(self, *args, **kwargs):
         """
@@ -535,6 +546,10 @@ class OptionPlotter(Plotter):
 #        if x_id not in ["S", "K"]:
 #            raise NotImplementedError(".plot_multi_time() availabe only for S or K x-axis variables. Given: " + x_id)
         
+        # other x-axis parameters
+        sigma_axis = x_axis_dict.pop('sigma_axis', False)
+        r_axis = x_axis_dict.pop('r_axis', False)
+        
         # x-axis values
         x = x_axis_dict[x_id]
         
@@ -547,7 +562,7 @@ class OptionPlotter(Plotter):
         fig, ax = plt.subplots(figsize=(10,6))
 
         # precompute surface (exploiting vectorization)
-        surface_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': times})
+        surface_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x, 't': times, 'sigma_axis': sigma_axis, 'r_axis': r_axis})
             
         # plot the price for different x-axis values, one line for each different date
         for i in range(n_times):
@@ -563,7 +578,7 @@ class OptionPlotter(Plotter):
         elif x_id == 'r':
             x_emission = self.fin_inst.get_r()
         
-        emission_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': times})
+        emission_metrics = getattr(self.fin_inst, plot_metrics)(**{x_id: x_emission, 't': times})#, 'sigma_axis': sigma_axis, 'r_axis': r_axis})
 
         # blue dot at original emission level of the x-axis for reference
         ax.plot(x_emission + np.zeros_like(emission_metrics), emission_metrics, 'b.', ms=10,\
@@ -571,7 +586,7 @@ class OptionPlotter(Plotter):
             
         # plot the red payoff line for different x-axis values
         if plot_metrics in ['price', 'PnL']:
-            ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0}), 'r-',  lw=1.5, 
+            ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0, 'sigma_axis': sigma_axis, 'r_axis': r_axis}), 'r-',  lw=1.5, 
                     label=plot_metrics + r" at maturity (" + self.fin_inst.get_docstring('payoff') + r")")
         
         # plot a dot to highlight the strike position and a reference zero line
