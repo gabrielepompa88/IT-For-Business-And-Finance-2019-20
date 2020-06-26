@@ -1104,38 +1104,70 @@ class EuropeanOption:
         #         and S, K and tau are both scalar
         elif iterable_sigma or iterable_r:
             
+#            # case 2.1: sigma and r are iterable 1-dim vectors
+#            #
+#            # make r and sigma coordinated np.ndarray or pd.DataFrames
+#            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
+#            if iterable_sigma and iterable_r:
+#                coord_params = coordinate(x=r, y=sigma, 
+#                                          x_name="r", y_name="sigma",
+#                                          others_scalar={"S": S, "K": K, time_name: tau}, 
+#                                          np_output=np_output, 
+#                                          col_labels=r, ind_labels=sigma)   
             # case 2.1: sigma and r are iterable 1-dim vectors
             #
-            # make r and sigma coordinated np.ndarray or pd.DataFrames
-            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
+            # make sigma and r coordinated np.ndarray or pd.DataFrames
+            # creating a (sigma, r) grid and S, K and tau coordinated accordingly
             if iterable_sigma and iterable_r:
-                coord_params = coordinate(x=r, y=sigma, 
-                                          x_name="r", y_name="sigma",
+                coord_params = coordinate(x=sigma, y=r, 
+                                          x_name="sigma", y_name="r",
                                           others_scalar={"S": S, "K": K, time_name: tau}, 
                                           np_output=np_output, 
-                                          col_labels=r, ind_labels=sigma)   
+                                          col_labels=sigma, ind_labels=r)   
 
+#            # case 2.2: sigma is a 1-dim vector and r is scalar
+#            #
+#            # make S and sigma coordinated np.ndarray or pd.DataFrames
+#            # and K, tau and r coordinated accordingly
+#            elif iterable_sigma:
+#                coord_params = coordinate(x=S, y=sigma, 
+#                                          x_name="S", y_name="sigma",
+#                                          others_scalar={"K": K, time_name: tau, "r": r}, 
+#                                          np_output=np_output, 
+#                                          col_labels=S, ind_labels=sigma)   
+                
             # case 2.2: sigma is a 1-dim vector and r is scalar
             #
-            # make S and sigma coordinated np.ndarray or pd.DataFrames
-            # and K, tau and r coordinated accordingly
+            # make sigma and tau coordinated np.ndarray or pd.DataFrames
+            # and S, K and r coordinated accordingly
             elif iterable_sigma:
-                coord_params = coordinate(x=S, y=sigma, 
-                                          x_name="S", y_name="sigma",
-                                          others_scalar={"K": K, time_name: tau, "r": r}, 
+                coord_params = coordinate(x=sigma, y=tau, 
+                                          x_name="sigma", y_name=time_name,
+                                          others_scalar={"S": S, "K": K, "r": r}, 
                                           np_output=np_output, 
-                                          col_labels=S, ind_labels=sigma)   
+                                          col_labels=sigma, ind_labels=time_param)   
+
+#            # case 2.3: r is a 1-dim vector and sigma is scalar
+#            #
+#            # make S and r coordinated np.ndarray or pd.DataFrames
+#            # and K, tau and sigma coordinated accordingly
+#            elif iterable_r:
+#                coord_params = coordinate(x=S, y=r, 
+#                                          x_name="S", y_name="r",
+#                                          others_scalar={"K": K, time_name: tau, "sigma": sigma}, 
+#                                          np_output=np_output, 
+#                                          col_labels=S, ind_labels=r)
 
             # case 2.3: r is a 1-dim vector and sigma is scalar
             #
-            # make S and r coordinated np.ndarray or pd.DataFrames
-            # and K, tau and sigma coordinated accordingly
+            # make r and tau coordinated np.ndarray or pd.DataFrames
+            # and S, K and sigma coordinated accordingly
             elif iterable_r:
-                coord_params = coordinate(x=S, y=r, 
-                                          x_name="S", y_name="r",
-                                          others_scalar={"K": K, time_name: tau, "sigma": sigma}, 
+                coord_params = coordinate(x=r, y=tau, 
+                                          x_name="r", y_name=time_name,
+                                          others_scalar={"S": S, "K": K, "sigma": sigma}, 
                                           np_output=np_output, 
-                                          col_labels=S, ind_labels=r)
+                                          col_labels=r, ind_labels=time_param)
 
         # return coordinated parameters
         return {"S": coord_params["S"], 
