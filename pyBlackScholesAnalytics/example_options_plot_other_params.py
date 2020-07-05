@@ -29,9 +29,9 @@ def options_x_axis_parameters_factory(option, parameter_name):
                   "r": option.get_r()}
     
     # if we want to have the x-axis spanned by sigma or r, we have to explicitly
-    # ask for it, using "sigma_axis" or "r_axis" flags. Otherwise, sigma and r
-    # parameters are interpreted as parameters to be distributed along the 
-    # other(s) axis (and require length/shape match)
+    # ask for it, setting "sigma_axis" or "r_axis" flags to True. 
+    # Otherwise, sigma and r parameters are interpreted as parameters to be 
+    # distributed along the other(s) axis (and require length/shape match)
     if parameter_name in ["sigma", "r"]:
         return {parameter_name: param_dict[parameter_name],
                 parameter_name + "_axis": True}
@@ -84,7 +84,7 @@ def main():
     print(emission_date)
     
     # select dependency to plot as x-axis of the plot
-    for dependency_type in ["sigma"]: #["S", "K", "sigma", "r"]:
+    for dependency_type in ["S", "K", "sigma", "r"]:
     
         # keyboard parameter and corresponding range to test
         x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    

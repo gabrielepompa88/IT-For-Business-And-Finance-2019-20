@@ -584,14 +584,17 @@ class OptionPlotter(Plotter):
         ax.plot(x_emission + np.zeros_like(emission_metrics), emission_metrics, 'b.', ms=10,\
                 label=r"Emission level $" + x_id + r"={:.2f}$".format(x_emission))
             
-        # plot the red payoff line for different x-axis values
-        if plot_metrics in ['price', 'PnL']:
-            ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0, 'sigma_axis': sigma_axis, 'r_axis': r_axis}), 'r-',  lw=1.5, 
-                    label=plot_metrics + r" at maturity (" + self.fin_inst.get_docstring('payoff') + r")")
-        
-        # plot a dot to highlight the strike position and a reference zero line
-        ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
-        ax.plot(x, np.zeros_like(x), 'k--', lw=1.5)
+        # part meaningful only if the x-axis is 'S' or 'K'
+        if x_id in ['S', 'K']:
+            
+            # plot the red payoff line for different x-axis values
+            if plot_metrics in ['price', 'PnL']:
+                ax.plot(x, getattr(self.fin_inst, plot_metrics)(**{x_id: x, 'tau': 0.0, 'sigma_axis': sigma_axis, 'r_axis': r_axis}), 'r-',  lw=1.5, 
+                        label=plot_metrics + r" at maturity (" + self.fin_inst.get_docstring('payoff') + r")")
+            
+            # plot a dot to highlight the strike position and a reference zero line
+            ax.plot(self.fin_inst.get_K(), 0, 'k.', ms=15, label="Strike $K={}$".format(self.fin_inst.get_K()))
+            ax.plot(x, np.zeros_like(x), 'k--', lw=1.5)
         
         # set axis labels 
         ax.set_xlabel(x_id + r" at different dates", fontsize=12)
@@ -646,6 +649,7 @@ class OptionPlotter(Plotter):
         
         # part meaningful only if the x-axis is 'S' or 'K'
         if x_id in ['S', 'K']:
+            
             if plot_price_limits:
                 # plot the upper limit, the price and the lower limit for different x-axis values
                 ax.plot(x, self.fin_inst.price_upper_limit(**{x_id: x, 't': time}), 'k-.', lw=1.5, label=self.fin_inst.get_docstring('price_upper_limit'))
