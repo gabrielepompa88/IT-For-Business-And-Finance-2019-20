@@ -183,10 +183,10 @@ class Portfolio:
         """"Check both x-axis and time dimensional parameters."""
         
         # check x-axis
-        self.__check_x_axis(self, *args, **kwargs)
+        self.__check_x_axis(*args, **kwargs)
 
         # check time parameter
-        self.__check_time_parameter(self, *args, **kwargs)
+        self.__check_time_parameter(*args, **kwargs)
             
     def __check_x_axis(self, *args, **kwargs):
         """Check that no Strike-price variable is used to span the x-axis. 
