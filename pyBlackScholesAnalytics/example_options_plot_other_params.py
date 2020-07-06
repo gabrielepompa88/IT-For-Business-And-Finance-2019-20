@@ -102,12 +102,6 @@ def main():
             plotter.plot(**x_axis_dict, t="01-06-2020", 
                          plot_metrics=plot_metrics, plot_details=plot_details_flag)
             
-            # multi-time plot available only if S or K parameters are chosen for x-axis.
-            # This, because if S/K and/or t/tau is a vector, sigma/r are interpreted as pricing parameters
-            # to be distributed along the vector dimension(s). This requires their length and/or shape
-            # to match the vectorial one. See EuropeanOption.price() docstring
-#            if dependency_type in ["S", "K"]:
-
             for time_kind in ['date', 'tau']:
     
                 # set time-parameter to plot

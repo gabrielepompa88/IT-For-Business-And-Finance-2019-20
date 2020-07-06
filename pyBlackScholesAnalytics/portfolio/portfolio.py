@@ -62,9 +62,12 @@ class Portfolio:
         self.__t = None
         self.__T = np.array([])
         self.__S = None
+        self.__sigma = None
+        self.__r = None
         self.__K = np.array([])
         self.__tau = np.array([])
         self.is_multi_horizon = False
+        self.is_multi_strike = False
         self.is_empty = True
         
     def __repr__(self):
@@ -92,6 +95,12 @@ class Portfolio:
     def get_S(self):
         return self.__S
 
+    def get_sigma(self):
+        return self.__sigma
+
+    def get_r(self):
+        return self.__r
+
     def get_tau(self):
         return self.__tau
     
@@ -108,6 +117,12 @@ class Portfolio:
     def set_S(self, S):
         self.__S = S
         
+    def set_sigma(self, sigma):
+        self.__sigma = sigma
+
+    def set_r(self, r):
+        self.__r = r
+
     #
     # Composition method
     #
@@ -131,6 +146,8 @@ class Portfolio:
         self.__update_t(FinancialInstrument)
         self.__update_T(FinancialInstrument)
         self.__update_S(FinancialInstrument)
+        self.__update_sigma(FinancialInstrument)
+        self.__update_r(FinancialInstrument)
         self.__update_K(FinancialInstrument)
         self.__update_tau(FinancialInstrument)
     
@@ -163,11 +180,24 @@ class Portfolio:
         if self.get_S() is None:
             self.set_S(fin_inst.get_S())
             
+    def __update_sigma(self, fin_inst):
+        if self.get_sigma() is None:
+            self.set_sigma(fin_inst.get_sigma())
+
+    def __update_r(self, fin_inst):
+        if self.get_r() is None:
+            self.set_r(fin_inst.get_r())
+
     def __update_K(self, fin_inst):
         # append new instrument strike
         strikes = np.append(self.get_K(), fin_inst.get_K())
         # filter only distinct strikes
         self.__K = np.unique(strikes)
+        # check if the portfolio is a multi-strike portfolio
+        if len(self.__K) > 1:
+            self.is_multi_strike = True
+        else:
+            self.__K = self.__K[0]
 
     def __update_tau(self, fin_inst):
         # append new instrument tau
@@ -180,7 +210,7 @@ class Portfolio:
                                  .format(self.__tau)) 
     
     def check_parameters(self, *args, **kwargs):
-        """"Check both x-axis and time dimensional parameters."""
+        """Check both x-axis and time dimensional parameters."""
         
         # check x-axis
         self.__check_x_axis(*args, **kwargs)
@@ -189,16 +219,16 @@ class Portfolio:
         self.__check_time_parameter(*args, **kwargs)
             
     def __check_x_axis(self, *args, **kwargs):
-        """Check that no Strike-price variable is used to span the x-axis. 
-        This is something not well defined for portfolio with multi-strike options constituents,
-        and admissible but no so meaningful for single-strike portfolios (e.g. calendar spreads).
-        We decided to disallow tout-court the feature."""
+        """Check that multi-strike portfolio do not get strike as input x-axis parameter"""
         
-        if "K" in kwargs:
-            raise NotImplementedError("No Strike-price pricing parameter allowed.")
+        # x-axis parameter:
+        strike = kwargs['K'] if 'K' in kwargs else None
+        
+        if self.is_multi_strike and strike is not None:
+            raise NotImplementedError("No 'strike' x-axis parameter allowed for multi-strike portfolio.")  
                           
     def __check_time_parameter(self, *args, **kwargs):
-        """"Check that multi-horizon portfolio do not get time(s)-to-maturity as input time parameter"""
+        """Check that multi-horizon portfolio do not get time(s)-to-maturity as input time parameter"""
         
         # time parameter:
         time_param = args[1] if len(args) > 1 \

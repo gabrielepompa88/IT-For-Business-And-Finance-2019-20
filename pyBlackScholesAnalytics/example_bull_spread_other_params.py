@@ -4,21 +4,9 @@ import warnings
 warnings.filterwarnings("ignore")
 
 from market.market import MarketEnvironment
-from options.options import PlainVanillaOption, DigitalOption
-from plotter.plotter import OptionPlotter
-
-def option_factory(mkt_env, plain_or_digital, option_type):
-
-    option_dispatcher = {
-            "plain_vanilla": {"call": PlainVanillaOption(mkt_env),
-                              "put":  PlainVanillaOption(mkt_env, option_type="put")
-                             },
-            "digital": {"call": DigitalOption(mkt_env),
-                        "put":  DigitalOption(mkt_env, option_type="put")
-                       }
-    }
-            
-    return option_dispatcher[plain_or_digital][option_type]
+from portfolio.portfolio import Portfolio
+from options.options import PlainVanillaOption
+from plotter.plotter import PortfolioPlotter
 
 def options_x_axis_parameters_factory(option, parameter_name):
     
@@ -36,7 +24,7 @@ def options_x_axis_parameters_factory(option, parameter_name):
                 parameter_name + "_axis": True}
     else:
         return {parameter_name: param_dict[parameter_name]}
-    
+
 def get_azimut_angle(parameter_name):
     
     angles_dict = {"S": {"x-axis side": 180, 
@@ -76,56 +64,79 @@ def get_time_parameter(option, kind='date'):
 
 def main():
     
-    # vanilla call implementation example
+    # Bull-Spread implementation example
             
     # default market environment
     market_env = MarketEnvironment()
     print(market_env)
     
-    # define option style and type
-    opt_style = "plain_vanilla" # "digital"
-    opt_type = "call" # "put"   
-    option = option_factory(market_env, opt_style, opt_type)
-    print(option)
-        
-    # option plotter instance
-    plotter = OptionPlotter(option)
-        
-    # valuation date of the option
-    emission_date = option.get_t()
-            
-    # select dependency to plot as x-axis of the plot
-    for dependency_type in ["S", "K", "sigma", "r"]:
+    # options strikes
+    K_long = 80
+    K_short = 110
 
+    # bull-spread portfolio initialized (as empty portfolio)   
+    bull_spread_ptf = Portfolio(name="Bull Spread Strategy")
+    print(bull_spread_ptf)
+
+    # 80-call
+    Vanilla_Call_long = PlainVanillaOption(market_env, K=K_long, T='31-12-2021')
+    print(Vanilla_Call_long)
+    
+    # 110-call
+    Vanilla_Call_short = PlainVanillaOption(market_env, K=K_short, T='31-12-2021')
+    print(Vanilla_Call_short)
+
+    # creation of bull-spread portfolio strategy   
+    bull_spread_ptf.add_instrument(Vanilla_Call_long, 1)
+    bull_spread_ptf.add_instrument(Vanilla_Call_short, -1)    
+    print(bull_spread_ptf)
+    
+    # portfolio plotter instance
+    bull_spread_ptf_plotter = PortfolioPlotter(bull_spread_ptf)
+    
+    # select dependency to plot as x-axis of the plot 
+    # (strike 'K' is skipped because a bull-spread is a multi-strike portfolio)
+    for dependency_type in ["S", "sigma", "r"]:
+    
         # keyboard parameter and corresponding range to test
-        x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    
-
+        x_axis_dict = options_x_axis_parameters_factory(bull_spread_ptf, dependency_type)    
+        
         # appropriate azimut angle for best viewing
         azimut_angle = get_azimut_angle(dependency_type)
-
+        
         # select metrics to plot
         for plot_metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+            
+            plot_details_flag = True if plot_metrics == "price" else False
+    
+            # Bull-Spread price plot
+            bull_spread_ptf_plotter.plot(**x_axis_dict, t='01-06-2020', plot_metrics=plot_metrics, 
+                                         plot_details=plot_details_flag)
             
             for time_kind in ['date', 'tau']:
     
                 # set time-parameter to plot
-                multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
+                multiple_valuation_dates = get_time_parameter(bull_spread_ptf, kind=time_kind)
                 print(multiple_valuation_dates)
-                                        
+        
+                # Plot at multiple dates
+                bull_spread_ptf_plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                                             plot_metrics=plot_metrics)
+            
                 # Surface plot
-                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
-                             plot_metrics=plot_metrics, surf_plot=True)
-                            
+                bull_spread_ptf_plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                                             plot_metrics=plot_metrics, surf_plot=True)
+            
                 # Surface plot (rotate) - x-axis side
-                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
-                             plot_metrics=plot_metrics, surf_plot=True, 
-                             view=(0,azimut_angle["x-axis side"]))
+                bull_spread_ptf_plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                                             plot_metrics=plot_metrics, surf_plot=True, 
+                                             view=(0,azimut_angle["x-axis side"]))
             
                 # Price surface plot (rotate) - Date side
-                plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
-                             plot_metrics=plot_metrics, surf_plot=True, 
-                             view=(0,azimut_angle["Date side"]))
-            
+                bull_spread_ptf_plotter.plot(**x_axis_dict, t=multiple_valuation_dates, 
+                                             plot_metrics=plot_metrics, surf_plot=True, 
+                                             view=(0,azimut_angle["Date side"]))
+        
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     
