@@ -219,7 +219,8 @@ class Portfolio:
         self.__check_time_parameter(*args, **kwargs)
             
     def __check_x_axis(self, *args, **kwargs):
-        """Check that multi-strike portfolio do not get strike as input x-axis parameter"""
+        """Check that multi-strike portfolio do not get strike as input x-axis parameter,
+        which is not well defined."""
         
         # x-axis parameter:
         strike = kwargs['K'] if 'K' in kwargs else None
@@ -228,7 +229,8 @@ class Portfolio:
             raise NotImplementedError("No 'strike' x-axis parameter allowed for multi-strike portfolio.")  
                           
     def __check_time_parameter(self, *args, **kwargs):
-        """Check that multi-horizon portfolio do not get time(s)-to-maturity as input time parameter"""
+        """Check that multi-horizon portfolio do not get time(s)-to-maturity as input time parameter,
+        which is not well defined."""
         
         # time parameter:
         time_param = args[1] if len(args) > 1 \

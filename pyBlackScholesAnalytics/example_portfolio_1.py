@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from utils.utils import date_string_to_datetime_obj
@@ -59,20 +60,24 @@ def main():
                             periods=5)
     print("t ([t...T] pd.date_range): {}\n".format(t_range))
     
-    # portfolio value
-    print("\nPortfolio Value:\n", ptf.price(S=S_vector, t=t_range, np_output=np_output))
+    # metrics to compare
+    for metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+   
+        # portfolio metrics
+        ptf_metrics = getattr(ptf, metrics)(S=S_vector, t=t_range, np_output=np_output)
+        print("\nPortfolio {}:\n{}".format(metrics, ptf_metrics))
 
-    # verification with benchmark value
-    bechmark_value = call_pos * call.price(S=S_vector, t=t_range, np_output=np_output)
-    print("\nbenchmark value:\n", bechmark_value) 
+        # verification with benchmark metrics
+        call_metrics = getattr(call, metrics)(S=S_vector, t=t_range, np_output=np_output)
+        benchmark_metrics = call_pos * call_metrics
+        print("\nBenchmark {}:\n{}".format(metrics, benchmark_metrics))
+        
+        # check effective match
+        diff = (ptf_metrics - benchmark_metrics).astype('float')
+        num_nonzero_diff = np.count_nonzero(diff) - np.isnan(diff).sum().sum()
+        exact_match = True if num_nonzero_diff == 0 else False
+        print("\nIs replication exact (NaN excluded)? {}\n".format(exact_match))
 
-    # portfolio P&L
-    print("\nPortfolio P&L:\n", ptf.PnL(S=S_vector, t=t_range, np_output=np_output))
-    
-    # verification with benchmark P&L
-    benchmark_pnl = call_pos * call.PnL(S=S_vector, t=t_range, np_output=np_output)      
-    print("\nbenchmark P&L:\n", benchmark_pnl)
-    
     #
     # Step 2: adding 5 short plain-vanilla put contracts
     #
@@ -85,21 +90,24 @@ def main():
     ptf.add_instrument(put, put_pos)
     print(ptf)
     
-    # portfolio value
-    print("\nPortfolio Value:\n", ptf.price(S=S_vector, t=t_range, np_output=np_output))
-    
-    # verification with benchmark value
-    benchmark_value = call_pos * call.price(S=S_vector, t=t_range, np_output=np_output) + \
-                      put_pos * put.price(S=S_vector, t=t_range, np_output=np_output)
-    print("\nbenchmark value:\n", benchmark_value) 
+    # metrics to compare
+    for metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
+   
+        # portfolio metrics
+        ptf_metrics = getattr(ptf, metrics)(S=S_vector, t=t_range, np_output=np_output)
+        print("\nPortfolio {}:\n{}".format(metrics, ptf_metrics))
 
-    # portfolio P&L
-    print("\nPortfolio P&L:\n", ptf.PnL(S=S_vector, t=t_range, np_output=np_output))
-    
-    # verification with benchmark P&L
-    benchmark_pnl = call_pos * call.PnL(S=S_vector, t=t_range, np_output=np_output) + \
-                    put_pos * put.PnL(S=S_vector, t=t_range, np_output=np_output)                         
-    print("\nbenchmark P&L:\n", benchmark_pnl)
+        # verification with benchmark metrics
+        call_metrics = getattr(call, metrics)(S=S_vector, t=t_range, np_output=np_output)
+        put_metrics = getattr(put, metrics)(S=S_vector, t=t_range, np_output=np_output)
+        benchmark_metrics = call_pos * call_metrics + put_pos * put_metrics
+        print("\nBenchmark {}:\n{}".format(metrics, benchmark_metrics))
+
+        # check effective match
+        diff = (ptf_metrics - benchmark_metrics).astype('float')
+        num_nonzero_diff = np.count_nonzero(diff) - np.isnan(diff).sum().sum()
+        exact_match = True if num_nonzero_diff == 0 else False
+        print("\nIs replication exact (NaN excluded)? {}\n".format(exact_match))
     
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
