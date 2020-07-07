@@ -39,10 +39,10 @@ def get_param_dict(option, np_output, case):
     tau_list = [0.3, 0.4, 0.5, 0.6, 0.7]
 
     # sigma
-    sigma_axis = np.array([0.1*(0 + i) for i in range(3)])
+    sigma_axis = np.array([0.1*(1 + i) for i in range(3)])
 
     # r
-    r_axis = np.array([0.01*(0 + i) for i in range(3)])
+    r_axis = np.array([0.01*(1 + i) for i in range(3)])
 
     cases_dict = {
             "S_scalar_default.t_scalar_default": {"parameters": 
@@ -173,12 +173,14 @@ def main():
         
         # Implied volatility calculation is not implemented for x-axis (columns) 
         # spanned by parameters different from S or K (like sigma or r)
-        if not_sigma_axis and not_r_axis:        
-            print("\nImplied Volatility - Newton method (expected iv:\n{}):\n"\
-                  .format(option.get_sigma()), option.implied_volatility(**param_dict))
+        if not_sigma_axis and not_r_axis: 
+            print("\nExpected Implied Volatility: \n{}\n"\
+                  .format(option.get_sigma()))
+            print("\nImplied Volatility - Newton method:\n{}\n"\
+                  .format(option.implied_volatility(**param_dict)))
             param_dict["minimization_method"] = "Least-Squares"
-            print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n"\
-                  .format(option.get_sigma()), option.implied_volatility(**param_dict))
+            print("\nImplied Volatility - Least-Squares constrained method:\n{}\n"\
+                  .format(option.implied_volatility(**param_dict)))
   
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

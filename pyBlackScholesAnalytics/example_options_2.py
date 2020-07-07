@@ -38,14 +38,14 @@ def get_param_dict(option, np_output, case):
                              end=expiration_date-pd.Timedelta(days=10), 
                              periods=n)    
     # sigma
-    sigma_axis = np.array([0.1*(0 + i) for i in range(3)])
-    sigma_grid_S = np.array([0.1*(0 + i) for i in range(mS*n)]).reshape(n,mS)
-    sigma_grid_K = np.array([0.1*(0 + i) for i in range(mK*n)]).reshape(n,mK)
+    sigma_axis = np.array([0.1*(1 + i) for i in range(3)])
+    sigma_grid_S = np.array([0.1*(1 + i) for i in range(mS*n)]).reshape(n,mS)
+    sigma_grid_K = np.array([0.1*(1 + i) for i in range(mK*n)]).reshape(n,mK)
     
     # r
-    r_axis = np.array([0.01*(0 + i) for i in range(3)])
-    r_grid_S = np.array([0.01*(0 + i) for i in range(mS*n)]).reshape(n,mS)
-    r_grid_K = np.array([0.01*(0 + i) for i in range(mK*n)]).reshape(n,mK)
+    r_axis = np.array([0.01*(1 + i) for i in range(3)])
+    r_grid_S = np.array([0.01*(1 + i) for i in range(mS*n)]).reshape(n,mS)
+    r_grid_K = np.array([0.01*(1 + i) for i in range(mK*n)]).reshape(n,mK)
 
     cases_dict = {
             "All_scalar": {"parameters": 
@@ -70,7 +70,7 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector,
                                          "K": K_vector[0],
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mS)],
+                                         "sigma": [0.1*(1 + i) for i in range(mS)],
                                          "r": 0.01,
                                          "np_output": np_output},
                     "info": "Case S.sigma_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r scalar)"
@@ -80,7 +80,7 @@ def get_param_dict(option, np_output, case):
                                          "K": K_vector[0],
                                          "t": t_vector[0],
                                          "sigma": 0.1,
-                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "r": [0.01*(1 + i) for i in range(mS)],
                                          "np_output": np_output},
                     "info": "Case S.r_distributed - (S vector, K scalar, t scalar, sigma scalar, r distributed along S)"
                   },
@@ -88,8 +88,8 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector,
                                          "K": K_vector[0],
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mS)],
-                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "sigma": [0.1*(1 + i) for i in range(mS)],
+                                         "r": [0.01*(1 + i) for i in range(mS)],
                                          "np_output": np_output},
                     "info": "Case S.sigma_and_r_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r distributed along S)"
                   },
@@ -106,7 +106,7 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector[0],
                                          "K": K_vector,
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mK)],
+                                         "sigma": [0.1*(1 + i) for i in range(mK)],
                                          "r": 0.01,
                                          "np_output": np_output},
                     "info": "Case K.sigma_distributed - (S scalar, K vector, t scalar, sigma distributed along K, r scalar)"
@@ -116,7 +116,7 @@ def get_param_dict(option, np_output, case):
                                          "K": K_vector,
                                          "t": t_vector[0],
                                          "sigma": 0.1,
-                                         "r": [0.01*(0 + i) for i in range(mK)],
+                                         "r": [0.01*(1 + i) for i in range(mK)],
                                          "np_output": np_output},
                     "info": "Case S.r_distributed - (S scalar, K vector, t scalar, sigma scalar, r distributed along K)"
                   },
@@ -124,8 +124,8 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector[0],
                                          "K": K_vector,
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mK)],
-                                         "r": [0.01*(0 + i) for i in range(mK)],
+                                         "sigma": [0.1*(1 + i) for i in range(mK)],
+                                         "r": [0.01*(1 + i) for i in range(mK)],
                                          "np_output": np_output},
                     "info": "Case K.sigma_and_r_distributed - (S scalar, K vector, t scalar, sigma distributed along K, r distributed along K)"
                   },
@@ -142,7 +142,7 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector[0],
                                          "K": K_vector[0],
                                          "t": t_vector,
-                                         "sigma": [0.1*(0 + i) for i in range(n)],
+                                         "sigma": [0.1*(1 + i) for i in range(n)],
                                          "r": 0.01,
                                          "np_output": np_output},
                     "info": "Case t.sigma_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r scalar)"
@@ -152,7 +152,7 @@ def get_param_dict(option, np_output, case):
                                          "K": K_vector[0],
                                          "t": t_vector,
                                          "sigma": 0.1,
-                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "r": [0.01*(1 + i) for i in range(n)],
                                          "np_output": np_output},
                     "info": "Case t.r_distributed - (S scalar, K scalar, t vector, sigma scalar, r distributed along t)"
                   },
@@ -160,8 +160,8 @@ def get_param_dict(option, np_output, case):
                                         {"S": S_vector[0],
                                          "K": K_vector[0],
                                          "t": t_vector,
-                                         "sigma": [0.1*(0 + i) for i in range(n)],
-                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "sigma": [0.1*(1 + i) for i in range(n)],
+                                         "r": [0.01*(1 + i) for i in range(n)],
                                          "np_output": np_output},
                     "info": "Case t.sigma_and_r_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r distributed along t)"
                   },
@@ -273,7 +273,7 @@ def main():
     #
     
     # if np_output is True, the output will be np.ndarray, otherwise pd.DataFrame    
-    np_output = True # True
+    np_output = False # True
     
     # default market environment
     market_env = MarketEnvironment()
@@ -322,12 +322,14 @@ def main():
         # (columns) spanned by sigma
         if ('sigma_axis' not in param_dict) or (param_dict['sigma_axis'] == False):
             
-            print("\nImplied Volatility - Newton method (expected iv:\n{}):\n"\
-                  .format(param_dict["sigma"]), option.implied_volatility(**param_dict))
+            print("\nExpected Implied Volatility: \n{}\n".format(param_dict["sigma"]))
+
+            print("\nImplied Volatility - Newton method:\n{}\n"\
+                  .format(option.implied_volatility(**param_dict)))
             
             param_dict["minimization_method"] = "Least-Squares"
-            print("\nImplied Volatility - Least-Squares constrained method (expected iv:\n{}):\n"\
-                  .format(param_dict["sigma"]), option.implied_volatility(**param_dict))
+            print("\nImplied Volatility - Least-Squares constrained method:\n{}\n"\
+                  .format(option.implied_volatility(**param_dict)))
 
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

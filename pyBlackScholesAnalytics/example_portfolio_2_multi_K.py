@@ -36,12 +36,12 @@ def get_param_dict_multi_K_ptf(portfolio, np_output, case, T):
                              end=expiration_date, 
                              periods=n)    
     # sigma
-    sigma_axis = np.array([0.1*(0 + i) for i in range(3)])
-    sigma_grid_S = np.array([0.1*(0 + i) for i in range(mS*n)]).reshape(n,mS)
+    sigma_axis = np.array([0.1*(1 + i) for i in range(3)])
+    sigma_grid_S = np.array([0.1*(1 + i) for i in range(mS*n)]).reshape(n,mS)
     
     # r
-    r_axis = np.array([0.01*(0 + i) for i in range(3)])
-    r_grid_S = np.array([0.01*(0 + i) for i in range(mS*n)]).reshape(n,mS)
+    r_axis = np.array([0.01*(1 + i) for i in range(3)])
+    r_grid_S = np.array([0.01*(1 + i) for i in range(mS*n)]).reshape(n,mS)
 
     cases_dict = {
             "All_scalar": {"parameters": 
@@ -63,7 +63,7 @@ def get_param_dict_multi_K_ptf(portfolio, np_output, case, T):
             "S.sigma_distributed": {"parameters": 
                                         {"S": S_vector,
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mS)],
+                                         "sigma": [0.1*(1 + i) for i in range(mS)],
                                          "r": 0.01,
                                          "np_output": np_output},
                     "info": "Case S.sigma_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r scalar)"
@@ -72,15 +72,15 @@ def get_param_dict_multi_K_ptf(portfolio, np_output, case, T):
                                         {"S": S_vector,
                                          "t": t_vector[0],
                                          "sigma": 0.1,
-                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "r": [0.01*(1 + i) for i in range(mS)],
                                          "np_output": np_output},
                     "info": "Case S.r_distributed - (S vector, K scalar, t scalar, sigma scalar, r distributed along S)"
                   },
             "S.sigma_and_r_distributed": {"parameters": 
                                         {"S": S_vector,
                                          "t": t_vector[0],
-                                         "sigma": [0.1*(0 + i) for i in range(mS)],
-                                         "r": [0.01*(0 + i) for i in range(mS)],
+                                         "sigma": [0.1*(1 + i) for i in range(mS)],
+                                         "r": [0.01*(1 + i) for i in range(mS)],
                                          "np_output": np_output},
                     "info": "Case S.sigma_and_r_distributed - (S vector, K scalar, t scalar, sigma distributed along S, r distributed along S)"
                   },
@@ -95,7 +95,7 @@ def get_param_dict_multi_K_ptf(portfolio, np_output, case, T):
             "t.sigma_distributed": {"parameters": 
                                         {"S": S_vector[0],
                                          "t": t_vector,
-                                         "sigma": [0.1*(0 + i) for i in range(n)],
+                                         "sigma": [0.1*(1 + i) for i in range(n)],
                                          "r": 0.01,
                                          "np_output": np_output},
                     "info": "Case t.sigma_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r scalar)"
@@ -104,15 +104,15 @@ def get_param_dict_multi_K_ptf(portfolio, np_output, case, T):
                                         {"S": S_vector[0],
                                          "t": t_vector,
                                          "sigma": 0.1,
-                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "r": [0.01*(1 + i) for i in range(n)],
                                          "np_output": np_output},
                     "info": "Case t.r_distributed - (S scalar, K scalar, t vector, sigma scalar, r distributed along t)"
                   },
             "t.sigma_and_r_distributed": {"parameters": 
                                         {"S": S_vector[0],
                                          "t": t_vector,
-                                         "sigma": [0.1*(0 + i) for i in range(n)],
-                                         "r": [0.01*(0 + i) for i in range(n)],
+                                         "sigma": [0.1*(1 + i) for i in range(n)],
+                                         "r": [0.01*(1 + i) for i in range(n)],
                                          "np_output": np_output},
                     "info": "Case t.sigma_and_r_distributed - (S scalar, K scalar, t vector, sigma distributed along t, r distributed along t)"
                   },

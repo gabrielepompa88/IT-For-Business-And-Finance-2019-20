@@ -32,13 +32,17 @@ def get_param_dict_single_K_ptf(portfolio, np_output, case, T):
     K_vector = [55, 75, 95, 115]
     mK = len(K_vector)
 
-    # tau: a date-range of 5 valuation dates
+    # t: a date-range of 5 valuation dates
     n = 5
     valuation_date = portfolio.get_t()
     expiration_date = T
     t_vector = pd.date_range(start=valuation_date, 
                              end=expiration_date, 
                              periods=n)    
+    
+    # tau: a list of 5 times-to-maturity
+    tau_list = np.array([0.1*(1 + i) for i in range(3)])
+    
     # sigma
     sigma_axis = np.array([0.1*(1 + i) for i in range(3)])
     sigma_grid_S = np.array([0.1*(1 + i) for i in range(mS*n)]).reshape(n,mS)
