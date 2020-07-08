@@ -76,6 +76,8 @@ def main():
     expected_IV = pd.DataFrame(data=param_dict["sigma"],
                                columns=K_vector,
                                index=t_vector)
+    expected_IV.rename_axis('K', axis = 'columns', inplace=True)
+    expected_IV.rename_axis('t', axis = 'rows', inplace=True)
     print("\nExpected Kxt Implied volatiltiy Surface: \n", expected_IV)
     
     #
@@ -86,6 +88,7 @@ def main():
     print("\n--- WITHOUT target_price in input ---\n")
 
     # newton method
+    param_dict["minimization_method"] = "Newton"
     newton_IV = option.implied_volatility(**param_dict)
     RMSE_newton = np.sqrt(np.nanmean((newton_IV - expected_IV)**2))
     RMSRE_newton = np.sqrt(np.nanmean(((newton_IV - expected_IV)/expected_IV)**2))
@@ -98,7 +101,7 @@ def main():
     RMSE_ls = np.sqrt(np.nanmean((ls_IV - expected_IV)**2))
     RMSRE_ls = np.sqrt(np.nanmean(((ls_IV - expected_IV)/expected_IV)**2))
 
-    print("\nImplied Volatility - Newton method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
+    print("\nImplied Volatility - Least-Squares constrained method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
           .format(RMSE_ls, RMSRE_ls), ls_IV)
 
     #
@@ -121,6 +124,7 @@ def main():
     del param_dict['sigma']
         
     # newton method
+    param_dict["minimization_method"] = "Newton"
     newton_IV = option.implied_volatility(**param_dict)
     RMSE_newton = np.sqrt(np.nanmean((newton_IV - expected_IV)**2))
     RMSRE_newton = np.sqrt(np.nanmean(((newton_IV - expected_IV)/expected_IV)**2))
@@ -133,7 +137,7 @@ def main():
     RMSE_ls = np.sqrt(np.nanmean((ls_IV - expected_IV)**2))
     RMSRE_ls = np.sqrt(np.nanmean(((ls_IV - expected_IV)/expected_IV)**2))
 
-    print("\nImplied Volatility - Newton method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
+    print("\nImplied Volatility - Least-Squares constrained method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
           .format(RMSE_ls, RMSRE_ls), ls_IV)
 
 #----------------------------- usage example ---------------------------------#
