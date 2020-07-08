@@ -6,6 +6,24 @@ from market.market import MarketEnvironment
 from options.options import PlainVanillaOption
 from portfolio.portfolio import Portfolio
 
+def get_time_parameter(mkt_env, end_date, periods, kind='date', multi_horizon_ptf=True):
+    
+    if kind == 'date':
+
+        # a date-range of 5 valuation dates between t and the nearest maturity
+        t = pd.date_range(start=mkt_env.get_t(), end=end_date, periods=periods)
+        print("t ([t...T] pd.date_range): {}\n".format(t))
+            
+    else:
+            
+        if multi_horizon_ptf:
+            raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio") 
+        else:
+            t = np.array([0.1*(1 + i) for i in range(periods)])
+            print("t (list of times-to-maturity): {}\n".format(t))
+    
+    return t
+
 def main():
 
     #
@@ -25,8 +43,20 @@ def main():
     
     # options maturities
     T_call = "31-12-2020"
-    T_put = "30-06-2021"
+    T_put = "30-06-2021" # T_call
     
+    # choose the kind of time-parameter to use: either a date ('date') or a 
+    # time-to-maturity ('ttm'). Time-to-maturity time parameter is not allowed 
+    # for multi-horizon portfolios.
+    time_parameter = 'date' # 'ttm'
+    
+    # get time parameter
+    t_range = get_time_parameter(market_env, 
+                                 end_date=min(T_call, T_put, key=date_string_to_datetime_obj), 
+                                 periods=5, 
+                                 kind=time_parameter,
+                                 multi_horizon_ptf= T_call != T_put)
+        
     # options strikes
     K_put = 80
     K_call = 110
@@ -41,7 +71,7 @@ def main():
     
     ptf = Portfolio()
     print(ptf)
-    
+        
     #
     # Step 1: adding 2 long plain-vanilla call contracts
     #
@@ -53,13 +83,7 @@ def main():
     # adding contract to portfolio  
     ptf.add_instrument(call, call_pos)
     print(ptf)
-
-    # a date-range of 5 valuation dates between t and the nearest maturity
-    t_range = pd.date_range(start=ptf.get_t(), 
-                            end=min(T_call, T_put, key=date_string_to_datetime_obj), 
-                            periods=5)
-    print("t ([t...T] pd.date_range): {}\n".format(t_range))
-    
+            
     # metrics to compare
     for metrics in ["price", "PnL", "delta", "theta", "gamma", "vega", "rho"]:
    

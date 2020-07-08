@@ -242,8 +242,8 @@ class Portfolio:
             
             # check that time parameter is not a time-to-maturity if the portfolio is multi-horizon:
             if self.is_multi_horizon and is_numeric(time_param):
-                raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio \n\n tau={} given in input"\
-                                .format(self, time_param))  
+                raise TypeError("No time-to-maturity time parameter allowed for multi-horizon portfolio: \n\n tau={} given in input"\
+                                .format(time_param))  
             
     #
     # Public methods
