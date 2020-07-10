@@ -54,7 +54,7 @@ def main():
     
     # sigma (qualitatively reproducing the smile)
     k, tau = np.meshgrid(K_vector, option.time_to_maturity(t=t_vector))
-    sigma_grid_K = 0.01 + ((k - 100)**2)/(100*k*tau)
+    sigma_grid_K = 0.01 + ((k - 100)**2)/(100*k)/tau
     
     # pricing parameters
     param_dict = {"S": 100,
@@ -118,10 +118,10 @@ def main():
     # Add target_price to parameters dictionary:
     param_dict['target_price'] = target_price
 
-    # Remove from implied volatility parameters in input the 'sigma' parameter
-    # it's not necessary, but this way for sure the .implied_volatility() method
-    # is agnostic of the expected implied volatility
-    del param_dict['sigma']
+#    # Remove from implied volatility parameters in input the 'sigma' parameter
+#    # it's not necessary, but this way for sure the .implied_volatility() method
+#    # is agnostic of the expected implied volatility
+#    del param_dict['sigma']
         
     # newton method
     param_dict["minimization_method"] = "Newton"
@@ -139,6 +139,7 @@ def main():
 
     print("\nImplied Volatility - Least-Squares constrained method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
           .format(RMSE_ls, RMSRE_ls), ls_IV)
+    
 
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":

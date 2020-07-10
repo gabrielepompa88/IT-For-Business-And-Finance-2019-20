@@ -376,25 +376,19 @@ class Plotter:
         """
         
         # argument parsing and plot setup
+        x_axis = self.x_axis(*args, **kwargs)
+        time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
         plot_metrics = self.parse_plot_metrics(**kwargs)
-        if plot_metrics == "implied_volatility":
-            imp_vol = kwargs["IV"]
-            time_parameter = self.time_parameter_label(imp_vol.index)
-            self.plot_iv(imp_vol, time_parameter)
+        surf_plot = self.parse_surf_plot(**kwargs)
+
+        if is_iterable_not_string(time_parameter) and not surf_plot:
+            self.plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
+        elif is_iterable_not_string(time_parameter):
+            plot_view = self.parse_surf_plot_view(**kwargs)
+            self.plot_surf(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_view)
         else:
-            x_axis = self.x_axis(*args, **kwargs)
-            time_parameter, time_label_parameter = self.time_parameter(*args, **kwargs)
-            
-            surf_plot = self.parse_surf_plot(**kwargs)
-    
-            if is_iterable_not_string(time_parameter) and not surf_plot:
-                self.plot_multi_time(x_axis, time_parameter, time_label_parameter, plot_metrics)
-            elif is_iterable_not_string(time_parameter):
-                plot_view = self.parse_surf_plot_view(**kwargs)
-                self.plot_surf(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_view)
-            else:
-                plot_details = self.parse_plot_details(*args, **kwargs)
-                self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
+            plot_details = self.parse_plot_details(*args, **kwargs)
+            self.plot_single_time(x_axis, time_parameter, time_label_parameter, plot_metrics, plot_details)
             
 #-----------------------------------------------------------------------------#
 
@@ -427,76 +421,6 @@ class OptionPlotter(Plotter):
     def __init__(self, *args, **kwargs):
         # calling the Plotter initializer
         super(OptionPlotter, self).__init__(*args, **kwargs)
-    
-    def plot_iv(self, iv, time_labels):
-        
-        #
-        # Line plots
-        #
-        
-        ax = iv.T.plot(figsize=(10,6), colormap="Blues")
-        
-        # set axis labels 
-        ax.set_xlabel(iv.columns.name, fontsize=12) 
-        ax.set_ylabel('Black-Scholes Implied Volatility', fontsize=12) 
-
-        # set title
-        ax.set_title("Implied volatility of a " + self.get_title(), fontsize=12) 
-
-        # add the legend ('best' loc parameters places the legend in the best position automatically)
-        ax.legend(loc='best', ncol=1)
-        
-        #
-        # Surf plot
-        # 
-
-        # define the figure
-        fig = plt.figure(figsize=(15,10))
-        ax = fig.gca(projection='3d')
-        
-        # grid points, if needed convert dates to numeric representation for plotting
-        times_numeric = self.fin_inst.time_to_maturity(t=iv.index) # date_to_number(iv.index) 
-        K_grid, time_grid = np.meshgrid(iv.columns, times_numeric)
-
-        # surface plot
-        surf = ax.plot_surface(iv.columns, 
-                               time_grid, 
-                               iv.values.astype('float64'), rstride=2, cstride=2,
-                               cmap=plt.cm.Blues, linewidth=0.5, antialiased=True, zorder=1)
-                
-        # set y ticks
-        ax.set_yticks(times_numeric)
-        ax.set_yticklabels(time_labels)
-
-        # set axis labels 
-        ax.set_xlabel(iv.columns.name, fontsize=12) 
-        ax.set_ylabel(r"Date" if is_date(iv.index) else r"Time-to-Maturity", fontsize=12)        
-        ax.set_zlabel('Black-Scholes Implied Volatility', fontsize=12) 
-
-        # set title
-        ax.set_title("Implied volatility of a " + self.get_title(), fontsize=12) 
-
-        # add the legend ('best' loc parameters places the legend in the best position automatically)
-#        ax.legend(loc='best', ncol=1)
-        
-        # add a gride to ease visualization
-        plt.grid(True)
-
-        # draw a colorbar for color-reference
-        fig.colorbar(surf, orientation="horizontal",  shrink=0.5, aspect=10, pad=0.05)
-
-        # set the plot view
-#        ax.view_init(view[0], view[1])
-                
-#        # rotate view and invert y axis in case of dates 
-#        # for better perspective
-#        if is_date(times):
-#            ax.view_init(ax.elev, ax.azim+180)
-#            ax.invert_xaxis()
-            
-        # show the plot
-        fig.tight_layout()
-        plt.show()
                                                                 
     def plot_surf(self, x_axis_dict, times, time_labels, plot_metrics, view):
         """

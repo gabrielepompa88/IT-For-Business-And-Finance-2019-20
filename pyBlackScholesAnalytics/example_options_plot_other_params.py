@@ -84,7 +84,7 @@ def main():
     print(emission_date)
     
     # select dependency to plot as x-axis of the plot
-    for dependency_type in ["S", "K", "sigma", "r"]:
+    for dependency_type in ["sigma"]:# ["S", "K", "sigma", "r"]:
     
         # keyboard parameter and corresponding range to test
         x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    

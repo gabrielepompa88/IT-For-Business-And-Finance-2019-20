@@ -1,8 +1,12 @@
+import numpy as np
 import pandas as pd
+import warnings
 
 from market.market import MarketEnvironment
 from options.options import PlainVanillaOption, DigitalOption
 from plotter.plotter import OptionPlotter
+
+warnings.filterwarnings("ignore")
 
 def option_factory(mkt_env, plain_or_digital, option_type):
 
@@ -14,78 +18,102 @@ def option_factory(mkt_env, plain_or_digital, option_type):
                         "put":  DigitalOption(mkt_env, option_type="put")
                        }
     }
-            
+    
     return option_dispatcher[plain_or_digital][option_type]
 
-def get_time_parameter(option, kind='date'):
-    
-    # date time-parameter
-    if kind == 'date':
-        
-        # valuation date of the option
-        emission_date = option.get_t()
-    
-        # emission/expiration date of the option
-        expiration_date = option.get_T()
-        
-        # time-parameter as a date-range of 5 valuation dates between t and T-10d
-        time_parameter = pd.date_range(start=emission_date, 
-                                       end=expiration_date - pd.Timedelta(days=20),
-                                       periods=5)
-        
-    # time-to-maturity time parameter    
-    else: 
-        
-        # time-parameter as a list of times-to-maturity
-        time_parameter = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
-        
-    return time_parameter
-
 def main():
+
+    #
+    # Black-Scholes implied volatility calculation with user-defined 'sigma' 
+    # parameter surface, used to evaluate the quality of the implied volatility 
+    # calculation.
+    #
     
-    # vanilla call implementation example
-            
+    # output format: pd.DataFrame    
+    np_output = False 
+    
+    # choose whether to plot expected IV or reconstructed one (takes longer)
+    plot_expected_iv = False #True # False
+    
     # default market environment
     market_env = MarketEnvironment()
     print(market_env)
     
     # define option style and type
     opt_style = "plain_vanilla" # "digital"
-    opt_type = "call" # "put"   
+    opt_type = "call" # "call" # "put"   
     option = option_factory(market_env, opt_style, opt_type)
     print(option)
+    
+    # K
+    K_vector = np.linspace(50,150,100)
+
+    # tau: a date-range of 5 valuation dates between t and T-10d
+    n = 6
+    valuation_date = option.get_t()
+    expiration_date = option.get_T()
+    t_vector = pd.date_range(start=valuation_date, 
+                             end=expiration_date-pd.Timedelta(days=25), 
+                             periods=n)    
+    
+    # sigma (qualitatively reproducing the smile)
+    k, tau = np.meshgrid(K_vector, option.time_to_maturity(t=t_vector))
+    sigma_grid_K = 0.01 + ((k - 100)**2)/(100*k)/tau
+
+    # pricing parameters
+    param_dict = {"S": 100,
+                  "K": K_vector,
+                  "t": t_vector,
+                  "sigma": sigma_grid_K,
+                  "r": 0.01,
+                  "np_output": np_output}
+
+    print("Parameters:")
+    print("S: {}".format(param_dict["S"]))
+    print("K: {}".format(param_dict["K"]))
+    print("t: {}".format(param_dict["t"]))
+    print("sigma: \n{}".format(param_dict["sigma"]))
+    print("r: {}\n".format(param_dict["r"]))
+    
+    # expected implied volatility: is the 'sigma' parameter with which the 
+    # target price has been generated
+    expected_IV = pd.DataFrame(data=param_dict["sigma"],
+                               columns=K_vector,
+                               index=t_vector)
+    expected_IV.rename_axis('K', axis = 'columns', inplace=True)
+    expected_IV.rename_axis('t', axis = 'rows', inplace=True)
+    print("\nExpected Kxt Implied volatiltiy Surface: \n", expected_IV)
+    
+    if plot_expected_iv:
+        
+        IV_plot = expected_IV
+
+    else:
+    
+        # compute target price
+        target_price = option.price(**param_dict)
+        print("\nTarget Price in input: \n", target_price)
+    
+        # Add target_price to parameters dictionary:
+        param_dict['target_price'] = target_price
+            
+        # Least=Squares method
+        param_dict["minimization_method"] = "Least-Squares"
+        ls_IV = option.implied_volatility(**param_dict)
+        RMSE_ls = np.sqrt(np.nanmean((ls_IV - expected_IV)**2))
+        RMSRE_ls = np.sqrt(np.nanmean(((ls_IV - expected_IV)/expected_IV)**2))
+    
+        print("\nImplied Volatility - Least-Squares constrained method - Metrics (NaN excluded): RMSE={:.1E}, RMSRE={:.1E}:\n"\
+              .format(RMSE_ls, RMSRE_ls), ls_IV)
+        
+        IV_plot = ls_IV
         
     # option plotter instance
     plotter = OptionPlotter(option)
-        
-    # valuation date of the option
-    emission_date = option.get_t()
-    print(emission_date)
-    
-    # select metrics to plot
-    for plot_metrics in ["implied_volatility"]:
-        
-        plot_details_flag = True if plot_metrics == "price" else False
-        
-        # Plot at t
-        plotter.plot(t=[emission_date], plot_metrics=plot_metrics, 
-                     plot_details=plot_details_flag)
-    
-        # Plot at another date-string date
-        plotter.plot(t="01-06-2020", plot_metrics=plot_metrics, 
-                     plot_details=plot_details_flag)
+    plotter.plot(plot_metrics="implied_volatility", IV=IV_plot)
 
-        for time_kind in ['date', 'tau']:
 
-            # set time-parameter to plot
-            multiple_valuation_dates = get_time_parameter(option, kind=time_kind)
-            print(multiple_valuation_dates)
-        
-            # Plot at multiple dates
-            plotter.plot(t=multiple_valuation_dates, plot_metrics=plot_metrics)
-        
 #----------------------------- usage example ---------------------------------#
 if __name__ == "__main__":
     
     main()    
-
