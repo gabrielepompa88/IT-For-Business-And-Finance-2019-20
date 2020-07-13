@@ -33,7 +33,7 @@ def main():
     np_output = False 
     
     # choose whether to plot expected IV or reconstructed one (takes longer)
-    plot_expected_iv = False #True # False
+    plot_expected_iv = True # False
     
     # default market environment
     market_env = MarketEnvironment()

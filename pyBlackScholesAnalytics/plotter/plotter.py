@@ -430,6 +430,8 @@ class OptionPlotter(Plotter):
     
     def plot_iv(self, iv, time_labels):
         
+        plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,len(iv.index))))
+
         #
         # Line plots
         #
@@ -444,7 +446,7 @@ class OptionPlotter(Plotter):
         ax.set_title("Implied volatility of a " + self.get_title(), fontsize=12) 
 
         # add the legend ('best' loc parameters places the legend in the best position automatically)
-        ax.legend(loc='best', ncol=1)
+        ax.legend(datetime_obj_to_date_string(iv.index), loc='best', ncol=1)
         
         #
         # Surf plot
@@ -464,6 +466,15 @@ class OptionPlotter(Plotter):
                                iv.values.astype('float64'), rstride=2, cstride=2,
                                cmap=plt.cm.Blues, linewidth=0.5, antialiased=True, zorder=1)
                 
+        # plot the price for different underlying values, one line for each different date
+        plt.gca().set_prop_cycle(None)
+        i=0
+        for iv_at_t in iv.itertuples():
+            t = self.fin_inst.time_to_maturity(t=iv_at_t.Index)
+            ax.plot(iv.columns, np.repeat(t, repeats=len(iv.columns)), iv_at_t[1:], '-', lw=1.5, 
+                    label=datetime_obj_to_date_string(iv_at_t.Index), zorder=2+i)
+            i+=1
+
         # set y ticks
         ax.set_yticks(times_numeric)
         ax.set_yticklabels(time_labels)
@@ -477,7 +488,7 @@ class OptionPlotter(Plotter):
         ax.set_title("Implied volatility of a " + self.get_title(), fontsize=12) 
 
         # add the legend ('best' loc parameters places the legend in the best position automatically)
-#        ax.legend(loc='best', ncol=1)
+        ax.legend(loc='best', ncol=1)
         
         # add a gride to ease visualization
         plt.grid(True)
@@ -485,15 +496,6 @@ class OptionPlotter(Plotter):
         # draw a colorbar for color-reference
         fig.colorbar(surf, orientation="horizontal",  shrink=0.5, aspect=10, pad=0.05)
 
-        # set the plot view
-#        ax.view_init(view[0], view[1])
-                
-#        # rotate view and invert y axis in case of dates 
-#        # for better perspective
-#        if is_date(times):
-#            ax.view_init(ax.elev, ax.azim+180)
-#            ax.invert_xaxis()
-            
         # show the plot
         fig.tight_layout()
         plt.show()
