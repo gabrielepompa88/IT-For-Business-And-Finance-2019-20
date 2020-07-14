@@ -1,3 +1,16 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_options_numeric_greeks.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script provides an example of finite-difference first-order numeric greeks
+using the NumericGreeks class for plain-vanilla and digital option contracts.
+"""
+
 import numpy as np
 
 from market.market import MarketEnvironment

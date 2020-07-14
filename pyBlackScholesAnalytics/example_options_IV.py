@@ -1,3 +1,17 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_options_IV.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows basic usage of PlainVanillaOption and DigitalOption classes.
+Focus is on the computation of Black-Scholes implied volatility surfaces for 
+plain-vanilla and digital option contracts.
+"""
+
 import numpy as np
 import pandas as pd
 import warnings
@@ -117,11 +131,6 @@ def main():
 
     # Add target_price to parameters dictionary:
     param_dict['target_price'] = target_price
-
-#    # Remove from implied volatility parameters in input the 'sigma' parameter
-#    # it's not necessary, but this way for sure the .implied_volatility() method
-#    # is agnostic of the expected implied volatility
-#    del param_dict['sigma']
         
     # newton method
     param_dict["minimization_method"] = "Newton"

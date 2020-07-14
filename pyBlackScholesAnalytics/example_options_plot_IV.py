@@ -1,3 +1,18 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_options_plot_IV.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows integration of PlainVanillaOption and DigitalOption classes
+with Plotter class (in particular .plot_IV() method). Focus is on the 
+visualization of Black-Scholes implied volatilities for plain-vanilla and 
+digital option contracts both as line plot and surface-plot.
+"""
+
 import numpy as np
 import pandas as pd
 import warnings
@@ -22,12 +37,6 @@ def option_factory(mkt_env, plain_or_digital, option_type):
     return option_dispatcher[plain_or_digital][option_type]
 
 def main():
-
-    #
-    # Black-Scholes implied volatility calculation with user-defined 'sigma' 
-    # parameter surface, used to evaluate the quality of the implied volatility 
-    # calculation.
-    #
     
     # output format: pd.DataFrame    
     np_output = False 

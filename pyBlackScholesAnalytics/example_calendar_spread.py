@@ -1,3 +1,17 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_calendar_spread.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows usage of Portfolio class to create a Calendar-Spread option 
+strategy. Basic instantiation examples are provided with combinations of the underlying
+level (S) and time parameter (t). Price, P&L, first-order greeks are 
+computed and plotted using the Plotter class as line plots and surface-plots.
+"""
 import pandas as pd
 import warnings
 
@@ -55,6 +69,8 @@ def main():
         plot_details_flag = True if plot_metrics == "price" else False
 
         # time-parameter as a date-range of 5 valuation dates between t and T_short
+        # being the Calendar-Spread a multi-horizon portfolio, time-to-maturity
+        # time parameters are not allowed.
         last_date = T_short if plot_metrics in ["price", "PnL"] else date_string_to_datetime_obj(T_short) - pd.Timedelta(days=1)
         multiple_valuation_dates = pd.date_range(start=valuation_date, 
                                                  end=last_date, 

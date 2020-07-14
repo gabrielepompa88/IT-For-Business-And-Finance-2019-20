@@ -1,3 +1,19 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_options.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows basic usage of PlainVanillaOption and DigitalOption classes.
+Basic instantiation examples are provided with combinations of the underlying
+level (S) and time parameter (t/tau). 
+Price, P&L, first-order greeks as well as Black-Scholes implied-volatilies are 
+computed for plain-vanilla and digital option contracts.
+"""
+
 import numpy as np
 import pandas as pd
 import warnings
@@ -113,10 +129,6 @@ def get_param_dict(option, np_output, case):
 
 def main():
 
-    #
-    # option (underlying, time-parameter) instantiation example
-    #
-    
     # if np_output is True, the output will be np.ndarray, otherwise pd.DataFrame    
     np_output = False # True
     

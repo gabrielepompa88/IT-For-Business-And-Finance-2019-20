@@ -1,3 +1,20 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_portfolio.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows basic usage of Portfolio class to construct a derivative 
+portfolio of plain-vanilla and digital option contracts.
+Basic instantiation examples are provided with combinations of the underlying
+level (S) and time parameter (t/tau). Price, P&L, first-order greeks are 
+computed for constructed portfolio and benchmarked with the corresponding
+metrics calculated combining constituent options metrics.
+"""
+
 import numpy as np
 import pandas as pd
 

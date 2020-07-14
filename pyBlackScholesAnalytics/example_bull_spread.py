@@ -1,3 +1,18 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_bull_spread.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This script shows usage of Portfolio class to create a Bull-Spread option 
+strategy. Basic instantiation examples are provided with combinations of the underlying
+level (S) and time parameter (t/tau). Price, P&L, first-order greeks are 
+computed and plotted using the Plotter class as line plots and surface-plots.
+"""
+
 import pandas as pd
 import warnings
 

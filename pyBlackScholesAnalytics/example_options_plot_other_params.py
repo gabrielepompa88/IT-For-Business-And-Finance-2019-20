@@ -1,3 +1,18 @@
+"""
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: example_options_plot_other_params.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+
+This script shows integration of PlainVanillaOption and DigitalOption classes
+with Plotter class. Price, P&L and first-order greeks plots are shown for 
+plain-vanilla and digital option contracts against underlying level (S), 
+strike-price (K), volatility (sigma) and short-rate (r).
+"""
+
 import numpy as np
 import pandas as pd
 import warnings
@@ -84,7 +99,7 @@ def main():
     print(emission_date)
     
     # select dependency to plot as x-axis of the plot
-    for dependency_type in ["sigma"]:# ["S", "K", "sigma", "r"]:
+    for dependency_type in ["S", "K", "sigma", "r"]:
     
         # keyboard parameter and corresponding range to test
         x_axis_dict = options_x_axis_parameters_factory(option, dependency_type)    
