@@ -8,9 +8,10 @@ Created on Tue Jul 14 2020 - Version: 1.0
 Description: 
     
 This script shows usage of Portfolio class to create a Bull-Spread option 
-strategy. Basic instantiation examples are provided with combinations of the underlying
-level (S) and time parameter (t/tau). Price, P&L, first-order greeks are 
-computed and plotted using the Plotter class as line plots and surface-plots.
+strategy. Basic instantiation examples are provided with combinations of the 
+underlying level (S) and time parameter (t/tau). Price, P&L, first-order greeks 
+are computed and plotted using the Plotter class as line plots and 
+surface-plots Vs time parameter.
 """
 
 import pandas as pd

@@ -10,8 +10,8 @@ Description:
 This script shows integration of PlainVanillaOption and DigitalOption classes
 with Plotter class. Price, P&L and first-order greeks plots are shown for 
 plain-vanilla and digital option contracts as underlying level (S), 
-strike-price (K), volatility (sigma) and short-rate (r) Vs time parameter
-surface-plots.
+strike-price (K), volatility (sigma) and short-rate (r) surface-plots Vs time 
+parameter.
 """
 
 import pandas as pd

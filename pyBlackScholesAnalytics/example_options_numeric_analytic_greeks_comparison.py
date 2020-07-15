@@ -9,8 +9,8 @@ Description:
     
 This script provides a comparison of first-order greeks for plain-vanilla and 
 digital option contracts implemented either through finite-difference methods 
-in NumericGreeks class or using their analytic expression in PlainVanillaOption 
-and DigitalOption classes.
+in NumericGreeks class or using their analytic expression implemented in 
+PlainVanillaOption and DigitalOption classes.
 """
 
 import numpy as np

@@ -7,9 +7,9 @@ Created on Tue Jul 14 2020 - Version: 1.0
 
 Description: 
     
-This script shows basic usage of PlainVanillaOption and DigitalOption classes.
-Focus is on the computation of Black-Scholes implied volatility surfaces for 
-plain-vanilla and digital option contracts.
+This script shows usage of PlainVanillaOption and DigitalOption classes to 
+compute of Black-Scholes implied volatility surfaces for plain-vanilla and 
+digital option contracts.
 """
 
 import numpy as np
