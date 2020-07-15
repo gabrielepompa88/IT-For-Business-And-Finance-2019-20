@@ -16,6 +16,43 @@ from utils.utils import *
 #-----------------------------------------------------------------------------#
 
 class NumericGreeks:
+    """
+    NumericGreeks class: a class implementing finite-differences numerical methods
+    to compute main greeks for option contracts.
+
+    Attributes:
+    -----------
+        FinancialObject (EuropeanOption sub-class or Portfolio):      Instance of an EuropeanOption sub-class 
+                                                                      (PlainVanillaOption or DigitalOption) or a Portfolio 
+                                                                      class.
+       epsilon (float):                                               tolerance for finite-differences                                                                      
+
+    Public Methods:
+    --------   
+    
+        getter and setter for epsilon attribute
+        
+        delta: float
+            Computes the numeric delta of the FinancialObject.
+
+        theta: float
+            Computes the numeric theta of the FinancialObject.
+
+        gamma: float
+            Computes the numeric gamma of the FinancialObject.
+
+        vega: float
+            Computes the numeric vega of the FinancialObject.
+
+        rho: float
+            Computes the numeric rho of the FinancialObject.
+        
+    Instantiation and Usage examples: 
+    --------   
+        
+        - example_options_numeric_greeks.py
+        - example_options_numeric_analytic_greeks_comparison.py
+    """
     
     def __init__(self, FinancialObject, epsilon=1e-4):
         

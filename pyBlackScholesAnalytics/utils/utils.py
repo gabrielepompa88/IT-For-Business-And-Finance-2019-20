@@ -1,8 +1,13 @@
 """
-Author: Gabriele Pompa (gabriele.pompa@gmail.com)
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
 
-Date: 20-May-2020
-File name: utils.py
+File: portfolio.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This file contains definitions for general utility functions.
 """
 
 # ----------------------- standard imports ---------------------------------- #

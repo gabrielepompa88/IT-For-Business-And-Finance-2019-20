@@ -1,7 +1,14 @@
 """
-Author: Gabriele Pompa (gabriele.pompa@gmail.com)
-Date: 20-May-2020
-File name: options.py
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
+
+File: options.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This file contains definitions for EuropeanOption abstract base-class as well 
+as PlainVanillaOption and DigitalOption derived classes.
 """
 
 # ----------------------- standard imports ---------------------------------- #
@@ -25,9 +32,6 @@ import datetime as dt
 
 # for warning messages
 import warnings
-
-# to copy python variables (and not setting references)
-#import copy
 
 # ----------------------- sub-modules imports ------------------------------- #
 
@@ -59,22 +63,40 @@ class EuropeanOption:
         time_to_maturity: float
             Computes the time-to-maturity of the option.
         
-        process_input_parameters: float
-            Parses underlying, time, volatility and short-rate parameters, 
+        process_pricing_parameters: float
+            Parses underlying, strike-price, time, volatility and short-rate parameters, 
             discriminating between time-to-maturity and valuation date
-            time parameter.
+            time parameter and coordinating pricing parameters together.
     
         d1_and_d2: flaot, float
             Computes the d1 and d2 terms of Black-Scholes pricing formula
 
         payoff: float
-            Computes the payoff of the option and returns it
+            Computes the payoff of the option.
             
         price: float
-            Computes the Black-Scholes price of the option and returns it
+            Computes the Black-Scholes price of the option.
             
         PnL: float
             Computes the P&L of the option.
+
+        implied_volatility: float
+            Computes the Black-Scholes implied-volatility of the option.
+
+        delta: float
+            Computes the Black-Scholes delta of the option.
+
+        theta: float
+            Computes the Black-Scholes theta of the option.
+
+        gamma: float
+            Computes the Black-Scholes gamma of the option.
+
+        vega: float
+            Computes the Black-Scholes vega of the option.
+
+        rho: float
+            Computes the Black-Scholes rho of the option.
 
     Template Methods:
     --------   
@@ -89,6 +111,14 @@ class EuropeanOption:
         price_lower_limit: float 
             Template method for lower limit. Raises NotImplementedError if called.
             
+    Usage examples: 
+    --------   
+        
+        - example_options.py
+        - example_options_other_params.py
+        - example_options_IV.py
+        - example_options_numeric_analytic_greeks_comparison.py
+
     """
 
     def __init__(self, mkt_env, option_type='call', K=100.0, T="31-12-2020"):
@@ -206,631 +236,11 @@ class EuropeanOption:
         
         # compute and return time to maturity (in years)
         return homogenize((T-t).days / 365.0, sort=False)
-
-#    def process_pricing_parameters___WRONG(self, *args, **kwargs):
-#        """
-#        Utility method to parse underlying, time, volatility and short-rate parameters
-#        """
-#        
-#        # 
-#        # Parsing input parameters 
-#        # 
-#        
-#        # underlying value 
-#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-#        
-#        # strike price
-#        K = kwargs['K'] if 'K' in kwargs else self.get_K()
-#
-#        # time parameter:
-#        time_param = args[1] if len(args) > 1 \
-#                     else kwargs['tau'] if 'tau' in kwargs \
-#                        else (kwargs['t'] if 't' in kwargs else None)
-#
-#        # underlying volatility 
-#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-#        
-#        # span an axis with volatility values if True, otherwise distribute its values
-#        sigma_axis = kwargs['sigma_axis'] if 'sigma_axis' in kwargs else False
-#
-#        # short rate
-#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-#
-#        # span an axis with short-rate values if True, otherwise distribute its values
-#        r_axis = kwargs['r_axis'] if 'r_axis' in kwargs else False
-#
-#        # squeeze output flag
-#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-#
-#        #
-#        # Iterable parameters check
-#        #
-#        
-#        # counter for iterable parameters in input 
-#        iterable_parameters = 0
-#        iterable_S = False
-#        iterable_K = False
-#        iterable_tau = False
-#        iterable_sigma = False
-#        iterable_r = False
-#
-#        if is_iterable(S):
-#            iterable_S = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(K):
-#            iterable_K = True
-#            iterable_parameters += 1
-#        
-#        if is_iterable_not_string(time_param):
-#            iterable_tau = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(sigma):
-#            iterable_sigma = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(r):
-#            iterable_r = True
-#            iterable_parameters += 1
-#        
-#        # utility list to keep track of iterable parameters setup: [S, K, tau, sigma, r]
-#        iterability_mask = [iterable_S, iterable_K, iterable_tau, iterable_sigma, iterable_r]
-#            
-#        #
-#        # Checking that only one of S or K is iterable
-#        #
-#        
-#        if iterable_S and iterable_K:
-#            raise NotImplementedError("Just one between 'S' and 'K' parameters allowed to be iterable."\
-#                                      " Both iterable given in input:\nS={}\nK={}".format(S,K))
-#        
-#        # flag for iterability of S or K
-#        iterable_S_or_K = iterable_S or iterable_K
-#        
-#        # flag for iterability of S only
-#        iterable_S_not_K = iterable_S and (not iterable_K)
-#            
-#        #
-#        # Homogenizing and checking each parameters
-#        #
-#            
-#        # 
-#        # 1) Underlying value
-#        #
-#        
-#        # homogenize underlying in input
-#        S = homogenize(S)
-# 
-#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-#        if np.any(S < 0):
-#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-#                   
-#        # 
-#        # 2) Strike price
-#        #
-#        
-#        # homogenize strike in input
-#        K = homogenize(K)
-# 
-#        # checking whether any value in K is smaller than zero. Works if K is scalar too.
-#        if np.any(K <= 0):
-#            warnings.warn("Warning: K = {} <= 0 value encountered".format(K))
-#
-#        # 
-#        # 3) Time parameter
-#        #
-#                                
-#        # time parameter interpretation (and homogenization) according to its type        
-#        # case 1: no time-parameter in input
-#        if time_param is None:
-#            tau = time_param = self.get_tau()
-#        # case 2: valid time-to-maturity in input
-#        elif is_numeric(time_param):
-#            time_param = homogenize(time_param, reverse_order=True)
-#            tau = time_param
-#        # case 3: valuation date in input, to be converted into time-to-maturity
-#        elif is_date(time_param):
-#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
-#            tau = self.time_to_maturity(t=time_param)
-#        # error case: the time parameter in input has a data-type that is not recognized
-#        else: 
-#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-#              
-#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
-#        if np.any(tau < 0):
-#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-#
-#        # 
-#        # 4) Underlying volatility
-#        #
-#        
-#        # homogenize underlying volatility in input
-#        sigma = homogenize(sigma, sort=False)
-# 
-#        # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
-#        # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
-#        if np.any(sigma <= 0):
-#            warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
-#        
-#        # 
-#        # 5) Short-rate
-#        #
-#        
-#        # homogenize short-rate in input
-#        r = homogenize(r, sort=False)
-# 
-#        # We allow for negative short rate, but we raise a warning anyway 
-#        # if any value in r is smaller than zero. Works if r is scalar too.
-#        if np.any(r < 0):
-#            warnings.warn("Warning: r = {} < 0 value encountered".format(r))
-#
-#        #
-#        # Coordinate parameters
-#        #
-#                
-#        # Case 0: all scalar parameters
-#        #
-#        # make the 4 parameters coordinated together as 1-dim np.ndarray
-#        # or pd.DataFrame with x-axis spanned by S and y-axis spanned by tau
-#        if iterable_parameters == 0:
-#            
-#            # x-axis
-#            x=S
-#            x_name="S"
-#            x_col=S
-#            
-#            # y-axis
-#            y=tau
-#            y_name="tau"
-#            y_ind=time_param
-#            
-#            # others
-#            scalar_params = {"K": K, "sigma": sigma, "r": r}
-#            vector_params = {}
-#            
-#        # Case 1: one iterable parameter
-#        elif iterable_parameters == 1:
-#            
-#            # Case 1.S: [S vector, all scalar]
-#            if iterability_mask == [1,0,0,0,0]:
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params = {"K": K, "sigma": sigma, "r": r}
-#                
-#            # Case 1.K: [K vector, all scalar]
-#            elif iterability_mask == [0,1,0,0,0]:
-#                x=K
-#                x_name="K"
-#                x_col=K
-#                scalar_params = {"S": S, "sigma": sigma, "r": r}
-#                
-#            # Case 1.tau: [tau vector, all scalar]
-#            elif iterability_mask == [0,0,1,0,0]:
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params = {"K": K, "sigma": sigma, "r": r}
-#
-#            # Case 1.sigma: [sigma vector, all scalar]
-#            elif iterability_mask == [0,0,0,1,0]:
-#                x=sigma
-#                x_name="sigma"
-#                x_col=sigma
-#                scalar_params = {"S": S, "K": K, "r": r}
-#
-#            # Case 1.r: [r vector, all scalar]
-#            elif iterability_mask == [0,0,0,0,1]:
-#                x=r
-#                x_name="r"
-#                x_col=r
-#                scalar_params = {"S": S, "K": K, "sigma": sigma}
-#
-#            # y-axis
-#            y=tau
-#            y_name="tau"
-#            y_ind=time_param
-#            
-#            # others
-#            vector_params={}
-#
-#        # Case 2: two iterable parameters
-#        elif iterable_parameters == 2:
-#
-#            # Cases 2.S.tau and 2.K.tau: S/K and tau iterables
-#            #
-#            # If S (respectively K) is iterable. Make S (resp. K) and tau 
-#            # coordinated np.ndarray or pd.DataFrames, creating a S x tau 
-#            # (K x tau) grid if both are iterable. Scalar parameters sigma, 
-#            # K (S) and r are coordinated accordingly.
-#            #
-#            # This case is identified by having sigma and r both scalar
-#            if iterability_mask[3:] == [0,0]:
-#                
-#                # y-axis
-#                y=tau
-#                y_name="tau"
-#                y_ind=time_param
-#
-#                # others
-#                scalar_params = {"sigma": sigma, "r": r}
-#                vector_params = {}
-#
-#                # x-axis
-#                    
-#                # if S is iterable and K is scalar, the x-axis is spanned by S
-#                if iterable_S_not_K:           
-#                    x=S
-#                    x_name="S"
-#                    x_col=S
-#                    scalar_params["K"] = K
-#                    
-#                # if K is iterable and S is scalar, the x-axis is spanned by K
-#                else:
-#                    x=K
-#                    x_name="K"
-#                    x_col=K
-#                    scalar_params["S"] = S
-#                                    
-#            # Cases 2.X.sigma and 2.X.r: X (S/K/tau) and sigma/r iterables
-#            #
-#            # This case is identified by having one between sigma and r vector
-#            elif iterability_mask[3:] == [1,0] or iterability_mask[3:] == [0,1]:
-#                
-#                # Case 2.tau.sigma: tau and sigma are iterables
-#                if iterable_sigma:
-#                    # Case 2.tau.sigma_ax: sigma vector generates an indipendent dimension
-#                    if sigma_axis:
-#                        pass
-#                    # Case 2.tau.sigma_dist: sigma vector values are distributed 
-#                    #      along the tau dimension. Requires: len(sigma) == len(tau)
-#                    else:
-#                        pass
-#                
-#                # Case 2.tau.r: tau and r are iterables
-#                elif iterable_r:
-#                    # Case 2.tau.r_ax: analogous to case 2.tau.sigma_ax
-#                    if r_axis:
-#                        pass
-#                    # Case 2.tau.r_dist: analogous to case 2.tau.sigma_dist. 
-#                    #      Requires: len(r) == len(tau)
-#                    else:
-#                        pass
-#            
-#            
-#            
-##            elif iterability_mask == [0,0,1,1,0] or\
-##                 iterability_mask == [0,0,1,0,1]:   
-#                     
-#                # If sigma_axis == True (resp. r_axis == True):
-#                # 
-#                # If sigma (r) is iterable. Make sigma (r) and tau 
-#                # coordinated np.ndarray or pd.DataFrames, creating a sigma x tau 
-#                # (r x tau) grid if both are iterable. Scalar parameters S, K and 
-#                # r (sigma) are coordinated accordingly.
-#                if sigma_axis or r_axis:
-#                    pass
-#
-#                # If sigma_axis == False (resp. r_axis == False):
-#                # 
-#                # Vector sigma/r parameters are spanned along the tau dimension.
-#                # That is, one different value of sigma/r
-#                else:
-#                    pass
-#                     
-#        # Case Error:
-#        else:
-#           raise NotImplementedError("The case (0: scalar, 1: vector) [S, K, tau, sigma, r] = {} not implmented."\
-#                                     .format(iterability_mask)) 
-#
-#        # coordinating parameters                    
-#        coord_params = coordinate(x=x, y=tau, 
-#                                  x_name=x_name, y_name=y_name,
-#                                  others_scalar=scalar_params, 
-#                                  others_vector=vector_params,
-#                                  np_output=np_output, 
-#                                  col_labels=x_col, ind_labels=y_ind)   
-#           
-##        # case 2: sigma and/or r are iterable 1-dim vectors 
-##        #         and S, K and tau are both scalar
-##        elif iterable_sigma or iterable_r:
-##            
-##            # case 2.1: sigma and r are iterable 1-dim vectors
-##            #
-##            # make r and sigma coordinated np.ndarray or pd.DataFrames
-##            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
-##            if iterable_sigma and iterable_r:
-##                coord_params = coordinate(x=r, y=sigma, 
-##                                          x_name="r", y_name="sigma",
-##                                          others_scalar={"S": S, "K": K, "tau": tau}, 
-##                                          np_output=np_output, 
-##                                          col_labels=r, ind_labels=sigma)   
-##
-##            # case 2.2: sigma is a 1-dim vector and r is scalar
-##            #
-##            # make S and sigma coordinated np.ndarray or pd.DataFrames
-##            # and K, tau and r coordinated accordingly
-##            elif iterable_sigma:
-##                coord_params = coordinate(x=S, y=sigma, 
-##                                          x_name="S", y_name="sigma",
-##                                          others_scalar={"K": K, "tau": tau, "r": r}, 
-##                                          np_output=np_output, 
-##                                          col_labels=S, ind_labels=sigma)   
-##
-##            # case 2.3: r is a 1-dim vector and sigma is scalar
-##            #
-##            # make S and r coordinated np.ndarray or pd.DataFrames
-##            # and K, tau and sigma coordinated accordingly
-##            elif iterable_r:
-##                coord_params = coordinate(x=S, y=r, 
-##                                          x_name="S", y_name="r",
-##                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
-##                                          np_output=np_output, 
-##                                          col_labels=S, ind_labels=r)
-#
-#        # return coordinated parameters
-#        return {"S": coord_params["S"], 
-#                "K": coord_params["K"],
-#                "tau": coord_params["tau"], 
-#                "sigma": coord_params["sigma"], 
-#                "r": coord_params["r"], 
-#                "np_output": np_output}
-
-#    def process_pricing_parameters___OLD(self, *args, **kwargs):
-#        """
-#        Utility method to parse underlying, time, volatility and short-rate parameters
-#        """
-#        
-#        # 
-#        # Parsing input parameters 
-#        # 
-#        
-#        # underlying value 
-#        S = args[0] if len(args) > 0 else kwargs['S'] if 'S' in kwargs else self.get_S()
-#        
-#        # strike price
-#        K = kwargs['K'] if 'K' in kwargs else self.get_K()
-#
-#        # time parameter:
-#        time_param = args[1] if len(args) > 1 \
-#                     else kwargs['tau'] if 'tau' in kwargs \
-#                        else (kwargs['t'] if 't' in kwargs else None)
-#
-#        # underlying volatility 
-#        sigma = kwargs['sigma'] if 'sigma' in kwargs else self.get_sigma()
-#
-#        # short rate
-#        r = kwargs['r'] if 'r' in kwargs else self.get_r()
-#
-#        # squeeze output flag
-#        np_output = kwargs['np_output'] if 'np_output' in kwargs else True
-#
-#        #
-#        # Iterable parameters check
-#        #
-#        
-#        # counter for iterable parameters in input 
-#        iterable_parameters = 0
-#        iterable_S = False
-#        iterable_K = False
-#        iterable_tau = False
-#        iterable_sigma = False
-#        iterable_r = False
-#
-#        if is_iterable(S):
-#            iterable_S = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(K):
-#            iterable_K = True
-#            iterable_parameters += 1
-#        
-#        if is_iterable_not_string(time_param):
-#            iterable_tau = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(sigma):
-#            iterable_sigma = True
-#            iterable_parameters += 1
-#            
-#        if is_iterable(r):
-#            iterable_r = True
-#            iterable_parameters += 1
-#            
-#        #
-#        # Checking that only one of S or K is iterable
-#        #
-#        
-#        if iterable_S and iterable_K:
-#            raise NotImplementedError("Just one between 'S' and 'K' parameters allowed to be iterable."\
-#                                      " Both iterable given in input:\nS={}\nK={}".format(S,K))
-#        
-#        # flag for iterability of S or K
-#        iterable_S_or_K = iterable_S or iterable_K
-#        
-#        # flag for iterability of S only
-#        iterable_S_not_K = iterable_S and (not iterable_K)
-#            
-#        #
-#        # Homogenizing and checking each parameters
-#        #
-#            
-#        # 
-#        # 1) Underlying value
-#        #
-#        
-#        # homogenize underlying in input
-#        S = homogenize(S)
-# 
-#        # checking whether any value in S is smaller than zero. Works if S is scalar too.
-#        if np.any(S < 0):
-#            warnings.warn("Warning: S = {} < 0 value encountered".format(S))
-#                   
-#        # 
-#        # 2) Strike price
-#        #
-#        
-#        # homogenize strike in input
-#        K = homogenize(K)
-# 
-#        # checking whether any value in K is smaller than zero. Works if K is scalar too.
-#        if np.any(K <= 0):
-#            warnings.warn("Warning: K = {} <= 0 value encountered".format(K))
-#
-#        # 
-#        # 3) Time parameter
-#        #
-#                                
-#        # time parameter interpretation (and homogenization) according to its type        
-#        # case 1: no time-parameter in input
-#        if time_param is None:
-#            tau = time_param = self.get_tau()
-#        # case 2: valid time-to-maturity in input
-#        elif is_numeric(time_param):
-#            time_param = homogenize(time_param, reverse_order=True)
-#            tau = time_param
-#        # case 3: valuation date in input, to be converted into time-to-maturity
-#        elif is_date(time_param):
-#            time_param = homogenize(time_param, sort_func=date_string_to_datetime_obj)
-#            tau = self.time_to_maturity(t=time_param)
-#        # error case: the time parameter in input has a data-type that is not recognized
-#        else: 
-#            raise TypeError("Type {} of input time parameter not recognized".format(type(time_param)))
-#              
-#        # checking whether any value in tau is smaller than zero. Works if tau is scalar too.
-#        if np.any(tau < 0):
-#            warnings.warn("Warning: tau = {} < 0 value encountered".format(tau))
-#
-#        # 
-#        # 4) Underlying volatility
-#        #
-#        
-#        # homogenize underlying volatility in input
-#        sigma = homogenize(sigma, sort=False)
-# 
-#        # We allow for deterministic dynamics (sigma==0), but we raise a warning anyway
-#        # if any value of sigma is smaller-or-equal than zero. Works if sigma is scalar too.
-#        if np.any(sigma <= 0):
-#            warnings.warn("Warning: sigma = {} <= 0 value encountered".format(sigma))
-#        
-#        # 
-#        # 5) Short-rate
-#        #
-#        
-#        # homogenize short-rate in input
-#        r = homogenize(r, sort=False)
-# 
-#        # We allow for negative short rate, but we raise a warning anyway 
-#        # if any value in r is smaller than zero. Works if r is scalar too.
-#        if np.any(r < 0):
-#            warnings.warn("Warning: r = {} < 0 value encountered".format(r))
-#
-#        #
-#        # Coordinate parameters
-#        #
-#        
-#        # Case 0: all scalar parameters
-#        #
-#        # make the 4 parameters coordinated together as 1-dim np.ndarray
-#        # or pd.DataFrame
-#        if iterable_parameters == 0:
-#            
-#            coord_params = coordinate(x=S, y=tau, 
-#                                      x_name="S", y_name="tau",
-#                                      others_scalar={"K": K, "sigma": sigma, "r": r}, 
-#                                      np_output=np_output, 
-#                                      col_labels=S, ind_labels=time_param) 
-#            
-#        # Case 1: S (or K) and/or tau iterable parameters
-#        #
-#        # make S (or K) and tau coordinated np.ndarray or pd.DataFrames
-#        # creating a (S,tau) or (K,tau) grid if both are iterable, 
-#        # with sigma, K (or S) and r coordinated accordingly
-#        elif iterable_S_or_K or iterable_tau:
-#            
-#            scalar_params = {}
-#            vector_params = {}
-#            
-#            if iterable_sigma:
-#                vector_params["sigma"] = sigma
-#            else:
-#                scalar_params["sigma"] = sigma
-#                
-#            if iterable_r:
-#                vector_params["r"] = r
-#            else:
-#                scalar_params["r"] = r
-#
-#            # if S is iterable and K is scalar, the column-dimension is spanned by S
-#            if iterable_S_not_K:           
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params["K"] = K
-#                
-#            # if K is iterable and S is scalar, the column-dimension is spanned by K
-#            else:
-#                x=K
-#                x_name="K"
-#                x_col=K
-#                scalar_params["S"] = S
-#
-#            coord_params = coordinate(x=x, y=tau, 
-#                                      x_name=x_name, y_name="tau",
-#                                      others_scalar=scalar_params, 
-#                                      others_vector=vector_params,
-#                                      np_output=np_output, 
-#                                      col_labels=x_col, ind_labels=time_param)   
-#                        
-#        # case 2: sigma and/or r are iterable 1-dim vectors 
-#        #         and S, K and tau are both scalar
-#        elif iterable_sigma or iterable_r:
-#            
-#            # case 2.1: sigma and r are iterable 1-dim vectors
-#            #
-#            # make r and sigma coordinated np.ndarray or pd.DataFrames
-#            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
-#            if iterable_sigma and iterable_r:
-#                coord_params = coordinate(x=r, y=sigma, 
-#                                          x_name="r", y_name="sigma",
-#                                          others_scalar={"S": S, "K": K, "tau": tau}, 
-#                                          np_output=np_output, 
-#                                          col_labels=r, ind_labels=sigma)   
-#
-#            # case 2.2: sigma is a 1-dim vector and r is scalar
-#            #
-#            # make S and sigma coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and r coordinated accordingly
-#            elif iterable_sigma:
-#                coord_params = coordinate(x=S, y=sigma, 
-#                                          x_name="S", y_name="sigma",
-#                                          others_scalar={"K": K, "tau": tau, "r": r}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=sigma)   
-#
-#            # case 2.3: r is a 1-dim vector and sigma is scalar
-#            #
-#            # make S and r coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and sigma coordinated accordingly
-#            elif iterable_r:
-#                coord_params = coordinate(x=S, y=r, 
-#                                          x_name="S", y_name="r",
-#                                          others_scalar={"K": K, "tau": tau, "sigma": sigma}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=r)
-#
-#        # return coordinated parameters
-#        return {"S": coord_params["S"], 
-#                "K": coord_params["K"],
-#                "tau": coord_params["tau"], 
-#                "sigma": coord_params["sigma"], 
-#                "r": coord_params["r"], 
-#                "np_output": np_output}
       
     def process_pricing_parameters(self, *args, **kwargs):
         """
-        Utility method to parse underlying, time, volatility and short-rate parameters
+        Utility method to parse underlying, strike-price, time, volatility and 
+        short-rate parameters
         """
         
         # 
@@ -1041,9 +451,11 @@ class EuropeanOption:
             
         # Case 1: S (or K) and/or tau iterable parameters
         #
-        # make S (or K) and tau coordinated np.ndarray or pd.DataFrames
-        # creating a (S,tau) or (K,tau) grid if both are iterable, 
-        # with sigma, K (or S) and r coordinated accordingly
+        # Make x-axis spanned by S, K, sigma or r, creating a (x-axis,time) 
+        # grid if both are iterable. Parameters sigma and r are either 
+        # distributed along the other(s) axes (shape-match is required) or can 
+        # span be used to span the x-axis too (sigma_axis or r_axis flags must 
+        # be set to True)
         elif iterable_S_or_K or iterable_tau:
             
             scalar_params = {}
@@ -1077,15 +489,6 @@ class EuropeanOption:
             else:
                 scalar_params["r"] = r
 
-            # if S is iterable and K is scalar, the column-dimension is spanned by S
-#            if iterable_S:           
-#                x=S
-#                x_name="S"
-#                x_col=S
-#                scalar_params["K"] = K
-#                
-#            # if K is iterable and S is scalar, the column-dimension is spanned by K
-#            elif iterable_K:
             if iterable_K:
                 x=K
                 x_name="K"
@@ -1100,20 +503,10 @@ class EuropeanOption:
                                       np_output=np_output, 
                                       col_labels=x_col, ind_labels=time_param)   
                         
-        # case 2: sigma and/or r are iterable 1-dim vectors 
+        # Case 2: sigma and/or r are iterable 1-dim vectors 
         #         and S, K and tau are both scalar
         elif iterable_sigma or iterable_r:
             
-#            # case 2.1: sigma and r are iterable 1-dim vectors
-#            #
-#            # make r and sigma coordinated np.ndarray or pd.DataFrames
-#            # creating a (r,sigma) grid and S, K and tau coordinated accordingly
-#            if iterable_sigma and iterable_r:
-#                coord_params = coordinate(x=r, y=sigma, 
-#                                          x_name="r", y_name="sigma",
-#                                          others_scalar={"S": S, "K": K, time_name: tau}, 
-#                                          np_output=np_output, 
-#                                          col_labels=r, ind_labels=sigma)   
             # case 2.1: sigma and r are iterable 1-dim vectors
             #
             # make sigma and r coordinated np.ndarray or pd.DataFrames
@@ -1125,17 +518,6 @@ class EuropeanOption:
                                           np_output=np_output, 
                                           col_labels=sigma, ind_labels=r)   
 
-#            # case 2.2: sigma is a 1-dim vector and r is scalar
-#            #
-#            # make S and sigma coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and r coordinated accordingly
-#            elif iterable_sigma:
-#                coord_params = coordinate(x=S, y=sigma, 
-#                                          x_name="S", y_name="sigma",
-#                                          others_scalar={"K": K, time_name: tau, "r": r}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=sigma)   
-                
             # case 2.2: sigma is a 1-dim vector and r is scalar
             #
             # make sigma and tau coordinated np.ndarray or pd.DataFrames
@@ -1146,17 +528,6 @@ class EuropeanOption:
                                           others_scalar={"S": S, "K": K, "r": r}, 
                                           np_output=np_output, 
                                           col_labels=sigma, ind_labels=time_param)   
-
-#            # case 2.3: r is a 1-dim vector and sigma is scalar
-#            #
-#            # make S and r coordinated np.ndarray or pd.DataFrames
-#            # and K, tau and sigma coordinated accordingly
-#            elif iterable_r:
-#                coord_params = coordinate(x=S, y=r, 
-#                                          x_name="S", y_name="r",
-#                                          others_scalar={"K": K, time_name: tau, "sigma": sigma}, 
-#                                          np_output=np_output, 
-#                                          col_labels=S, ind_labels=r)
 
             # case 2.3: r is a 1-dim vector and sigma is scalar
             #
@@ -1214,10 +585,15 @@ class EuropeanOption:
     def payoff(self, *args, **kwargs):
         """
         Calculates and returns the payoff of the option.
+        
         Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-        Can be called using (underlying, strike-price), where:
+            - example_options.py
+            - example_options_other_params.py
+            
+        Can be called using (underlying, 
+                             strike-price), 
+        
+        signature, where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -1251,11 +627,18 @@ class EuropeanOption:
     def price(self, *args, **kwargs):
         """
         Calculates and returns the price of the option. 
+        
         Usage examples: 
-            - example_options_1.py
-            - example_options_2.py
-        If tau==0, returns the payoff of the option, otherwise the price.                 
-        Can be called using (underlying, strike-price, time-parameter, sigma, short-rate), where:
+            - example_options.py
+            - example_options_other_params.py
+            
+        Can be called using (underlying, 
+                             strike-price, 
+                             time-parameter, 
+                             sigma, 
+                             short-rate)
+        
+        signature, where:
 
         - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
           It's value can be:
@@ -1272,6 +655,7 @@ class EuropeanOption:
             - A List of numbers (allowed only if parameter 'S' is a scalar)       
 
         - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
+          If tau==0, the payoff of the option is returned, its price otherwise. 
           It's value can be:
         
             - Empty: .get_tau() is used,
@@ -1284,16 +668,38 @@ class EuropeanOption:
         
             - Empty: .get_sigma() is used,
             - A volatility value (e.g. 0.2 for 20% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
+            - An iterable:
+                
+                - if sigma_axis == False (default): an iterable of the same 
+                  shape of x-axis variable (S or K) x tau (if both the x-axis
+                  and tau are iterable variables) or of the same shape of x-axis 
+                  (tau) if the x-axis (tau) is iterable but tau (x-axis) is scalar.
+                  In this case, volatility parameter is distributed along the 
+                  other(s) vectorial dimension(s).
+                  
+                - if sigma_axis == True: an iterable of arbitrary lenght.
+                  In this case, the x-axis dimension is spanned by sigma parameter.
+                  This setup is mutually exclusive w.r.t. to the r_axis == True
+                  setup.
 
         - short-rate can be specified as keyboard argument 'r'. 
           It's value can be:
         
             - Empty: .get_r() is used,
             - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
+            - An iterable:
+                
+                - if r_axis == False (default): an iterable of the same 
+                  shape of x-axis variable (S or K) x tau (if both the x-axis
+                  and tau are iterable variables) or of the same shape of x-axis 
+                  (tau) if the x-axis (tau) is iterable but tau (x-axis) is scalar.
+                  In this case, short-rate parameter is distributed along the 
+                  other(s) vectorial dimension(s).
+                  
+                - if r_axis == True: an iterable of arbitrary lenght. 
+                  In this case, the x-axis dimension is spanned by sigma parameter.                
+                  This setup is mutually exclusive w.r.t. to the sigma_axis == True
+                  setup.
         """
                        
         # process input parameters
@@ -1339,11 +745,13 @@ class EuropeanOption:
 
     def PnL(self, *args, **kwargs):
         """
-        Calculates and returns the P&L of generated owning an option.
+        Calculates and returns the P&L generated owning an option.
+        
         Usage example: 
-            - example_options_1.py
-            - example_options_2.py        
-        Can be called as the underlying .price() method.
+            - example_options.py
+            - example_options_other_params.py        
+        
+        Can be called with the same signature of the .price() public method.
 
         We distinguish two cases:
             
@@ -1358,7 +766,8 @@ class EuropeanOption:
                   
                   P&L = current price - initial price
         
-        The choice between payoff and current price is delegated to .price() method
+        The choice between returning the payoff and current price is delegated 
+        to .price() method.
         """
                 
         return self.price(*args, **kwargs) - scalarize(self.get_initial_price())
@@ -1366,17 +775,26 @@ class EuropeanOption:
     def implied_volatility(self, *args, iv_estimated=0.25, epsilon=1e-8, 
                            minimization_method="Newton", max_iter = 100, **kwargs):
         """
-        Calculates and returns the Implied Volatility of the option. 
+        Calculates and returns the Black-Scholes Implied Volatility of the option.
+        
         Usage example: 
-            - example_options_1.py
-            - example_options_2.py
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_IV.py
+            
         Implements two minimization routines:
+            
             - Newton (unconstrained) method;
-            - Least-Squares constrained method.            
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
-        
-        
-        See .price() method docstring.
+            - Least-Squares constrained method. 
+            
+        Can be called with the same signature of the .price() public method 
+        with additional optional parameters:
+            
+            - iv_estimated: an initial guess for implied volatility;
+            - target_price: target price to use for implied volatility calculation;
+            - epsilon: minimization stopping threshold;
+            - minimization_method: minimization methot to use;
+            - max_iter: maximum number of iterations.
         """
         
         # preliminary consistency check
@@ -1494,14 +912,14 @@ class EuropeanOption:
 
     def delta(self, *args, **kwargs):
         """
-        Calculates and returns the Gamma of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
+        Calculates and returns the Gamma of the option.
         
-        See .price() method docstring.
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_numeric_analytic_greeks_comparison.py
+            
+        Can be called with the same signature of the .price() public method.
         """
                        
         # process input parameters
@@ -1524,13 +942,13 @@ class EuropeanOption:
     def theta(self, *args, **kwargs):
         """
         Calculates and returns the Theta of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
         
-        See .price() method docstring.
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_numeric_analytic_greeks_comparison.py
+            
+        Can be called with the same signature of the .price() public method.
 
         Optionally, the theta can be rescaled using the "factor" keyboard parameter. 
         By default it is scaled to consider variation of +1 calendar day of t (not +1 year).
@@ -1559,13 +977,13 @@ class EuropeanOption:
     def gamma(self, *args, **kwargs):
         """
         Calculates and returns the Gamma of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
         
-        See .price() method docstring.
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_numeric_analytic_greeks_comparison.py
+            
+        Can be called with the same signature of the .price() public method.
         """
                        
         # process input parameters
@@ -1588,13 +1006,13 @@ class EuropeanOption:
     def vega(self, *args, **kwargs):
         """
         Calculates and returns the Vega of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
         
-        See .price() method docstring.
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_numeric_analytic_greeks_comparison.py
+            
+        Can be called with the same signature of the .price() public method.
 
         Optionally, the vega can be rescaled using the "factor" keyboard parameter. 
         By default it is scaled to consider variation of +1% of sigma (not +100%).
@@ -1623,13 +1041,13 @@ class EuropeanOption:
     def rho(self, *args, **kwargs):
         """
         Calculates and returns the Rho of the option. 
-        Usage example: 
-            - example_options_1.py
-            - example_options_2.py
-            - example_numeric_analytic_greeks_comparison.py
-        Can be called using (underlying, time-parameter, sigma, short-rate). 
         
-        See .price() method docstring.
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+            - example_options_numeric_analytic_greeks_comparison.py
+            
+        Can be called with the same signature of the .price() public method.
 
         Optionally, the rho can be rescaled using the "factor" keyboard parameter. 
         By default it is scaled to consider variation of +1% of r (not +100%).
@@ -1685,15 +1103,22 @@ class PlainVanillaOption(EuropeanOption):
         price_lower_limit: float 
             Overridden method. Returns the lower limit for a vanilla option price.
                         
-    Usage: example_options.py
+    Usage examples: 
     --------   
+        
+        - example_options.py
+        - example_options_other_params.py
+        - example_options_IV.py
+        - example_options_numeric_analytic_greeks_comparison.py
 
+    Instantiation
+    --------   
         - default: PlainVanillaOption(mkt_env) is equivalent to 
                    PlainVanillaOption(mkt_env, option_type='call', K=100.0, T="31-12-2020")
 
         - general: PlainVanillaOption(mkt_env, option_type='call' or 'put' String, K=Float, T="DD-MM-YYYY" String)
 
-    where: mkt_env is a MarketEnvironment instance.
+    where: mkt_env is a MarketEnvironment object.
     """
     
     # initializer with optional *args and **kwargs parameters
@@ -1760,28 +1185,13 @@ class PlainVanillaOption(EuropeanOption):
         
     def price_upper_limit(self, *args, **kwargs):
         """
-        Calculates and returns the upper limit of the Plain-Vanilla option price. Usage example: example_options.py
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Calculates and returns the upper limit of the Plain-Vanilla option price. 
+        
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
 
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: .get_S() is used,
-            - A number (e.g. S=100),
-            - A List of numbers
-            
-        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
-        
-            - Empty: .get_tau() is used,
-            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
+        Can be called with the same signature of the .price() public method.
         """
 
         # process input parameters
@@ -1810,30 +1220,13 @@ class PlainVanillaOption(EuropeanOption):
 
     def price_lower_limit(self, *args, **kwargs):
         """
-        Calculates and returns the lower limit of the Plain-Vanilla option price. Usage example: example_options.py
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Calculates and returns the lower limit of the Plain-Vanilla option price. 
+       
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
 
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: .get_S() is used,
-            - A number (e.g. S=100),
-            - A List of numbers
-            
-        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
-        
-            - Empty: .get_tau() is used,
-            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
+        Can be called with the same signature of the .price() public method.
         """
 
         # process input parameters
@@ -2003,14 +1396,22 @@ class DigitalOption(EuropeanOption):
         price_lower_limit: float 
             Overridden method. Returns the lower limit for a vanilla option price.
             
-    Usage: example_options.py
+    Usage examples: 
+    --------   
+        
+        - example_options.py
+        - example_options_other_params.py
+        - example_options_IV.py
+        - example_options_numeric_analytic_greeks_comparison.py
+
+    Instantiation
     --------   
         - default: DigitalOption(mkt_env) is equivalent to 
                    DigitalOption(mkt_env, cash_amount=1.0, option_type='call', K=100.0, T="31-12-2020")
 
         - general: DigitalOption(mkt_env, cash_amount=Float, option_type='call' or 'put' String, K=Float, T="DD-MM-YYYY" String)
 
-    where: mkt_env is a MarketEnvironment instance.
+    where: mkt_env is a MarketEnvironment object.
     """
 
     # initializer with optional *args and **kwargs parameters and default cash_amount
@@ -2093,30 +1494,13 @@ class DigitalOption(EuropeanOption):
         
     def price_upper_limit(self, *args, **kwargs):
         """
-        Calculates and returns the upper limit of the CON option price. Usage example: example_options.py
-        Can be called using (underlying, time-parameter, short-rate), where:
+        Calculates and returns the upper limit of the CON option price. 
+       
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
 
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
-        
-            - Empty: .get_S() is used,
-            - A number (e.g. S=100),
-            - A List of numbers
-            
-        - time-parameter can be specified either as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
-          It's value can be:
-        
-            - Empty: .get_tau() is used,
-            - A valuation date (e.g. t='15-05-2020'): either a 'dd-mm-YYYY' String or a dt.datetime object
-            - A time-to-maturity value (e.g. tau=0.5)
-
-        - short-rate can be specified as keyboard argument 'r'. 
-          It's value can be:
-        
-            - Empty: .get_r() is used,
-            - A short-rate value (e.g. 0.05 for 5% per year)
-            - An iterable of the same shape of S x tau (if both S and tau are iterable) 
-              or of the same shape of S (tau) if S (tau) is iterable but tau (S) is scalar
+        Can be called with the same signature of the .price() public method.
         """
 
         # process input parameters
@@ -2131,15 +1515,13 @@ class DigitalOption(EuropeanOption):
         
     def price_lower_limit(self, *args, **kwargs):
         """
-        Calculates and returns the lower limit of the CON option price. Usage example: example_options.py
-        Can be called using (underlying), where:
-
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
+        Calculates and returns the lower limit of the CON option price. 
         
-            - Empty: .get_S() is used,
-            - A number (e.g. S=100),
-            - A List of numbers
+        Usage example: 
+            - example_options.py
+            - example_options_other_params.py
+
+        Can be called with the same signature of the .price() public method.
        """
 
         # process input parameters

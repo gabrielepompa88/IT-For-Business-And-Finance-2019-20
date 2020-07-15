@@ -1,8 +1,14 @@
 """
-Author: Gabriele Pompa (gabriele.pompa@gmail.com)
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
 
-Date: 20-May-2020
-File name: plotter.py
+File: plotter.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This file contains definitions for Plotter abstract base-class as well 
+as OptionPlotter and PortfolioPlotter derived classes.
 """
 
 # ----------------------- standard imports ---------------------------------- #
@@ -51,13 +57,15 @@ class Plotter:
         
         time_parameter utility method to discriminate between single or Iterable time_parameter.
         
-        parse_plot_metrics utility method to parse 'plot_metrics' optional parameter of .plot() method.
-        
-        parse_plot_details utility method to parse 'plot_details' optional parameter of .plot() method.
-        
+        parsers to process 'plot_metrics', 'plot_details', 'surf_plot' and 'view' keywords to setup plot.
+                
         plot:
             Public method to plot the price/P&L of the FinancialObject. It raises a NotImplementedError if called.
 
+    Instantiation and Usage examples: 
+    --------   
+        
+        See OptionPlotter and PortfolioPlotter docstrings.
     """
     
     def __init__(self, FinancialObject):
@@ -315,24 +323,21 @@ class Plotter:
     
     def plot(self, *args, **kwargs):
         """
-        Plotter class public plotting method. Usage example: 
-            - example_options_plot.py
-            - example_bull_spread.py
-            - example_calendar_spread.py
+        Plotter class public plotting method. 
+        
+        See OptionPlotter and PortfolioPlotter docstrings for usage examples.
             
-        Can be called using (underlying, 
+        Can be called using (x-axis, 
                              time-parameter, 
                              plot-metrics, 
                              plot-details, 
                              surf_plot, 
-                             view), where:
-
-        - underlying can be specified either as the 1st positional argument or as keyboard argument 'S'. 
-          It's value can be:
+                             view), 
         
-            - Empty: the option's or portfolio's strike price(s) used as middle point(s) of the x-axis,
-            - A number (e.g. S=100),
-            - A List of numbers
+        signature, where:
+
+        - x-axis can be specified as a keyword argument and a corresponding value,
+          such as S=100 (or K=90, or sigma=0.2, or r=0.05).
             
         - time-parameter can be specified either as the 1st positional argument (if no underlying is specified) or
           as the 2nd positional argument or as keyboard argument 't' or 'tau'. 
@@ -346,7 +351,8 @@ class Plotter:
         - plot-metrics can be specified as keyboard argument 'plot_metrics'. It's value can be:
         
             - Empty: default value used is 'price'
-            - plot_metrics = a String 'method' corresponding to a valid '.method()' implemented by self.fin_inst object  
+            - plot_metrics = a String 'method' corresponding to a valid '.method()' implemented by self.fin_inst object 
+            - if plot_metrics == 'implied_volatility', method .plot_iv() is called (implemented only for options, not portfolios)
             
         - plot-details can be specified as keyboard argument 'plot_details'. It's value can be:
         
@@ -414,6 +420,10 @@ class OptionPlotter(Plotter):
     
         public methods inherited from Plotter class
         
+        plot_iv:
+            Plot FinancialInstrument Black-Scholes implied volatilities as 
+            multiple dates line plots and as surface plot. 
+
         plot_surf:
             Plot FinancialInstrument values as a surface of underlying value(s) and multiple dates.
 
@@ -422,6 +432,14 @@ class OptionPlotter(Plotter):
         
         plot_single_time:
             Plot FinancialInstrument values against underlying value(s) at fixed date. 
+
+    Instantiation and Usage examples: 
+    --------   
+        
+        - example_options_plot.py
+        - example_options_plot_other_params.py
+        - example_options_plot_IV.py
+        - example_options_plot_surface.py
     """
     
     def __init__(self, *args, **kwargs):
@@ -429,6 +447,15 @@ class OptionPlotter(Plotter):
         super(OptionPlotter, self).__init__(*args, **kwargs)
     
     def plot_iv(self, iv, time_labels):
+        """
+        Plot FinancialInstrument Black-Scholes implied volatilities as multiple 
+        dates line plots and as surface plot.
+        
+        Parameter 'iv' is required to be a pd.DataFrame.
+
+        Usage examples: 
+            - example_options_plot_IV.py
+        """
         
         plt.rcParams["axes.prop_cycle"] = plt.cycler("color", plt.cm.Blues(np.linspace(0,1,len(iv.index))))
 
@@ -503,6 +530,9 @@ class OptionPlotter(Plotter):
     def plot_surf(self, x_axis_dict, times, time_labels, plot_metrics, view):
         """
         Plot FinancialInstrument values as a surface of underlying value(s) and multiple dates.
+
+        Usage examples: 
+            - example_options_plot_surface.py
         """
         
         # identifier of the x-axis
@@ -622,6 +652,10 @@ class OptionPlotter(Plotter):
     def plot_multi_time(self, x_axis_dict, times, time_labels, plot_metrics):
         """
         Plot FinancialInstrument values against underlying value(s), possibly at multiple dates.
+
+        Usage examples: 
+            - example_options_plot.py
+            - example_options_plot_other_params.py
         """
         
         # identifier of the x-axis
@@ -697,6 +731,10 @@ class OptionPlotter(Plotter):
     def plot_single_time(self, x_axis_dict, time, time_label, plot_metrics, plot_price_limits):
         """
         Plot FinancialInstrument values against underlying value(s) at fixed date. 
+
+        Usage examples: 
+            - example_options_plot.py
+            - example_options_plot_other_params.py
         """
         
         # identifier of the x-axis
@@ -787,6 +825,14 @@ class PortfolioPlotter(Plotter):
         
         plot_single_time:
             Plot Portfolio values against underlying value(s) at fixed date. 
+
+    Instantiation and Usage examples: 
+    --------   
+        
+        - example_portfolio_bull_spread.py
+        - example_portfolio_bull_spread_other_params.py
+        - example_portfolio_calendar_spread.py
+        - example_portfolio_calendar_spread_other_params.py
     """
     
     def __init__(self, *args, **kwargs):
@@ -799,6 +845,8 @@ class PortfolioPlotter(Plotter):
     def plot_surf(self, x_axis_dict, times, time_labels, plot_metrics, view):
         """
         Plot Portfolio values as a surface of underlying value(s) and multiple dates.
+
+        See Instantiation and Usage examples in class docstring.
         """
         
         # identifier of the x-axis
@@ -927,6 +975,8 @@ class PortfolioPlotter(Plotter):
     def plot_multi_time(self, x_axis_dict, times, time_labels, plot_metrics):
         """
         Plot Portfolio values against underlying value(s), possibly at multiple dates.
+
+        See Instantiation and Usage examples in class docstring.
         """
         
         # identifier of the x-axis
@@ -1004,6 +1054,8 @@ class PortfolioPlotter(Plotter):
     def plot_single_time(self, x_axis_dict, time, time_label, plot_metrics, plot_instruments_metrics):
         """
         Plot Portfolio values against underlying value(s) at fixed date. 
+
+        See Instantiation and Usage examples in class docstring.
         """
         
         # identifier of the x-axis

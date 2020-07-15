@@ -1,8 +1,13 @@
 """
-Author: Gabriele Pompa (gabriele.pompa@gmail.com)
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
 
-Date: 20-May-2020
-File name: market.py
+File: market.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This file contains the definition of MarketEnvironment class.
 """
 
 # ----------------------- sub-modules imports ------------------------------- #
@@ -27,7 +32,12 @@ class MarketEnvironment:
     
         getters and setters for all attributes
         
-    Usage: 
+    Usage examples: 
+    --------   
+    
+        See docstrings for EuropeanOption and Portfolio classes.
+
+    Instantiation: 
     --------   
         - default: MarketEnvironment() is equivalent to 
                    MarketEnvironment(t="19-04-2020", r=0.05, S_t=90.0, sigma=0.2)

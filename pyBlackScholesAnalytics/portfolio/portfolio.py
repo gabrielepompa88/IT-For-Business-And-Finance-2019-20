@@ -1,8 +1,13 @@
 """
-Author: Gabriele Pompa (gabriele.pompa@gmail.com)
+Created by: Gabriele Pompa (gabriele.pompa@gmail.com)
 
-Date: 20-May-2020
-File name: portfolio.py
+File: portfolio.py
+
+Created on Tue Jul 14 2020 - Version: 1.0
+
+Description: 
+    
+This file contains the definition of Portfolio class.
 """
 
 # ----------------------- standard imports ---------------------------------- #
@@ -43,10 +48,37 @@ class Portfolio:
             Computes the payoff of the portfolio.
 
         price: float
-            Computes the value of the portfolio.
+            Computes the Black-Scholes value of the portfolio.
 
         PnL: float
             Computes the P&L of the portfolio.
+            
+        delta: float
+            Computes the Black-Scholes delta of the portfolio.
+
+        theta: float
+            Computes the Black-Scholes theta of the portfolio.
+
+        gamma: float
+            Computes the Black-Scholes gamma of the portfolio.
+
+        vega: float
+            Computes the Black-Scholes vega of the portfolio.
+
+        rho: float
+            Computes the Black-Scholes rho of the portfolio.
+
+    Instantiation and Usage examples: 
+    --------   
+        
+        - example_portfolio.py
+        - example_portfolio_single_strike.py
+        - example_portfolio_multi_strike.py
+        - example_portfolio_bull_spread.py
+        - example_portfolio_bull_spread_other_params.py
+        - example_portfolio_calendar_spread.py
+        - example_portfolio_calendar_spread_other_params.py
+
     """
     
     def __init__(self, name="Dummy"):
@@ -268,7 +300,8 @@ class Portfolio:
         Returns the portfolio payoff as the scalar product (i.e. sum of elementwise products) 
         between single instrument payoffs and positions.
         
-        As single instruments .payoff(), can be called with single/multiple 'S'. 
+        Can be called with the same signature of the .payoff() public method of
+        constituent options.
         """
            
         # check parameters
@@ -282,7 +315,8 @@ class Portfolio:
         Returns the portfolio value as the scalar product (i.e. sum of elementwise products) 
         between single instrument prices and positions.
         
-        As single instruments .price(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .price() public method of
+        constituent options.
         """
         
         # check parameters
@@ -296,7 +330,8 @@ class Portfolio:
         Returns the portfolio Profit & Loss as the scalar product (i.e. sum of elementwise products) 
         between single instrument P&Ls and positions.
         
-        As single instruments .PnL(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .PnL() public method of
+        constituent options.
         """
                 
         # check parameters
@@ -310,7 +345,8 @@ class Portfolio:
         Returns the portfolio Delta as the scalar product (i.e. sum of elementwise products) 
         between single instrument Deltas and positions.
         
-        As single instruments .delta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .delta() public method of
+        constituent options.
         """
                 
         # check parameters
@@ -324,7 +360,8 @@ class Portfolio:
         Returns the portfolio Theta as the scalar product (i.e. sum of elementwise products) 
         between single instrument Thetas and positions.
         
-        As single instruments .theta(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .theta() public method of
+        constituent options.
         """
                 
         # check parameters
@@ -338,7 +375,8 @@ class Portfolio:
         Returns the portfolio Gamma as the scalar product (i.e. sum of elementwise products) 
         between single instrument Gammas and positions.
         
-        As single instruments .gamma(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .gamma() public method of
+        constituent options.
         """
                 
         # check parameters
@@ -352,7 +390,8 @@ class Portfolio:
         Returns the portfolio Vega as the scalar product (i.e. sum of elementwise products) 
         between single instrument Vegas and positions.
         
-        As single instruments .vega(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .vega() public method of
+        constituent options.
         """
                 
         # check parameters
@@ -366,7 +405,8 @@ class Portfolio:
         Returns the portfolio Rho as the scalar product (i.e. sum of elementwise products) 
         between single instrument Rhos and positions.
         
-        As single instruments .rho(), can be called with single/multiple 'S' and single/multiple 't' or 'tau'. 
+        Can be called with the same signature of the .rho() public method of
+        constituent options.
         """
                 
         # check parameters
