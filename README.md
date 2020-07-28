@@ -274,29 +274,17 @@ Below the list of lessons with relevant related material:
   - Videos:
     	- [Playlist: **Lesson 16 - Inheritance and Polymorphism**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=084b7615-f603-4668-b6fd-abb100905aa9)
 
-- &#x1F534; **Lesson 17 (17/04)**:  default parameters in functions; optional parameters: `*args`, `**kwargs`, input flexibility and _agnostic_ flow in functions and classes. Objects Composition and Aggregation. P&L computation (`.PnL()` method). Portfolio of options (`Portfolio`). Plotting functionalities (`Plotter` class and sub-classes for single options and portfolios of options). Option Strategies: short positions, Bull Spread (synthtetic cash-or-nothing digital replication), Straddle, Calendar Spread
+- **Lesson 17 (17/04)**:  default parameters in functions; optional parameters: `*args`, `**kwargs`, input flexibility and _agnostic_ flow in functions and classes. Objects Composition and Aggregation. P&L computation (`.PnL()` method). Portfolio of options (`Portfolio`). Plotting functionalities (`Plotter` class and sub-classes for single options and portfolios of options). Option Strategies: short positions, Bull Spread (synthtetic cash-or-nothing digital replication), Straddle, Calendar Spread
   - _TB.6.Object-Oriented Programming_
   - [Object-Oriented Programming in Python](https://python-textbok.readthedocs.io/en/1.0/index.html): From [Errors and exceptions](https://python-textbok.readthedocs.io/en/1.0/Errors_and_Exceptions.html): Errors and Handling exceptions sections. From [Functions](https://python-textbok.readthedocs.io/en/1.0/Functions.html): up to `*args` and `**kwargs` section. Section [Object-oriented programming](https://python-textbok.readthedocs.io/en/1.0/Object_Oriented_Programming.html)
   - Lecture Notes Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Objects_Composition.ipynb) | [.pdf].
   - Videos:
     - [Playlist: **Lesson 17 - Objects Composition**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=0f2b07e0-f82a-4503-b18c-abbc00a49c04)
     
-- **Lesson 18 (22/04)**:  _forthcoming_ (option greeks)
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Exercises: _forthcoming_
-  - Videos: _forthcoming_
-
-- **Lesson 19 (24/04)**:  _forthcoming_ (exam simulation)
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Videos: _forthcoming_
-
-- **Lesson 20 (29/04)**:  _forthcoming_ (exam simulation)
-  - TBD.
-  - Lecture Notes _forthcoming_ [.ipynb] | [.pdf].
-  - Videos: _forthcoming_
-
+- &#x1F534; **BONUS Lesson 18 (22/04)** - **NOT FOR THE EXAM**:  Option greeks: Black-Scholes analytic greeks for plain-vanilla and digital optinos. Numeric derivatives (finite-differences methods, `NumericDerivatives` class). Root-finding: Newton-Rhapsod method, implied volatility estimation.
+  - Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Options_Greeks.ipynb) | [.pdf].
+  - Videos: 
+    - [Playlist: **Lesson 18 - Option Greeks**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=b2cbdeae-cb8b-47d1-acb2-ac0600ec5e3c)
 
 # Resources <a name="resources"></a>
 
