@@ -281,8 +281,8 @@ Below the list of lessons with relevant related material:
   - Videos:
     - [Playlist: **Lesson 17 - Objects Composition**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=0f2b07e0-f82a-4503-b18c-abbc00a49c04)
     
-- &#x1F534; **BONUS Lesson 18 (22/04)** - **NOT FOR THE EXAM**:  Option greeks: Black-Scholes analytic greeks for plain-vanilla and digital optinos. Numeric derivatives (finite-differences methods, `NumericDerivatives` class). Root-finding: Newton-Rhapsod method, implied volatility estimation.
-  - Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Options_Greeks.ipynb) | [.pdf].
+- &#x1F534; **BONUS Lesson 18** - **NOT FOR THE EXAM**:  Option greeks: Black-Scholes analytic greeks for plain-vanilla and digital optinos. Numeric derivatives (finite-differences methods, `NumericDerivatives` class). Root-finding: Newton-Rhapsod method, implied volatility estimation. Introduction to `pyBlackScholesAnalytics` Python package. 
+  - Lecture Notes **Derivatives Analytics - Objects Composition** [.ipynb](https://github.com/gabrielepompa88/IT-For-Business-And-Finance-2019-20/blob/master/Notebooks/Derivatives_Analytics___Options_Greeks.ipynb) | [.pdf]. 
   - Videos: 
     - [Playlist: **Lesson 18 - Option Greeks**](https://unisi.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?pid=b2cbdeae-cb8b-47d1-acb2-ac0600ec5e3c)
 
