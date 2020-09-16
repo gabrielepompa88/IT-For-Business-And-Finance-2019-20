@@ -21,8 +21,9 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [EXAMS](#exam_info)
-  - [I Exam - Summer Term](#I_Exam_Summer_Term)
-  - [II Exam - Summer Term](#II_Exam_Summer_Term)
+    - [&#x1F534; II Exam - Fall Term](#II_Fall_Summer_Term)
+    - [II Exam - Summer Term](#II_Exam_Summer_Term)
+    - [I Exam - Summer Term](#I_Exam_Summer_Term)
 - [Class Schedule](#class_schedule)
 - [Contacts](#contacts)
 - [Class Diary](#class_diary)
@@ -94,6 +95,34 @@ Upon suggestions, you may do some extra work and prepare a financial project . T
 
 For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
 
+## &#x1F534; II Exam - Fall Term <a name="II_Exam_Fall_Term"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=112760](https://elearning.unisi.it/mod/assign/view.php?id=112760)
+
+_Exam Schedule_
+
+Exam timing: Friday September 18th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+
+Exam sheet: II_Exam_Fall_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+
+Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
+
+Registrations are now open and will close on Wednesday September 16th, 2020.
+
+## II Exam - Summer Term <a name="II_Exam_Summer_Term"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=106971](https://elearning.unisi.it/mod/assign/view.php?id=106971)
+
+_Exam Schedule_
+
+Exam timing: Monday June 29th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
+
+Exam sheet: II_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
+
+Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
+
+Registrations are closed.
+
 ## I Exam - Summer Term <a name="I_Exam_Summer_Term"></a> 
 
 Exam: [https://elearning.unisi.it/mod/assign/view.php?id=104104](https://elearning.unisi.it/mod/assign/view.php?id=104104)
@@ -107,20 +136,6 @@ Exam sheet: I_Exam_Summer_Term.ipynb (you'll find it attached by the beginning o
 Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
 
 Registrations are closed.
-
-## &#x1F534; II Exam - Summer Term <a name="II_Exam_Summer_Term"></a> 
-
-Exam: [https://elearning.unisi.it/mod/assign/view.php?id=106971](https://elearning.unisi.it/mod/assign/view.php?id=106971)
-
-_Exam Schedule_
-
-Exam timing: Monday June 29th, 2020 h 10:30 - 12:30 (2 hours), Rome time;
-
-Exam sheet: II_Exam_Summer_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:30 Rome time);
-
-Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:30 Rome time).
-
-Registrations are now open and will close on Friday June 26th, 2020.
 
 ---
 
