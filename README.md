@@ -21,7 +21,7 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [EXAMS](#exam_info)
-    - [&#x1F534; II Exam - Fall Term](#II_Fall_Term)
+    - [&#x1F534; II Exam - Fall Term](#II_Exam_Fall_Term)
     - [II Exam - Summer Term](#II_Exam_Summer_Term)
     - [I Exam - Summer Term](#I_Exam_Summer_Term)
 - [Class Schedule](#class_schedule)
