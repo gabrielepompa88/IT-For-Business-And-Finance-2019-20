@@ -21,7 +21,8 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 # Table of contents
 - [IMPORTANT COMMUNICATIONS](#bakeka)
 - [EXAMS](#exam_info)
-    - [&#x1F534; II Exam - Winter Term](#II_Exam_Winter_Term)
+    - [&#x1F534; March Term](#March_Term)
+    - [II Exam - Winter Term](#II_Exam_Winter_Term)
     - [II Exam - Fall Term](#II_Exam_Fall_Term)
     - [II Exam - Summer Term](#II_Exam_Summer_Term)
     - [I Exam - Summer Term](#I_Exam_Summer_Term)
@@ -39,12 +40,13 @@ This repository (https://github.com/gabrielepompa88/IT-For-Business-And-Finance-
 
 The e-learning for IT for Business and Finance course at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) (more info to come) is now active. You can access with your unisiPass credentials at [http://elearning.unisi.it/moodle/](http://elearning.unisi.it/moodle/) and type "IT pompa" in the "Cerca Corso" search window (top right corner of screen). E-learning material is under ongoing production and addition.
 
-- **Exam dates**: these below are the exam dates of the IT for Business and Finance course for summer/fall terms:
+- **Exam dates**: these below are the exam dates of the IT for Business and Finance course terms:
   - Summer term – 1st session: Thursday **June 4th, 2020** h 10:30 – 12:30
   - Summer term – 2nd session: Monday **June 29th, 2020** h 10:30 – 12:30
   - Fall term – 1st session: Tuesday **September 1st, 2020** h 10:30 – 12:30
   - Fall term – 2nd session: Friday **September 18th**, 2020 h 10:30 -12:30
-  ' Winter term - 2nd session: Friday **February 12th**, 2021 h 10:00 - 12:00
+  - Winter term - 2nd session: Friday **February 12th**, 2021 h 10:00 - 12:00
+  - March term - Monday **March 15th**, 2021 h 10:00 - 12:00
  
 # EXAMS <a name="exam_info"></a>
 
@@ -52,7 +54,7 @@ For additional informations see _Exams_ section of [Moodle page for IT for Busin
 
 _General Informations_
 
-On the exam date, at the beginning of the exam time window ([next exam: Friday February 12th, 2021 at 10:00, Rome time](https://elearning.unisi.it/mod/assign/view.php?id=139180), you will find attached an exam sheet to the specific exam activity section (next: [II Exam - Winter Term](https://elearning.unisi.it/mod/assign/view.php?id=139180);
+On the exam date, at the beginning of the exam time window ([next exam: Monday March 15th, 2021 at 10:00, Rome time](https://elearning.unisi.it/mod/assign/view.php?id=146803), you will find attached an exam sheet to the specific exam activity section (next: [March Term](https://elearning.unisi.it/mod/assign/view.php?id=146803);
 The exam sheet is a Jupyter Notebook with questions/exercises and empty Code cells for your answers. A Jupyter Notebook is a file with .ipynb extension. It is the kind of file on which lecture notes have been delivered so far, so you should be already familiar with this (see Prerequisites);
 
 _Operational Instructions_
@@ -97,7 +99,22 @@ Upon suggestions, you may do some extra work and prepare a financial project . T
 
 For any question, I’m here to help you (gabriele.pompa@unisi.it, Skype: **gabriele.pompa**)
 
-## &#x1F534; II Exam - Winter Term <a name="II_Exam_Winter_Term"></a> 
+## &#x1F534; March Term <a name="March_Term"></a> 
+
+Exam: [https://elearning.unisi.it/mod/assign/view.php?id=146803](https://elearning.unisi.it/mod/assign/view.php?id=146803)
+
+_Exam Schedule_
+
+Exam timing: Monday MArch 15th, 2021 h 10:00 - 12:00 (2 hours), Rome time;
+
+Exam sheet: March_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:00 Rome time);
+
+Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:00 Rome time).
+
+Registrations are now open and will close on Monday March 8th, 2021.
+
+
+## II Exam - Winter Term <a name="II_Exam_Winter_Term"></a> 
 
 Exam: [https://elearning.unisi.it/mod/assign/view.php?id=139180](https://elearning.unisi.it/mod/assign/view.php?id=139180)
 
