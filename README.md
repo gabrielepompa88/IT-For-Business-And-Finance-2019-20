@@ -107,7 +107,7 @@ _Exam Schedule_
 
 Exam timing: Monday MArch 15th, 2021 h 10:00 - 12:00 (2 hours), Rome time;
 
-Exam sheet: March_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:00 Rome time);
+Exam sheet: Exam_March_Term.ipynb (you'll find it attached by the beginning of the exam time-window: 10:00 Rome time);
 
 Complete exam sheets must be submitted using this form before the end of the exam time-window: 12:00 Rome time).
 
